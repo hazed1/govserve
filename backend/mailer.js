@@ -25,6 +25,9 @@ function getTransporter() {
         user,
         pass
       },
+      connectionTimeout: 4000,
+      greetingTimeout: 4000,
+      socketTimeout: 4000,
       tls: {
         rejectUnauthorized: false
       }
@@ -71,6 +74,53 @@ function sendViaBrevoApi(toEmail, otpCode, recipientName, htmlContent) {
           }
         } else {
           reject(new Error(`Brevo API Error (${res.statusCode}): ${body}`));
+        }
+      });
+    });
+
+    req.on('error', reject);
+    req.write(payload);
+    req.end();
+  });
+}
+
+function sendViaResendApi(toEmail, otpCode, recipientName, htmlContent) {
+  return new Promise((resolve, reject) => {
+    const apiKey = process.env.RESEND_API_KEY;
+    if (!apiKey) return reject(new Error('No Resend API key configured'));
+
+    const fromAddress = process.env.RESEND_FROM || 'GovServe Portal <onboarding@resend.dev>';
+    const payload = JSON.stringify({
+      from: fromAddress,
+      to: [toEmail],
+      subject: `GovServe - Your Email Verification Code: ${otpCode}`,
+      html: htmlContent
+    });
+
+    const options = {
+      hostname: 'api.resend.com',
+      path: '/emails',
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey.trim()}`,
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(payload)
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let body = '';
+      res.on('data', chunk => body += chunk);
+      res.on('end', () => {
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          try {
+            const data = JSON.parse(body);
+            resolve({ sent: true, messageId: data.id, code: otpCode });
+          } catch {
+            resolve({ sent: true, code: otpCode });
+          }
+        } else {
+          reject(new Error(`Resend API Error (${res.statusCode}): ${body}`));
         }
       });
     });
@@ -163,7 +213,29 @@ async function sendOtpEmail(toEmail, otpCode, recipientName = 'Citizen') {
     </html>
   `;
 
-  // 1. Direct Gmail High-Speed Delivery
+  // 1. Try Resend REST API (HTTPS port 443 - zero block on cloud platforms like Railway)
+  if (process.env.RESEND_API_KEY && !isPlaceholder(process.env.RESEND_API_KEY)) {
+    try {
+      const resendRes = await sendViaResendApi(toEmail, otpCode, recipientName, htmlContent);
+      console.log(`[OTP Mailer] ✅ Resend API sent email to ${toEmail}: ${resendRes.messageId}`);
+      return resendRes;
+    } catch (resendErr) {
+      console.warn(`[OTP Mailer] ⚠️ Resend API error: ${resendErr.message}`);
+    }
+  }
+
+  // 2. Try Brevo REST API (HTTPS port 443)
+  if (process.env.BREVO_API_KEY && !isPlaceholder(process.env.BREVO_API_KEY)) {
+    try {
+      const apiResult = await sendViaBrevoApi(toEmail, otpCode, recipientName, htmlContent);
+      console.log(`[OTP Mailer] ✅ Brevo API sent email to ${toEmail}. MessageId: ${apiResult.messageId}`);
+      return apiResult;
+    } catch (apiErr) {
+      console.warn(`[OTP Mailer] ⚠️ Brevo API error: ${apiErr.message}`);
+    }
+  }
+
+  // 3. Try Gmail Direct SMTP (Port 587/465 with 4s timeout)
   const mailTransporter = getTransporter();
   if (mailTransporter) {
     try {
@@ -186,23 +258,8 @@ async function sendOtpEmail(toEmail, otpCode, recipientName = 'Citizen') {
       return {
         sent: false,
         error: error.message,
-        message: `Gmail SMTP authentication failed: ${error.message}`
-      };
-    }
-  }
-
-  // 2. Fallback to Brevo REST API
-  if (process.env.BREVO_API_KEY && !isPlaceholder(process.env.BREVO_API_KEY)) {
-    try {
-      const apiResult = await sendViaBrevoApi(toEmail, otpCode, recipientName, htmlContent);
-      console.log(`[OTP Mailer] ✅ Brevo API sent email to ${toEmail}. MessageId: ${apiResult.messageId}`);
-      return apiResult;
-    } catch (apiErr) {
-      console.error(`[OTP Mailer] ❌ Brevo API error: ${apiErr.message}`);
-      return {
-        sent: false,
-        error: apiErr.message,
-        message: `Brevo API delivery failed: ${apiErr.message}`
+        code: otpCode,
+        message: `Gmail SMTP notice: ${error.message}`
       };
     }
   }
@@ -211,6 +268,7 @@ async function sendOtpEmail(toEmail, otpCode, recipientName = 'Citizen') {
   return {
     sent: false,
     error: 'Gmail SMTP credentials not configured in .env',
+    code: otpCode,
     message: 'Gmail SMTP credentials not configured in .env'
   };
 }

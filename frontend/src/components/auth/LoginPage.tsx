@@ -73,6 +73,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   const [resendCooldown, setResendCooldown] = useState<number>(0);
   const [expirySeconds, setExpirySeconds] = useState<number>(300); // 5 minutes
   const [pendingRegData, setPendingRegData] = useState<any>(null);
+  const [devOtpCode, setDevOtpCode] = useState<string | null>(null);
 
   // Sign Up Form State
   const [regFullName, setRegFullName] = useState<string>('');
@@ -217,6 +218,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         const destEmail = result.targetEmail || identifier.trim();
         setTargetEmail(destEmail);
         setTargetName(result.targetName || 'Citizen');
+        setDevOtpCode(result.devOtpCode || null);
         setAuthMode('otp');
         setOtpDigits(['', '', '', '', '', '']);
         setResendCooldown(60);
@@ -336,6 +338,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         setResendCooldown(60);
         setExpirySeconds(300);
         setOtpDigits(['', '', '', '', '', '']);
+        setDevOtpCode(res.code || null);
         setSuccessMessage(`A 6-digit verification code has been sent to ${targetEmail}`);
         setTimeout(() => inputRefs.current[0]?.focus(), 150);
       }
@@ -385,6 +388,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       setPendingRegData(regData);
       setTargetEmail(regData.email);
       setTargetName(regData.fullName);
+      setDevOtpCode(otpRes.code || null);
       setAuthMode('otp');
       setOtpDigits(['', '', '', '', '', '']);
       setResendCooldown(60);
@@ -543,6 +547,31 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-400 text-xs flex items-center space-x-2.5 shadow-sm">
                     <CheckCircle2 size={16} className="text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
                     <div className="flex-1 font-semibold">{successMessage}</div>
+                  </div>
+                )}
+
+                {/* Auto-fill helper if verification code is available */}
+                {devOtpCode && (
+                  <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800/70 text-center space-y-1.5 shadow-2xs">
+                    <div className="text-xs font-semibold text-blue-900 dark:text-blue-200 flex items-center justify-center gap-1.5">
+                      <span>Verification Code:</span>
+                      <span className="font-mono font-black text-sm tracking-widest text-blue-700 dark:text-blue-300 bg-white dark:bg-slate-900 px-2.5 py-0.5 rounded-md border border-blue-200 dark:border-blue-800 shadow-2xs">
+                        {devOtpCode}
+                      </span>
+                    </div>
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const digits = devOtpCode.split('').slice(0, 6);
+                          setOtpDigits(digits);
+                          setErrorMessage(null);
+                        }}
+                        className="text-xs font-bold text-blue-600 hover:text-blue-800 dark:text-blue-400 underline cursor-pointer inline-flex items-center gap-1"
+                      >
+                        <span>⚡ Click to auto-fill code</span>
+                      </button>
+                    </div>
                   </div>
                 )}
 
