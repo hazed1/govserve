@@ -6,14 +6,24 @@ require('dotenv').config(); // also check current dir .env
 
 let isPostgresConnected = false;
 
-const pool = new Pool({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'postgres',
-  port: parseInt(process.env.DB_PORT || '5432', 10),
-  connectionTimeoutMillis: 2000,
-});
+const connectionString = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+
+const poolConfig = connectionString
+  ? {
+      connectionString,
+      ssl: connectionString.includes('railway.internal') ? false : (process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false),
+      connectionTimeoutMillis: 5000,
+    }
+  : {
+      host: process.env.DB_HOST || process.env.PGHOST || 'localhost',
+      user: process.env.DB_USER || process.env.PGUSER || 'postgres',
+      password: process.env.DB_PASSWORD || process.env.PGPASSWORD || '',
+      database: process.env.DB_NAME || process.env.PGDATABASE || 'postgres',
+      port: parseInt(process.env.DB_PORT || process.env.PGPORT || '5432', 10),
+      connectionTimeoutMillis: 5000,
+    };
+
+const pool = new Pool(poolConfig);
 
 const DEFAULT_APPLICATIONS = [
   { 
@@ -396,15 +406,43 @@ async function initializeDatabase() {
       console.log('✅ PostgreSQL Schema initialized successfully.');
     }
 
+    // Seed default users
+    const userCheck = await pool.query('SELECT COUNT(*) FROM users');
+    if (parseInt(userCheck.rows[0].count, 10) === 0) {
+      console.log('🌱 Seeding initial baseline users into PostgreSQL...');
+      for (const u of DEFAULT_USERS) {
+        await pool.query(
+          `INSERT INTO users (citizen_id, full_name, email, role, role_title, department, organization, phone, avatar_bg, mfa_enabled)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+           ON CONFLICT (email) DO NOTHING`,
+          [u.citizen_id, u.full_name, u.email, u.role, u.role_title, u.department, u.organization, u.phone, u.avatar_bg, u.mfa_enabled]
+        );
+      }
+      console.log('✅ Seeded default users.');
+    }
+
+    // Seed default applications
     const checkRes = await pool.query('SELECT COUNT(*) FROM applications');
     if (parseInt(checkRes.rows[0].count, 10) === 0) {
-      console.log('🌱 Seeding initial baseline applications...');
+      console.log('🌱 Seeding initial baseline applications into PostgreSQL...');
       for (const app of DEFAULT_APPLICATIONS) {
         await pool.query(
-          `INSERT INTO applications (id, applicant_name, permit_type, category, status, status_color, created_at, submission_date)
-           VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW())
+          `INSERT INTO applications (id, applicant_name, permit_type, category, status, status_color, form_data, requirements, remarks, assessment_fee, reviewed_by, created_at, submission_date)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, NOW(), NOW())
            ON CONFLICT (id) DO NOTHING`,
-          [app.id, app.applicant_name, app.permit_type, app.category, app.status, app.status_color]
+          [
+            app.id,
+            app.applicant_name,
+            app.permit_type,
+            app.category,
+            app.status,
+            app.status_color,
+            JSON.stringify(app.form_data || {}),
+            JSON.stringify(app.requirements || []),
+            app.remarks || '',
+            app.assessment_fee || 0,
+            app.reviewed_by || ''
+          ]
         );
       }
       console.log('✅ Seeded default applications.');
