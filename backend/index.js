@@ -101,7 +101,7 @@ app.use((err, req, res, next) => {
 
 const { verifySmtpConnection } = require('./mailer');
 
-app.listen(PORT, () => {
-  console.log(`🚀 GovCheck API Server running at http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🚀 GovCheck API Server running at http://0.0.0.0:${PORT}`);
   verifySmtpConnection();
 });
