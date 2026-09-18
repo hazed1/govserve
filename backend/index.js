@@ -62,7 +62,7 @@ app.use('/api/ai', aiRouter);
 const frontendDistPath = path.join(__dirname, '../frontend/dist');
 if (fs.existsSync(frontendDistPath)) {
   app.use(express.static(frontendDistPath));
-  app.get('*', (req, res) => {
+  app.use((req, res) => {
     if (req.originalUrl.startsWith('/api')) {
       return res.status(404).json({ error: 'API route not found' });
     }
