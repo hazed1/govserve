@@ -38,7 +38,6 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
-import { LanguageToggle } from './ui/LanguageToggle';
 import { UserRole, MOCK_USERS } from '../types';
 
 interface PublicLandingPageProps {
@@ -213,9 +212,6 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
 
           {/* Right Controls & Sign In CTA */}
           <div className="flex items-center space-x-3">
-            {/* Language Switcher TL | EN Toggle */}
-            <LanguageToggle />
-
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
