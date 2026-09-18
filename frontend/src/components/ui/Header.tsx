@@ -659,7 +659,7 @@ export const Header: React.FC<HeaderProps> = ({
       {/* CITIZEN APPLICATION HISTORY RECORDS MODAL */}
       {/* ========================================================================= */}
       {showHistoryModal && (() => {
-        const sourceApps = (applications && applications.length > 0)
+        const sourceApps: any[] = (applications && applications.length > 0)
           ? applications
           : (() => {
               try {
@@ -670,9 +670,9 @@ export const Header: React.FC<HeaderProps> = ({
               }
             })();
 
-        const filteredHistory = sourceApps
-          .filter(app => !localDeletedIds.includes(app.id))
-          .filter(app => {
+        const filteredHistory: any[] = sourceApps
+          .filter((app: any) => !localDeletedIds.includes(app.id))
+          .filter((app: any) => {
           const matchQuery = 
             (app.id || '').toLowerCase().includes(historySearch.toLowerCase()) ||
             (app.applicant || '').toLowerCase().includes(historySearch.toLowerCase()) ||
@@ -751,12 +751,12 @@ export const Header: React.FC<HeaderProps> = ({
                           ? `Are you sure you want to delete all ${count} transaction records?`
                           : `Are you sure you want to delete all ${count} records under '${historyStatusFilter}'?`;
                         if (window.confirm(confirmMsg)) {
-                          const idsToDelete = filteredHistory.map(item => item.id);
+                          const idsToDelete = filteredHistory.map((item: any) => item.id);
                           setLocalDeletedIds(prev => [...prev, ...idsToDelete]);
                           if (onDeleteAllApplications) {
                             onDeleteAllApplications(idsToDelete);
                           } else if (onDeleteApplication) {
-                            idsToDelete.forEach(id => onDeleteApplication(id));
+                            idsToDelete.forEach((id: string) => onDeleteApplication(id));
                           }
                         }
                       }}
@@ -778,7 +778,7 @@ export const Header: React.FC<HeaderProps> = ({
                     <p className="font-bold text-xs">No application records found matching this filter.</p>
                   </div>
                 ) : (
-                  filteredHistory.map((item) => (
+                  filteredHistory.map((item: any) => (
                     <div
                       key={item.id}
                       className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700/60 shadow-2xs transition-all space-y-1"

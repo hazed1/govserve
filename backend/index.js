@@ -51,29 +51,43 @@ app.get('/api/health', async (req, res) => {
   }
 });
 
+const fs = require('fs');
+
 // API Routes
 app.use('/api/applications', applicationsRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/ai', aiRouter);
 
-// Root
-app.get('/', (req, res) => {
-  res.json({
-    name: 'GovCheck Municipal API Layer',
-    version: '1.0.0',
-    endpoints: [
-      '/api/health',
-      '/api/applications',
-      '/api/applications/stats',
-      '/api/auth/login',
-      '/api/auth/register',
-      '/api/ai/status',
-      '/api/ai/chat',
-      '/api/ai/verify-document',
-      '/api/ai/evaluate-application'
-    ]
+// Serve Frontend Static Build (Production)
+const frontendDistPath = path.join(__dirname, '../frontend/dist');
+if (fs.existsSync(frontendDistPath)) {
+  app.use(express.static(frontendDistPath));
+  app.get('*', (req, res) => {
+    if (req.originalUrl.startsWith('/api')) {
+      return res.status(404).json({ error: 'API route not found' });
+    }
+    res.sendFile(path.join(frontendDistPath, 'index.html'));
   });
-});
+} else {
+  // Root API info fallback
+  app.get('/', (req, res) => {
+    res.json({
+      name: 'GovCheck Municipal API Layer',
+      version: '1.0.0',
+      endpoints: [
+        '/api/health',
+        '/api/applications',
+        '/api/applications/stats',
+        '/api/auth/login',
+        '/api/auth/register',
+        '/api/ai/status',
+        '/api/ai/chat',
+        '/api/ai/verify-document',
+        '/api/ai/evaluate-application'
+      ]
+    });
+  });
+}
 
 // Global Error Handler
 app.use((err, req, res, next) => {

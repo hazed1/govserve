@@ -210,6 +210,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     targetEmail?: string;
     targetName?: string;
     devOtpCode?: string;
+    cooldownSeconds?: number;
+    remainingAttempts?: number;
   }> => {
     setIsLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 300));
