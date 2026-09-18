@@ -1,0 +1,50 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "baseline-browser-mapping": "^2.11.9",
+    "browserslist": "^4.28.7",
+    "caniuse-lite": "^1.0.30001806",
+    "cors": "^2.8.6",
+    "detect-libc": "^2.1.2",
+    "dotenv": "^17.4.2",
+    "electron-to-chromium": "^1.5.399",
+    "enhanced-resolve": "^5.24.5",
+    "escalade": "^3.2.0",
+    "express": "^5.2.1",
+    "fraction.js": "^5.3.4",
+    "graceful-fs": "^4.2.11",
+    "jiti": "^2.7.0",
+    "lightningcss": "^1.32.0",
+    "lightningcss-win32-x64-msvc": "^1.32.0",
+    "magic-string": "^0.30.21",
+    "nanoid": "^3.3.16",
+    "node-releases": "^2.0.51",
+    "nodemailer": "^9.0.6",
+    "pg": "^8.23.0",
+    "picocolors": "^1.1.1",
+    "postcss-value-parser": "^4.2.0",
+    "source-map-js": "^1.2.1",
+    "tapable": "^2.3.3",
+    "update-browserslist-db": "^1.2.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "autoprefixer": "^10.5.4",
+    "nodemon": "^3.1.14",
+    "postcss": "^8.5.25",
+    "tailwindcss": "^4.3.3"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

@@ -1,0 +1,618 @@
+{
+  "applications": [
+    {
+      "id": "BP-2025-00045",
+      "applicant_name": "ABC Trading",
+      "permit_type": "Business Permit",
+      "category": "business",
+      "status": "For Evaluation",
+      "status_color": "text-amber-600 bg-amber-50 border border-amber-200",
+      "form_data": {
+        "businessName": "ABC Trading & General Merchandise",
+        "natureOfBusiness": "Retail General Merchandise",
+        "applicantType": "Sole Proprietorship",
+        "address": "Block 4 Lot 10, Poblacion District, Laguna",
+        "contact": "+63 917 111 2222",
+        "email": "abctrading@business.ph",
+        "capitalInvestment": 350000,
+        "employeesCount": 5
+      },
+      "requirements": [
+        {
+          "id": "req-1",
+          "name": "Barangay Business Clearance",
+          "filename": "Barangay_Clearance_2025.pdf",
+          "fileSize": "1.4 MB",
+          "fileType": "pdf",
+          "status": "Verified",
+          "aiVerification": {
+            "status": "Passed",
+            "confidence": 99,
+            "completeness": "Complete",
+            "inconsistencies": [],
+            "missingFields": [],
+            "verifiedAt": "May 19, 2025",
+            "ocrSummary": "Authentic 2025 Barangay Clearance issued by Brgy. Central with verified LGU seal and dry stamp.",
+            "reviewerStatus": "Approved by Officer"
+          }
+        },
+        {
+          "id": "req-2",
+          "name": "DTI Business Name Certificate",
+          "filename": "DTI_BN_Registration_Cert.pdf",
+          "fileSize": "890 KB",
+          "fileType": "pdf",
+          "status": "Verified",
+          "aiVerification": {
+            "status": "Passed",
+            "confidence": 98,
+            "completeness": "Complete",
+            "inconsistencies": [],
+            "missingFields": [],
+            "verifiedAt": "May 19, 2025",
+            "ocrSummary": "DTI Certificate of Registration verified. Business name matches exactly.",
+            "reviewerStatus": "Approved by Officer"
+          }
+        },
+        {
+          "id": "req-3",
+          "name": "Fire Safety Inspection Certificate (FSIC)",
+          "filename": "FSIC_Bureau_Fire_Protection.pdf",
+          "fileSize": "2.1 MB",
+          "fileType": "pdf",
+          "status": "Needs Review",
+          "aiVerification": {
+            "status": "Needs Attention",
+            "confidence": 84,
+            "completeness": "Complete",
+            "inconsistencies": [
+              "FSIC valid until June 2025; renewal advised within 30 days."
+            ],
+            "missingFields": [],
+            "verifiedAt": "May 19, 2025",
+            "ocrSummary": "BFP Clearance readable, expiration date nearing 30-day threshold.",
+            "reviewerStatus": "Pending Officer Review"
+          }
+        },
+        {
+          "id": "req-4",
+          "name": "Sanitary & Health Permit",
+          "filename": "City_Sanitary_Inspection.pdf",
+          "fileSize": "760 KB",
+          "fileType": "pdf",
+          "status": "Verified",
+          "aiVerification": {
+            "status": "Passed",
+            "confidence": 96,
+            "completeness": "Complete",
+            "inconsistencies": [],
+            "missingFields": [],
+            "verifiedAt": "May 19, 2025",
+            "ocrSummary": "City Health Office sanitary clearance verified with passing compliance rating.",
+            "reviewerStatus": "Approved by Officer"
+          }
+        }
+      ],
+      "inspection": {
+        "status": "Scheduled",
+        "scheduledDate": "May 23, 2025 at 10:00 AM",
+        "inspectorName": "Engr. Ronald C. Santos",
+        "inspectorDepartment": "City Engineering & Building Official",
+        "findings": "Initial site plan reviewed. On-site structural and fire egress validation required.",
+        "remarks": "Scheduled for Friday morning inspection batch."
+      },
+      "payment": {
+        "status": "Pending",
+        "amount": 4500,
+        "orNumber": "OR-PENDING-4500",
+        "paymentMethod": "Treasury Cashier / LGU Online Portal",
+        "breakdown": [
+          {
+            "item": "Mayor's Permit Regulatory Fee",
+            "fee": 2000
+          },
+          {
+            "item": "Sanitary & Health Inspection Fee",
+            "fee": 850
+          },
+          {
+            "item": "Garbage & Environmental Compliance Fee",
+            "fee": 950
+          },
+          {
+            "item": "Fire Inspection Regulatory Fee",
+            "fee": 700
+          }
+        ]
+      },
+      "ai_recommendation": {
+        "status": "Requires Manual Review",
+        "confidenceScore": 88,
+        "reasons": [
+          "Document verification passed for Barangay Clearance and DTI Registration (98%+ confidence).",
+          "FSIC document nearing expiration date - officer sign-off recommended before release.",
+          "On-site inspection is scheduled for May 23, 2025.",
+          "Assessment fee PHP 4,500.00 is currently pending taxpayer settlement."
+        ],
+        "evaluatedAt": "May 19, 2025 04:15 PM"
+      },
+      "remarks": "Updated via PowerShell Test",
+      "assessment_fee": 4500,
+      "reviewed_by": "LGU Licensing Officer",
+      "created_at": "2026-09-17T18:14:23.805Z",
+      "updated_at": "2026-09-18T18:17:14.958Z"
+    },
+    {
+      "id": "BP-2025-00044",
+      "applicant_name": "XYZ Store",
+      "permit_type": "Business Permit",
+      "category": "business",
+      "status": "For Approval",
+      "status_color": "text-blue-600 bg-blue-50 border border-blue-200",
+      "form_data": {
+        "businessName": "XYZ Superstore & Retail Hub",
+        "natureOfBusiness": "Convenience Retail & Food",
+        "applicantType": "Corporation",
+        "address": "22 Rizal St, San Isidro, Laguna",
+        "contact": "+63 918 333 4444",
+        "email": "xyzstore@corporate.ph",
+        "capitalInvestment": 1200000,
+        "employeesCount": 14
+      },
+      "requirements": [
+        {
+          "id": "req-1",
+          "name": "Barangay Business Clearance",
+          "filename": "XYZ_BarangayClearance.pdf",
+          "fileSize": "1.1 MB",
+          "fileType": "pdf",
+          "status": "Verified",
+          "aiVerification": {
+            "status": "Passed",
+            "confidence": 99,
+            "completeness": "Complete",
+            "inconsistencies": [],
+            "missingFields": [],
+            "verifiedAt": "May 18, 2025",
+            "reviewerStatus": "Approved by Officer"
+          }
+        },
+        {
+          "id": "req-2",
+          "name": "SEC Articles of Incorporation",
+          "filename": "SEC_Registration_Articles.pdf",
+          "fileSize": "3.2 MB",
+          "fileType": "pdf",
+          "status": "Verified",
+          "aiVerification": {
+            "status": "Passed",
+            "confidence": 97,
+            "completeness": "Complete",
+            "inconsistencies": [],
+            "missingFields": [],
+            "verifiedAt": "May 18, 2025",
+            "reviewerStatus": "Approved by Officer"
+          }
+        },
+        {
+          "id": "req-3",
+          "name": "Fire Safety Clearance (FSIC)",
+          "filename": "BFP_FSIC_Certified.pdf",
+          "fileSize": "1.8 MB",
+          "fileType": "pdf",
+          "status": "Verified",
+          "aiVerification": {
+            "status": "Passed",
+            "confidence": 98,
+            "completeness": "Complete",
+            "inconsistencies": [],
+            "missingFields": [],
+            "verifiedAt": "May 18, 2025",
+            "reviewerStatus": "Approved by Officer"
+          }
+        }
+      ],
+      "inspection": {
+        "status": "Passed",
+        "scheduledDate": "May 18, 2025",
+        "inspectorName": "Engr. Ronald C. Santos",
+        "inspectorDepartment": "City Engineering",
+        "findings": "Premises comply with city zoning ordinances, fire exit dimensions, and safety equipment standards.",
+        "remarks": "Inspection passed with grade A-1."
+      },
+      "payment": {
+        "status": "Verified",
+        "amount": 7200,
+        "orNumber": "OR-2025-992100",
+        "paymentMethod": "Online Bank Transfer / LGU Gateway",
+        "paidAt": "May 18, 2025",
+        "breakdown": [
+          {
+            "item": "Mayor's Permit Regulatory Fee",
+            "fee": 3500
+          },
+          {
+            "item": "Commercial Business Tax",
+            "fee": 2500
+          },
+          {
+            "item": "Sanitary Inspection Fee",
+            "fee": 700
+          },
+          {
+            "item": "Platting & Signage Fee",
+            "fee": 500
+          }
+        ]
+      },
+      "ai_recommendation": {
+        "status": "Recommended for Approval",
+        "confidenceScore": 97,
+        "reasons": [
+          "100% of required statutory clearances submitted and verified via OCR.",
+          "On-site commercial safety inspection conducted and passed with Grade A-1.",
+          "Full assessment fee PHP 7,200.00 paid and verified under OR-2025-992100.",
+          "Clear municipal tax history with no outstanding liabilities."
+        ],
+        "evaluatedAt": "May 18, 2025 02:30 PM"
+      },
+      "remarks": "Ready for cryptographic approval stamp and permit release",
+      "assessment_fee": 7200,
+      "reviewed_by": "Engr. Santos (BPLO Head)",
+      "created_at": "2026-09-16T18:14:23.806Z",
+      "updated_at": "2026-09-16T18:14:23.806Z"
+    },
+    {
+      "id": "BC-2025-00125",
+      "applicant_name": "Engr. D. Ramos (Owner)",
+      "permit_type": "Building Permit",
+      "category": "building",
+      "status": "For Inspection",
+      "status_color": "text-blue-600 bg-blue-50 border border-blue-200",
+      "form_data": {
+        "projectName": "Residential 2-Storey Unit with Attic",
+        "totalFloorArea": "220 sqm",
+        "estimatedCost": 3800000,
+        "address": "Emerald Hills Subd, Laguna",
+        "contact": "+63 920 555 6666",
+        "email": "engr.ramos@buildgroup.ph"
+      },
+      "requirements": [
+        {
+          "id": "req-1",
+          "name": "Architectural Blueprint & Site Plan",
+          "filename": "Architectural_Plans_Signed_Sealed.pdf",
+          "fileSize": "8.4 MB",
+          "fileType": "pdf",
+          "status": "Verified",
+          "aiVerification": {
+            "status": "Passed",
+            "confidence": 96,
+            "completeness": "Complete",
+            "inconsistencies": [],
+            "missingFields": [],
+            "verifiedAt": "May 17, 2025",
+            "reviewerStatus": "Approved by Officer"
+          }
+        },
+        {
+          "id": "req-2",
+          "name": "Structural Engineering Computations",
+          "filename": "Structural_Analysis_Computations.pdf",
+          "fileSize": "5.2 MB",
+          "fileType": "pdf",
+          "status": "Verified",
+          "aiVerification": {
+            "status": "Passed",
+            "confidence": 95,
+            "completeness": "Complete",
+            "inconsistencies": [],
+            "missingFields": [],
+            "verifiedAt": "May 17, 2025",
+            "reviewerStatus": "Approved by Officer"
+          }
+        },
+        {
+          "id": "req-3",
+          "name": "Barangay Construction Clearance",
+          "filename": "Brgy_Construction_Endorsement.pdf",
+          "fileSize": "1.2 MB",
+          "fileType": "pdf",
+          "status": "Verified",
+          "aiVerification": {
+            "status": "Passed",
+            "confidence": 99,
+            "completeness": "Complete",
+            "inconsistencies": [],
+            "missingFields": [],
+            "verifiedAt": "May 17, 2025",
+            "reviewerStatus": "Approved by Officer"
+          }
+        }
+      ],
+      "inspection": {
+        "status": "Scheduled",
+        "scheduledDate": "May 24, 2025 at 09:00 AM",
+        "inspectorName": "Arch. Manuel Mendoza",
+        "inspectorDepartment": "Office of the Building Official (OBO)",
+        "findings": "Setback and height ceiling compliance validated on drawings. Foundation soil boring test pending field check.",
+        "remarks": "Field inspection scheduled for site setback verification."
+      },
+      "payment": {
+        "status": "Paid",
+        "amount": 15400,
+        "orNumber": "OR-2025-883109",
+        "paymentMethod": "City Engineering Cashier",
+        "paidAt": "May 17, 2025"
+      },
+      "ai_recommendation": {
+        "status": "Requires Manual Review",
+        "confidenceScore": 89,
+        "reasons": [
+          "Architectural and structural engineering blueprints verified with licensed engineer seals.",
+          "Building permit fee PHP 15,400.00 settled in full.",
+          "On-site structural setback inspection must be finalized prior to building permit approval."
+        ],
+        "evaluatedAt": "May 17, 2025 11:00 AM"
+      },
+      "remarks": "Site inspection scheduled with Engineering Office",
+      "assessment_fee": 15400,
+      "reviewed_by": "Arch. Mendoza",
+      "created_at": "2026-09-15T18:14:23.806Z",
+      "updated_at": "2026-09-15T18:14:23.806Z"
+    },
+    {
+      "id": "FT-2025-00078",
+      "applicant_name": "XYZ Transport Operators",
+      "permit_type": "Franchise Permit",
+      "category": "transport",
+      "status": "For Approval",
+      "status_color": "text-blue-600 bg-blue-50 border border-blue-200",
+      "form_data": {
+        "route": "Novaliches - QC Hall Loop",
+        "fleetCount": "8 units",
+        "vehicleType": "Public Utility Modern Jeepney (Class 2)",
+        "address": "National Highway Terminal, Laguna",
+        "contact": "+63 917 777 8888",
+        "email": "transport@xyzexpress.ph"
+      },
+      "requirements": [
+        {
+          "id": "req-1",
+          "name": "LTFRB CPC / Franchise Endorsement",
+          "filename": "LTFRB_Endorsement_CPC.pdf",
+          "fileSize": "2.4 MB",
+          "fileType": "pdf",
+          "status": "Verified",
+          "aiVerification": {
+            "status": "Passed",
+            "confidence": 99,
+            "completeness": "Complete",
+            "inconsistencies": [],
+            "missingFields": [],
+            "verifiedAt": "May 16, 2025"
+          }
+        },
+        {
+          "id": "req-2",
+          "name": "LTO Motor Vehicle Inspection Report (MVIR)",
+          "filename": "MVIR_LTO_Inspection_Fleet.pdf",
+          "fileSize": "3.1 MB",
+          "fileType": "pdf",
+          "status": "Verified",
+          "aiVerification": {
+            "status": "Passed",
+            "confidence": 97,
+            "completeness": "Complete",
+            "inconsistencies": [],
+            "missingFields": [],
+            "verifiedAt": "May 16, 2025"
+          }
+        },
+        {
+          "id": "req-3",
+          "name": "Comprehensive Third Party Passenger Insurance",
+          "filename": "Passenger_Insurance_Policy.pdf",
+          "fileSize": "1.9 MB",
+          "fileType": "pdf",
+          "status": "Verified",
+          "aiVerification": {
+            "status": "Passed",
+            "confidence": 98,
+            "completeness": "Complete",
+            "inconsistencies": [],
+            "missingFields": [],
+            "verifiedAt": "May 16, 2025"
+          }
+        }
+      ],
+      "inspection": {
+        "status": "Passed",
+        "scheduledDate": "May 16, 2025",
+        "inspectorName": "Officer Valdez",
+        "inspectorDepartment": "MTFRB Inspection Unit",
+        "findings": "Fleet roadworthiness, emission test standards, and speed limiter checks completed successfully.",
+        "remarks": "All 8 units cleared for official franchise operation."
+      },
+      "payment": {
+        "status": "Verified",
+        "amount": 3800,
+        "orNumber": "OR-2025-771923",
+        "paymentMethod": "Electronic LGU Gateway",
+        "paidAt": "May 16, 2025"
+      },
+      "ai_recommendation": {
+        "status": "Recommended for Approval",
+        "confidenceScore": 96,
+        "reasons": [
+          "Route conflict check cleared: zero route overlap with existing authorized franchises.",
+          "LTO MVIR emission and safety test completed with passing certificates.",
+          "Franchise regulatory fees fully verified under official receipt."
+        ],
+        "evaluatedAt": "May 16, 2025 03:45 PM"
+      },
+      "remarks": "Route verification completed by MTFRB inspector",
+      "assessment_fee": 3800,
+      "reviewed_by": "Officer Valdez",
+      "created_at": "2026-09-14T18:14:23.806Z",
+      "updated_at": "2026-09-14T18:14:23.806Z"
+    },
+    {
+      "id": "BR-2025-00033",
+      "applicant_name": "Juan Dela Cruz",
+      "permit_type": "Barangay Clearance",
+      "category": "barangay",
+      "status": "Approved",
+      "status_color": "text-emerald-600 bg-emerald-50 border border-emerald-200",
+      "form_data": {
+        "barangay": "Brgy. Central, District 4",
+        "purpose": "Commercial Business Operation",
+        "address": "Zone 2, Barangay Central, Laguna",
+        "contact": "+63 919 999 0000",
+        "email": "juan.delacruz@citizen.ph"
+      },
+      "requirements": [
+        {
+          "id": "req-1",
+          "name": "Valid Government Issued ID",
+          "filename": "PhilSys_National_ID.pdf",
+          "fileSize": "1.2 MB",
+          "fileType": "pdf",
+          "status": "Verified",
+          "aiVerification": {
+            "status": "Passed",
+            "confidence": 99,
+            "completeness": "Complete",
+            "inconsistencies": [],
+            "missingFields": [],
+            "verifiedAt": "May 15, 2025"
+          }
+        },
+        {
+          "id": "req-2",
+          "name": "Barangay Cedula / Community Tax Cert",
+          "filename": "CTC_Cedula_2025.pdf",
+          "fileSize": "650 KB",
+          "fileType": "pdf",
+          "status": "Verified",
+          "aiVerification": {
+            "status": "Passed",
+            "confidence": 98,
+            "completeness": "Complete",
+            "inconsistencies": [],
+            "missingFields": [],
+            "verifiedAt": "May 15, 2025"
+          }
+        }
+      ],
+      "inspection": {
+        "status": "Not Required",
+        "remarks": "Standard commercial clearance; on-site inspection not required for this classification."
+      },
+      "payment": {
+        "status": "Verified",
+        "amount": 500,
+        "orNumber": "OR-BRGY-2025-0912",
+        "paymentMethod": "Barangay Cashier",
+        "paidAt": "May 15, 2025"
+      },
+      "ai_recommendation": {
+        "status": "Recommended for Approval",
+        "confidenceScore": 99,
+        "reasons": [
+          "National ID and Community Tax Certificate authentic and verified.",
+          "Applicant has active voter registration and resident certificate on record in Brgy. Central."
+        ],
+        "evaluatedAt": "May 15, 2025 09:00 AM"
+      },
+      "released_permit": {
+        "permitNumber": "BC-PERMIT-2025-0033",
+        "releaseDate": "May 15, 2025",
+        "validUntil": "December 31, 2025",
+        "qrData": "GOVSERVE-VERIFIED-BR-2025-00033-SHA256-AUTHENTICATED",
+        "signatureHash": "SHA256:7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069"
+      },
+      "remarks": "Digitally cleared & issued with QR authentication",
+      "assessment_fee": 500,
+      "reviewed_by": "Barangay Secretary Reyes",
+      "created_at": "2026-09-13T18:14:23.806Z",
+      "updated_at": "2026-09-13T18:14:23.806Z"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "citizen_id": "PH-CITIZEN-00001",
+      "full_name": "James Tejares",
+      "email": "jamestejares1@gmail.com",
+      "role": "user",
+      "role_title": "Citizen / Business Owner",
+      "department": "Private Enterprise Sector",
+      "organization": "Tejares Enterprise & Trading",
+      "phone": "+63 917 000 0001",
+      "avatar_bg": "bg-blue-600",
+      "mfa_enabled": true
+    },
+    {
+      "id": 2,
+      "citizen_id": "PH-CITIZEN-00002",
+      "full_name": "Jason Taccad",
+      "email": "jasontaccad01@gmail.com",
+      "role": "user",
+      "role_title": "Citizen / Business Owner",
+      "department": "Private Enterprise Sector",
+      "organization": "Taccad Commercial Enterprises",
+      "phone": "+63 917 123 4567",
+      "avatar_bg": "bg-blue-600",
+      "mfa_enabled": true
+    },
+    {
+      "id": 3,
+      "citizen_id": "LGU-ADMIN-001",
+      "full_name": "LGU System Administrator",
+      "email": "admin@govserve.ph",
+      "role": "admin",
+      "role_title": "LGU Licensing & Permitting Officer",
+      "department": "Business Permits & Licensing Office (BPLO)",
+      "organization": "Local Government Licensing Authority",
+      "phone": "+63 999 555 1111",
+      "avatar_bg": "bg-blue-600",
+      "mfa_enabled": false
+    }
+  ],
+  "audit_logs": [
+    {
+      "id": 4,
+      "application_id": "BP-2025-00045",
+      "action": "APPLICATION_UPDATED",
+      "performed_by": "LGU Officer",
+      "details": "{\"status\":\"For Evaluation\",\"remarks\":\"Updated via PowerShell Test\"}",
+      "created_at": "2026-09-18T18:17:14.958Z"
+    },
+    {
+      "id": 1,
+      "application_id": "BP-2025-00045",
+      "action": "APPLICATION_SUBMITTED",
+      "performed_by": "ABC Trading (Citizen)",
+      "details": "Business permit initial requirement filing and tax assessment generation",
+      "created_at": "2026-09-17T06:14:23.807Z"
+    },
+    {
+      "id": 2,
+      "application_id": "BP-2025-00045",
+      "action": "AI_OCR_VERIFICATION",
+      "performed_by": "LGU Core AI Engine (Vision 1.5)",
+      "details": "DTI Certificate & Barangay Clearance verified with 98.4% confidence rating",
+      "created_at": "2026-09-17T18:14:23.807Z"
+    },
+    {
+      "id": 3,
+      "application_id": "BP-2025-00044",
+      "action": "OFFICER_REVIEW_APPROVAL",
+      "performed_by": "Engr. Santos (BPLO Head)",
+      "details": "Approved for electronic issuance with cryptographic signature stamp",
+      "created_at": "2026-09-18T06:14:23.807Z"
+    }
+  ],
+  "otp_verifications": []
+}

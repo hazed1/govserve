@@ -1,0 +1,334 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Global Root Font Size Scaling (~6.5% larger across entire app) */
+html {
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   GLOBAL LIGHT MODE PALETTES (PURE CRISP WHITE)
+   ========================================================================== */
+html:not(.dark) {
+  color-scheme: light;
+}
+
+html:not(.dark) body {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+html:not(.dark) main {
+  background-color: #ffffff !important;
+}
+
+html:not(.dark) .bg-white {
+  background-color: #ffffff !important;
+}
+
+/* ==========================================================================
+   GLOBAL DARK MODE SYSTEM & PALETTES
+   ========================================================================== */
+
+.dark {
+  color-scheme: dark;
+}
+
+/* Background surfaces in dark mode */
+.dark body {
+  background-color: #030712;
+  color: #f8fafc;
+}
+
+.dark main {
+  background-color: #030712 !important;
+}
+
+/* Exemption for Login Right Side Light Mode */
+.login-right-light,
+.login-right-light .bg-white {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.login-right-light .bg-slate-50 {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+.login-right-light .bg-slate-100 {
+  background-color: #f1f5f9 !important;
+}
+
+.login-right-light .text-slate-900,
+.login-right-light .text-slate-800 {
+  color: #0f172a !important;
+}
+
+.login-right-light .text-slate-700 {
+  color: #334155 !important;
+}
+
+.login-right-light .text-slate-600 {
+  color: #475569 !important;
+}
+
+.login-right-light .text-slate-500 {
+  color: #64748b !important;
+}
+
+.login-right-light .text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+.login-right-light .border-slate-200,
+.login-right-light .border-slate-200\/90,
+.login-right-light .border-slate-300 {
+  border-color: #e2e8f0 !important;
+}
+
+.login-right-light input[type="text"],
+.login-right-light input[type="email"],
+.login-right-light input[type="password"],
+.login-right-light input[type="tel"],
+.login-right-light select {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+.login-right-light input::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Cards, Modals, Panels & Dropdowns */
+.dark .bg-white:not(.login-override-light) {
+  background-color: #0f172a !important;
+  color: #f8fafc;
+}
+
+.dark .bg-slate-50 {
+  background-color: #020617 !important;
+}
+
+.dark .bg-slate-50\/70,
+.dark .bg-slate-50\/80,
+.dark .bg-slate-50\/90 {
+  background-color: #0b1324 !important;
+}
+
+.dark .bg-slate-100 {
+  background-color: #1e293b !important;
+}
+
+.dark .bg-slate-200 {
+  background-color: #334155 !important;
+}
+
+.dark .bg-slate-800 {
+  background-color: #0f172a !important;
+}
+
+.dark .bg-slate-900 {
+  background-color: #020617 !important;
+}
+
+/* Text color adaptations */
+.dark .text-slate-900,
+.dark .text-slate-800 {
+  color: #f8fafc !important;
+}
+
+.dark .text-slate-700 {
+  color: #e2e8f0 !important;
+}
+
+.dark .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+.dark .text-slate-500 {
+  color: #94a3b8 !important;
+}
+
+.dark .text-slate-400 {
+  color: #94a3b8 !important;
+}
+
+/* Borders & Dividers */
+.dark .border-slate-100,
+.dark .border-slate-200,
+.dark .border-slate-200\/80,
+.dark .border-slate-200\/70 {
+  border-color: #1e293b !important;
+}
+
+.dark .border-slate-300 {
+  border-color: #334155 !important;
+}
+
+.dark .border-slate-400 {
+  border-color: #475569 !important;
+}
+
+.dark .divide-slate-100> :not([hidden])~ :not([hidden]),
+.dark .divide-slate-200> :not([hidden])~ :not([hidden]),
+.dark .divide-slate-300> :not([hidden])~ :not([hidden]) {
+  border-color: #1e293b !important;
+}
+
+/* Form Controls & Inputs in Dark Mode */
+.dark input[type="text"],
+.dark input[type="email"],
+.dark input[type="password"],
+.dark input[type="number"],
+.dark input[type="date"],
+.dark input[type="tel"],
+.dark select,
+.dark textarea {
+  background-color: #0b1329 !important;
+  color: #f8fafc !important;
+  border-color: #334155 !important;
+}
+
+.dark input[type="text"]:focus,
+.dark input[type="email"]:focus,
+.dark input[type="password"]:focus,
+.dark input[type="number"]:focus,
+.dark input[type="date"]:focus,
+.dark input[type="tel"]:focus,
+.dark select:focus,
+.dark textarea:focus {
+  background-color: #0f172a !important;
+  border-color: #3b82f6 !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #64748b !important;
+}
+
+.dark select option {
+  background-color: #0f172a !important;
+  color: #f8fafc !important;
+}
+
+/* Tables in Dark Mode */
+.dark table thead tr {
+  background-color: #0b1324 !important;
+  color: #94a3b8 !important;
+  border-color: #1e293b !important;
+}
+
+.dark table tbody tr {
+  border-color: #1e293b !important;
+}
+
+.dark table tbody tr:hover {
+  background-color: #1e293b/60 !important;
+}
+
+/* Status Badges & Pills */
+.dark .bg-blue-50 {
+  background-color: rgba(30, 58, 138, 0.35) !important;
+  color: #93c5fd !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+}
+
+.dark .bg-amber-50,
+.dark .bg-amber-50\/10,
+.dark .bg-amber-50\/20,
+.dark .bg-amber-50\/50 {
+  background-color: rgba(120, 53, 15, 0.35) !important;
+  color: #fcd34d !important;
+  border-color: rgba(245, 158, 11, 0.3) !important;
+}
+
+.dark .bg-emerald-50,
+.dark .bg-emerald-50\/10,
+.dark .bg-emerald-50\/50 {
+  background-color: rgba(6, 78, 59, 0.35) !important;
+  color: #6ee7b7 !important;
+  border-color: rgba(16, 185, 129, 0.3) !important;
+}
+
+.dark .bg-rose-50,
+.dark .bg-red-50,
+.dark .bg-rose-50\/10,
+.dark .bg-red-50\/10 {
+  background-color: rgba(136, 19, 55, 0.35) !important;
+  color: #fda4af !important;
+  border-color: rgba(244, 63, 94, 0.3) !important;
+}
+
+.dark .bg-purple-50 {
+  background-color: rgba(88, 28, 135, 0.35) !important;
+  color: #d8b4fe !important;
+  border-color: rgba(168, 85, 247, 0.3) !important;
+}
+
+.dark .bg-teal-50 {
+  background-color: rgba(19, 78, 74, 0.35) !important;
+  color: #5eead4 !important;
+  border-color: rgba(20, 184, 166, 0.3) !important;
+}
+
+.dark .bg-indigo-50 {
+  background-color: rgba(49, 46, 129, 0.35) !important;
+  color: #a5b4fc !important;
+  border-color: rgba(99, 102, 241, 0.3) !important;
+}
+
+/* Hover background utility overrides */
+.dark .hover\:bg-slate-50:hover,
+.dark .hover\:bg-slate-50\/80:hover {
+  background-color: #1e293b !important;
+}
+
+.dark .hover\:bg-slate-100:hover {
+  background-color: #24344d !important;
+}
+
+.dark .hover\:bg-slate-200:hover {
+  background-color: #334155 !important;
+}
+
+/* Elevated Shadows in Dark Mode */
+.dark .shadow-xs,
+.dark .shadow-sm,
+.dark .shadow,
+.dark .shadow-md,
+.dark .shadow-lg,
+.dark .shadow-xl,
+.dark .shadow-2xl {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Custom scrollbars */
+@layer utilities {
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.3);
+    border-radius: 9999px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.5);
+  }
+}

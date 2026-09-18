@@ -1,0 +1,15 @@
+{
+  "name": "govcheck",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npx -y concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "start:backend": "node backend/index.js",
+    "start:frontend": "npm --prefix frontend run dev"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "pg": "^8.22.0"
+  }
+}
