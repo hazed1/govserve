@@ -33,6 +33,8 @@ import {
 import { TabType, UserRole, NotificationItem, ApplicationItem } from '../../types';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
+import { useLanguage } from '../../context/LanguageContext';
+import { LanguageToggle } from './LanguageToggle';
 import { fetchAIStatus, AIStatusResponse } from '../../services/aiApi';
 import { AISettingsModal } from './AISettingsModal';
 
@@ -67,6 +69,7 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const { user, logout, updateProfile } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { t, language } = useLanguage();
   const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
   const [notificationDropdownOpen, setNotificationDropdownOpen] = useState(false);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
@@ -113,37 +116,58 @@ export const Header: React.FC<HeaderProps> = ({
 
   const getDisplayTitle = (tab: TabType) => {
     if (tab === 'Home' || tab === 'Dashboard') {
-      return user?.role === 'admin' ? 'Executive Dashboard' : 'Dashboard & Tracker';
+      if (user?.role === 'admin') {
+        return language === 'tl' ? 'Ehekutibong Dashboard' : 'Executive Dashboard';
+      }
+      return language === 'tl' ? 'Dashboard at Pagsubaybay' : 'Dashboard & Tracker';
     }
     if (tab === 'Business Registration (New / Renewal)' || tab === 'New Registration' || tab === 'Business Permit Application') {
-      return user?.role === 'admin' ? 'Business Permit Applications' : 'Business Registration (New / Renewal)';
+      if (user?.role === 'admin') {
+        return language === 'tl' ? 'Mga Aplikasyon sa Business Permit' : 'Business Permit Applications';
+      }
+      return language === 'tl' ? 'Rehistro ng Negosyo (Bago / Pagpapanibago)' : 'Business Registration (New / Renewal)';
     }
     if (tab === 'Building Permit Filing' || tab === 'Building Permit Reviews' || tab === 'Building & Construction Permits') {
-      return user?.role === 'admin' ? 'Building Permit Reviews' : 'Building Permit Filing';
+      if (user?.role === 'admin') {
+        return language === 'tl' ? 'Pagsusuri sa Building Permit' : 'Building Permit Reviews';
+      }
+      return language === 'tl' ? 'Pag-file ng Building Permit' : 'Building Permit Filing';
     }
     if (tab === 'Plan & Blueprint Upload') {
-      return 'Plan & Blueprint Upload';
+      return language === 'tl' ? 'Pag-upload ng Plano at Blueprint' : 'Plan & Blueprint Upload';
     }
     if (tab === 'Route & Unit Inspection' || tab === 'Route & Unit Inspection Audit' || tab === 'Route & Unit Verification') {
-      return user?.role === 'admin' ? 'Route & Unit Inspection Audit' : 'Route & Unit Verification';
+      if (user?.role === 'admin') {
+        return language === 'tl' ? 'Audit sa Ruta at Inspeksyon ng Sasakyan' : 'Route & Unit Inspection Audit';
+      }
+      return language === 'tl' ? 'Beripikasyon ng Ruta at Sasakyan' : 'Route & Unit Verification';
     }
     if (tab === 'Franchise & Transport Permits' || tab === 'Franchise Permit Filing' || tab === 'Franchise Permit Review') {
-      return user?.role === 'admin' ? 'Franchise Permit Review' : 'Franchise & Transport Permit Application';
+      if (user?.role === 'admin') {
+        return language === 'tl' ? 'Pagsusuri sa Permit ng Prangkisa' : 'Franchise Permit Review';
+      }
+      return language === 'tl' ? 'Aplikasyon sa Prangkisa at Transportasyon' : 'Franchise & Transport Permit Application';
     }
     if (tab === '24-Barangay Network Grid') {
-      return '24-Barangay Network Grid';
+      return language === 'tl' ? 'Grid ng 24 na Barangay Network' : '24-Barangay Network Grid';
     }
     if (tab === 'Barangay Permit Integration' || tab === 'Barangay Clearance Registry' || tab === '24-Barangay Clearance Network' || tab === 'Barangay Integration Review' || tab === 'Barangay Clearance Filing' || tab === 'Community Clearance Validation') {
-      return user?.role === 'admin' ? 'Barangay Clearance Registry' : 'Barangay Clearance Integration';
+      if (user?.role === 'admin') {
+        return language === 'tl' ? 'Talaan ng Barangay Clearance' : 'Barangay Clearance Registry';
+      }
+      return language === 'tl' ? 'Integrasyon ng Barangay Clearance' : 'Barangay Clearance Integration';
     }
     if (tab === 'E-Permit Tracker' || tab === 'Public Reference Code Tracker' || tab === 'QR Code Authenticity Verification' || tab === 'QR Cryptographic Verification') {
-      return user?.role === 'admin' ? 'E-Permit Tracking & Cryptographic Issuance Hub' : 'E-Permit & Reference Tracker';
+      if (user?.role === 'admin') {
+        return language === 'tl' ? 'Sentro ng Pagsubaybay at Paglabas ng E-Permit' : 'E-Permit Tracking & Cryptographic Issuance Hub';
+      }
+      return language === 'tl' ? 'Tracker ng E-Permit at Reference Code' : 'E-Permit & Reference Tracker';
     }
     if (tab === 'Public Services Portal' || tab === 'Landing Page') {
-      return 'Public Services & Licensing Portal';
+      return language === 'tl' ? 'Portal ng Serbisyong Publiko at Lisensya' : 'Public Services & Licensing Portal';
     }
     if (tab === 'AI Compliance Checking') {
-      return 'AI Zoning & Regulatory Compliance Check';
+      return language === 'tl' ? 'Pagsusuri sa Pagsunod ng AI sa Regulasyon' : 'AI Zoning & Regulatory Compliance Check';
     }
     return tab;
   };
@@ -221,10 +245,10 @@ export const Header: React.FC<HeaderProps> = ({
                 ? 'bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800'
                 : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600'
             }`}
-            title="Return to Home Dashboard"
+            title={t('return_home', 'Return to Home Dashboard')}
           >
             <Home size={16} />
-            <span>Home</span>
+            <span>{t('home', 'Home')}</span>
           </button>
 
           <span className="text-slate-300 dark:text-slate-700 hidden sm:inline">/</span>
@@ -238,18 +262,20 @@ export const Header: React.FC<HeaderProps> = ({
                 {getDisplayTitle(activeTab)}
               </h2>
             </button>
-            <p className="text-[10px] text-slate-400 dark:text-slate-500 hidden sm:block">GovServe Unified Business Permit Portal</p>
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 hidden sm:block">{t('portal_subtitle', 'GovServe Unified Business Permit Portal')}</p>
           </div>
         </div>
 
         <div className="flex items-center space-x-2 sm:space-x-3">
 
+          {/* Language Switcher TL | EN Toggle */}
+          <LanguageToggle />
 
           {/* Dark Mode / Light Mode Toggle Button */}
           <button
             onClick={toggleTheme}
             className="p-2.5 rounded-full text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500/20 relative group cursor-pointer"
-            title={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            title={theme === 'dark' ? t('theme_light', "Switch to Light Mode") : t('theme_dark', "Switch to Dark Mode")}
             aria-label="Toggle Theme"
           >
             {theme === 'dark' ? (
@@ -420,7 +446,7 @@ export const Header: React.FC<HeaderProps> = ({
                     className="w-full flex items-center space-x-2 px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition-colors cursor-pointer"
                   >
                     <User size={15} className="text-blue-500" />
-                    <span>My Profile</span>
+                    <span>{t('my_profile', 'My Profile')}</span>
                   </button>
 
                   {/* History Records Button below My Profile */}
@@ -436,7 +462,7 @@ export const Header: React.FC<HeaderProps> = ({
                     className="w-full flex items-center space-x-2 px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition-colors cursor-pointer"
                   >
                     <History size={15} className="text-emerald-500" />
-                    <span>History Records</span>
+                    <span>{language === 'tl' ? 'Kasaysayan at Talaan' : 'History Records'}</span>
                     {!historyBadgeDismissed && (
                       <span className="ml-auto text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300">
                         {applications.length > 0 ? applications.length : 8}
@@ -452,7 +478,7 @@ export const Header: React.FC<HeaderProps> = ({
                     className="w-full flex items-center space-x-2 px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium transition-colors cursor-pointer"
                   >
                     <Settings size={15} className="text-indigo-500" />
-                    <span>Account Settings</span>
+                    <span>{t('account_settings', 'Account Settings')}</span>
                   </button>
 
                 </div>
@@ -467,7 +493,7 @@ export const Header: React.FC<HeaderProps> = ({
                     className="w-full flex items-center space-x-2 px-3 py-2 text-xs font-semibold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 rounded-xl transition-colors cursor-pointer"
                   >
                     <LogOut size={15} />
-                    <span>Sign Out of Portal</span>
+                    <span>{t('sign_out_portal', 'Sign Out of Portal')}</span>
                   </button>
                 </div>
               </div>

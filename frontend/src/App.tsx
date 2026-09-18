@@ -17,6 +17,7 @@ import { InspectionScheduling } from './components/InspectionScheduling';
 import { LoginPage } from './components/auth/LoginPage';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
+import { LanguageProvider } from './context/LanguageContext';
 import { 
   BusinessRenewView, 
   BuildingPlanView, 
@@ -991,9 +992,11 @@ function GovServePortal() {
 export default function App() {
   return (
     <ThemeProvider>
-      <AuthProvider>
-        <GovServePortal />
-      </AuthProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <GovServePortal />
+        </AuthProvider>
+      </LanguageProvider>
     </ThemeProvider>
   );
 }

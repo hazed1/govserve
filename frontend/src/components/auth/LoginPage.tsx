@@ -31,6 +31,8 @@ import {
   resetLoginAttempts, 
   MAX_LOGIN_ATTEMPTS 
 } from '../../context/AuthContext';
+import { useLanguage } from '../../context/LanguageContext';
+import { LanguageToggle } from '../ui/LanguageToggle';
 import { UserRole, MOCK_USERS } from '../../types';
 
 interface LoginPageProps {
@@ -52,6 +54,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
     sendOTPEmail,
     isLoading 
   } = useAuth();
+  const { t, language } = useLanguage();
 
   // View Modes: signin, otp, signup, forgot
   const [authMode, setAuthMode] = useState<'signin' | 'otp' | 'signup' | 'forgot'>(initialMode);
@@ -467,30 +470,33 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         className="w-full lg:w-1/2 p-6 sm:p-10 lg:p-14 flex flex-col justify-center items-center relative bg-white text-slate-900 login-right-light"
       >
         <div className="w-full max-w-[440px]">
-          <div className="mb-3 flex items-center justify-between">
+          <div className="mb-3 flex items-center justify-between gap-2">
             {onNavigateToLanding ? (
               <button
                 type="button"
                 onClick={onNavigateToLanding}
                 className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-600 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 transition-colors cursor-pointer"
               >
-                <span>← Back to Public Home</span>
+                <span>← {language === 'tl' ? 'Bumalik sa Tahanan' : 'Back to Public Home'}</span>
               </button>
             ) : <div />}
 
-            {authMode !== 'signin' && (
-              <button
-                type="button"
-                onClick={() => {
-                  setAuthMode('signin');
-                  setErrorMessage(null);
-                  setSuccessMessage(null);
-                }}
-                className="inline-flex items-center space-x-1 text-xs font-bold text-slate-600 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 transition-colors cursor-pointer ml-auto"
-              >
-                <span>← Back to Sign In</span>
-              </button>
-            )}
+            <div className="flex items-center space-x-2 ml-auto">
+              <LanguageToggle />
+              {authMode !== 'signin' && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAuthMode('signin');
+                    setErrorMessage(null);
+                    setSuccessMessage(null);
+                  }}
+                  className="inline-flex items-center space-x-1 text-xs font-bold text-slate-600 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 transition-colors cursor-pointer"
+                >
+                  <span>← {t('back_to_login', 'Sign In')}</span>
+                </button>
+              )}
+            </div>
           </div>
 
           {/* MAIN AUTH CARD */}

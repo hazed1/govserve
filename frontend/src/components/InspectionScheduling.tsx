@@ -49,6 +49,8 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
+import { LanguageToggle } from './ui/LanguageToggle';
 import { TabType } from '../types';
 
 export interface AdminInspectionItem {
@@ -276,6 +278,7 @@ export const InspectionScheduling: React.FC<InspectionSchedulingProps> = ({
 }) => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { t, language } = useLanguage();
   const isAdmin = user?.role === 'admin';
   const [profileDropdownOpen, setProfileDropdownOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -572,18 +575,19 @@ Digital Security Seal Hash     : SHA256-INSP-DISPATCH-${item.id}-AUTHENTICATED
               <button
                 onClick={() => onNavigateToTab ? onNavigateToTab('Home') : setCurrentView('preview')}
                 className="flex items-center space-x-1.5 px-3 py-1.5 bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900 rounded-xl text-xs font-bold transition-all border border-blue-200 dark:border-blue-800 cursor-pointer shadow-xs"
-                title="Return to Home Portal"
+                title={t('return_home', 'Return to Home Portal')}
               >
                 <Home size={15} />
-                <span>Home</span>
+                <span>{t('home', 'Home')}</span>
               </button>
 
-
+              {/* Language Switcher TL | EN Toggle */}
+              <LanguageToggle />
 
               <button
                 onClick={toggleTheme}
                 className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-                title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                title={theme === 'dark' ? t('theme_light', 'Switch to Light Mode') : t('theme_dark', 'Switch to Dark Mode')}
               >
                 {theme === 'dark' ? <Sun size={17} className="text-amber-400" /> : <Moon size={17} />}
               </button>

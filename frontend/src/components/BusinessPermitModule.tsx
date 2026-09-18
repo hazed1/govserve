@@ -48,6 +48,8 @@ import {
 import { TabType } from '../types';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
+import { LanguageToggle } from './ui/LanguageToggle';
 
 interface BusinessPermitModuleProps {
   onNavigateToTab?: (tab: TabType) => void;
@@ -74,6 +76,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
 }) => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { t, language } = useLanguage();
   const isAdmin = user?.role === 'admin';
   const [currentView, setCurrentView] = useState<MainViewMode>('preview');
   const [profileDropdownOpen, setProfileDropdownOpen] = useState<boolean>(false);
@@ -286,19 +289,20 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
               <button
                 onClick={() => onNavigateToTab ? onNavigateToTab('Home') : setCurrentView('preview')}
                 className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 hover:bg-blue-100 dark:hover:bg-blue-900 shadow-xs"
-                title="Return to Home Portal"
+                title={t('return_home', 'Return to Home Portal')}
               >
                 <Home size={15} />
-                <span>Home</span>
+                <span>{t('home', 'Home')}</span>
               </button>
 
-
+              {/* Language Switcher TL | EN Toggle */}
+              <LanguageToggle />
 
               {/* Dark/Light Mode Toggle */}
               <button
                 onClick={toggleTheme}
                 className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-                title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                title={theme === 'dark' ? t('theme_light', 'Switch to Light Mode') : t('theme_dark', 'Switch to Dark Mode')}
               >
                 {theme === 'dark' ? <Sun size={17} className="text-amber-400" /> : <Moon size={17} />}
               </button>

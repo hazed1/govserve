@@ -39,6 +39,8 @@ import {
 import { TabType, ApplicationItem } from '../../types';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
+import { useLanguage } from '../../context/LanguageContext';
+import { LanguageToggle } from './LanguageToggle';
 
 interface CitizenPermitPortalProps {
   onNavigateToTab: (tab: TabType) => void;
@@ -51,6 +53,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
 }) => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { t, language } = useLanguage();
   
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedReqCategory, setSelectedReqCategory] = useState<'business' | 'building' | 'transport' | 'barangay' | 'inspection' | 'tracking' | null>(null);
@@ -68,12 +71,20 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Requirements checklist data
+  // Requirements checklist data (Bilingual: Tagalog / English)
   const requirementsData = {
     business: {
-      title: 'Business Permit & Mayor\'s License Requirements',
-      category: 'Business Registration (New / Renewal)',
-      items: [
+      title: language === 'tl' ? 'Mga Kinakailangan sa Business Permit at Lisensya' : "Business Permit & Mayor's License Requirements",
+      category: language === 'tl' ? 'Rehistro ng Negosyo (Bago / Pagpapanibago)' : 'Business Registration (New / Renewal)',
+      items: language === 'tl' ? [
+        { name: 'Sertipiko ng Pangalan ng Negosyo sa DTI / Rehistrasyon sa SEC', mandatory: true },
+        { name: 'Barangay Business Clearance (Kasalukuyang Taon)', mandatory: true },
+        { name: 'Kontrata ng Upa (kung umuupa) o Titulo ng Lupa / Tax Declaration', mandatory: true },
+        { name: 'Locational / Zoning Clearance', mandatory: true },
+        { name: 'Fire Safety Inspection Certificate (FSIC)', mandatory: true },
+        { name: 'Sanitary Permit at Health Cards para sa mga Empleyado', mandatory: false },
+        { name: 'Deklarasyon ng Kabuuang Benta at Financial Statement (Para sa Renewal)', mandatory: false },
+      ] : [
         { name: 'DTI Business Name Certificate / SEC Registration', mandatory: true },
         { name: 'Barangay Business Clearance (Current Year)', mandatory: true },
         { name: 'Contract of Lease (if rented) or Land Title / Tax Declaration (if owned)', mandatory: true },
@@ -84,9 +95,17 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
       ]
     },
     building: {
-      title: 'Building & Construction Permit Requirements',
-      category: 'Building & Construction Clearances',
-      items: [
+      title: language === 'tl' ? 'Mga Kinakailangan sa Building & Construction Permit' : 'Building & Construction Permit Requirements',
+      category: language === 'tl' ? 'Mga Clearance sa Gusali at Konstruksyon' : 'Building & Construction Clearances',
+      items: language === 'tl' ? [
+        { name: 'Certified True Copy ng Transfer Certificate of Title (TCT)', mandatory: true },
+        { name: 'Kumpletong Plano at Blueprint (May lagda at selyo ng PECE/CE)', mandatory: true },
+        { name: 'Structural Design Analysis at Soil Boring Test (para sa 2+ palapag)', mandatory: true },
+        { name: 'Barangay Construction Endorsement Clearance', mandatory: true },
+        { name: 'Zoning at Locational Clearance', mandatory: true },
+        { name: 'Fire Safety Evaluation Clearance (FSEC)', mandatory: true },
+        { name: 'Bill of Materials at Pagtatantya ng Gastos', mandatory: true },
+      ] : [
         { name: 'Certified True Copy of Transfer Certificate of Title (TCT)', mandatory: true },
         { name: 'Complete Architectural & Engineering Blueprint Plans (Signed & Sealed by PECE/CE)', mandatory: true },
         { name: 'Structural Design Analysis & Soil Boring Test (for 2+ storeys)', mandatory: true },
@@ -97,9 +116,16 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
       ]
     },
     transport: {
-      title: 'Franchise & Transport Permit (MTOP) Requirements',
-      category: 'Tricycle & PUV Franchise Licensing',
-      items: [
+      title: language === 'tl' ? 'Mga Kinakailangan sa Prangkisa at Transportasyon (MTOP)' : 'Franchise & Transport Permit (MTOP) Requirements',
+      category: language === 'tl' ? 'Lisensya sa Traysikel at PUV' : 'Tricycle & PUV Franchise Licensing',
+      items: language === 'tl' ? [
+        { name: 'Opisyal na Resibo (OR) at Rehistrasyon (CR) mula sa LTO', mandatory: true },
+        { name: 'May-bisang Propesyonal na Lisensya sa Pagmamaneho', mandatory: true },
+        { name: 'Barangay Clearance ng Operator / Driver', mandatory: true },
+        { name: 'Endorsement Certificate mula sa TODA / Samahan ng Operator', mandatory: true },
+        { name: 'Sertipiko ng Roadworthiness at Pisikal na Inspeksyon ng Sasakyan', mandatory: true },
+        { name: 'Komprehensibong Passenger Third-Party Liability Insurance', mandatory: true },
+      ] : [
         { name: 'LTO Official Receipt (OR) and Certificate of Registration (CR)', mandatory: true },
         { name: 'Valid Professional Driver\'s License', mandatory: true },
         { name: 'Barangay Clearance of Operator / Driver', mandatory: true },
@@ -109,9 +135,15 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
       ]
     },
     barangay: {
-      title: 'Barangay Clearance & Cedula Requirements',
-      category: 'Barangay Clearance & Community Permits',
-      items: [
+      title: language === 'tl' ? 'Mga Kinakailangan sa Barangay Clearance at Sedula' : 'Barangay Clearance & Cedula Requirements',
+      category: language === 'tl' ? 'Barangay Clearance at Mga Permit sa Komunidad' : 'Barangay Clearance & Community Permits',
+      items: language === 'tl' ? [
+        { name: 'May-bisang ID na May Larawan mula sa Pamahalaan (UMID, Pasaporte, Lisensya)', mandatory: true },
+        { name: 'Community Tax Certificate (Sedula CTC) para sa kasalukuyang taon', mandatory: true },
+        { name: 'Patunay ng Paninirahan / Kontrata ng Upa o Barangay Certificate', mandatory: true },
+        { name: 'Sertipikasyon ng Lupon Tagapamayapa na Walang Nakabinbing Alitan', mandatory: false },
+        { name: 'Sertipiko ng DTI / SEC (para sa Business Barangay Clearance)', mandatory: false }
+      ] : [
         { name: 'Valid Government Issued Photo ID (e.g. UMID, Passport, Driver\'s License)', mandatory: true },
         { name: 'Community Tax Certificate (Cedula CTC) for current calendar year', mandatory: true },
         { name: 'Proof of Residency / Contract of Lease or Barangay Certificate of Residency', mandatory: true },
@@ -120,9 +152,15 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
       ]
     },
     inspection: {
-      title: 'Joint On-Site Inspection Guidelines & Preparation',
-      category: 'Municipal & BFP Joint Safety Inspection',
-      items: [
+      title: language === 'tl' ? 'Gabay at Paghahanda sa Pinagsamang On-Site na Inspeksyon' : 'Joint On-Site Inspection Guidelines & Preparation',
+      category: language === 'tl' ? 'Pinagsamang Inspeksyon ng Munisipyo at BFP' : 'Municipal & BFP Joint Safety Inspection',
+      items: language === 'tl' ? [
+        { name: 'Aprubadong Building Blueprint at Fire Safety Evaluation Clearance (FSEC)', mandatory: true },
+        { name: 'Gumaganang fire extinguishers na may balidong taunang inspection tag', mandatory: true },
+        { name: 'Emergency exit lights, signages at maliwanag na fire egress path', mandatory: true },
+        { name: 'Awtorisadong Project Engineer / May-ari ng Ari-arian sa site habang nag-iinspeksyon', mandatory: true },
+        { name: 'Para sa PUV: Kumpletong ilaw, preno, at malinis na emission status', mandatory: true }
+      ] : [
         { name: 'Approved Building Blueprint & Fire Safety Evaluation Clearance (FSEC)', mandatory: true },
         { name: 'Functional portable fire extinguishers with valid annual inspection tags', mandatory: true },
         { name: 'Emergency exit lights, directional signage & illuminated fire egress path', mandatory: true },
@@ -131,9 +169,14 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
       ]
     },
     tracking: {
-      title: 'Anti-Fraud & Cryptographic QR Verification Guide',
-      category: 'Permit Verification & Anti-Counterfeiting',
-      items: [
+      title: language === 'tl' ? 'Gabay sa Beripikasyon ng QR Laban sa Panloloko' : 'Anti-Fraud & Cryptographic QR Verification Guide',
+      category: language === 'tl' ? 'Beripikasyon ng Permit at Proteksyon Laban sa Peke' : 'Permit Verification & Anti-Counterfeiting',
+      items: language === 'tl' ? [
+        { name: 'Opisyal na Holographic Seal at QR Stamp sa pisikal na permit', mandatory: true },
+        { name: 'Tumutugmang SHA-256 Hash code sa opisyal na database ng Munisipyo', mandatory: true },
+        { name: 'Direktang resibo at reference number ng pagbabayad sa Ingat-yaman (LGU Treasurer)', mandatory: true },
+        { name: 'Huwag kailanman makipag-transaksyon sa mga fixer o magbayad sa labas ng awtorisadong kahera', mandatory: true }
+      ] : [
         { name: 'Official Municipal Holographic Seal & QR Stamp on physical permit', mandatory: true },
         { name: 'Matching SHA-256 Hash code with live Municipal Ledger database', mandatory: true },
         { name: 'Direct LGU Treasurer payment transaction reference (Official Receipt No.)', mandatory: true },
@@ -142,23 +185,23 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
     }
   };
 
-  // 6 Core Permit Modules with metadata for live search & filtering
+  // 6 Core Permit Modules with metadata for live search & filtering (Bilingual)
   const PERMIT_SERVICES = [
     {
       id: 'business',
-      title: 'Business Permit',
-      subtitle: "Mayor's Permit & Business Licensing",
-      category: 'Commercial & Retail',
-      description: 'Register new single proprietorships, partnerships, or corporations, declare annual gross sales, and file mandatory mayor\'s permit renewals online.',
+      title: t('card_business_title', 'Business Permit'),
+      subtitle: t('card_business_subtitle', "Mayor's Permit & Business Licensing"),
+      category: t('card_business_category', 'Commercial & Retail'),
+      description: t('card_business_desc', 'Register new single proprietorships, partnerships, or corporations, declare annual gross sales, and file mandatory mayor\'s permit renewals online.'),
       tags: [
-        'Instant DTI / SEC verification sync',
-        'Automated Local Business Tax (LBT) calculation',
-        'Digital QR-certified Mayor\'s Permit release'
+        t('card_business_tag1', 'Instant DTI / SEC verification sync'),
+        t('card_business_tag2', 'Automated Local Business Tax (LBT) calculation'),
+        t('card_business_tag3', 'Digital QR-certified Mayor\'s Permit release')
       ],
-      keywords: ['business', 'mayor', 'commercial', 'retail', 'renewal', 'dti', 'sec', 'tax', 'lbt', 'license'],
-      primaryBtnText: 'Apply for Business Permit',
+      keywords: ['business', 'negosyo', 'mayor', 'alkalde', 'commercial', 'retail', 'renewal', 'rehistro', 'dti', 'sec', 'tax', 'buwis', 'lbt', 'license', 'lisensya'],
+      primaryBtnText: t('card_business_btn_primary', 'Apply for Business Permit'),
       primaryTab: 'Business Registration (New / Renewal)' as TabType,
-      secondaryBtnText: 'Renew License',
+      secondaryBtnText: t('card_business_btn_secondary', 'Renew License'),
       secondaryTab: 'Renewal' as TabType,
       reqCategory: 'business' as const,
       icon: Building2,
@@ -175,19 +218,19 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
     },
     {
       id: 'building',
-      title: 'Building & Construction',
-      subtitle: 'Building Clearances & Blueprint Permits',
-      category: 'Engineering & Infrastructure',
-      description: 'Submit architectural CAD drawings, structural calculations, fire safety evaluations, and schedule on-site municipal engineering inspections.',
+      title: t('card_building_title', 'Building & Construction'),
+      subtitle: t('card_building_subtitle', 'Building Clearances & Blueprint Permits'),
+      category: t('card_building_category', 'Engineering & Infrastructure'),
+      description: t('card_building_desc', 'Submit architectural CAD drawings, structural calculations, fire safety evaluations, and schedule on-site municipal engineering inspections.'),
       tags: [
-        'CAD & PDF Blueprint Upload & Verification',
-        'Structural, Sanitary & Electrical Safety Review',
-        'Fire Safety Evaluation Clearance (FSEC) integration'
+        t('card_building_tag1', 'CAD & PDF Blueprint Upload & Verification'),
+        t('card_building_tag2', 'Structural, Sanitary & Electrical Safety Review'),
+        t('card_building_tag3', 'Fire Safety Evaluation Clearance (FSEC) integration')
       ],
-      keywords: ['building', 'construction', 'engineering', 'blueprint', 'cad', 'fsec', 'clearances', 'architectural', 'sanitary'],
-      primaryBtnText: 'Apply for Building Permit',
+      keywords: ['building', 'gusali', 'construction', 'konstruksyon', 'engineering', 'blueprint', 'plano', 'cad', 'fsec', 'clearances', 'architectural', 'sanitary'],
+      primaryBtnText: t('card_building_btn_primary', 'Apply for Building Permit'),
       primaryTab: 'Building Permit Filing' as TabType,
-      secondaryBtnText: 'Upload Plans',
+      secondaryBtnText: t('card_building_btn_secondary', 'Upload Plans'),
       secondaryTab: 'Plan & Blueprint Upload' as TabType,
       reqCategory: 'building' as const,
       icon: Building,
@@ -204,19 +247,19 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
     },
     {
       id: 'transport',
-      title: 'Franchise & Transport',
-      subtitle: 'Tricycle (MTOP) & PUV Licensing',
-      category: 'Tricycle & PUV Licensing',
-      description: 'File tricycle operator franchise permits (MTOP), public transport route authorizations, roadworthiness unit inspections, and windshield QR decals.',
+      title: t('card_transport_title', 'Franchise & Transport'),
+      subtitle: t('card_transport_subtitle', 'Tricycle (MTOP) & PUV Licensing'),
+      category: t('card_transport_category', 'Tricycle & PUV Licensing'),
+      description: t('card_transport_desc', 'File tricycle operator franchise permits (MTOP), public transport route authorizations, roadworthiness unit inspections, and windshield QR decals.'),
       tags: [
-        'Tricycle MTOP operator & fleet registry',
-        'Route conflict checking & TODA validation',
-        'Official Windshield QR Verification Decal'
+        t('card_transport_tag1', 'Tricycle MTOP operator & fleet registry'),
+        t('card_transport_tag2', 'Route conflict checking & TODA validation'),
+        t('card_transport_tag3', 'Official Windshield QR Verification Decal')
       ],
-      keywords: ['transport', 'franchise', 'mtop', 'tricycle', 'puv', 'toda', 'route', 'vehicle', 'inspection'],
-      primaryBtnText: 'Apply for MTOP Franchise',
+      keywords: ['transport', 'transportasyon', 'franchise', 'prangkisa', 'mtop', 'tricycle', 'traysikel', 'puv', 'toda', 'route', 'ruta', 'vehicle', 'inspection'],
+      primaryBtnText: t('card_transport_btn_primary', 'Apply for MTOP Franchise'),
       primaryTab: 'Franchise & Transport Permits' as TabType,
-      secondaryBtnText: 'Unit Inspection',
+      secondaryBtnText: t('card_transport_btn_secondary', 'Fleet Status'),
       secondaryTab: 'Route & Unit Inspection' as TabType,
       reqCategory: 'transport' as const,
       icon: Bus,
@@ -233,19 +276,19 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
     },
     {
       id: 'barangay',
-      title: 'Barangay Clearance',
-      subtitle: 'Community Tax (Cedula) & Local Endorsements',
-      category: '24-Barangay Network',
-      description: 'Direct digital clearance endorsement synced across all 24 barangays, automated Community Tax Certificate (Cedula) calculation, and Lupon dispute record validation.',
+      title: t('card_barangay_title', 'Barangay Clearance'),
+      subtitle: t('card_barangay_subtitle', 'Barangay Endorsement & Cedula (CTC)'),
+      category: t('card_barangay_category', '24-Barangay Network'),
+      description: t('card_barangay_desc', 'File official barangay business clearances, community tax certificates (Cedula CTC), and residency endorsements across all 24 partner barangays.'),
       tags: [
-        '24-Barangay live digital endorsement sync',
-        'Automated Cedula / Community Tax Certificate (CTC)',
-        'Official Punong Barangay QR signature seal'
+        t('card_barangay_tag1', '24-Barangay live digital endorsement sync'),
+        t('card_barangay_tag2', 'Automated Cedula / Community Tax Certificate (CTC)'),
+        t('card_barangay_tag3', 'Official Punong Barangay QR signature seal')
       ],
-      keywords: ['barangay', 'clearance', 'cedula', 'ctc', 'community', 'tax', 'lupon', 'endorsement'],
-      primaryBtnText: 'Request Barangay Clearance',
+      keywords: ['barangay', 'clearance', 'cedula', 'sedula', 'ctc', 'community', 'tax', 'buwis', 'lupon', 'endorsement', 'endoso'],
+      primaryBtnText: t('card_barangay_btn_primary', 'Request Barangay Clearance'),
       primaryTab: 'Barangay Permit Integration' as TabType,
-      secondaryBtnText: 'Cedula CTC Filing',
+      secondaryBtnText: t('card_barangay_btn_secondary', 'Cedula CTC Filing'),
       secondaryTab: 'Barangay Clearance Filing' as TabType,
       reqCategory: 'barangay' as const,
       icon: ShieldCheck,
@@ -262,19 +305,19 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
     },
     {
       id: 'inspection',
-      title: 'On-Site Inspection',
-      subtitle: 'Building, Fire, Sanitary & PUV Safety',
-      category: 'Joint Inspection Team',
-      description: 'Schedule on-site technical evaluations with municipal building officials, Bureau of Fire Protection (BFP) inspectors, sanitary officers, and PUV roadworthiness inspectors.',
+      title: t('card_inspection_title', 'On-Site Inspection'),
+      subtitle: t('card_inspection_subtitle', 'Building, Fire, Sanitary & PUV Safety'),
+      category: t('card_inspection_category', 'Joint Inspection Team'),
+      description: t('card_inspection_desc', 'Schedule on-site technical evaluations with municipal building officials, Bureau of Fire Protection (BFP) inspectors, sanitary officers, and PUV roadworthiness inspectors.'),
       tags: [
-        'Real-time appointment scheduling & calendar booking',
-        'BFP Fire Safety (FSIC) & Joint Inspection coordination',
-        'Instant Digital Appointment Slip & QR confirmation'
+        t('card_inspection_tag1', 'Real-time appointment scheduling & calendar booking'),
+        t('card_inspection_tag2', 'BFP Fire Safety (FSIC) & Joint Inspection coordination'),
+        t('card_inspection_tag3', 'Instant Digital Appointment Slip & QR confirmation')
       ],
-      keywords: ['inspection', 'appointment', 'bfp', 'fire', 'safety', 'sanitary', 'fsic', 'schedule', 'calendar'],
-      primaryBtnText: 'Book On-Site Inspection',
+      keywords: ['inspection', 'inspeksyon', 'appointment', 'iskedyul', 'bfp', 'fire', 'sunog', 'safety', 'sanitary', 'fsic', 'schedule', 'calendar'],
+      primaryBtnText: t('card_inspection_btn_primary', 'Book On-Site Inspection'),
       primaryTab: 'Inspection Scheduling' as TabType,
-      secondaryBtnText: 'Inspection Queue',
+      secondaryBtnText: t('card_inspection_btn_secondary', 'Inspection Queue'),
       secondaryTab: 'Inspection & Local Validation' as TabType,
       reqCategory: 'inspection' as const,
       icon: Calendar,
@@ -291,19 +334,19 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
     },
     {
       id: 'tracking',
-      title: 'QR Permit Tracker',
-      subtitle: 'Authenticity & Live Milestone Tracking',
-      category: 'Cryptographic Security',
-      description: 'Verify cryptographic security signatures, validate issued digital permits against the master municipal registry, and track live application milestone progress in real-time.',
+      title: t('card_tracking_title', 'QR Permit Tracker'),
+      subtitle: t('card_tracking_subtitle', 'Authenticity & Live Milestone Tracking'),
+      category: t('card_tracking_category', 'Cryptographic Security'),
+      description: t('card_tracking_desc', 'Verify cryptographic security signatures, validate issued digital permits against the master municipal registry, and track live application milestone progress in real-time.'),
       tags: [
-        '2048-bit RSA & SHA-256 Government Signature Audit',
-        'Live milestone timeline tracking from filing to release',
-        'Tamper-proof hologram verification & fraud reporting'
+        t('card_tracking_tag1', '2048-bit RSA & SHA-256 Government Signature Audit'),
+        t('card_tracking_tag2', 'Live milestone timeline tracking from filing to release'),
+        t('card_tracking_tag3', 'Tamper-proof hologram verification & fraud reporting')
       ],
-      keywords: ['tracker', 'qr', 'verify', 'authenticity', 'milestone', 'status', 'anti-fraud', 'cryptographic', 'reference'],
-      primaryBtnText: 'Verify QR Authenticity',
+      keywords: ['tracker', 'subaybay', 'qr', 'verify', 'beripika', 'authenticity', 'milestone', 'status', 'katayuan', 'anti-fraud', 'cryptographic', 'reference'],
+      primaryBtnText: t('card_tracking_btn_primary', 'Verify QR Authenticity'),
       primaryTab: 'E-Permit Tracker' as TabType,
-      secondaryBtnText: 'Track Reference',
+      secondaryBtnText: t('card_tracking_btn_secondary', 'Track Reference'),
       secondaryTab: 'Public Reference Code Tracker' as TabType,
       reqCategory: 'tracking' as const,
       icon: QrCode,
@@ -364,16 +407,17 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
           </div>
 
 
-          {/* Right: Quick Action Controls, Dark Mode & Profile */}
+          {/* Right: Quick Action Controls, Language Toggle, Dark Mode & Profile */}
           <div className="flex items-center space-x-2 sm:space-x-3">
 
-
+            {/* Language Switcher TL | EN Toggle */}
+            <LanguageToggle />
 
             {/* Dark/Light Mode Toggle */}
             <button
               onClick={toggleTheme}
               className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              title={theme === 'dark' ? t('theme_light', 'Switch to Light Mode') : t('theme_dark', 'Switch to Dark Mode')}
             >
               {theme === 'dark' ? <Sun size={17} className="text-amber-400" /> : <Moon size={17} />}
             </button>
@@ -421,12 +465,22 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                     <button
                       onClick={() => {
                         setProfileDropdownOpen(false);
+                        onNavigateToTab('Home');
+                      }}
+                      className="w-full px-4 py-2 text-left text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center space-x-2 cursor-pointer"
+                    >
+                      <Clock size={14} className="text-blue-500" />
+                      <span>{t('my_applications_tracker', 'My Applications & Milestone Tracker')}</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        setProfileDropdownOpen(false);
                         onNavigateToTab('E-Permit Tracker');
                       }}
                       className="w-full px-4 py-2 text-left text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center space-x-2 cursor-pointer"
                     >
                       <QrCode size={14} className="text-teal-500" />
-                      <span>Verify QR Permit</span>
+                      <span>{t('verify_qr_permit', 'Verify QR Permit')}</span>
                     </button>
                   </div>
 
@@ -439,7 +493,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                       className="w-full px-4 py-2 text-left text-xs text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 flex items-center space-x-2 cursor-pointer font-semibold"
                     >
                       <LogOut size={14} />
-                      <span>Sign Out</span>
+                      <span>{t('sign_out_portal', 'Sign Out')}</span>
                     </button>
                   </div>
                 </div>
@@ -462,10 +516,10 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
           {/* Heading & Subtitle */}
           <div className="space-y-2 max-w-4xl">
             <h1 className="text-2xl sm:text-4xl lg:text-[40px] font-black tracking-tight text-white leading-tight">
-              Welcome to the LGU E-Permit Portal, <span className="text-blue-400">{user?.name || 'Citizen'}</span>!
+              {t('hero_welcome', 'Welcome to the LGU E-Permit Portal,')} <span className="text-blue-400">{user?.name || (language === 'tl' ? 'Mamamayan' : 'Citizen')}</span>!
             </h1>
             <p className="text-slate-300 text-xs sm:text-sm max-w-3xl leading-relaxed">
-              Select your required government permit category below to start a new application, submit required documents, schedule inspections, or renew an existing license.
+              {t('hero_description', 'Select your required government permit category below to start a new application, submit required documents, schedule inspections, or renew an existing license.')}
             </p>
           </div>
 
@@ -475,7 +529,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
               <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 type="text"
-                placeholder="Search permit type (e.g. Business Permit, Building Clearances, MTOP)..."
+                placeholder={t('search_placeholder', 'Search permit type (e.g. Business Permit, Building Clearances, MTOP)...')}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-slate-900/90 border border-slate-700 rounded-2xl text-xs text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors shadow-inner"
@@ -505,18 +559,18 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
             <div>
               <div className="flex items-center space-x-2.5">
                 <h2 className="text-sm sm:text-base font-extrabold uppercase tracking-wider text-slate-900 dark:text-white">
-                  Permit & Clearance Services
+                  {t('services_heading', 'Permit & Clearance Services')}
                 </h2>
                 {searchQuery && (
                   <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
-                    {filteredServices.length} {filteredServices.length === 1 ? 'result' : 'results'} found
+                    {filteredServices.length} {filteredServices.length === 1 ? (language === 'tl' ? 'serbisyo ang nahanap' : 'result found') : (language === 'tl' ? 'mga serbisyo ang nahanap' : 'results found')}
                   </span>
                 )}
               </div>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 {searchQuery 
-                  ? `Showing permit services matching "${searchQuery}"` 
-                  : 'Choose a permit category to launch the interactive application filing wizard'}
+                  ? (language === 'tl' ? `Ipinapakita ang mga permit na tumutugma sa "${searchQuery}"` : `Showing permit services matching "${searchQuery}"`) 
+                  : t('services_subheading', 'Choose a permit category to launch the interactive application filing wizard')}
               </p>
             </div>
 
@@ -526,7 +580,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                 className="self-start sm:self-auto text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center space-x-1 cursor-pointer"
               >
                 <X size={13} />
-                <span>Clear search</span>
+                <span>{t('clear_search', 'Clear search')}</span>
               </button>
             )}
           </div>
@@ -597,7 +651,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                           className="text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 flex items-center space-x-1 cursor-pointer"
                         >
                           <Info size={13} />
-                          <span>Requirements</span>
+                          <span>{t('view_requirements', 'Requirements')}</span>
                         </button>
                       </div>
                     </div>
@@ -613,10 +667,12 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
               </div>
               <div className="space-y-1">
                 <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                  No permit services matching "{searchQuery}"
+                  {language === 'tl' ? `Walang nahanap na serbisyo sa permit sa "${searchQuery}"` : `No permit services matching "${searchQuery}"`}
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
-                  We couldn't find any permit matching your keywords. Try searching for <span className="font-semibold text-blue-600 dark:text-blue-400">Business Permit</span>, <span className="font-semibold text-amber-600 dark:text-amber-400">Building Clearances</span>, <span className="font-semibold text-emerald-600 dark:text-emerald-400">MTOP</span>, or <span className="font-semibold text-purple-600 dark:text-purple-400">Barangay</span>.
+                  {language === 'tl' 
+                    ? <>Walang natagpuang permit na tumutugma sa iyong keyword. Subukang maghanap ng <span className="font-semibold text-blue-600 dark:text-blue-400">Business Permit</span>, <span className="font-semibold text-amber-600 dark:text-amber-400">Gusali</span>, <span className="font-semibold text-emerald-600 dark:text-emerald-400">MTOP</span>, o <span className="font-semibold text-purple-600 dark:text-purple-400">Barangay</span>.</>
+                    : <>We couldn't find any permit matching your keywords. Try searching for <span className="font-semibold text-blue-600 dark:text-blue-400">Business Permit</span>, <span className="font-semibold text-amber-600 dark:text-amber-400">Building Clearances</span>, <span className="font-semibold text-emerald-600 dark:text-emerald-400">MTOP</span>, or <span className="font-semibold text-purple-600 dark:text-purple-400">Barangay</span>.</>}
                 </p>
               </div>
               <div>
@@ -625,7 +681,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                   className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition-all shadow-md cursor-pointer inline-flex items-center space-x-1.5"
                 >
                   <X size={14} />
-                  <span>Clear Search Filter</span>
+                  <span>{language === 'tl' ? 'Burahin ang Filter' : 'Clear Search Filter'}</span>
                 </button>
               </div>
             </div>
@@ -639,10 +695,10 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
           <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
             <div>
               <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
-                How Online Permitting Works (4-Step Digital Pipeline)
+                {language === 'tl' ? 'Paano Gumagana ang Online Permitting (4-Hakbang na Proseso)' : 'How Online Permitting Works (4-Step Digital Pipeline)'}
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                From online submission to instant tamper-proof QR permit release
+                {language === 'tl' ? 'Mula online na pagsumite hanggang sa tamper-proof na QR permit' : 'From online submission to instant tamper-proof QR permit release'}
               </p>
             </div>
           </div>
@@ -652,40 +708,56 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
             <div className="p-4 rounded-2xl bg-blue-50/50 dark:bg-slate-800/50 border border-blue-100 dark:border-slate-700/80 space-y-2">
               <div className="flex items-center space-x-2">
                 <span className="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center">1</span>
-                <h4 className="text-xs font-bold text-slate-900 dark:text-white">Select & File Online</h4>
+                <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                  {language === 'tl' ? 'Pumili at Mag-file Online' : 'Select & File Online'}
+                </h4>
               </div>
               <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                Choose your permit type, fill in your business or project details, and attach digital documents.
+                {language === 'tl' 
+                  ? 'Pumili ng uri ng permit, punan ang detalye ng negosyo o proyekto, at maglakip ng mga digital na dokumento.' 
+                  : 'Choose your permit type, fill in your business or project details, and attach digital documents.'}
               </p>
             </div>
 
             <div className="p-4 rounded-2xl bg-amber-50/50 dark:bg-slate-800/50 border border-amber-100 dark:border-slate-700/80 space-y-2">
               <div className="flex items-center space-x-2">
                 <span className="w-6 h-6 rounded-full bg-amber-600 text-white font-bold text-xs flex items-center justify-center">2</span>
-                <h4 className="text-xs font-bold text-slate-900 dark:text-white">AI & Officer Verification</h4>
+                <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                  {language === 'tl' ? 'Beripikasyon ng AI at Kawani' : 'AI & Officer Verification'}
+                </h4>
               </div>
               <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                Automated OCR checks document validity while LGU officers evaluate compliance parameters.
+                {language === 'tl'
+                  ? 'Sinusuri ng awtomatikong OCR ang bisa ng dokumento habang sinusuri ng mga opisyal ng LGU ang pagsunod.'
+                  : 'Automated OCR checks document validity while LGU officers evaluate compliance parameters.'}
               </p>
             </div>
 
             <div className="p-4 rounded-2xl bg-rose-50/50 dark:bg-slate-800/50 border border-rose-100 dark:border-slate-700/80 space-y-2">
               <div className="flex items-center space-x-2">
                 <span className="w-6 h-6 rounded-full bg-rose-600 text-white font-bold text-xs flex items-center justify-center">3</span>
-                <h4 className="text-xs font-bold text-slate-900 dark:text-white">Assessment & Payment</h4>
+                <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                  {language === 'tl' ? 'Pagtatasa at Pagbabayad' : 'Assessment & Payment'}
+                </h4>
               </div>
               <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                Review your transparent municipal fee computation and settle securely via Eprovider, GCash, or Maya.
+                {language === 'tl'
+                  ? 'Suriin ang malinaw na kompyutasyon ng buwis at bayaran ito nang ligtas gamit ang online payment, GCash, o Maya.'
+                  : 'Review your transparent municipal fee computation and settle securely via Eprovider, GCash, or Maya.'}
               </p>
             </div>
 
             <div className="p-4 rounded-2xl bg-emerald-50/50 dark:bg-slate-800/50 border border-emerald-100 dark:border-slate-700/80 space-y-2">
               <div className="flex items-center space-x-2">
                 <span className="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center">4</span>
-                <h4 className="text-xs font-bold text-slate-900 dark:text-white">QR Permit Release</h4>
+                <h4 className="text-xs font-bold text-slate-900 dark:text-white">
+                  {language === 'tl' ? 'Paglabas ng QR Permit' : 'QR Permit Release'}
+                </h4>
               </div>
               <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                Instantly download your tamper-proof QR-certified permit with cryptographic verification.
+                {language === 'tl'
+                  ? 'Agad na i-download ang iyong tamper-proof QR-certified permit na may cryptographic verification.'
+                  : 'Instantly download your tamper-proof QR-certified permit with cryptographic verification.'}
               </p>
             </div>
 
@@ -705,10 +777,10 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
           </div>
           <div className="flex items-center space-x-6">
             <span className="hover:text-slate-800 dark:hover:text-white cursor-pointer" onClick={() => onNavigateToTab('Home')}>
-              Dashboard & Tracker
+              {t('home', 'Dashboard & Tracker')}
             </span>
             <span className="hover:text-slate-800 dark:hover:text-white cursor-pointer" onClick={() => onNavigateToTab('E-Permit Tracker')}>
-              Permit Verification
+              {t('verify_qr_permit', 'Permit Verification')}
             </span>
             <span>Hotline: (02) 8888-GOV</span>
           </div>
@@ -736,7 +808,9 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
 
             <div className="p-6 space-y-4 text-xs max-h-[70vh] overflow-y-auto">
               <p className="text-slate-600 dark:text-slate-300">
-                Please prepare the following documents before proceeding with your application for <strong className="text-slate-900 dark:text-white">{requirementsData[selectedReqCategory].category}</strong>:
+                {language === 'tl' 
+                  ? <>Ihanda ang mga sumusunod na dokumento bago magpatuloy sa iyong aplikasyon para sa <strong className="text-slate-900 dark:text-white">{requirementsData[selectedReqCategory].category}</strong>:</>
+                  : <>Please prepare the following documents before proceeding with your application for <strong className="text-slate-900 dark:text-white">{requirementsData[selectedReqCategory].category}</strong>:</>}
               </p>
 
               <div className="space-y-2">
@@ -759,7 +833,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                         ? 'bg-rose-50 text-rose-600 border border-rose-200 dark:bg-rose-950/60 dark:text-rose-400 dark:border-rose-800' 
                         : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
                     }`}>
-                      {item.mandatory ? 'Mandatory' : 'Optional'}
+                      {item.mandatory ? (language === 'tl' ? 'Kinakailangan' : 'Mandatory') : (language === 'tl' ? 'Opsyonal' : 'Optional')}
                     </span>
                   </div>
                 ))}
@@ -771,7 +845,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                 onClick={() => setSelectedReqCategory(null)} 
                 className="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-semibold cursor-pointer"
               >
-                Close
+                {t('close', 'Close')}
               </button>
               <button 
                 onClick={() => {
@@ -787,7 +861,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                 }} 
                 className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/20 cursor-pointer flex items-center space-x-1.5"
               >
-                <span>Proceed to Service</span>
+                <span>{t('proceed_application', 'Proceed to Service')}</span>
                 <ArrowRight size={14} />
               </button>
             </div>

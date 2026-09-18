@@ -37,6 +37,8 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
+import { LanguageToggle } from './ui/LanguageToggle';
 import { UserRole, MOCK_USERS } from '../types';
 
 interface PublicLandingPageProps {
@@ -54,6 +56,7 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
   } = useAuth();
 
   const { theme, toggleTheme } = useTheme();
+  const { t, language } = useLanguage();
 
   // Modals state
   const [authModalOpen, setAuthModalOpen] = useState<boolean>(false);
@@ -210,15 +213,17 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
 
           {/* Right Controls & Sign In CTA */}
           <div className="flex items-center space-x-3">
+            {/* Language Switcher TL | EN Toggle */}
+            <LanguageToggle />
+
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
               className="p-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-              title="Toggle Dark / Light Mode"
+              title={theme === 'dark' ? t('theme_light', 'Switch to Light Mode') : t('theme_dark', 'Switch to Dark Mode')}
             >
               {theme === 'dark' ? <Sun size={17} className="text-amber-400" /> : <Moon size={17} />}
             </button>
-
 
             {/* Sign In or Dashboard Button */}
             {isAuthenticated ? (
@@ -226,7 +231,7 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                 onClick={() => onNavigateToLogin?.()}
                 className="inline-flex items-center space-x-1.5 px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-600/25 transition-all cursor-pointer hover:scale-105 active:scale-95"
               >
-                <span>Go to Dashboard</span>
+                <span>{language === 'tl' ? 'Pumunta sa Dashboard' : 'Go to Dashboard'}</span>
                 <ArrowRight size={14} />
               </button>
             ) : (
@@ -234,7 +239,7 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                 onClick={() => handleOpenAuthWithRole('user')}
                 className="inline-flex items-center space-x-1.5 px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-600/25 transition-all cursor-pointer hover:scale-105 active:scale-95"
               >
-                <span>Sign In</span>
+                <span>{t('sign_in', 'Sign In')}</span>
                 <ArrowRight size={14} />
               </button>
             )}

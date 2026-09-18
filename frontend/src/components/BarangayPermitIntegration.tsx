@@ -33,6 +33,8 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
+import { LanguageToggle } from './ui/LanguageToggle';
 import { TabType } from '../types';
 
 export interface BarangayClearanceItem {
@@ -219,6 +221,7 @@ export const BarangayPermitIntegration: React.FC<BarangayPermitIntegrationProps>
 }) => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { t, language } = useLanguage();
   const isAdmin = user?.role === 'admin';
   const isBrgyRegistryTab = isAdmin && (currentTab === 'Barangay Clearance Registry' || currentTab === 'Barangay Integration Review');
   const isBrgyGridTab = isAdmin && (currentTab === '24-Barangay Network Grid' || currentTab === '24-Barangay Clearance Network');
@@ -417,15 +420,16 @@ Digital Security Hash   : ${item.qrHash}
                 className="flex items-center space-x-2 px-3.5 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold transition-all border border-slate-200 dark:border-slate-700 cursor-pointer shadow-2xs"
               >
                 <ArrowLeft size={14} />
-                <span className="hidden sm:inline">E-Permit Portal</span>
+                <span className="hidden sm:inline">{t('portal_badge', 'E-Permit Portal')}</span>
               </button>
 
-
+              {/* Language Switcher TL | EN Toggle */}
+              <LanguageToggle />
 
               <button
                 onClick={toggleTheme}
                 className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-purple-600 dark:hover:text-purple-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-                title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                title={theme === 'dark' ? t('theme_light', 'Switch to Light Mode') : t('theme_dark', 'Switch to Dark Mode')}
               >
                 {theme === 'dark' ? <Sun size={17} className="text-amber-400" /> : <Moon size={17} />}
               </button>
