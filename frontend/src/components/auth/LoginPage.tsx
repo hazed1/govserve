@@ -86,10 +86,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   const [regBirthDay, setRegBirthDay] = useState<string>('');
   const [regBirthYear, setRegBirthYear] = useState<string>('');
   const [regCity, setRegCity] = useState<string>('');
+  const [regCustomCity, setRegCustomCity] = useState<string>('');
   const [regHouseNo, setRegHouseNo] = useState<string>('');
   const [regStreet, setRegStreet] = useState<string>('');
   const [regBarangay, setRegBarangay] = useState<string>('');
-  const [regWorkingInQC, setRegWorkingInQC] = useState<'yes' | 'no'>('no');
+  const [regWorking, setRegWorking] = useState<string>('');
   const [regOccupation, setRegOccupation] = useState<string>('');
   const [regSex, setRegSex] = useState<string>('');
   const [regPhone, setRegPhone] = useState<string>('09');
@@ -378,8 +379,16 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       setErrorMessage('Please select your City.');
       return;
     }
+    if (regCity === 'Others' && !regCustomCity.trim()) {
+      setErrorMessage('Please specify your city.');
+      return;
+    }
     if (!regStreet.trim() || !regBarangay.trim()) {
       setErrorMessage('Street and Barangay are required.');
+      return;
+    }
+    if (!regWorking) {
+      setErrorMessage('Please indicate if you are working.');
       return;
     }
     if (!regSex) {
@@ -403,8 +412,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       return;
     }
 
+    const finalCity = regCity === 'Others' ? regCustomCity.trim() : regCity;
     const constructedFullName = `${regFirstName.trim()} ${regMiddleName.trim() ? regMiddleName.trim() + ' ' : ''}${regLastName.trim()}${regSuffix ? ' ' + regSuffix : ''}`.trim();
-    const constructedAddress = `${regHouseNo.trim() ? regHouseNo.trim() + ' ' : ''}${regStreet.trim()}, ${regBarangay.trim()}, ${regCity}`.trim();
+    const constructedAddress = `${regHouseNo.trim() ? regHouseNo.trim() + ' ' : ''}${regStreet.trim()}, ${regBarangay.trim()}, ${finalCity}`.trim();
     const constructedBirthDate = `${regBirthMonth} ${regBirthDay}, ${regBirthYear}`;
 
     const regData = {
@@ -419,11 +429,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       middleName: regMiddleName.trim(),
       suffix: regSuffix,
       birthDate: constructedBirthDate,
-      city: regCity,
+      city: finalCity,
       houseNo: regHouseNo.trim(),
       street: regStreet.trim(),
       barangay: regBarangay.trim(),
-      workingInQC: regWorkingInQC === 'yes',
+      working: regWorking === 'yes',
       occupation: regOccupation.trim(),
       sex: regSex,
       address: constructedAddress
@@ -825,7 +835,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          <span className="text-red-500 font-bold">*</span> First name:
+                          {!regFirstName.trim() && <span className="text-red-500 font-bold mr-1">*</span>}First name:
                         </label>
                         <input
                           type="text"
@@ -838,7 +848,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       </div>
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          <span className="text-red-500 font-bold">*</span> Last name:
+                          {!regLastName.trim() && <span className="text-red-500 font-bold mr-1">*</span>}Last name:
                         </label>
                         <input
                           type="text"
@@ -884,7 +894,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     {/* Birth Date */}
                     <div className="mt-3">
                       <label className="block text-xs font-semibold mb-1 text-slate-700">
-                        <span className="text-red-500 font-bold">*</span> Birth Date
+                        {(!regBirthMonth || !regBirthDay || !regBirthYear) && <span className="text-red-500 font-bold mr-1">*</span>}Birth Date
                       </label>
                       <div className="grid grid-cols-3 gap-2 max-w-sm">
                         <select
@@ -927,26 +937,40 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     <h3 className="text-sm font-bold text-[#1a5f7a] mb-2.5">Address</h3>
                     <div className="mb-3">
                       <label className="block text-xs font-semibold mb-1 text-slate-700">
-                        <span className="text-red-500 font-bold">*</span> City:
+                        {!regCity && <span className="text-red-500 font-bold mr-1">*</span>}City:
                       </label>
                       <select
                         value={regCity}
-                        onChange={(e) => setRegCity(e.target.value)}
+                        onChange={(e) => {
+                          setRegCity(e.target.value);
+                          if (e.target.value !== 'Others') {
+                            setRegCustomCity('');
+                          }
+                        }}
                         className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                         required
                       >
                         <option value="">- Select City -</option>
                         <option value="Quezon City">Quezon City</option>
-                        <option value="Manila">Manila</option>
-                        <option value="Makati">Makati</option>
-                        <option value="Taguig">Taguig</option>
-                        <option value="Pasig">Pasig</option>
-                        <option value="Caloocan">Caloocan</option>
-                        <option value="Pili, Camarines Sur">Pili, Camarines Sur</option>
-                        <option value="Pasay">Pasay</option>
-                        <option value="Mandaluyong">Mandaluyong</option>
-                        <option value="Parañaque">Parañaque</option>
+                        <option value="Others">Others</option>
                       </select>
+
+                      {/* CONDITIONAL "Specify your city:" IF OTHERS IS SELECTED */}
+                      {regCity === 'Others' && (
+                        <div className="mt-3 animate-fadeIn">
+                          <label className="block text-xs font-semibold mb-1 text-slate-700">
+                            {!regCustomCity.trim() && <span className="text-red-500 font-bold mr-1">*</span>}Specify your city:
+                          </label>
+                          <input
+                            type="text"
+                            value={regCustomCity}
+                            onChange={(e) => setRegCustomCity(e.target.value)}
+                            placeholder="Specify here"
+                            className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                            required
+                          />
+                        </div>
+                      )}
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -964,7 +988,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       </div>
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          <span className="text-red-500 font-bold">*</span> Street:
+                          {!regStreet.trim() && <span className="text-red-500 font-bold mr-1">*</span>}Street:
                         </label>
                         <input
                           type="text"
@@ -977,7 +1001,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       </div>
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          <span className="text-red-500 font-bold">*</span> Barangay:
+                          {!regBarangay.trim() && <span className="text-red-500 font-bold mr-1">*</span>}Barangay:
                         </label>
                         <input
                           type="text"
@@ -997,16 +1021,16 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3 items-center">
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          <span className="text-red-500 font-bold">*</span> Are you working in Quezon City?
+                          {!regWorking && <span className="text-red-500 font-bold mr-1">*</span>}Are you working?
                         </label>
                         <div className="flex items-center space-x-5 pt-1">
                           <label className="inline-flex items-center space-x-2 text-xs text-slate-700 cursor-pointer">
                             <input
                               type="radio"
-                              name="workingInQC"
+                              name="working"
                               value="yes"
-                              checked={regWorkingInQC === 'yes'}
-                              onChange={() => setRegWorkingInQC('yes')}
+                              checked={regWorking === 'yes'}
+                              onChange={() => setRegWorking('yes')}
                               className="text-blue-600 focus:ring-blue-500"
                             />
                             <span>Yes</span>
@@ -1014,10 +1038,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                           <label className="inline-flex items-center space-x-2 text-xs text-slate-700 cursor-pointer">
                             <input
                               type="radio"
-                              name="workingInQC"
+                              name="working"
                               value="no"
-                              checked={regWorkingInQC === 'no'}
-                              onChange={() => setRegWorkingInQC('no')}
+                              checked={regWorking === 'no'}
+                              onChange={() => setRegWorking('no')}
                               className="text-blue-600 focus:ring-blue-500"
                             />
                             <span>No</span>
@@ -1041,7 +1065,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          <span className="text-red-500 font-bold">*</span> Sex
+                          {!regSex && <span className="text-red-500 font-bold mr-1">*</span>}Sex
                         </label>
                         <select
                           value={regSex}
@@ -1056,7 +1080,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       </div>
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          <span className="text-red-500 font-bold">*</span> Mobile Number:
+                          {(!regPhone.trim() || regPhone.trim() === '09') && <span className="text-red-500 font-bold mr-1">*</span>}Mobile Number:
                         </label>
                         <input
                           type="tel"
@@ -1075,7 +1099,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     <h3 className="text-sm font-bold text-[#1a5f7a] mb-2.5">Login Credentials</h3>
                     <div className="mb-3">
                       <label className="block text-xs font-semibold mb-1 text-slate-700">
-                        Email Address:
+                        {!regEmail.trim() && <span className="text-red-500 font-bold mr-1">*</span>}Email Address:
                       </label>
                       <input
                         type="email"
@@ -1090,7 +1114,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          <span className="text-red-500 font-bold">*</span> Password:
+                          {!regPassword && <span className="text-red-500 font-bold mr-1">*</span>}Password:
                         </label>
                         <input
                           type="password"
@@ -1103,7 +1127,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       </div>
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          <span className="text-red-500 font-bold">*</span> Confirm Password:
+                          {!regConfirmPassword && <span className="text-red-500 font-bold mr-1">*</span>}Confirm Password:
                         </label>
                         <input
                           type="password"
