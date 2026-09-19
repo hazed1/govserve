@@ -1041,7 +1041,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                               name="working"
                               value="no"
                               checked={regWorking === 'no'}
-                              onChange={() => setRegWorking('no')}
+                              onChange={() => {
+                                setRegWorking('no');
+                                setRegOccupation('');
+                              }}
                               className="text-blue-600 focus:ring-blue-500"
                             />
                             <span>No</span>
@@ -1054,10 +1057,15 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                         </label>
                         <input
                           type="text"
-                          value={regOccupation}
+                          value={regWorking === 'no' ? '' : regOccupation}
+                          disabled={regWorking === 'no'}
                           onChange={(e) => setRegOccupation(e.target.value)}
-                          placeholder="Enter occupation"
-                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                          placeholder={regWorking === 'no' ? 'N/A (Not working)' : 'Enter occupation'}
+                          className={`w-full px-3 py-2 rounded-lg text-xs border transition-all ${
+                            regWorking === 'no'
+                              ? 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed select-none opacity-70'
+                              : 'border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500'
+                          }`}
                         />
                       </div>
                     </div>
