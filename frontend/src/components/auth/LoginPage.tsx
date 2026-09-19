@@ -93,7 +93,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   const [regWorking, setRegWorking] = useState<string>('');
   const [regOccupation, setRegOccupation] = useState<string>('');
   const [regSex, setRegSex] = useState<string>('');
-  const [regPhone, setRegPhone] = useState<string>('09');
+  const [regPhone, setRegPhone] = useState<string>('');
   const [regEmail, setRegEmail] = useState<string>('');
   const [regPassword, setRegPassword] = useState<string>('');
   const [regConfirmPassword, setRegConfirmPassword] = useState<string>('');
@@ -395,7 +395,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       setErrorMessage('Please select your Sex.');
       return;
     }
-    if (!regPhone.trim() || regPhone.trim() === '09') {
+    if (!regPhone.trim()) {
       setErrorMessage('Please provide a valid Mobile Number.');
       return;
     }
@@ -1060,7 +1060,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                           value={regWorking === 'no' ? '' : regOccupation}
                           disabled={regWorking === 'no'}
                           onChange={(e) => setRegOccupation(e.target.value)}
-                          placeholder={regWorking === 'no' ? 'N/A (Not working)' : 'Enter occupation'}
+                          placeholder="Enter occupation"
                           className={`w-full px-3 py-2 rounded-lg text-xs border transition-all ${
                             regWorking === 'no'
                               ? 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed select-none opacity-70'
@@ -1088,13 +1088,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       </div>
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          {(!regPhone.trim() || regPhone.trim() === '09') && <span className="text-red-500 font-bold mr-1">*</span>}Mobile Number:
+                          {!regPhone.trim() && <span className="text-red-500 font-bold mr-1">*</span>}Mobile Number:
                         </label>
                         <input
                           type="tel"
                           value={regPhone}
                           onChange={(e) => setRegPhone(e.target.value)}
-                          placeholder="09123456789"
+                          placeholder="Enter mobile number"
                           className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                           required
                         />
