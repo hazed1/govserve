@@ -395,8 +395,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       setErrorMessage('Please select your Sex.');
       return;
     }
-    if (!regPhone.trim()) {
-      setErrorMessage('Please provide a valid Mobile Number.');
+    if (!regPhone.trim() || regPhone.trim().length !== 11) {
+      setErrorMessage('Please provide a valid 11-digit Mobile Number.');
       return;
     }
     if (!regEmail.trim()) {
@@ -1092,8 +1092,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                         </label>
                         <input
                           type="tel"
+                          inputMode="numeric"
+                          maxLength={11}
                           value={regPhone}
-                          onChange={(e) => setRegPhone(e.target.value)}
+                          onChange={(e) => {
+                            const digits = e.target.value.replace(/\D/g, '').slice(0, 11);
+                            setRegPhone(digits);
+                          }}
                           placeholder="Enter mobile number"
                           className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                           required
