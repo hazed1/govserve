@@ -1,6 +1,10 @@
 const nodemailer = require('nodemailer');
 const https = require('https');
 const path = require('path');
+const dns = require('dns');
+if (dns.setDefaultResultOrder) {
+  dns.setDefaultResultOrder('ipv4first');
+}
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 require('dotenv').config();
 
@@ -20,7 +24,10 @@ function getTransporter() {
     const pass = rawPass.replace(/\s+/g, '');
 
     return nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      family: 4,
       auth: {
         user,
         pass
