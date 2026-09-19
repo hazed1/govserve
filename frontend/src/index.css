@@ -332,3 +332,22 @@ html:not(.dark) .bg-white {
     background: rgba(148, 163, 184, 0.5);
   }
 }
+
+/* Password Requirements Checklist Card */
+.password-requirements-card {
+  background-color: transparent !important;
+  border-color: #cbd5e1 !important;
+}
+
+.dark .password-requirements-card {
+  background-color: rgba(11, 25, 44, 0.35) !important;
+  border-color: #334155 !important;
+}
+
+.password-requirements-title {
+  color: #1e293b !important;
+}
+
+.dark .password-requirements-title {
+  color: #f1f5f9 !important;
+}

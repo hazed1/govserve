@@ -1174,8 +1174,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
                     {/* PASSWORD REQUIREMENTS CHECKLIST */}
                     {(isPasswordFocused || regPassword.length > 0) && (
-                      <div className="mt-3 p-4 bg-[#f3f4f6] rounded-2xl border border-slate-200/90 text-xs shadow-sm animate-fadeIn">
-                        <p className="text-[13px] font-semibold text-slate-800 mb-2.5">
+                      <div className="mt-3 p-4 bg-transparent dark:bg-slate-900/40 rounded-2xl border border-slate-300 dark:border-slate-700/80 text-xs shadow-sm animate-fadeIn password-requirements-card">
+                        <p className="text-[13px] font-semibold text-slate-800 dark:text-slate-200 mb-2.5 password-requirements-title">
                           Password must contain the following:
                         </p>
                         <div className="space-y-1.5 text-xs font-medium">
@@ -1187,31 +1187,31 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
                             return (
                               <>
-                                <div className={`flex items-center space-x-2 ${hasLower ? 'text-emerald-700' : 'text-red-600'}`}>
+                                <div className={`flex items-center space-x-2 ${hasLower ? 'text-teal-600 dark:text-teal-400' : 'text-red-600 dark:text-rose-400'}`}>
                                   <span className="font-bold text-sm leading-none">{hasLower ? '✓' : '✕'}</span>
                                   <span>
                                     <strong className="font-bold">A lowercase</strong>{' '}
-                                    <span className={hasLower ? 'text-emerald-600' : 'text-red-600'}>letter</span>
+                                    <span className={hasLower ? 'text-teal-600 dark:text-teal-400' : 'text-red-500 dark:text-rose-400'}>letter</span>
                                   </span>
                                 </div>
-                                <div className={`flex items-center space-x-2 ${hasUpper ? 'text-emerald-700' : 'text-red-600'}`}>
+                                <div className={`flex items-center space-x-2 ${hasUpper ? 'text-teal-600 dark:text-teal-400' : 'text-red-600 dark:text-rose-400'}`}>
                                   <span className="font-bold text-sm leading-none">{hasUpper ? '✓' : '✕'}</span>
                                   <span>
                                     <strong className="font-bold">A capital (uppercase)</strong>{' '}
-                                    <span className={hasUpper ? 'text-emerald-600' : 'text-rose-400'}>letter</span>
+                                    <span className={hasUpper ? 'text-teal-600 dark:text-teal-400' : 'text-rose-400 dark:text-rose-300'}>letter</span>
                                   </span>
                                 </div>
-                                <div className={`flex items-center space-x-2 ${hasNumber ? 'text-emerald-700' : 'text-red-600'}`}>
+                                <div className={`flex items-center space-x-2 ${hasNumber ? 'text-teal-600 dark:text-teal-400' : 'text-red-600 dark:text-rose-400'}`}>
                                   <span className="font-bold text-sm leading-none">{hasNumber ? '✓' : '✕'}</span>
                                   <span>
                                     <strong className="font-bold">A number</strong>
                                   </span>
                                 </div>
-                                <div className={`flex items-center space-x-2 ${hasMinLen ? 'text-emerald-700' : 'text-red-600'}`}>
+                                <div className={`flex items-center space-x-2 ${hasMinLen ? 'text-teal-600 dark:text-teal-400' : 'text-red-600 dark:text-rose-400'}`}>
                                   <span className="font-bold text-sm leading-none">{hasMinLen ? '✓' : '✕'}</span>
                                   <span>
                                     <strong className="font-bold">Minimum 8</strong>{' '}
-                                    <span className={hasMinLen ? 'text-emerald-600' : 'text-red-600'}>characters</span>
+                                    <span className={hasMinLen ? 'text-teal-600 dark:text-teal-400' : 'text-red-500 dark:text-rose-400'}>characters</span>
                                   </span>
                                 </div>
                               </>
