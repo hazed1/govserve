@@ -376,6 +376,15 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       setErrorMessage('Please provide your complete Birth Date.');
       return;
     }
+    const parsedDay = parseInt(regBirthDay, 10);
+    if (isNaN(parsedDay) || parsedDay < 1 || parsedDay > 31) {
+      setErrorMessage('Please provide a valid Day (1-31).');
+      return;
+    }
+    if (regBirthYear.length !== 4) {
+      setErrorMessage('Please provide a valid 4-digit Year (e.g. 1998).');
+      return;
+    }
     if (!regCity) {
       setErrorMessage('Please select your City.');
       return;
@@ -915,23 +924,29 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                           ))}
                         </select>
                         <input
-                          type="number"
-                          min="1"
-                          max="31"
+                          type="text"
+                          inputMode="numeric"
+                          maxLength={2}
                           value={regBirthDay}
-                          onChange={(e) => setRegBirthDay(e.target.value)}
+                          onChange={(e) => {
+                            const digits = e.target.value.replace(/\D/g, '').slice(0, 2);
+                            setRegBirthDay(digits);
+                          }}
                           placeholder="Day"
-                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-center"
                           required
                         />
                         <input
-                          type="number"
-                          min="1900"
-                          max="2026"
+                          type="text"
+                          inputMode="numeric"
+                          maxLength={4}
                           value={regBirthYear}
-                          onChange={(e) => setRegBirthYear(e.target.value)}
+                          onChange={(e) => {
+                            const digits = e.target.value.replace(/\D/g, '').slice(0, 4);
+                            setRegBirthYear(digits);
+                          }}
                           placeholder="Year"
-                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-center"
                           required
                         />
                       </div>
