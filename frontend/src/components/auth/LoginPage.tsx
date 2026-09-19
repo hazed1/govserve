@@ -97,6 +97,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   const [regEmail, setRegEmail] = useState<string>('');
   const [regPassword, setRegPassword] = useState<string>('');
   const [regConfirmPassword, setRegConfirmPassword] = useState<string>('');
+  const [isPasswordFocused, setIsPasswordFocused] = useState<boolean>(false);
   const [regRole, setRegRole] = useState<UserRole>('user');
 
   // Status & Error Messages
@@ -403,12 +404,17 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       setErrorMessage('Email Address is required.');
       return;
     }
-    if (regPassword.length < 6) {
-      setErrorMessage('Password must be at least 6 characters.');
+    const hasLower = /[a-z]/.test(regPassword);
+    const hasUpper = /[A-Z]/.test(regPassword);
+    const hasNumber = /[0-9]/.test(regPassword);
+    const hasMinLen = regPassword.length >= 8;
+
+    if (!hasLower || !hasUpper || !hasNumber || !hasMinLen) {
+      setErrorMessage('Password must contain a lowercase letter, a capital (uppercase) letter, a number, and minimum 8 characters.');
       return;
     }
     if (regPassword !== regConfirmPassword) {
-      setErrorMessage('Passwords do not match.');
+      setErrorMessage('Confirm password does not match.');
       return;
     }
 
@@ -1132,6 +1138,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                         <input
                           type="password"
                           value={regPassword}
+                          onFocus={() => setIsPasswordFocused(true)}
                           onChange={(e) => setRegPassword(e.target.value)}
                           placeholder="Enter password"
                           className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
@@ -1142,16 +1149,77 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
                           {!regConfirmPassword && <span className="text-red-500 font-bold mr-1">*</span>}Confirm Password:
                         </label>
-                        <input
-                          type="password"
-                          value={regConfirmPassword}
-                          onChange={(e) => setRegConfirmPassword(e.target.value)}
-                          placeholder="Enter password confirmation"
-                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
-                          required
-                        />
+                        <div className="relative">
+                          <input
+                            type="password"
+                            value={regConfirmPassword}
+                            onChange={(e) => setRegConfirmPassword(e.target.value)}
+                            placeholder="Enter password confirmation"
+                            className={`w-full px-3 py-2 rounded-lg text-xs border bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 transition-colors ${
+                              regConfirmPassword.length > 0 && regConfirmPassword !== regPassword
+                                ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500/20 pr-9'
+                                : 'border-slate-300 focus:border-blue-500 focus:ring-blue-500/20'
+                            }`}
+                            required
+                          />
+                          {regConfirmPassword.length > 0 && regConfirmPassword !== regPassword && (
+                            <AlertCircle size={16} className="text-rose-500 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                          )}
+                        </div>
+                        {regConfirmPassword.length > 0 && regConfirmPassword !== regPassword && (
+                          <p className="text-xs text-rose-500 mt-1 font-medium animate-fadeIn">Invalid.</p>
+                        )}
                       </div>
                     </div>
+
+                    {/* PASSWORD REQUIREMENTS CHECKLIST */}
+                    {(isPasswordFocused || regPassword.length > 0) && (
+                      <div className="mt-3 p-4 bg-[#f3f4f6] rounded-2xl border border-slate-200/90 text-xs shadow-sm animate-fadeIn">
+                        <p className="text-[13px] font-semibold text-slate-800 mb-2.5">
+                          Password must contain the following:
+                        </p>
+                        <div className="space-y-1.5 text-xs font-medium">
+                          {(() => {
+                            const hasLower = /[a-z]/.test(regPassword);
+                            const hasUpper = /[A-Z]/.test(regPassword);
+                            const hasNumber = /[0-9]/.test(regPassword);
+                            const hasMinLen = regPassword.length >= 8;
+
+                            return (
+                              <>
+                                <div className={`flex items-center space-x-2 ${hasLower ? 'text-emerald-700' : 'text-red-600'}`}>
+                                  <span className="font-bold text-sm leading-none">{hasLower ? '✓' : '✕'}</span>
+                                  <span>
+                                    <strong className="font-bold">A lowercase</strong>{' '}
+                                    <span className={hasLower ? 'text-emerald-600' : 'text-red-600'}>letter</span>
+                                  </span>
+                                </div>
+                                <div className={`flex items-center space-x-2 ${hasUpper ? 'text-emerald-700' : 'text-red-600'}`}>
+                                  <span className="font-bold text-sm leading-none">{hasUpper ? '✓' : '✕'}</span>
+                                  <span>
+                                    <strong className="font-bold">A capital (uppercase)</strong>{' '}
+                                    <span className={hasUpper ? 'text-emerald-600' : 'text-rose-400'}>letter</span>
+                                  </span>
+                                </div>
+                                <div className={`flex items-center space-x-2 ${hasNumber ? 'text-emerald-700' : 'text-red-600'}`}>
+                                  <span className="font-bold text-sm leading-none">{hasNumber ? '✓' : '✕'}</span>
+                                  <span>
+                                    <strong className="font-bold">A number</strong>
+                                  </span>
+                                </div>
+                                <div className={`flex items-center space-x-2 ${hasMinLen ? 'text-emerald-700' : 'text-red-600'}`}>
+                                  <span className="font-bold text-sm leading-none">{hasMinLen ? '✓' : '✕'}</span>
+                                  <span>
+                                    <strong className="font-bold">Minimum 8</strong>{' '}
+                                    <span className={hasMinLen ? 'text-emerald-600' : 'text-red-600'}>characters</span>
+                                  </span>
+                                </div>
+                              </>
+                            );
+                          })()}
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {/* SUBMIT BUTTON */}
