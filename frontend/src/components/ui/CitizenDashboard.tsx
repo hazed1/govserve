@@ -31,6 +31,8 @@ import {
 } from 'lucide-react';
 import { TabType, ApplicationItem } from '../../types';
 import { useAuth } from '../../context/AuthContext';
+import { useLanguage } from '../../context/LanguageContext';
+import { LanguageToggle } from './LanguageToggle';
 
 interface CitizenDashboardProps {
   onNavigateToTab: (tab: TabType) => void;
@@ -44,6 +46,7 @@ export const CitizenDashboard: React.FC<CitizenDashboardProps> = ({
   onViewDetails,
 }) => {
   const { user } = useAuth();
+  const { t, language } = useLanguage();
 
   // Status Filter State
   const [statusFilter, setStatusFilter] = useState<'All' | 'In Progress' | 'Approved' | 'Rejected'>('All');
@@ -248,23 +251,26 @@ export const CitizenDashboard: React.FC<CitizenDashboardProps> = ({
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="max-w-xl space-y-2">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-500/20 border border-blue-200 dark:border-blue-400/30 text-blue-700 dark:text-blue-300 text-xs font-semibold">
-              <Sparkles size={13} className="text-amber-500 dark:text-amber-400" />
-              <span>Republic of the Philippines • Citizen Services Portal</span>
+            <div className="flex items-center justify-between gap-2 flex-wrap pb-1">
+              <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-500/20 border border-blue-200 dark:border-blue-400/30 text-blue-700 dark:text-blue-300 text-xs font-semibold">
+                <Sparkles size={13} className="text-amber-500 dark:text-amber-400" />
+                <span>{t('citizen_badge', 'Republic of the Philippines • Citizen Services Portal')}</span>
+              </div>
+              <LanguageToggle />
             </div>
             
             <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-              Welcome back, {user?.name || 'Citizen'}!
+              {language === 'tl' ? `Maligayang pagbabalik, ${user?.name || 'Mamamayan'}!` : `Welcome back, ${user?.name || 'Citizen'}!`}
             </h1>
             
             <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
-              File applications, track real-time milestone progress, settle assessed municipal fees, and download official QR-verified permits directly from your dashboard.
+              {t('citizen_hero_desc', 'File applications, track real-time milestone progress, settle assessed municipal fees, and download official QR-verified permits directly from your dashboard.')}
             </p>
 
             {user?.organization && (
               <div className="pt-1 flex items-center space-x-2 text-xs text-slate-700 dark:text-blue-200 bg-slate-100 dark:bg-blue-900/40 border border-slate-200 dark:border-blue-700/50 px-3 py-1.5 rounded-xl w-fit">
                 <Building size={14} className="text-blue-600 dark:text-blue-400" />
-                <span>Registered Entity: <strong className="text-slate-900 dark:text-white">{user.organization}</strong></span>
+                <span>{t('registered_entity', 'Registered Entity:')} <strong className="text-slate-900 dark:text-white">{user.organization}</strong></span>
               </div>
             )}
           </div>
@@ -276,7 +282,7 @@ export const CitizenDashboard: React.FC<CitizenDashboardProps> = ({
               className="px-6 py-3.5 bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-bold rounded-2xl shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center space-x-2 group cursor-pointer"
             >
               <Plus size={16} />
-              <span>Apply for New Permit</span>
+              <span>{t('apply_new_permit', 'Apply for New Permit')}</span>
               <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
             </button>
 
@@ -288,7 +294,7 @@ export const CitizenDashboard: React.FC<CitizenDashboardProps> = ({
               className="px-6 py-3 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 transition-all flex items-center justify-center space-x-2 cursor-pointer"
             >
               <Search size={15} />
-              <span>Track My Applications</span>
+              <span>{t('track_my_applications', 'Track My Applications')}</span>
             </button>
           </div>
         </div>
@@ -476,10 +482,10 @@ export const CitizenDashboard: React.FC<CitizenDashboardProps> = ({
         <div className="flex items-center justify-between">
           <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center space-x-2">
             <FileText size={16} className="text-blue-500" />
-            <span>Applications & Status Overview</span>
+            <span>{language === 'tl' ? 'Pangkalahatang-ideya ng mga Aplikasyon' : 'Applications & Status Overview'}</span>
           </h2>
           <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-            Total Filings: <strong>{totalCount}</strong>
+            {language === 'tl' ? 'Kabuuang Naisumite:' : 'Total Filings:'} <strong>{totalCount}</strong>
           </span>
         </div>
 
@@ -501,10 +507,10 @@ export const CitizenDashboard: React.FC<CitizenDashboardProps> = ({
               </div>
               <div>
                 <span className="text-2xl font-black text-slate-900 dark:text-white">{totalCount}</span>
-                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">Total Filings</p>
+                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">{t('total_apps', 'Total Filings')}</p>
               </div>
             </div>
-            <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400">View All</span>
+            <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400">{language === 'tl' ? 'Lahat' : 'View All'}</span>
           </div>
 
           {/* Card 2: In Progress */}
@@ -522,10 +528,10 @@ export const CitizenDashboard: React.FC<CitizenDashboardProps> = ({
               </div>
               <div>
                 <span className="text-2xl font-black text-slate-900 dark:text-white">{inProgressCount}</span>
-                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">In Progress</p>
+                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">{t('in_progress', 'In Progress')}</p>
               </div>
             </div>
-            <span className="text-[11px] font-bold text-amber-600 dark:text-amber-400">Filter</span>
+            <span className="text-[11px] font-bold text-amber-600 dark:text-amber-400">{language === 'tl' ? 'Salain' : 'Filter'}</span>
           </div>
 
           {/* Card 3: Approved */}
@@ -543,10 +549,10 @@ export const CitizenDashboard: React.FC<CitizenDashboardProps> = ({
               </div>
               <div>
                 <span className="text-2xl font-black text-slate-900 dark:text-white">{approvedCount}</span>
-                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">Approved</p>
+                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">{t('approved', 'Approved')}</p>
               </div>
             </div>
-            <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400">Filter</span>
+            <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400">{language === 'tl' ? 'Salain' : 'Filter'}</span>
           </div>
 
           {/* Card 4: Rejected */}
@@ -564,10 +570,10 @@ export const CitizenDashboard: React.FC<CitizenDashboardProps> = ({
               </div>
               <div>
                 <span className="text-2xl font-black text-slate-900 dark:text-white">{rejectedCount}</span>
-                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">Rejected</p>
+                <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">{t('rejected', 'Rejected')}</p>
               </div>
             </div>
-            <span className="text-[11px] font-bold text-rose-600 dark:text-rose-400">Filter</span>
+            <span className="text-[11px] font-bold text-rose-600 dark:text-rose-400">{language === 'tl' ? 'Salain' : 'Filter'}</span>
           </div>
 
         </div>
@@ -577,7 +583,7 @@ export const CitizenDashboard: React.FC<CitizenDashboardProps> = ({
           <div className="bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800 p-3 rounded-2xl flex items-center justify-between text-xs text-blue-900 dark:text-blue-200">
             <div className="flex items-center space-x-2">
               <Filter size={15} className="text-blue-600 dark:text-blue-400" />
-              <span>Showing applications filtered by status: <strong className="font-bold uppercase text-blue-700 dark:text-blue-300">{statusFilter}</strong></span>
+              <span>{language === 'tl' ? 'Ipinapakita ang mga aplikasyon ayon sa katayuan:' : 'Showing applications filtered by status:'} <strong className="font-bold uppercase text-blue-700 dark:text-blue-300">{t(statusFilter, statusFilter)}</strong></span>
             </div>
             <button 
               onClick={() => setStatusFilter('All')} 

@@ -26,6 +26,8 @@ import {
 } from 'lucide-react';
 import { TabType } from '../../types';
 import { useAuth } from '../../context/AuthContext';
+import { useLanguage } from '../../context/LanguageContext';
+import { LanguageToggle } from './LanguageToggle';
 import { AISettingsModal } from './AISettingsModal';
 
 interface SidebarProps {
@@ -42,6 +44,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   setSidebarOpen,
 }) => {
   const { user } = useAuth();
+  const { t, language } = useLanguage();
   const isAdmin = user?.role === 'admin';
 
   // Module accordion states
@@ -118,7 +121,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 }`}
               >
                 <Home size={18} className="text-amber-500 dark:text-amber-400 flex-shrink-0" />
-                <span className="truncate">Dashboard & Tracker</span>
+                <span className="truncate">{t('Dashboard & Tracker', 'Dashboard & Tracker')}</span>
               </button>
             </div>
           ) : (
@@ -131,7 +134,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               }`}
             >
               <BarChart3 size={18} />
-              <span className="truncate">Executive Dashboard</span>
+              <span className="truncate">{t('Executive Dashboard', 'Executive Dashboard')}</span>
             </button>
           )}
 
@@ -148,7 +151,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 {/* Section: PERMIT SERVICES */}
                 <div className="space-y-1">
                   <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                    Permit Applications
+                    {t('Permit Applications', 'Permit Applications')}
                   </p>
 
                   <button
@@ -160,7 +163,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }`}
                   >
                     <Building2 size={17} className="text-blue-500 dark:text-blue-400 flex-shrink-0" />
-                    <span className="truncate">Business Permit</span>
+                    <span className="truncate">{t('Business Permit', 'Business Permit')}</span>
                   </button>
 
                   <button
@@ -172,7 +175,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }`}
                   >
                     <Building size={17} className="text-amber-500 dark:text-amber-400 flex-shrink-0" />
-                    <span className="truncate">Building & Construction</span>
+                    <span className="truncate">{t('Building & Construction', 'Building & Construction')}</span>
                   </button>
 
                   <button
@@ -184,7 +187,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }`}
                   >
                     <Bus size={17} className="text-emerald-500 dark:text-emerald-400 flex-shrink-0" />
-                    <span className="truncate">Franchise & Transport (MTOP)</span>
+                    <span className="truncate">{t('Franchise & Transport (MTOP)', 'Franchise & Transport (MTOP)')}</span>
                   </button>
 
                   <button
@@ -196,14 +199,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }`}
                   >
                     <ShieldCheck size={17} className="text-purple-500 dark:text-purple-400 flex-shrink-0" />
-                    <span className="truncate">Barangay Clearance</span>
+                    <span className="truncate">{t('Barangay Clearance', 'Barangay Clearance')}</span>
                   </button>
                 </div>
 
                 {/* Section: CITIZEN SERVICES & TOOLS */}
                 <div className="space-y-1 pt-1">
                   <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                    Citizen Services
+                    {t('Citizen Services', 'Citizen Services')}
                   </p>
 
                   <button
@@ -215,7 +218,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }`}
                   >
                     <Calendar size={17} className="text-sky-500 dark:text-sky-400 flex-shrink-0" />
-                    <span className="truncate">Schedule Inspection</span>
+                    <span className="truncate">{t('Schedule Inspection', 'Schedule Inspection')}</span>
                   </button>
 
                   <button
@@ -227,7 +230,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }`}
                   >
                     <FileCheck size={17} className="text-indigo-500 dark:text-indigo-400 flex-shrink-0" />
-                    <span className="truncate">Upload Documents</span>
+                    <span className="truncate">{t('Upload Documents', 'Upload Documents')}</span>
                   </button>
 
                   <button
@@ -239,7 +242,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }`}
                   >
                     <Zap size={17} className="text-rose-500 dark:text-rose-400 flex-shrink-0" />
-                    <span className="truncate">Fees & Payments</span>
+                    <span className="truncate">{t('Fees & Payments', 'Fees & Payments')}</span>
                   </button>
 
                   <button
@@ -251,7 +254,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }`}
                   >
                     <QrCode size={17} className="text-teal-500 dark:text-teal-400 flex-shrink-0" />
-                    <span className="truncate">Track & Verify E-Permit</span>
+                    <span className="truncate">{t('Track & Verify E-Permit', 'Track & Verify E-Permit')}</span>
                   </button>
                 </div>
 
@@ -271,7 +274,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 >
                   <div className="flex items-center space-x-2.5 truncate">
                     <Building2 size={18} className="text-blue-500 dark:text-blue-400 flex-shrink-0" />
-                    <span className="font-bold text-slate-800 dark:text-white text-[12px] truncate">Business Permit Application</span>
+                    <span className="font-bold text-slate-800 dark:text-white text-[12px] truncate">{t('Business Permit Application', 'Business Permit Application')}</span>
                   </div>
                   {m1Open ? <ChevronDown size={14} className="text-slate-400 dark:text-slate-500" /> : <ChevronRight size={14} className="text-slate-400 dark:text-slate-500" />}
                 </button>
@@ -296,7 +299,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                               : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-200'
                           }`}
                         >
-                          <span className="truncate">{sub.name}</span>
+                          <span className="truncate">{t(sub.name, sub.name)}</span>
                           {sub.ai && (
                             <span className="bg-blue-100 dark:bg-blue-500/20 text-blue-700 dark:text-blue-300 text-[9px] px-1.5 py-0.5 rounded font-mono font-bold flex items-center">
                               AI
@@ -317,7 +320,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 >
                   <div className="flex items-center space-x-2.5 truncate">
                     <Building size={18} className="text-amber-500 dark:text-amber-400 flex-shrink-0" />
-                    <span className="font-bold text-slate-800 dark:text-white text-[12px] truncate">Building & Construction Permits</span>
+                    <span className="font-bold text-slate-800 dark:text-white text-[12px] truncate">{t('Building & Construction Permits', 'Building & Construction Permits')}</span>
                   </div>
                   {m2Open ? <ChevronDown size={14} className="text-slate-400 dark:text-slate-500" /> : <ChevronRight size={14} className="text-slate-400 dark:text-slate-500" />}
                 </button>
@@ -340,7 +343,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                               : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-200'
                           }`}
                         >
-                          <span className="truncate">{sub.name}</span>
+                          <span className="truncate">{t(sub.name, sub.name)}</span>
                         </button>
                       );
                     })}
@@ -356,7 +359,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 >
                   <div className="flex items-center space-x-2.5 truncate">
                     <Bus size={18} className="text-emerald-500 dark:text-emerald-400 flex-shrink-0" />
-                    <span className="font-bold text-slate-800 dark:text-white text-[12px] truncate">Franchise & Transport Permits</span>
+                    <span className="font-bold text-slate-800 dark:text-white text-[12px] truncate">{t('Franchise & Transport Permits', 'Franchise & Transport Permits')}</span>
                   </div>
                   {m3Open ? <ChevronDown size={14} className="text-slate-400 dark:text-slate-500" /> : <ChevronRight size={14} className="text-slate-400 dark:text-slate-500" />}
                 </button>
@@ -378,7 +381,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                               : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-200'
                           }`}
                         >
-                          <span className="truncate">{sub.name}</span>
+                          <span className="truncate">{t(sub.name, sub.name)}</span>
                         </button>
                       );
                     })}
@@ -394,7 +397,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 >
                   <div className="flex items-center space-x-2.5 truncate">
                     <ShieldCheck size={18} className="text-purple-500 dark:text-purple-400 flex-shrink-0" />
-                    <span className="font-bold text-slate-800 dark:text-white text-[12px] truncate">Barangay Permit Integration</span>
+                    <span className="font-bold text-slate-800 dark:text-white text-[12px] truncate">{t('Barangay Permit Integration', 'Barangay Permit Integration')}</span>
                   </div>
                   {m4Open ? <ChevronDown size={14} className="text-slate-400 dark:text-slate-500" /> : <ChevronRight size={14} className="text-slate-400 dark:text-slate-500" />}
                 </button>
@@ -416,7 +419,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                               : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-200'
                           }`}
                         >
-                          <span className="truncate">{sub.name}</span>
+                          <span className="truncate">{t(sub.name, sub.name)}</span>
                         </button>
                       );
                     })}
@@ -432,7 +435,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 >
                   <div className="flex items-center space-x-2.5 truncate">
                     <QrCode size={18} className="text-teal-500 dark:text-teal-400 flex-shrink-0" />
-                    <span className="font-bold text-slate-800 dark:text-white text-[12px] truncate">E-Permit Tracker</span>
+                    <span className="font-bold text-slate-800 dark:text-white text-[12px] truncate">{t('E-Permit Tracker', 'E-Permit Tracker')}</span>
                   </div>
                   {m5Open ? <ChevronDown size={14} className="text-slate-400 dark:text-slate-500" /> : <ChevronRight size={14} className="text-slate-400 dark:text-slate-500" />}
                 </button>
@@ -454,7 +457,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                               : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/50 hover:text-slate-900 dark:hover:text-slate-200'
                           }`}
                         >
-                          <span className="truncate">{sub.name}</span>
+                          <span className="truncate">{t(sub.name, sub.name)}</span>
                         </button>
                       );
                     })}
@@ -465,6 +468,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </>
           )}
 
+        </div>
+
+        {/* Sidebar Footer with Language Switcher */}
+        <div className="p-3 border-t border-slate-200 dark:border-slate-800/80 bg-slate-50/70 dark:bg-slate-900/60 flex items-center justify-between min-w-[288px]">
+          <span className="text-[11px] font-bold text-slate-600 dark:text-slate-400">
+            {language === 'tl' ? 'Piliin ang Wika:' : 'Language:'}
+          </span>
+          <LanguageToggle />
         </div>
       </aside>
     </>

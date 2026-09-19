@@ -38,6 +38,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
+import { LanguageToggle } from './ui/LanguageToggle';
 import { UserRole, MOCK_USERS } from '../types';
 
 interface PublicLandingPageProps {
@@ -154,29 +155,39 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
     }
   };
 
-
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans selection:bg-blue-600 selection:text-white transition-colors duration-300">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-200">
       
       {/* ========================================================================= */}
-      {/* 1. TOP NAVBAR */}
+      {/* 1. TOP ANNOUNCEMENT BAR & NAVIGATION */}
       {/* ========================================================================= */}
-      <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
+      <header className="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           
-          {/* Logo & Portal Identity */}
-          <div className="flex items-center space-x-3 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-            <div className="w-10 h-10 rounded-xl bg-white p-1 shadow-md flex items-center justify-center overflow-hidden flex-shrink-0 border border-slate-200 dark:border-slate-700">
-              <img src="/government-logo.png" alt="Official Seal Logo" className="w-full h-full object-contain rounded-lg" />
+          {/* Logo & System Brand */}
+          <div 
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="flex items-center space-x-3 cursor-pointer group"
+          >
+            <div className="w-10 h-10 rounded-xl bg-white p-0.5 shadow-md flex items-center justify-center border border-slate-200 dark:border-white/20 group-hover:scale-105 transition-transform overflow-hidden">
+              <img 
+                src="/government-logo.png" 
+                alt="Government Logo" 
+                className="w-full h-full object-contain rounded-lg"
+              />
             </div>
             <div>
-              <div className="flex items-center space-x-1.5">
-                <span className="font-black text-xl tracking-tight text-slate-900 dark:text-white">GovServe</span>
-                <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 uppercase tracking-wider">
-                  Quezon City LGU
+              <div className="flex items-center space-x-2">
+                <span className="text-lg font-black tracking-tight text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  GovServe
+                </span>
+                <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-blue-50 text-blue-700 dark:bg-blue-500/20 dark:text-blue-300 border border-blue-200 dark:border-blue-500/30">
+                  {t('portal_badge', 'E-Permit Portal')}
                 </span>
               </div>
-              <p className="text-[10px] text-slate-500 font-medium">Unified Business, Building & Transport Licensing Portal</p>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium leading-none mt-0.5">
+                {t('portal_subtitle', 'Unified Business & Permitting Hub')}
+              </p>
             </div>
           </div>
 
@@ -186,7 +197,7 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="text-blue-600 dark:text-blue-400 flex items-center space-x-1.5 cursor-pointer"
             >
-              <span>Home</span>
+              <span>{t('home', 'Home')}</span>
             </button>
 
             <button 
@@ -196,7 +207,7 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
               }}
               className="hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer"
             >
-              Features
+              {language === 'tl' ? 'Mga Tampok' : 'Features'}
             </button>
 
             <button 
@@ -206,12 +217,15 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
               }}
               className="hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer"
             >
-              How It Works
+              {t('how_it_works', 'How It Works')}
             </button>
           </nav>
 
           {/* Right Controls & Sign In CTA */}
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            {/* Language Switcher Button */}
+            <LanguageToggle />
+
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}

@@ -20,7 +20,7 @@ const translations: Record<string, { en: string; tl: string }> = {
   },
   'portal_badge': {
     en: 'E-Permit Portal',
-    tl: 'E-Permit Portal'
+    tl: 'Portal ng E-Permit'
   },
   'portal_subtitle': {
     en: 'GovServe Unified Business Permit Portal',
@@ -37,6 +37,14 @@ const translations: Record<string, { en: string; tl: string }> = {
   'executive_dashboard': {
     en: 'Executive Dashboard',
     tl: 'Ehekutibong Dashboard'
+  },
+  'citizen_portal': {
+    en: 'Citizen Portal',
+    tl: 'Portal ng Mamamayan'
+  },
+  'admin_console': {
+    en: 'Admin Console',
+    tl: 'Admin Console'
   },
   'return_home': {
     en: 'Return to Home Portal',
@@ -109,6 +117,68 @@ const translations: Record<string, { en: string; tl: string }> = {
   'sign_out_portal': {
     en: 'Sign Out of Portal',
     tl: 'Mag-sign Out sa Portal'
+  },
+
+  // Navigation Tabs & Modules
+  'tab_home': {
+    en: 'Home',
+    tl: 'Tahanan'
+  },
+  'tab_e_permit_portal': {
+    en: 'E-Permit Portal',
+    tl: 'Portal ng E-Permit'
+  },
+  'tab_my_applications': {
+    en: 'My Applications',
+    tl: 'Aking mga Aplikasyon'
+  },
+  'tab_business_registration': {
+    en: 'Business Registration (New / Renewal)',
+    tl: 'Rehistro ng Negosyo (Bago / Renewal)'
+  },
+  'tab_building_permit': {
+    en: 'Building Permit Filing',
+    tl: 'Aplikasyon sa Building Permit'
+  },
+  'tab_franchise_transport': {
+    en: 'Franchise & Transport Permits',
+    tl: 'Prangkisa at Transportasyon (MTOP)'
+  },
+  'tab_barangay_integration': {
+    en: 'Barangay Permit Integration',
+    tl: 'Barangay Clearance at Sedula'
+  },
+  'tab_inspection_scheduling': {
+    en: 'Inspection Scheduling',
+    tl: 'Pag-iskedyul ng Inspeksyon'
+  },
+  'tab_epermit_tracker': {
+    en: 'E-Permit Tracker',
+    tl: 'Tagasubaybay ng E-Permit'
+  },
+  'tab_requirements_submission': {
+    en: 'Requirements Submission',
+    tl: 'Pagsusumite ng mga Dokumento'
+  },
+  'tab_ai_document_verification': {
+    en: 'AI Document Verification',
+    tl: 'AI Beripikasyon ng Dokumento'
+  },
+  'tab_fee_assessment': {
+    en: 'Fee Assessment & Computation',
+    tl: 'Pagtatasa at Pagkwenta ng Bayarin'
+  },
+  'tab_intelligent_approval': {
+    en: 'Intelligent Approval Recommendation',
+    tl: 'Rekomendasyon sa Matalinong Pag-apruba'
+  },
+  'tab_permit_release': {
+    en: 'Permit Approval & Release',
+    tl: 'Pag-apruba at Paglabas ng Permit'
+  },
+  'tab_ai_compliance': {
+    en: 'AI Compliance Checking',
+    tl: 'AI Pagsusuri ng Pagsunod'
   },
 
   // Citizen Portal Hero Section
@@ -422,6 +492,10 @@ const translations: Record<string, { en: string; tl: string }> = {
     en: 'For Inspection',
     tl: 'Para sa Inspeksyon'
   },
+  'status_in_progress': {
+    en: 'In Progress',
+    tl: 'Kasalukuyang Pinoproseso'
+  },
   'status_pending': {
     en: 'Pending Review',
     tl: 'Nakabinbing Pagsusuri'
@@ -439,7 +513,7 @@ const translations: Record<string, { en: string; tl: string }> = {
     tl: 'Lahat ng Katayuan'
   },
 
-  // Dashboard Stats
+  // Dashboard Stats & Headers
   'stat_total_apps': {
     en: 'Total Applications',
     tl: 'Kabuuan ng Aplikasyon'
@@ -509,7 +583,49 @@ const translations: Record<string, { en: string; tl: string }> = {
     tl: 'I-save ang mga Pagbabago'
   },
 
-  // Auth & OTP
+  // Citizen Dashboard Specifics
+  'citizen_welcome': {
+    en: 'Welcome back,',
+    tl: 'Maligayang pagbabalik,'
+  },
+  'citizen_badge': {
+    en: 'Republic of the Philippines • Citizen Services Portal',
+    tl: 'Republika ng Pilipinas • Portal ng mga Serbisyo sa Mamamayan'
+  },
+  'citizen_hero_desc': {
+    en: 'File applications, track real-time milestone progress, settle assessed municipal fees, and download official QR-verified permits directly from your dashboard.',
+    tl: 'Maghain ng aplikasyon, subaybayan ang progreso, magbayad ng buwis at bayarin, at mag-download ng opisyal na QR-verified permit mula sa iyong dashboard.'
+  },
+  'apply_new_permit': {
+    en: 'Apply for New Permit',
+    tl: 'Mag-apply para sa Bagong Permit'
+  },
+  'track_my_applications': {
+    en: 'Track My Applications',
+    tl: 'Subaybayan ang Aking mga Aplikasyon'
+  },
+  'registered_entity': {
+    en: 'Registered Entity:',
+    tl: 'Rehistradong Negosyo / Organisasyon:'
+  },
+  'search_applications': {
+    en: 'Search applications by ID, business name, or permit type...',
+    tl: 'Maghanap ng aplikasyon gamit ang ID, negosyo, o uri ng permit...'
+  },
+  'filter_by_status': {
+    en: 'Filter by Status:',
+    tl: 'Salain ayon sa Katayuan:'
+  },
+  'pay_online': {
+    en: 'Pay Online',
+    tl: 'Magbayad Online'
+  },
+  'download_permit': {
+    en: 'Download Permit',
+    tl: 'I-download ang Permit'
+  },
+
+  // Auth, Login & Signup
   'login_title': {
     en: 'GovServe LGU E-Permit Portal',
     tl: 'GovServe LGU E-Permit Portal'
@@ -554,6 +670,124 @@ const translations: Record<string, { en: string; tl: string }> = {
     en: 'Back to Sign In',
     tl: 'Bumalik sa Pag-sign In'
   },
+  'create_account_heading': {
+    en: 'Create Citizen Account',
+    tl: 'Gumawa ng Citizen Account'
+  },
+  'first_name': {
+    en: 'First Name',
+    tl: 'Pangalan'
+  },
+  'last_name': {
+    en: 'Last Name',
+    tl: 'Apelyido'
+  },
+  'middle_name': {
+    en: 'Middle Name',
+    tl: 'Gitnang Pangalan'
+  },
+  'gender': {
+    en: 'Gender',
+    tl: 'Kasarian'
+  },
+  'male': {
+    en: 'Male',
+    tl: 'Lalaki'
+  },
+  'female': {
+    en: 'Female',
+    tl: 'Babae'
+  },
+  'civil_status': {
+    en: 'Civil Status',
+    tl: 'Katayuang Sibil'
+  },
+  'single': {
+    en: 'Single',
+    tl: 'Walang Asawa (Single)'
+  },
+  'married': {
+    en: 'Married',
+    tl: 'May Asawa (Married)'
+  },
+  'widowed': {
+    en: 'Widowed',
+    tl: 'Balo (Widowed)'
+  },
+  'separated': {
+    en: 'Separated',
+    tl: 'Hiwalay (Separated)'
+  },
+  'birthdate': {
+    en: 'Birthdate',
+    tl: 'Petsa ng Kapanganakan'
+  },
+  'mobile_number': {
+    en: 'Mobile Number',
+    tl: 'Numero ng Telepono / Mobile'
+  },
+  'confirm_password': {
+    en: 'Confirm Password',
+    tl: 'Kumpirmahin ang Password'
+  },
+  'have_occupation': {
+    en: 'Do you have an occupation?',
+    tl: 'Mayroon ka bang trabaho?'
+  },
+  'yes': {
+    en: 'Yes',
+    tl: 'Oo'
+  },
+  'no': {
+    en: 'No',
+    tl: 'Hindi'
+  },
+  'occupation': {
+    en: 'Occupation',
+    tl: 'Trabaho / Propesyon'
+  },
+  'enter_occupation': {
+    en: 'Enter occupation',
+    tl: 'Ilagay ang trabaho'
+  },
+  'security_verification_code': {
+    en: 'Security Verification Code:',
+    tl: 'Security Verification Code:'
+  },
+  'valid_5_minutes': {
+    en: 'Valid for 5 minutes',
+    tl: 'May bisa sa loob ng 5 minuto'
+  },
+  'auto_fill': {
+    en: 'Auto-fill',
+    tl: 'Kusa / Auto-fill'
+  },
+
+  // Public Landing Page
+  'landing_badge': {
+    en: 'Unified E-Permit & Business Licensing Portal',
+    tl: 'Nagkakaisang Portal ng E-Permit at Lisensya sa Negosyo'
+  },
+  'landing_hero_title': {
+    en: 'Modern, Fast, & Transparent Municipal Government Permitting',
+    tl: 'Makabago, Mabilis, at Malinaw na Pagkuha ng Permit sa Pamahalaang Bayan'
+  },
+  'landing_hero_desc': {
+    en: 'Submit requirements online, track evaluation milestones in real-time, compute taxes automatically, and receive cryptographically verified digital permits.',
+    tl: 'Magsumite ng dokumento online, subaybayan ang bawat hakbang, awtomatikong kwentahin ang buwis, at tumanggap ng opisyal na QR permit.'
+  },
+  'get_started': {
+    en: 'Get Started Now',
+    tl: 'Magsimula Na'
+  },
+  'how_it_works': {
+    en: 'How It Works',
+    tl: 'Paano Ito Gumagana'
+  },
+  'verify_permit': {
+    en: 'Verify Permit Authenticity',
+    tl: 'I-verify ang Orihinalidad ng Permit'
+  },
 
   // Footer / Support
   'footer_rights': {
@@ -564,6 +798,113 @@ const translations: Record<string, { en: string; tl: string }> = {
     en: 'Municipal Helpdesk Hotline: 8888-GOV (468) | Mon-Fri 8:00 AM - 5:00 PM',
     tl: 'Hotline ng Munisipyo: 8888-GOV (468) | Lunes-Biyernes 8:00 AM - 5:00 PM'
   }
+};
+
+// Fast case-insensitive phrase mapping for dynamic text lookup
+const phraseMapTl: Record<string, string> = {
+  'home': 'Tahanan',
+  'dashboard': 'Dashboard',
+  'executive dashboard': 'Ehekutibong Dashboard',
+  'citizen portal': 'Portal ng Mamamayan',
+  'admin console': 'Admin Console',
+  'business permit': 'Business Permit',
+  'building permit': 'Building Permit',
+  'franchise permit': 'Prangkisa at Transportasyon (MTOP)',
+  'barangay clearance': 'Barangay Clearance',
+  'on-site inspection': 'On-Site na Inspeksyon',
+  'qr permit tracker': 'Tracker ng QR Permit',
+  'e-permit portal': 'Portal ng E-Permit',
+  'e-permit tracker': 'Tagasubaybay ng E-Permit',
+  'my applications': 'Aking mga Aplikasyon',
+  'business registration (new / renewal)': 'Rehistro ng Negosyo (Bago / Renewal)',
+  'building permit filing': 'Aplikasyon sa Building Permit',
+  'franchise & transport permits': 'Prangkisa at Transportasyon (MTOP)',
+  'barangay permit integration': 'Barangay Clearance at Sedula',
+  'inspection scheduling': 'Pag-iskedyul ng Inspeksyon',
+  'requirements submission': 'Pagsusumite ng mga Dokumento',
+  'fee assessment & computation': 'Pagtatasa at Pagkwenta ng Bayarin',
+  'permit approval & release': 'Pag-apruba at Paglabas ng Permit',
+  'ai document verification': 'AI Beripikasyon ng Dokumento',
+  'ai compliance checking': 'AI Pagsusuri ng Pagsunod',
+  'intelligent approval recommendation': 'Rekomendasyon sa Matalinong Pag-apruba',
+  'building permit reviews': 'Pagsusuri ng Building Permit',
+  'route & unit inspection audit': 'Audit sa Ruta at Inspeksyon ng Sasakyan',
+  'barangay clearance registry': 'Talaan ng Barangay Clearance',
+  '24-barangay network grid': 'Network ng 24 na Barangay',
+  'ai clearance audit': 'AI Pagsusuri ng Clearance',
+  'qr cryptographic verification': 'Kriptograpikong Beripikasyon ng QR',
+
+  'apply for new permit': 'Mag-apply para sa Bagong Permit',
+  'track my applications': 'Subaybayan ang Aking mga Aplikasyon',
+  'total applications': 'Kabuuan ng Aplikasyon',
+  'in progress': 'Kasalukuyang Pinoproseso',
+  'approved': 'Aprubado',
+  'rejected': 'Tinanggihan',
+  'pending': 'Nakabinbin',
+  'pending review': 'Nakabinbing Pagsusuri',
+  'for evaluation': 'Para sa Ebalwasyon',
+  'for inspection': 'Para sa Inspeksyon',
+  'for approval': 'Para sa Pag-apruba',
+  'draft': 'Burador',
+  'all statuses': 'Lahat ng Katayuan',
+  'all applications': 'Lahat ng Aplikasyon',
+
+  'sign in': 'Mag-sign In',
+  'sign out': 'Mag-logout',
+  'register / sign up': 'Mag-rehistro',
+  'create citizen account': 'Gumawa ng Citizen Account',
+  'create account': 'Gumawa ng Account',
+  'back to sign in': 'Bumalik sa Pag-sign In',
+  'first name': 'Pangalan',
+  'last name': 'Apelyido',
+  'middle name': 'Gitnang Pangalan',
+  'email address': 'Email Address',
+  'mobile number': 'Numero ng Telepono / Mobile',
+  'password': 'Password',
+  'confirm password': 'Kumpirmahin ang Password',
+  'gender': 'Kasarian',
+  'male': 'Lalaki',
+  'female': 'Babae',
+  'civil status': 'Katayuang Sibil',
+  'single': 'Walang Asawa (Single)',
+  'married': 'May Asawa (Married)',
+  'widowed': 'Balo (Widowed)',
+  'separated': 'Hiwalay (Separated)',
+  'birthdate': 'Petsa ng Kapanganakan',
+  'address': 'Tirahan / Address',
+  'do you have an occupation?': 'Mayroon ka bang trabaho?',
+  'yes': 'Oo',
+  'no': 'Hindi',
+  'occupation': 'Trabaho / Propesyon',
+  'enter occupation': 'Ilagay ang trabaho',
+  'security verification code:': 'Security Verification Code:',
+  'valid for 5 minutes': 'May bisa sa loob ng 5 minuto',
+  'auto-fill': 'Kusa / Auto-fill',
+  'verify & sign in': 'I-beripika at Mag-sign In',
+  'resend otp': 'Ipadala Muli ang OTP',
+  'resend code': 'Ipadala Muli ang Code',
+
+  'view details': 'Tingnan ang Detalye',
+  'pay online': 'Magbayad Online',
+  'download permit': 'I-download ang Permit',
+  'submit application': 'Ipasa ang Aplikasyon',
+  'save changes': 'I-save ang mga Pagbabago',
+  'cancel': 'Kanselahin',
+  'close': 'Isara',
+  'delete': 'Burahin',
+  'actions': 'Mga Aksyon',
+  'status': 'Katayuan',
+  'date filed': 'Petsa ng Pagsumite',
+  'type': 'Uri',
+  'applicant': 'Aplikante',
+  'application id': 'ID ng Aplikasyon',
+  'last updated': 'Huling Na-update',
+  'date submitted': 'Petsa ng Pagsumite',
+  'how it works': 'Paano Ito Gumagana',
+  'services': 'Mga Serbisyo',
+  'go to dashboard': 'Pumunta sa Dashboard',
+  'back to public home': 'Bumalik sa Tahanan',
+  'view requirements': 'Tingnan ang mga Kinakailangan'
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -599,17 +940,34 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   const t = (key: string, fallback?: string): string => {
+    if (!key) return fallback || '';
+
+    // 1. Direct key match in translations
     if (translations[key]) {
       return translations[key][language] || fallback || translations[key].en;
     }
-    // If not found as a strict key, check if key itself is a string phrase in any translation's en property
+
+    const cleanKey = key.toLowerCase().trim();
+
+    // 2. Case-insensitive key match in translations
+    if (translations[cleanKey]) {
+      return translations[cleanKey][language] || fallback || translations[cleanKey].en;
+    }
+
+    // 3. Tagalog lookups
     if (language === 'tl') {
+      if (phraseMapTl[cleanKey]) {
+        return phraseMapTl[cleanKey];
+      }
+
+      // 4. Search within dictionary English values
       for (const item of Object.values(translations)) {
-        if (item.en.toLowerCase() === key.toLowerCase()) {
+        if (item.en.toLowerCase().trim() === cleanKey) {
           return item.tl;
         }
       }
     }
+
     return fallback || key;
   };
 

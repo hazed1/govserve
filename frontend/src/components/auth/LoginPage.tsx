@@ -32,6 +32,7 @@ import {
   MAX_LOGIN_ATTEMPTS 
 } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
+import { LanguageToggle } from '../ui/LanguageToggle';
 import { UserRole, MOCK_USERS } from '../../types';
 
 interface LoginPageProps {
@@ -556,8 +557,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               </button>
             ) : <div />}
 
-            {authMode !== 'signin' && (
-              <div className="flex items-center space-x-2 ml-auto">
+            <div className="flex items-center space-x-2.5 ml-auto">
+              <LanguageToggle />
+              {authMode !== 'signin' && (
                 <button
                   type="button"
                   onClick={() => {
@@ -569,8 +571,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                 >
                   <span>← {t('back_to_login', 'Sign In')}</span>
                 </button>
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
           {/* MAIN AUTH CARD */}
@@ -593,11 +595,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                 <div className="flex items-start space-x-2.5 text-blue-950 dark:text-blue-100 font-medium">
                   <ShieldCheck size={18} className="text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
                   <div>
-                    <span>We sent a <strong>6-digit security code</strong> to your Gmail account</span>
+                    <span>{language === 'tl' ? <>Nagpadala kami ng <strong>6-digit security code</strong> sa iyong Gmail account</> : <>We sent a <strong>6-digit security code</strong> to your Gmail account</>}</span>
                   </div>
                 </div>
                 <p className="text-[11px] text-blue-700/80 dark:text-blue-300/70 pl-7">
-                  Please check your <strong>Inbox</strong> (or Spam/Junk folder) and enter the code below.
+                  {language === 'tl' ? 'Pakisuri ang iyong Inbox (o Spam folder) at ilagay ang code sa ibaba.' : 'Please check your Inbox (or Spam/Junk folder) and enter the code below.'}
                 </p>
               </div>
             )}
@@ -619,7 +621,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center mx-auto mb-2.5 shadow-xs">
                     <Mail size={24} className="text-blue-600" />
                   </div>
-                  <h2 className="text-xl font-black tracking-tight text-slate-900 dark:text-white">Verify Your Email</h2>
+                  <h2 className="text-xl font-black tracking-tight text-slate-900 dark:text-white">
+                    {language === 'tl' ? 'I-beripika ang Iyong Email' : 'Verify Your Email'}
+                  </h2>
                 </div>
 
                 {/* Green Success Banner below Header */}
@@ -665,7 +669,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   <div>
                     <div className="mb-2">
                       <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
-                        Enter 6-Digit Code
+                        {language === 'tl' ? 'Ilagay ang 6-Digit Code' : 'Enter 6-Digit Code'}
                       </label>
                     </div>
 
@@ -706,12 +710,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     {isVerifyingOtp ? (
                       <>
                         <RefreshCw size={16} className="animate-spin" />
-                        <span>Verifying Code...</span>
+                        <span>{language === 'tl' ? 'Sinusuri ang Code...' : 'Verifying Code...'}</span>
                       </>
                     ) : (
                       <>
                         <ShieldCheck size={16} />
-                        <span>Verify Code</span>
+                        <span>{language === 'tl' ? 'I-beripika ang Code' : 'Verify Code'}</span>
                         <ArrowRight size={15} />
                       </>
                     )}
@@ -720,7 +724,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   {/* Resend Code Section */}
                   <div className="text-center pt-1">
                     <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">
-                      Didn't receive the code?
+                      {language === 'tl' ? 'Hindi natanggap ang code?' : "Didn't receive the code?"}
                     </p>
                     <button
                       type="button"
@@ -733,10 +737,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       }`}
                     >
                       {isSendingOtp
-                        ? 'Sending new code...'
+                        ? (language === 'tl' ? 'Ipinapadala ang bagong code...' : 'Sending new code...')
                         : resendCooldown > 0
-                        ? `Resend available in ${resendCooldown} seconds`
-                        : 'Resend Code'}
+                        ? (language === 'tl' ? `Maaaring magpadala muli sa loob ng ${resendCooldown} segundo` : `Resend available in ${resendCooldown} seconds`)
+                        : (language === 'tl' ? 'Ipadala Muli ang Code' : 'Resend Code')}
                     </button>
                   </div>
                 </form>
@@ -749,15 +753,19 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                 
                 {/* Header */}
                 <div className="pb-2.5 border-b border-slate-100">
-                  <h2 className="text-xl font-black tracking-tight text-slate-900">Sign In</h2>
-                  <p className="text-xs text-slate-500 mt-1">Access your business permit or officer workspace</p>
+                  <h2 className="text-xl font-black tracking-tight text-slate-900">
+                    {t('sign_in', 'Sign In')}
+                  </h2>
+                  <p className="text-xs text-slate-500 mt-1">
+                    {language === 'tl' ? 'I-access ang iyong permit sa negosyo o officer workspace' : 'Access your business permit or officer workspace'}
+                  </p>
                 </div>
 
                 <form onSubmit={handleSignInSubmit} className="space-y-4">
                   {/* Identifier Input */}
                   <div>
                     <label className="block text-xs font-bold mb-1.5 text-slate-700">
-                      Email Address or Citizen / LGU ID
+                      {language === 'tl' ? 'Email Address o Citizen / LGU ID' : 'Email Address or Citizen / LGU ID'}
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
@@ -849,16 +857,16 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
                 {/* Switch to Register Note */}
                 <div className="pt-3 text-center text-xs text-slate-500">
-                  <span>First time applying for a business permit? </span>
+                  <span>{language === 'tl' ? 'Unang beses mag-apply para sa permit? ' : 'First time applying for a business permit? '}</span>
                   <button
                     type="button"
                     onClick={() => {
                       setAuthMode('signup');
                       setErrorMessage(null);
                     }}
-                    className="text-blue-500 hover:text-blue-400 font-bold transition-colors"
+                    className="text-blue-500 hover:text-blue-400 font-bold transition-colors cursor-pointer"
                   >
-                    Create Citizen Account
+                    {language === 'tl' ? 'Gumawa ng Citizen Account' : 'Create Citizen Account'}
                   </button>
                 </div>
               </div>
@@ -868,63 +876,69 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               /* CASE 3: SIGN UP / REGISTER FORM */
               <div className="space-y-5">
                 <div className="pb-2 border-b border-slate-200">
-                  <h2 className="text-xl font-black tracking-tight text-slate-900">Citizen Registration</h2>
-                  <p className="text-xs text-slate-500">Create a GovServe unified portal account</p>
+                  <h2 className="text-xl font-black tracking-tight text-slate-900">
+                    {language === 'tl' ? 'Rehistrasyon ng Mamamayan' : 'Citizen Registration'}
+                  </h2>
+                  <p className="text-xs text-slate-500">
+                    {language === 'tl' ? 'Gumawa ng GovServe unified portal account' : 'Create a GovServe unified portal account'}
+                  </p>
                 </div>
 
                 <form onSubmit={handleRegisterSubmit} className="space-y-5">
                   {/* SECTION 1: PERSONAL DETAILS */}
                   <div>
-                    <h3 className="text-sm font-bold text-[#1a5f7a] mb-2.5">Personal Details</h3>
+                    <h3 className="text-sm font-bold text-[#1a5f7a] mb-2.5">
+                      {language === 'tl' ? 'Mga Personal na Detalye' : 'Personal Details'}
+                    </h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          {!regFirstName.trim() && <span className="text-red-500 font-bold mr-1">*</span>}First name:
+                          {!regFirstName.trim() && <span className="text-red-500 font-bold mr-1">*</span>}{language === 'tl' ? 'Pangalan:' : 'First name:'}
                         </label>
                         <input
                           type="text"
                           value={regFirstName}
                           onChange={(e) => setRegFirstName(e.target.value)}
-                          placeholder="Enter first name"
+                          placeholder={language === 'tl' ? 'Ilagay ang pangalan' : 'Enter first name'}
                           className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                           required
                         />
                       </div>
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          {!regLastName.trim() && <span className="text-red-500 font-bold mr-1">*</span>}Last name:
+                          {!regLastName.trim() && <span className="text-red-500 font-bold mr-1">*</span>}{language === 'tl' ? 'Apelyido:' : 'Last name:'}
                         </label>
                         <input
                           type="text"
                           value={regLastName}
                           onChange={(e) => setRegLastName(e.target.value)}
-                          placeholder="Enter last name"
+                          placeholder={language === 'tl' ? 'Ilagay ang apelyido' : 'Enter last name'}
                           className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                           required
                         />
                       </div>
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          Middle name: (Optional)
+                          {language === 'tl' ? 'Gitnang Pangalan: (Opsyonal)' : 'Middle name: (Optional)'}
                         </label>
                         <input
                           type="text"
                           value={regMiddleName}
                           onChange={(e) => setRegMiddleName(e.target.value)}
-                          placeholder="Enter middle name"
+                          placeholder={language === 'tl' ? 'Ilagay ang gitnang pangalan' : 'Enter middle name'}
                           className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                         />
                       </div>
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          Suffix:
+                          {language === 'tl' ? 'Hulapi:' : 'Suffix:'}
                         </label>
                         <select
                           value={regSuffix}
                           onChange={(e) => setRegSuffix(e.target.value)}
                           className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                         >
-                          <option value="">None</option>
+                          <option value="">{language === 'tl' ? 'Wala' : 'None'}</option>
                           <option value="Jr.">Jr.</option>
                           <option value="Sr.">Sr.</option>
                           <option value="II">II</option>
@@ -938,7 +952,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     {/* Birth Date */}
                     <div className="mt-3">
                       <label className="block text-xs font-semibold mb-1 text-slate-700">
-                        {(!regBirthMonth || !regBirthDay || !regBirthYear) && <span className="text-red-500 font-bold mr-1">*</span>}Birth Date
+                        {(!regBirthMonth || !regBirthDay || !regBirthYear) && <span className="text-red-500 font-bold mr-1">*</span>}{language === 'tl' ? 'Petsa ng Kapanganakan' : 'Birth Date'}
                       </label>
                       <div className="grid grid-cols-3 gap-2 max-w-sm">
                         <select
@@ -984,10 +998,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
                   {/* SECTION 2: ADDRESS */}
                   <div className="pt-2 border-t border-slate-100">
-                    <h3 className="text-sm font-bold text-[#1a5f7a] mb-2.5">Address</h3>
+                    <h3 className="text-sm font-bold text-[#1a5f7a] mb-2.5">
+                      {language === 'tl' ? 'Tirahan / Address' : 'Address'}
+                    </h3>
                     <div className="mb-3">
                       <label className="block text-xs font-semibold mb-1 text-slate-700">
-                        {!regCity && <span className="text-red-500 font-bold mr-1">*</span>}City:
+                        {!regCity && <span className="text-red-500 font-bold mr-1">*</span>}{language === 'tl' ? 'Lungsod / Bayan:' : 'City:'}
                       </label>
                       <select
                         value={regCity}
@@ -1000,22 +1016,22 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                         className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                         required
                       >
-                        <option value="">- Select City -</option>
+                        <option value="">{language === 'tl' ? '- Pumili ng Lungsod -' : '- Select City -'}</option>
                         <option value="Quezon City">Quezon City</option>
-                        <option value="Others">Others</option>
+                        <option value="Others">{language === 'tl' ? 'Iba Pa (Others)' : 'Others'}</option>
                       </select>
 
                       {/* CONDITIONAL "Specify your city:" IF OTHERS IS SELECTED */}
                       {regCity === 'Others' && (
                         <div className="mt-3 animate-fadeIn">
                           <label className="block text-xs font-semibold mb-1 text-slate-700">
-                            {!regCustomCity.trim() && <span className="text-red-500 font-bold mr-1">*</span>}Specify your city:
+                            {!regCustomCity.trim() && <span className="text-red-500 font-bold mr-1">*</span>}{language === 'tl' ? 'Tukuyin ang iyong lungsod:' : 'Specify your city:'}
                           </label>
                           <input
                             type="text"
                             value={regCustomCity}
                             onChange={(e) => setRegCustomCity(e.target.value)}
-                            placeholder="Specify here"
+                            placeholder={language === 'tl' ? 'Ilagay dito' : 'Specify here'}
                             className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                             required
                           />
@@ -1026,25 +1042,25 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          House No. (Optional)
+                          {language === 'tl' ? 'Numero ng Bahay (Opsyonal)' : 'House No. (Optional)'}
                         </label>
                         <input
                           type="text"
                           value={regHouseNo}
                           onChange={(e) => setRegHouseNo(e.target.value)}
-                          placeholder="Enter House No."
+                          placeholder={language === 'tl' ? 'Ilagay ang House No.' : 'Enter House No.'}
                           className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                         />
                       </div>
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          {!regStreet.trim() && <span className="text-red-500 font-bold mr-1">*</span>}Street:
+                          {!regStreet.trim() && <span className="text-red-500 font-bold mr-1">*</span>}{language === 'tl' ? 'Kalye / Kalsada:' : 'Street:'}
                         </label>
                         <input
                           type="text"
                           value={regStreet}
                           onChange={(e) => setRegStreet(e.target.value)}
-                          placeholder="Enter Street"
+                          placeholder={language === 'tl' ? 'Ilagay ang kalye' : 'Enter Street'}
                           className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                           required
                         />
@@ -1057,7 +1073,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                           type="text"
                           value={regBarangay}
                           onChange={(e) => setRegBarangay(e.target.value)}
-                          placeholder="Input barangay"
+                          placeholder={language === 'tl' ? 'Ilagay ang barangay' : 'Input barangay'}
                           className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                           required
                         />
@@ -1067,11 +1083,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
                   {/* SECTION 3: EMPLOYMENT DETAILS */}
                   <div className="pt-2 border-t border-slate-100">
-                    <h3 className="text-sm font-bold text-[#1a5f7a] mb-2.5">Employment Details</h3>
+                    <h3 className="text-sm font-bold text-[#1a5f7a] mb-2.5">
+                      {language === 'tl' ? 'Detalye sa Trabaho' : 'Employment Details'}
+                    </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3 items-center">
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          {!regWorking && <span className="text-red-500 font-bold mr-1">*</span>}Are you working?
+                          {!regWorking && <span className="text-red-500 font-bold mr-1">*</span>}{language === 'tl' ? 'May trabaho ka ba?' : 'Are you working?'}
                         </label>
                         <div className="flex items-center space-x-5 pt-1">
                           <label className="inline-flex items-center space-x-2 text-xs text-slate-700 cursor-pointer">
@@ -1083,7 +1101,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                               onChange={() => setRegWorking('yes')}
                               className="text-blue-600 focus:ring-blue-500"
                             />
-                            <span>Yes</span>
+                            <span>{language === 'tl' ? 'Oo' : 'Yes'}</span>
                           </label>
                           <label className="inline-flex items-center space-x-2 text-xs text-slate-700 cursor-pointer">
                             <input
@@ -1097,20 +1115,20 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                               }}
                               className="text-blue-600 focus:ring-blue-500"
                             />
-                            <span>No</span>
+                            <span>{language === 'tl' ? 'Hindi' : 'No'}</span>
                           </label>
                         </div>
                       </div>
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          Occupation
+                          {language === 'tl' ? 'Trabaho / Propesyon' : 'Occupation'}
                         </label>
                         <input
                           type="text"
                           value={regWorking === 'no' ? '' : regOccupation}
                           disabled={regWorking === 'no'}
                           onChange={(e) => setRegOccupation(e.target.value)}
-                          placeholder="Enter occupation"
+                          placeholder={language === 'tl' ? 'Ilagay ang trabaho' : 'Enter occupation'}
                           className={`w-full px-3 py-2 rounded-lg text-xs border transition-all ${
                             regWorking === 'no'
                               ? 'bg-slate-100 text-slate-400 border-slate-200 cursor-not-allowed select-none opacity-70'
@@ -1123,7 +1141,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          {!regSex && <span className="text-red-500 font-bold mr-1">*</span>}Sex
+                          {!regSex && <span className="text-red-500 font-bold mr-1">*</span>}{language === 'tl' ? 'Kasarian' : 'Sex'}
                         </label>
                         <select
                           value={regSex}
@@ -1131,14 +1149,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                           className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                           required
                         >
-                          <option value="">Select Sex</option>
-                          <option value="Male">Male</option>
-                          <option value="Female">Female</option>
+                          <option value="">{language === 'tl' ? 'Pumili ng Kasarian' : 'Select Sex'}</option>
+                          <option value="Male">{language === 'tl' ? 'Lalaki' : 'Male'}</option>
+                          <option value="Female">{language === 'tl' ? 'Babae' : 'Female'}</option>
                         </select>
                       </div>
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          {!regPhone.trim() && <span className="text-red-500 font-bold mr-1">*</span>}Mobile Number:
+                          {!regPhone.trim() && <span className="text-red-500 font-bold mr-1">*</span>}{language === 'tl' ? 'Numero ng Mobile:' : 'Mobile Number:'}
                         </label>
                         <input
                           type="tel"
@@ -1149,7 +1167,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                             const digits = e.target.value.replace(/\D/g, '').slice(0, 11);
                             setRegPhone(digits);
                           }}
-                          placeholder="Enter mobile number"
+                          placeholder={language === 'tl' ? 'Ilagay ang numero ng mobile' : 'Enter mobile number'}
                           className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                           required
                         />
