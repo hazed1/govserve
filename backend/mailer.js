@@ -228,7 +228,19 @@ async function sendOtpEmail(toEmail, otpCode, recipientName = 'Citizen') {
     </html>
   `;
 
-  // 1. Try Gmail Direct SMTP First (Authenticates as official Gmail, sends to ANY recipient)
+  // 1. If recipient is the Resend account owner (jasontaccad01@gmail.com), use Resend API directly for instant HTTPS delivery
+  const isOwnerEmail = toEmail.toLowerCase().trim() === (process.env.GMAIL_USER || 'jasontaccad01@gmail.com').toLowerCase().trim();
+  if (isOwnerEmail && process.env.RESEND_API_KEY && !isPlaceholder(process.env.RESEND_API_KEY)) {
+    try {
+      const resendRes = await sendViaResendApi(toEmail, otpCode, recipientName, htmlContent);
+      console.log(`[OTP Mailer] ✅ Resend API sent email to owner ${toEmail}: ${resendRes.messageId}`);
+      return resendRes;
+    } catch (resendErr) {
+      console.warn(`[OTP Mailer] ⚠️ Resend API error: ${resendErr.message}`);
+    }
+  }
+
+  // 2. Try Gmail Direct SMTP (Port 465 IPv4)
   const mailTransporter = await getTransporter();
   if (mailTransporter) {
     try {
