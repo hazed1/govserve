@@ -84,13 +84,20 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
 
 
   // Hero Animated Typing Effect
-  const taglines = ['Fast, Digital & Transparent.', '100% Online & AI-Assisted.', 'Tamper-Proof & QR Certified.'];
+  const taglinesEn = ['Fast, Digital & Transparent.', '100% Online & AI-Assisted.', 'Tamper-Proof & QR Certified.'];
+  const taglinesTl = ['Mabilis, Digital at Maaasahan.', '100% Online at May Tulong ng AI.', 'Protektado sa Peke at QR Certified.'];
+  const taglines = language === 'tl' ? taglinesTl : taglinesEn;
   const [currentTaglineIndex, setCurrentTaglineIndex] = useState<number>(0);
   const [displayedText, setDisplayedText] = useState<string>('');
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
   useEffect(() => {
-    const fullText = taglines[currentTaglineIndex];
+    setDisplayedText('');
+    setIsDeleting(false);
+  }, [language]);
+
+  useEffect(() => {
+    const fullText = taglines[currentTaglineIndex] || taglines[0];
     const typingSpeed = isDeleting ? 40 : 80;
 
     const timer = setTimeout(() => {
@@ -109,7 +116,7 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
     }, typingSpeed);
 
     return () => clearTimeout(timer);
-  }, [displayedText, isDeleting, currentTaglineIndex]);
+  }, [displayedText, isDeleting, currentTaglineIndex, taglines]);
 
   // Open Auth Modal or Navigate to Full Login Page with specific initial role
   const handleOpenAuthWithRole = (role: UserRole) => {
@@ -268,8 +275,17 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
 
           {/* Massive Headline */}
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-[1.15]">
-            Your Gateway to Business Permits,<br className="hidden sm:inline" />
-            Building Clearances & Transport Franchises
+            {language === 'tl' ? (
+              <>
+                Ang Iyong Lagusan sa mga Permit sa Negosyo,<br className="hidden sm:inline" />
+                Clearance sa Gusali at Prangkisa sa Transportasyon
+              </>
+            ) : (
+              <>
+                Your Gateway to Business Permits,<br className="hidden sm:inline" />
+                Building Clearances & Transport Franchises
+              </>
+            )}
           </h1>
 
           {/* Typing Animated Tagline */}
@@ -282,7 +298,9 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
 
           {/* Hero Subtitle */}
           <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-2xl mx-auto leading-relaxed font-normal">
-            GovServe Unified LGU Licensing Hub bridges Quezon City business owners, developers, and transport operators with BPLO, Engineering, MTFRB, and 24-Barangay regulatory clearances.
+            {language === 'tl'
+              ? 'Pinag-uugnay ng GovServe Unified LGU Licensing Hub ang mga negosyante sa Lungsod Quezon, mga developer, at transport operators sa BPLO, Engineering, MTFRB, at 24-Barangay regulatory clearances.'
+              : 'GovServe Unified LGU Licensing Hub bridges Quezon City business owners, developers, and transport operators with BPLO, Engineering, MTFRB, and 24-Barangay regulatory clearances.'}
           </p>
 
           {/* CTA Buttons Row */}
@@ -292,7 +310,11 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                 onClick={() => onNavigateToLogin?.()}
                 className="px-7 py-3.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-xl shadow-blue-600/30 hover:shadow-blue-600/40 transition-all flex items-center space-x-2 cursor-pointer hover:scale-105 active:scale-95"
               >
-                <span>Enter {user?.role === 'admin' ? 'Admin Console' : 'Citizen Dashboard'}</span>
+                <span>
+                  {language === 'tl'
+                    ? `Pumasok sa ${user?.role === 'admin' ? 'Admin Console' : 'Citizen Dashboard'}`
+                    : `Enter ${user?.role === 'admin' ? 'Admin Console' : 'Citizen Dashboard'}`}
+                </span>
                 <ArrowRight size={16} />
               </button>
             </div>
@@ -312,7 +334,7 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                 24+
               </p>
               <p className="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400">
-                Barangay Integrated Networks
+                {language === 'tl' ? 'Mga Pinag-isang Barangay Network' : 'Barangay Integrated Networks'}
               </p>
             </div>
 
@@ -321,7 +343,7 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                 ₱100M+
               </p>
               <p className="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400">
-                Annual LGU Revenue Processed
+                {language === 'tl' ? 'Taunang Kita ng LGU na Naproseso' : 'Annual LGU Revenue Processed'}
               </p>
             </div>
 
@@ -330,7 +352,7 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                 15,000+
               </p>
               <p className="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400">
-                Active Certified E-Permits
+                {language === 'tl' ? 'Aktibong Sertipikadong E-Permits' : 'Active Certified E-Permits'}
               </p>
             </div>
 
@@ -339,7 +361,7 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                 100%
               </p>
               <p className="text-xs sm:text-sm font-semibold text-slate-500 dark:text-slate-400">
-                Digital Cryptographic Processing
+                {language === 'tl' ? 'Prosesong Digital at Kriptograpiko' : 'Digital Cryptographic Processing'}
               </p>
             </div>
 
@@ -355,10 +377,14 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
           
           <div className="text-center space-y-2 max-w-2xl mx-auto">
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-              Comprehensive Municipal Licensing & Permitting Features
+              {language === 'tl'
+                ? 'Komprehensibong mga Tampok sa Paglilisensya at Pag-isyu ng Permit sa Munisipyo'
+                : 'Comprehensive Municipal Licensing & Permitting Features'}
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-              Designed for entrepreneurs, building contractors, transport operators, and LGU licensing officers.
+              {language === 'tl'
+                ? 'Idinisenyo para sa mga negosyante, kontratista ng gusali, transport operators, at mga opisyal ng LGU.'
+                : 'Designed for entrepreneurs, building contractors, transport operators, and LGU licensing officers.'}
             </p>
           </div>
 
@@ -374,11 +400,13 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                   Module 1 • BPLO
                 </span>
                 <h3 className="text-base font-black text-slate-900 dark:text-white pt-1">
-                  Business Permit Application
+                  {language === 'tl' ? 'Aplikasyon para sa Permit sa Negosyo' : 'Business Permit Application'}
                 </h3>
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Complete portal for New & Renewal Business Permits, online requirement submissions, municipal tax fee assessment, and official electronic permit generation.
+                {language === 'tl'
+                  ? 'Kumpletong portal para sa Bago at Pagpapanibago ng Permit sa Negosyo, online na pagsusumite ng rekisito, pagtatasa ng buwis sa munisipyo, at opisyal na electronic permit generation.'
+                  : 'Complete portal for New & Renewal Business Permits, online requirement submissions, municipal tax fee assessment, and official electronic permit generation.'}
               </p>
             </div>
 
@@ -392,11 +420,13 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                   Module 2 • Engineering
                 </span>
                 <h3 className="text-base font-black text-slate-900 dark:text-white pt-1">
-                  Building & Construction Permits
+                  {language === 'tl' ? 'Mga Permit sa Gusali at Konstruksyon' : 'Building & Construction Permits'}
                 </h3>
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Digital building permit filing, architectural blueprint & CAD plan uploads, structural review audits, and site inspection scheduling dispatch.
+                {language === 'tl'
+                  ? 'Digital na pag-file ng permit sa gusali, architectural blueprint at CAD plan uploads, structural review audits, at pag-iskedyul ng inspeksyon sa lugar.'
+                  : 'Digital building permit filing, architectural blueprint & CAD plan uploads, structural review audits, and site inspection scheduling dispatch.'}
               </p>
             </div>
 
@@ -410,11 +440,13 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                   Module 3 • MTFRB / LTO
                 </span>
                 <h3 className="text-base font-black text-slate-900 dark:text-white pt-1">
-                  Franchise & Transport Permits
+                  {language === 'tl' ? 'Mga Permit sa Prangkisa at Transportasyon' : 'Franchise & Transport Permits'}
                 </h3>
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Tricycle and PUV franchise filing, route unit inspection verification, corridor capacity quota conflict checks, and transport clearance release.
+                {language === 'tl'
+                  ? 'Pag-file ng prangkisa para sa traysikel at PUV, beripikasyon sa ruta at yunit, pagsusuri sa kapasidad ng ruta, at pag-isyu ng clearance sa transportasyon.'
+                  : 'Tricycle and PUV franchise filing, route unit inspection verification, corridor capacity quota conflict checks, and transport clearance release.'}
               </p>
             </div>
 
@@ -428,11 +460,13 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                   Module 4 • Barangay Grid
                 </span>
                 <h3 className="text-base font-black text-slate-900 dark:text-white pt-1">
-                  Barangay Permit Integration
+                  {language === 'tl' ? 'Integrasyon ng Permit sa Barangay' : 'Barangay Permit Integration'}
                 </h3>
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Unified clearance network connecting San Isidro, Poblacion, Batasan, and all 24 local barangays for real-time clearance requests and validations.
+                {language === 'tl'
+                  ? 'Pinag-isang network ng clearance na nag-uugnay sa San Isidro, Poblacion, Batasan, at lahat ng 24 lokal na barangay para sa mabilisang clearance.'
+                  : 'Unified clearance network connecting San Isidro, Poblacion, Batasan, and all 24 local barangays for real-time clearance requests and validations.'}
               </p>
             </div>
 
@@ -446,11 +480,13 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                   Module 5 • Verification Hub
                 </span>
                 <h3 className="text-base font-black text-slate-900 dark:text-white pt-1">
-                  E-Permit Tracker & QR Verification
+                  {language === 'tl' ? 'E-Permit Tracker at Beripikasyon ng QR' : 'E-Permit Tracker & QR Verification'}
                 </h3>
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Public reference code lookup, live clearance milestone tracking, and tamper-proof cryptographic QR code authenticity verification.
+                {language === 'tl'
+                  ? 'Paghahanap gamit ang reference code, live na pagsubaybay sa clearance milestone, at beripikasyon ng cryptographic QR code na protektado sa peke.'
+                  : 'Public reference code lookup, live clearance milestone tracking, and tamper-proof cryptographic QR code authenticity verification.'}
               </p>
             </div>
 
@@ -464,11 +500,13 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                   AI Core Engine
                 </span>
                 <h3 className="text-base font-black text-slate-900 dark:text-white pt-1">
-                  AI OCR & Intelligent Approval
+                  {language === 'tl' ? 'AI OCR at Matalinong Pag-apruba' : 'AI OCR & Intelligent Approval'}
                 </h3>
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Automated document OCR validation, AI zoning & regulatory compliance checks, and intelligent recommendation engine for licensing officers.
+                {language === 'tl'
+                  ? 'Awtomatikong pag-validate ng dokumento gamit ang OCR, AI zoning at regulatory compliance checks, at matalinong rekomendasyon para sa mga opisyal.'
+                  : 'Automated document OCR validation, AI zoning & regulatory compliance checks, and intelligent recommendation engine for licensing officers.'}
               </p>
             </div>
 
@@ -484,10 +522,12 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
           
           <div className="text-center space-y-2 max-w-2xl mx-auto">
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-              How GovServe Licensing System Works
+              {language === 'tl' ? 'Paano Gumagana ang GovServe Licensing System' : 'How GovServe Licensing System Works'}
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-              Simple 3-step digital permitting and licensing process
+              {language === 'tl'
+                ? 'Simpleng 3-hakbang na proseso para sa digital na permit at lisensya'
+                : 'Simple 3-step digital permitting and licensing process'}
             </p>
           </div>
 
@@ -499,10 +539,12 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                 1
               </div>
               <h3 className="text-base font-black text-slate-900 dark:text-white">
-                Explore & Check Requirements
+                {language === 'tl' ? 'Suriin ang mga Rekisito' : 'Explore & Check Requirements'}
               </h3>
               <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Run our AI Pre-Checker to find specific requirements and compute estimated municipal regulatory fees automatically.
+                {language === 'tl'
+                  ? 'Gamitin ang aming AI Pre-Checker upang makita ang partikular na mga rekisito at awtomatikong makalkula ang tinatayang bayarin.'
+                  : 'Run our AI Pre-Checker to find specific requirements and compute estimated municipal regulatory fees automatically.'}
               </p>
             </div>
 
@@ -512,10 +554,12 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                 2
               </div>
               <h3 className="text-base font-black text-slate-900 dark:text-white">
-                Upload Vault Documents
+                {language === 'tl' ? 'I-upload ang mga Dokumento sa Vault' : 'Upload Vault Documents'}
               </h3>
               <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Upload DTI, Cedula, Lease contract, architectural blueprints, or vehicle OR/CR directly to your Secure Vault.
+                {language === 'tl'
+                  ? 'I-upload ang DTI, Sedula, kontrata sa upa, architectural blueprint, o OR/CR ng sasakyan nang direkta sa iyong Secure Vault.'
+                  : 'Upload DTI, Cedula, Lease contract, architectural blueprints, or vehicle OR/CR directly to your Secure Vault.'}
               </p>
             </div>
 
@@ -525,10 +569,12 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                 3
               </div>
               <h3 className="text-base font-black text-slate-900 dark:text-white">
-                Get Approved & Released
+                {language === 'tl' ? 'Maaprubahan at Matanggap ang Permit' : 'Get Approved & Released'}
               </h3>
               <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Undergo automated cross-checks, settle digital payments, and receive your tamper-proof cryptographic QR E-Permit.
+                {language === 'tl'
+                  ? 'Dumaan sa awtomatikong pagsusuri, magbayad sa digital na paraan, at tanggapin ang iyong protektadong QR E-Permit.'
+                  : 'Undergo automated cross-checks, settle digital payments, and receive your tamper-proof cryptographic QR E-Permit.'}
               </p>
             </div>
 
@@ -542,7 +588,7 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
       <section className="py-12 bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-800 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
           <p className="text-[11px] font-bold uppercase tracking-widest text-center text-slate-600 dark:text-slate-300">
-            Official Regulatory & Licensing Partner Agencies
+            {language === 'tl' ? 'Mga Opisyal na Ahensya at Kasosyo sa Paglilisensya' : 'Official Regulatory & Licensing Partner Agencies'}
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-8 md:gap-14 text-xs font-bold text-slate-600 dark:text-slate-300">
@@ -568,7 +614,7 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
             </div>
             <div className="flex items-center space-x-2">
               <Layers size={18} className="text-purple-500" />
-              <span>24 Local Barangay Councils</span>
+              <span>{language === 'tl' ? '24 Lokal na Barangay' : '24 Local Barangay Councils'}</span>
             </div>
           </div>
         </div>
@@ -591,39 +637,73 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                 <span className="text-lg font-black text-white">GovServe</span>
               </div>
               <p className="text-[11px] leading-relaxed text-slate-400">
-                Unified Business, Building, Transport & Barangay Permitting System for Quezon City Local Government.
+                {language === 'tl'
+                  ? 'Pinag-isang Sistema ng Permit sa Negosyo, Gusali, Transportasyon at Barangay para sa Pamahalaang Lungsod Quezon.'
+                  : 'Unified Business, Building, Transport & Barangay Permitting System for Quezon City Local Government.'}
               </p>
               <p className="text-[10px] text-slate-500 font-mono">
-                Certified Tamper-Proof under RA 8792.
+                {language === 'tl'
+                  ? 'Sertipikadong Protektado sa Peke sa ilalim ng RA 8792.'
+                  : 'Certified Tamper-Proof under RA 8792.'}
               </p>
             </div>
 
             {/* Col 2: Quick Navigation */}
             <div className="space-y-2.5">
-              <h4 className="font-bold text-white uppercase tracking-wider text-[11px]">Quick Navigation</h4>
+              <h4 className="font-bold text-white uppercase tracking-wider text-[11px]">
+                {language === 'tl' ? 'Mabilisang Pag-navigate' : 'Quick Navigation'}
+              </h4>
               <ul className="space-y-1.5">
-                <li><button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white cursor-pointer">Public Services Portal</button></li>
-                <li><button onClick={() => handleOpenAuthWithRole('user')} className="hover:text-white cursor-pointer">Citizen & Business Login</button></li>
-                <li><button onClick={() => handleOpenAuthWithRole('admin')} className="hover:text-white cursor-pointer">Staff & Officer Portal</button></li>
+                <li>
+                  <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white cursor-pointer">
+                    {language === 'tl' ? 'Portal ng Serbisyong Pampubliko' : 'Public Services Portal'}
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => handleOpenAuthWithRole('user')} className="hover:text-white cursor-pointer">
+                    {language === 'tl' ? 'Login ng Mamamayan at Negosyo' : 'Citizen & Business Login'}
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => handleOpenAuthWithRole('admin')} className="hover:text-white cursor-pointer">
+                    {language === 'tl' ? 'Portal ng Kawani at Opisyal' : 'Staff & Officer Portal'}
+                  </button>
+                </li>
               </ul>
             </div>
 
             {/* Col 3: Public Services */}
             <div className="space-y-2.5">
-              <h4 className="font-bold text-white uppercase tracking-wider text-[11px]">Public Services</h4>
+              <h4 className="font-bold text-white uppercase tracking-wider text-[11px]">
+                {language === 'tl' ? 'Mga Serbisyong Pampubliko' : 'Public Services'}
+              </h4>
               <ul className="space-y-1.5">
-                <li><button onClick={() => handleOpenAuthWithRole('user')} className="hover:text-white cursor-pointer">AI Zoning & Tax Pre-Checker</button></li>
-                <li><button onClick={() => handleOpenAuthWithRole('user')} className="hover:text-white cursor-pointer">Schedule Site Inspection</button></li>
-                <li><button onClick={() => handleOpenAuthWithRole('user')} className="hover:text-white cursor-pointer">Franchise Corridor Quota Audit</button></li>
+                <li>
+                  <button onClick={() => handleOpenAuthWithRole('user')} className="hover:text-white cursor-pointer">
+                    {language === 'tl' ? 'AI Zoning at Pagsusuri ng Buwis' : 'AI Zoning & Tax Pre-Checker'}
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => handleOpenAuthWithRole('user')} className="hover:text-white cursor-pointer">
+                    {language === 'tl' ? 'Mag-iskedyul ng Inspeksyon sa Lugar' : 'Schedule Site Inspection'}
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => handleOpenAuthWithRole('user')} className="hover:text-white cursor-pointer">
+                    {language === 'tl' ? 'Audit sa Quota ng Prangkisa' : 'Franchise Corridor Quota Audit'}
+                  </button>
+                </li>
               </ul>
             </div>
 
             {/* Col 4: Contact & Office */}
             <div className="space-y-2.5">
-              <h4 className="font-bold text-white uppercase tracking-wider text-[11px]">Contact & Office</h4>
+              <h4 className="font-bold text-white uppercase tracking-wider text-[11px]">
+                {language === 'tl' ? 'Pakikipag-ugnayan at Tanggapan' : 'Contact & Office'}
+              </h4>
               <div className="space-y-1.5 text-slate-400">
                 <p className="flex items-center space-x-1.5"><MapPin size={13} /> <span>Quezon City Hall Complex, Elliptical Road, QC</span></p>
-                <p className="flex items-center space-x-1.5"><Clock size={13} /> <span>Mon-Fri 8:00 AM – 5:00 PM</span></p>
+                <p className="flex items-center space-x-1.5"><Clock size={13} /> <span>{language === 'tl' ? 'Lunes-Biyernes 8:00 AM – 5:00 PM' : 'Mon-Fri 8:00 AM – 5:00 PM'}</span></p>
                 <p className="flex items-center space-x-1.5"><Phone size={13} /> <span>Hotline: (02) 8988-4242</span></p>
                 <p className="flex items-center space-x-1.5"><Mail size={13} /> <span>support@govserve.ph</span></p>
               </div>
@@ -634,11 +714,11 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
           <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
             <p>© {new Date().getFullYear()} Republic of the Philippines • City Government Licensing Office. All rights reserved.</p>
             <div className="flex items-center space-x-4">
-              <span className="hover:text-slate-400 cursor-pointer">Privacy Policy</span>
+              <span className="hover:text-slate-400 cursor-pointer">{language === 'tl' ? 'Patakaran sa Pagkapribado' : 'Privacy Policy'}</span>
               <span>•</span>
-              <span className="hover:text-slate-400 cursor-pointer">Terms of Service</span>
+              <span className="hover:text-slate-400 cursor-pointer">{language === 'tl' ? 'Mga Tuntunin ng Serbisyo' : 'Terms of Service'}</span>
               <span>•</span>
-              <span className="hover:text-slate-400 cursor-pointer">System Status (99.9% Uptime)</span>
+              <span className="hover:text-slate-400 cursor-pointer">{language === 'tl' ? 'Katayuan ng Sistema (99.9% Uptime)' : 'System Status (99.9% Uptime)'}</span>
             </div>
           </div>
 
@@ -666,10 +746,10 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                 <ShieldCheck size={26} />
               </div>
               <h3 className="text-xl font-black text-slate-900 dark:text-white">
-                Sign In to GovServe
+                {language === 'tl' ? 'Mag-sign In sa GovServe' : 'Sign In to GovServe'}
               </h3>
               <p className="text-xs text-slate-500">
-                Access your permits, applications & clearances
+                {language === 'tl' ? 'I-access ang iyong mga permit, aplikasyon at clearance' : 'Access your permits, applications & clearances'}
               </p>
             </div>
 
@@ -701,7 +781,7 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                         : 'text-slate-600 dark:text-slate-400'
                     }`}
                   >
-                    Citizen / Business
+                    {language === 'tl' ? 'Mamamayan / Negosyo' : 'Citizen / Business'}
                   </button>
                   <button
                     type="button"
@@ -712,14 +792,14 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                         : 'text-slate-600 dark:text-slate-400'
                     }`}
                   >
-                    LGU Admin Officer
+                    {language === 'tl' ? 'Opisyal ng LGU Admin' : 'LGU Admin Officer'}
                   </button>
                 </div>
 
                 <form onSubmit={handleSignInSubmit} className="space-y-3 text-xs">
                   <div>
                     <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
-                      Email Address
+                      {language === 'tl' ? 'Email Address' : 'Email Address'}
                     </label>
                     <input
                       type="text"
@@ -732,7 +812,7 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
 
                   <div>
                     <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">
-                      Password
+                      {language === 'tl' ? 'Password' : 'Password'}
                     </label>
                     <div className="relative">
                       <input
@@ -757,7 +837,11 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                     disabled={isLoading}
                     className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md transition-all cursor-pointer flex items-center justify-center space-x-1.5 mt-2"
                   >
-                    <span>Sign In to {selectedRolePreset === 'admin' ? 'Admin Portal' : 'Citizen Hub'}</span>
+                    <span>
+                      {language === 'tl'
+                        ? `Mag-sign In sa ${selectedRolePreset === 'admin' ? 'Admin Portal' : 'Citizen Hub'}`
+                        : `Sign In to ${selectedRolePreset === 'admin' ? 'Admin Portal' : 'Citizen Hub'}`}
+                    </span>
                     <ArrowRight size={14} />
                   </button>
                 </form>
