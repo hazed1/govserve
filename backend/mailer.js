@@ -14,7 +14,7 @@ function isPlaceholder(val) {
   return v.includes('your_email') || v.includes('your-email') || v.includes('your_16_char') || v.includes('your-app-password') || v.includes('your_postgres') || v.includes('your-password') || v === '';
 }
 
-function getTransporter() {
+async function getTransporter() {
   const rawUser = process.env.GMAIL_USER || process.env.EMAIL_USER;
   const rawPass = process.env.GMAIL_APP_PASSWORD || process.env.EMAIL_PASS;
 
@@ -23,13 +23,18 @@ function getTransporter() {
     // Remove all spaces from Google 16-character app password (e.g. "abcd efgh ijkl mnop" -> "abcdefghijklmnop")
     const pass = rawPass.replace(/\s+/g, '');
 
+    let host = 'smtp.gmail.com';
+    try {
+      const { address } = await dns.promises.lookup('smtp.gmail.com', { family: 4 });
+      if (address) host = address;
+    } catch (e) {
+      console.warn('DNS lookup fallback:', e.message);
+    }
+
     return nodemailer.createTransport({
-      host: 'smtp.gmail.com',
+      host,
       port: 465,
       secure: true,
-      lookup: (hostname, options, callback) => {
-        dns.lookup(hostname, { family: 4 }, callback);
-      },
       tls: {
         servername: 'smtp.gmail.com',
         rejectUnauthorized: false
@@ -224,7 +229,7 @@ async function sendOtpEmail(toEmail, otpCode, recipientName = 'Citizen') {
   `;
 
   // 1. Try Gmail Direct SMTP First (Authenticates as official Gmail, sends to ANY recipient)
-  const mailTransporter = getTransporter();
+  const mailTransporter = await getTransporter();
   if (mailTransporter) {
     try {
       const info = await mailTransporter.sendMail({
@@ -278,7 +283,7 @@ async function sendOtpEmail(toEmail, otpCode, recipientName = 'Citizen') {
 }
 
 async function verifySmtpConnection() {
-  const transporter = getTransporter();
+  const transporter = await getTransporter();
   if (!transporter) {
     console.log('⚠️ [GovServe SMTP] Gmail SMTP is not configured. Check GMAIL_USER and GMAIL_APP_PASSWORD in .env.');
     return { configured: false, ready: false, message: 'Missing GMAIL_USER or GMAIL_APP_PASSWORD in .env' };
