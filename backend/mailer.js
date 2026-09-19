@@ -25,9 +25,9 @@ function getTransporter() {
         user,
         pass
       },
-      connectionTimeout: 4000,
-      greetingTimeout: 4000,
-      socketTimeout: 4000,
+      connectionTimeout: 15000,
+      greetingTimeout: 15000,
+      socketTimeout: 15000,
       tls: {
         rejectUnauthorized: false
       }
@@ -213,7 +213,30 @@ async function sendOtpEmail(toEmail, otpCode, recipientName = 'Citizen') {
     </html>
   `;
 
-  // 1. Try Resend REST API (HTTPS port 443 - zero block on cloud platforms like Railway)
+  // 1. Try Gmail Direct SMTP First (Authenticates as official Gmail, sends to ANY recipient)
+  const mailTransporter = getTransporter();
+  if (mailTransporter) {
+    try {
+      const info = await mailTransporter.sendMail({
+        from: fromHeader,
+        to: toEmail,
+        subject: `GovServe - Your Email Verification Code: ${otpCode}`,
+        text: `Hello,\n\nThank you for registering with GovServe.\n\nYour email verification code is: ${otpCode}\n\nThis code will expire in 5 minutes.\n\nFor your security, do not share this code with anyone.\n\nIf you did not request this verification code, you may safely ignore this email.\n\nRegards,\nGovServe\nPermits & Licensing System`,
+        html: htmlContent
+      });
+
+      console.log(`[OTP Mailer] ✅ OTP email accepted by Gmail SMTP for ${toEmail}: ${info.messageId}`);
+      return {
+        sent: true,
+        messageId: info.messageId,
+        code: otpCode
+      };
+    } catch (error) {
+      console.error(`[OTP Mailer] ⚠️ Gmail SMTP error sending to ${toEmail}:`, error.message);
+    }
+  }
+
+  // 2. Fallback: Try Resend REST API (Works for owner or verified domains)
   if (process.env.RESEND_API_KEY && !isPlaceholder(process.env.RESEND_API_KEY)) {
     try {
       const resendRes = await sendViaResendApi(toEmail, otpCode, recipientName, htmlContent);
@@ -224,7 +247,7 @@ async function sendOtpEmail(toEmail, otpCode, recipientName = 'Citizen') {
     }
   }
 
-  // 2. Try Brevo REST API (HTTPS port 443)
+  // 3. Fallback: Try Brevo REST API (HTTPS port 443)
   if (process.env.BREVO_API_KEY && !isPlaceholder(process.env.BREVO_API_KEY)) {
     try {
       const apiResult = await sendViaBrevoApi(toEmail, otpCode, recipientName, htmlContent);
@@ -235,41 +258,12 @@ async function sendOtpEmail(toEmail, otpCode, recipientName = 'Citizen') {
     }
   }
 
-  // 3. Try Gmail Direct SMTP (Port 587/465 with 4s timeout)
-  const mailTransporter = getTransporter();
-  if (mailTransporter) {
-    try {
-      const info = await mailTransporter.sendMail({
-        from: fromHeader,
-        to: toEmail,
-        subject: 'GovServe - Your Email Verification Code',
-        text: `Hello,\n\nThank you for registering with GovServe.\n\nYour email verification code is: ${otpCode}\n\nThis code will expire in 5 minutes.\n\nFor your security, do not share this code with anyone.\n\nIf you did not request this verification code, you may safely ignore this email.\n\nRegards,\nGovServe\nPermits & Licensing System`,
-        html: htmlContent
-      });
-
-      console.log(`[OTP Mailer] ✅ OTP email accepted by SMTP for ${toEmail}: ${info.messageId}`);
-      return {
-        sent: true,
-        messageId: info.messageId,
-        code: otpCode
-      };
-    } catch (error) {
-      console.error(`[OTP Mailer] ❌ Gmail SMTP error sending to ${toEmail}:`, error.message);
-      return {
-        sent: false,
-        error: error.message,
-        code: otpCode,
-        message: `Gmail SMTP notice: ${error.message}`
-      };
-    }
-  }
-
-  console.warn(`[OTP Mailer] ⚠️ Cannot send email to ${toEmail}: Gmail SMTP credentials not configured in .env`);
+  console.warn(`[OTP Mailer] ❌ Could not dispatch email to ${toEmail} using any available method.`);
   return {
     sent: false,
-    error: 'Gmail SMTP credentials not configured in .env',
+    error: 'All email transport channels failed',
     code: otpCode,
-    message: 'Gmail SMTP credentials not configured in .env'
+    message: 'Could not deliver email to the provided address. Please check the email address or try again.'
   };
 }
 
