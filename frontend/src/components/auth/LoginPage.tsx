@@ -77,15 +77,26 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   const [pendingRegData, setPendingRegData] = useState<any>(null);
   const [devOtpCode, setDevOtpCode] = useState<string | null>(null);
 
-  // Sign Up Form State
-  const [regFullName, setRegFullName] = useState<string>('');
+  // Sign Up Form State (Personal Details, Address, Employment, Login Credentials)
+  const [regFirstName, setRegFirstName] = useState<string>('');
+  const [regLastName, setRegLastName] = useState<string>('');
+  const [regMiddleName, setRegMiddleName] = useState<string>('');
+  const [regSuffix, setRegSuffix] = useState<string>('');
+  const [regBirthMonth, setRegBirthMonth] = useState<string>('');
+  const [regBirthDay, setRegBirthDay] = useState<string>('');
+  const [regBirthYear, setRegBirthYear] = useState<string>('');
+  const [regCity, setRegCity] = useState<string>('');
+  const [regHouseNo, setRegHouseNo] = useState<string>('');
+  const [regStreet, setRegStreet] = useState<string>('');
+  const [regBarangay, setRegBarangay] = useState<string>('');
+  const [regWorkingInQC, setRegWorkingInQC] = useState<'yes' | 'no'>('no');
+  const [regOccupation, setRegOccupation] = useState<string>('');
+  const [regSex, setRegSex] = useState<string>('');
+  const [regPhone, setRegPhone] = useState<string>('09');
   const [regEmail, setRegEmail] = useState<string>('');
-  const [regCitizenId, setRegCitizenId] = useState<string>('');
-  const [regPhone, setRegPhone] = useState<string>('');
-  const [regBusinessName, setRegBusinessName] = useState<string>('');
-  const [regRole, setRegRole] = useState<UserRole>('user');
   const [regPassword, setRegPassword] = useState<string>('');
   const [regConfirmPassword, setRegConfirmPassword] = useState<string>('');
+  const [regRole, setRegRole] = useState<UserRole>('user');
 
   // Status & Error Messages
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -355,8 +366,32 @@ export const LoginPage: React.FC<LoginPageProps> = ({
     e.preventDefault();
     setErrorMessage(null);
 
-    if (!regFullName.trim() || !regEmail.trim()) {
-      setErrorMessage('Full Name and Email Address are required.');
+    if (!regFirstName.trim() || !regLastName.trim()) {
+      setErrorMessage('First name and Last name are required.');
+      return;
+    }
+    if (!regBirthMonth || !regBirthDay || !regBirthYear) {
+      setErrorMessage('Please provide your complete Birth Date.');
+      return;
+    }
+    if (!regCity) {
+      setErrorMessage('Please select your City.');
+      return;
+    }
+    if (!regStreet.trim() || !regBarangay.trim()) {
+      setErrorMessage('Street and Barangay are required.');
+      return;
+    }
+    if (!regSex) {
+      setErrorMessage('Please select your Sex.');
+      return;
+    }
+    if (!regPhone.trim() || regPhone.trim() === '09') {
+      setErrorMessage('Please provide a valid Mobile Number.');
+      return;
+    }
+    if (!regEmail.trim()) {
+      setErrorMessage('Email Address is required.');
       return;
     }
     if (regPassword.length < 6) {
@@ -368,14 +403,30 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       return;
     }
 
+    const constructedFullName = `${regFirstName.trim()} ${regMiddleName.trim() ? regMiddleName.trim() + ' ' : ''}${regLastName.trim()}${regSuffix ? ' ' + regSuffix : ''}`.trim();
+    const constructedAddress = `${regHouseNo.trim() ? regHouseNo.trim() + ' ' : ''}${regStreet.trim()}, ${regBarangay.trim()}, ${regCity}`.trim();
+    const constructedBirthDate = `${regBirthMonth} ${regBirthDay}, ${regBirthYear}`;
+
     const regData = {
-      fullName: regFullName.trim(),
+      fullName: constructedFullName,
       email: regEmail.trim(),
-      citizenId: regCitizenId.trim(),
+      citizenId: `PH-CITIZEN-${Math.floor(10000 + Math.random() * 90000)}`,
       phone: regPhone.trim(),
-      businessName: regBusinessName.trim(),
+      role: 'user' as UserRole,
       password: regPassword,
-      role: regRole
+      firstName: regFirstName.trim(),
+      lastName: regLastName.trim(),
+      middleName: regMiddleName.trim(),
+      suffix: regSuffix,
+      birthDate: constructedBirthDate,
+      city: regCity,
+      houseNo: regHouseNo.trim(),
+      street: regStreet.trim(),
+      barangay: regBarangay.trim(),
+      workingInQC: regWorkingInQC === 'yes',
+      occupation: regOccupation.trim(),
+      sex: regSex,
+      address: constructedAddress
     };
 
     setIsSendingOtp(true);
@@ -419,7 +470,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       {/* ========================================================================= */}
       {/* LEFT COLUMN: Pure Navy Blue Government Branding & Feature Showcase */}
       {/* ========================================================================= */}
-      <div className="w-full lg:w-1/2 p-8 lg:p-14 flex flex-col justify-between relative bg-[#0B192C] text-slate-100 border-b lg:border-b-0 lg:border-r border-slate-800 shadow-2xl overflow-hidden">
+      <div className={`w-full ${authMode === 'signup' ? 'lg:w-[35%]' : 'lg:w-1/2'} p-8 lg:p-14 flex flex-col justify-between relative bg-[#0B192C] text-slate-100 border-b lg:border-b-0 lg:border-r border-slate-800 shadow-2xl overflow-hidden transition-all duration-300`}>
 
         {/* Perfectly Centered Official Government Seal Watermark Background */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden select-none z-0">
@@ -466,9 +517,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       {/* RIGHT COLUMN: Authentication Card */}
       {/* ========================================================================= */}
       <div 
-        className="w-full lg:w-1/2 p-6 sm:p-10 lg:p-14 flex flex-col justify-center items-center relative bg-white text-slate-900 login-right-light"
+        className={`w-full ${authMode === 'signup' ? 'lg:w-[65%]' : 'lg:w-1/2'} p-4 sm:p-8 lg:p-10 flex flex-col justify-center items-center relative bg-white text-slate-900 login-right-light transition-all duration-300 min-h-screen`}
       >
-        <div className="w-full max-w-[440px]">
+        <div className={`w-full ${authMode === 'signup' ? 'max-w-[760px]' : 'max-w-[440px]'} transition-all duration-300`}>
           <div className="mb-3 flex items-center justify-between gap-2">
             {onNavigateToLanding ? (
               <button
@@ -761,96 +812,334 @@ export const LoginPage: React.FC<LoginPageProps> = ({
             ) : authMode === 'signup' ? (
 
               /* CASE 3: SIGN UP / REGISTER FORM */
-              <div className="space-y-4">
-                <div className="pb-1 border-b border-slate-100">
+              <div className="space-y-5">
+                <div className="pb-2 border-b border-slate-200">
                   <h2 className="text-xl font-black tracking-tight text-slate-900">Citizen Registration</h2>
                   <p className="text-xs text-slate-500">Create a GovServe unified portal account</p>
                 </div>
 
-                <form onSubmit={handleRegisterSubmit} className="space-y-3">
+                <form onSubmit={handleRegisterSubmit} className="space-y-5">
+                  {/* SECTION 1: PERSONAL DETAILS */}
                   <div>
-                    <label className="block text-xs font-bold mb-1 text-slate-700">Full Name</label>
-                    <div className="relative">
-                      <User size={15} className="absolute left-3 top-2.5 text-slate-400" />
-                      <input
-                        type="text"
-                        value={regFullName}
-                        onChange={(e) => setRegFullName(e.target.value)}
-                        placeholder="e.g. Maria Santos"
-                        className="w-full pl-9 pr-3 py-2 rounded-xl text-xs transition-all focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-slate-50 border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:bg-white"
-                        required
-                      />
+                    <h3 className="text-sm font-bold text-[#1a5f7a] mb-2.5">Personal Details</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-700">
+                          <span className="text-red-500 font-bold">*</span> First name:
+                        </label>
+                        <input
+                          type="text"
+                          value={regFirstName}
+                          onChange={(e) => setRegFirstName(e.target.value)}
+                          placeholder="Enter first name"
+                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-700">
+                          <span className="text-red-500 font-bold">*</span> Last name:
+                        </label>
+                        <input
+                          type="text"
+                          value={regLastName}
+                          onChange={(e) => setRegLastName(e.target.value)}
+                          placeholder="Enter last name"
+                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-700">
+                          Middle name: (Optional)
+                        </label>
+                        <input
+                          type="text"
+                          value={regMiddleName}
+                          onChange={(e) => setRegMiddleName(e.target.value)}
+                          placeholder="Enter middle name"
+                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-700">
+                          Suffix:
+                        </label>
+                        <select
+                          value={regSuffix}
+                          onChange={(e) => setRegSuffix(e.target.value)}
+                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                        >
+                          <option value="">None</option>
+                          <option value="Jr.">Jr.</option>
+                          <option value="Sr.">Sr.</option>
+                          <option value="II">II</option>
+                          <option value="III">III</option>
+                          <option value="IV">IV</option>
+                          <option value="V">V</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Birth Date */}
+                    <div className="mt-3">
+                      <label className="block text-xs font-semibold mb-1 text-slate-700">
+                        <span className="text-red-500 font-bold">*</span> Birth Date
+                      </label>
+                      <div className="grid grid-cols-3 gap-2 max-w-sm">
+                        <select
+                          value={regBirthMonth}
+                          onChange={(e) => setRegBirthMonth(e.target.value)}
+                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                          required
+                        >
+                          <option value="">Month</option>
+                          {['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].map(m => (
+                            <option key={m} value={m}>{m}</option>
+                          ))}
+                        </select>
+                        <input
+                          type="number"
+                          min="1"
+                          max="31"
+                          value={regBirthDay}
+                          onChange={(e) => setRegBirthDay(e.target.value)}
+                          placeholder="Day"
+                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                          required
+                        />
+                        <input
+                          type="number"
+                          min="1900"
+                          max="2026"
+                          value={regBirthYear}
+                          onChange={(e) => setRegBirthYear(e.target.value)}
+                          placeholder="Year"
+                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                          required
+                        />
+                      </div>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    <div>
-                      <label className="block text-xs font-bold mb-1 text-slate-700">Email Address</label>
+                  {/* SECTION 2: ADDRESS */}
+                  <div className="pt-2 border-t border-slate-100">
+                    <h3 className="text-sm font-bold text-[#1a5f7a] mb-2.5">Address</h3>
+                    <div className="mb-3">
+                      <label className="block text-xs font-semibold mb-1 text-slate-700">
+                        <span className="text-red-500 font-bold">*</span> City:
+                      </label>
+                      <select
+                        value={regCity}
+                        onChange={(e) => setRegCity(e.target.value)}
+                        className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                        required
+                      >
+                        <option value="">- Select City -</option>
+                        <option value="Quezon City">Quezon City</option>
+                        <option value="Manila">Manila</option>
+                        <option value="Makati">Makati</option>
+                        <option value="Taguig">Taguig</option>
+                        <option value="Pasig">Pasig</option>
+                        <option value="Caloocan">Caloocan</option>
+                        <option value="Pili, Camarines Sur">Pili, Camarines Sur</option>
+                        <option value="Pasay">Pasay</option>
+                        <option value="Mandaluyong">Mandaluyong</option>
+                        <option value="Parañaque">Parañaque</option>
+                      </select>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-700">
+                          House No. (Optional)
+                        </label>
+                        <input
+                          type="text"
+                          value={regHouseNo}
+                          onChange={(e) => setRegHouseNo(e.target.value)}
+                          placeholder="Enter House No."
+                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-700">
+                          <span className="text-red-500 font-bold">*</span> Street:
+                        </label>
+                        <input
+                          type="text"
+                          value={regStreet}
+                          onChange={(e) => setRegStreet(e.target.value)}
+                          placeholder="Enter Street"
+                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-700">
+                          <span className="text-red-500 font-bold">*</span> Barangay:
+                        </label>
+                        <input
+                          type="text"
+                          value={regBarangay}
+                          onChange={(e) => setRegBarangay(e.target.value)}
+                          placeholder="Input barangay"
+                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* SECTION 3: EMPLOYMENT DETAILS */}
+                  <div className="pt-2 border-t border-slate-100">
+                    <h3 className="text-sm font-bold text-[#1a5f7a] mb-2.5">Employment Details</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3 items-center">
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-700">
+                          <span className="text-red-500 font-bold">*</span> Are you working in Quezon City?
+                        </label>
+                        <div className="flex items-center space-x-5 pt-1">
+                          <label className="inline-flex items-center space-x-2 text-xs text-slate-700 cursor-pointer">
+                            <input
+                              type="radio"
+                              name="workingInQC"
+                              value="yes"
+                              checked={regWorkingInQC === 'yes'}
+                              onChange={() => setRegWorkingInQC('yes')}
+                              className="text-blue-600 focus:ring-blue-500"
+                            />
+                            <span>Yes</span>
+                          </label>
+                          <label className="inline-flex items-center space-x-2 text-xs text-slate-700 cursor-pointer">
+                            <input
+                              type="radio"
+                              name="workingInQC"
+                              value="no"
+                              checked={regWorkingInQC === 'no'}
+                              onChange={() => setRegWorkingInQC('no')}
+                              className="text-blue-600 focus:ring-blue-500"
+                            />
+                            <span>No</span>
+                          </label>
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-700">
+                          Occupation
+                        </label>
+                        <input
+                          type="text"
+                          value={regOccupation}
+                          onChange={(e) => setRegOccupation(e.target.value)}
+                          placeholder="Enter occupation"
+                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-700">
+                          <span className="text-red-500 font-bold">*</span> Sex
+                        </label>
+                        <select
+                          value={regSex}
+                          onChange={(e) => setRegSex(e.target.value)}
+                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                          required
+                        >
+                          <option value="">Select Sex</option>
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-700">
+                          <span className="text-red-500 font-bold">*</span> Mobile Number:
+                        </label>
+                        <input
+                          type="tel"
+                          value={regPhone}
+                          onChange={(e) => setRegPhone(e.target.value)}
+                          placeholder="09123456789"
+                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* SECTION 4: LOGIN CREDENTIALS */}
+                  <div className="pt-2 border-t border-slate-100">
+                    <h3 className="text-sm font-bold text-[#1a5f7a] mb-2.5">Login Credentials</h3>
+                    <div className="mb-3">
+                      <label className="block text-xs font-semibold mb-1 text-slate-700">
+                        Email Address:
+                      </label>
                       <input
                         type="email"
                         value={regEmail}
                         onChange={(e) => setRegEmail(e.target.value)}
-                        placeholder="e.g. maria.santos@email.com"
-                        className="w-full px-3 py-2 rounded-xl text-xs transition-all focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-slate-50 border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:bg-white"
+                        placeholder="Enter email address"
+                        className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                         required
                       />
                     </div>
-                    <div>
-                      <label className="block text-xs font-bold mb-1 text-slate-700">Mobile Phone</label>
-                      <input
-                        type="tel"
-                        value={regPhone}
-                        onChange={(e) => setRegPhone(e.target.value)}
-                        placeholder="+63 917 123 4567"
-                        className="w-full px-3 py-2 rounded-xl text-xs transition-all focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-slate-50 border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:bg-white"
-                      />
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-700">
+                          <span className="text-red-500 font-bold">*</span> Password:
+                        </label>
+                        <input
+                          type="password"
+                          value={regPassword}
+                          onChange={(e) => setRegPassword(e.target.value)}
+                          placeholder="Enter password"
+                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-semibold mb-1 text-slate-700">
+                          <span className="text-red-500 font-bold">*</span> Confirm Password:
+                        </label>
+                        <input
+                          type="password"
+                          value={regConfirmPassword}
+                          onChange={(e) => setRegConfirmPassword(e.target.value)}
+                          placeholder="Enter password confirmation"
+                          className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                          required
+                        />
+                      </div>
                     </div>
                   </div>
 
-                  <div>
-                    <label className="block text-xs font-bold mb-1 text-slate-700">Business Name (Optional)</label>
-                    <input
-                      type="text"
-                      value={regBusinessName}
-                      onChange={(e) => setRegBusinessName(e.target.value)}
-                      placeholder="e.g. ABC Trading & Commercial Enterprises"
-                      className="w-full px-3 py-2 rounded-xl text-xs transition-all focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-slate-50 border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:bg-white"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                    <div>
-                      <label className="block text-xs font-bold mb-1 text-slate-700">Password</label>
-                      <input
-                        type="password"
-                        value={regPassword}
-                        onChange={(e) => setRegPassword(e.target.value)}
-                        placeholder="••••••••"
-                        className="w-full px-3 py-2 rounded-xl text-xs transition-all focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-slate-50 border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:bg-white"
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold mb-1 text-slate-700">Confirm Password</label>
-                      <input
-                        type="password"
-                        value={regConfirmPassword}
-                        onChange={(e) => setRegConfirmPassword(e.target.value)}
-                        placeholder="••••••••"
-                        className="w-full px-3 py-2 rounded-xl text-xs transition-all focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-slate-50 border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:bg-white"
-                        required
-                      />
-                    </div>
-                  </div>
-
+                  {/* SUBMIT BUTTON */}
                   <button
                     type="submit"
-                    disabled={isLoading}
-                    className="w-full mt-2 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-600/25 transition-all duration-200 flex items-center justify-center space-x-2"
+                    disabled={isLoading || isSendingOtp}
+                    className="w-full mt-4 py-3 bg-[#0d9488] hover:bg-[#0f766e] text-white font-bold text-xs rounded-xl shadow-lg transition-all duration-200 flex items-center justify-center space-x-2 cursor-pointer"
                   >
-                    {isLoading ? <RefreshCw size={16} className="animate-spin" /> : <ShieldCheck size={16} />}
+                    {isSendingOtp ? <RefreshCw size={16} className="animate-spin" /> : <ShieldCheck size={16} />}
                     <span>Complete Registration</span>
                   </button>
+
+                  <div className="text-center pt-2">
+                    <span className="text-xs text-slate-500">Already registered? </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setAuthMode('signin');
+                        setErrorMessage(null);
+                      }}
+                      className="text-xs font-bold text-blue-600 hover:text-blue-700 underline cursor-pointer"
+                    >
+                      Sign In here
+                    </button>
+                  </div>
                 </form>
               </div>
 
