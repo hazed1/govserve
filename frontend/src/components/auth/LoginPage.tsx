@@ -554,30 +554,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   </div>
                 )}
 
-                {/* Auto-fill helper if verification code is available */}
-                {devOtpCode && (
-                  <div className="p-3 rounded-xl bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800/70 text-center space-y-1.5 shadow-2xs">
-                    <div className="text-xs font-semibold text-blue-900 dark:text-blue-200 flex items-center justify-center gap-1.5">
-                      <span>Verification Code:</span>
-                      <span className="font-mono font-black text-sm tracking-widest text-blue-700 dark:text-blue-300 bg-white dark:bg-slate-900 px-2.5 py-0.5 rounded-md border border-blue-200 dark:border-blue-800 shadow-2xs">
-                        {devOtpCode}
-                      </span>
-                    </div>
-                    <div>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const digits = devOtpCode.split('').slice(0, 6);
-                          setOtpDigits(digits);
-                          setErrorMessage(null);
-                        }}
-                        className="text-xs font-bold text-blue-600 hover:text-blue-800 dark:text-blue-400 underline cursor-pointer inline-flex items-center gap-1"
-                      >
-                        <span>⚡ Click to auto-fill code</span>
-                      </button>
-                    </div>
-                  </div>
-                )}
 
                 {/* 6 Individual Digit Boxes Form */}
                 <form onSubmit={handleVerifyOtpSubmit} className="space-y-5">
