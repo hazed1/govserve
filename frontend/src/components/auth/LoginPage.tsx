@@ -762,21 +762,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
               /* CASE 3: SIGN UP / REGISTER FORM */
               <div className="space-y-4">
-                <div className="flex items-center justify-between pb-1 border-b border-slate-100">
-                  <div>
-                    <h2 className="text-xl font-black tracking-tight text-slate-900">Citizen Registration</h2>
-                    <p className="text-xs text-slate-500">Create a GovServe unified portal account</p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setAuthMode('signin');
-                      setErrorMessage(null);
-                    }}
-                    className="text-xs text-blue-500 hover:text-blue-400 font-bold transition-colors"
-                  >
-                    ← Back to Sign In
-                  </button>
+                <div className="pb-1 border-b border-slate-100">
+                  <h2 className="text-xl font-black tracking-tight text-slate-900">Citizen Registration</h2>
+                  <p className="text-xs text-slate-500">Create a GovServe unified portal account</p>
                 </div>
 
                 <form onSubmit={handleRegisterSubmit} className="space-y-3">
