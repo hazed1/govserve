@@ -32,7 +32,6 @@ import {
   MAX_LOGIN_ATTEMPTS 
 } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
-import { LanguageToggle } from '../ui/LanguageToggle';
 import { UserRole, MOCK_USERS } from '../../types';
 
 interface LoginPageProps {
@@ -481,9 +480,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               </button>
             ) : <div />}
 
-            <div className="flex items-center space-x-2 ml-auto">
-              <LanguageToggle />
-              {authMode !== 'signin' && (
+            {authMode !== 'signin' && (
+              <div className="flex items-center space-x-2 ml-auto">
                 <button
                   type="button"
                   onClick={() => {
@@ -495,8 +493,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                 >
                   <span>← {t('back_to_login', 'Sign In')}</span>
                 </button>
-              )}
-            </div>
+              </div>
+            )}
           </div>
 
           {/* MAIN AUTH CARD */}
