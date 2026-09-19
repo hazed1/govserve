@@ -242,29 +242,29 @@ export const CitizenDashboard: React.FC<CitizenDashboardProps> = ({
       {/* ========================================================================= */}
       {/* 1. CITIZEN WELCOME HERO BANNER */}
       {/* ========================================================================= */}
-      <div className="bg-gradient-to-r from-[#0B192C] via-[#102A45] to-[#0A1A2F] text-white p-6 sm:p-8 rounded-3xl shadow-xl relative overflow-hidden border border-slate-800">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-emerald-600/10 rounded-full blur-2xl pointer-events-none" />
+      <div className="bg-white dark:bg-gradient-to-r dark:from-[#0B192C] dark:via-[#102A45] dark:to-[#0A1A2F] text-slate-900 dark:text-white p-6 sm:p-8 rounded-3xl shadow-xl relative overflow-hidden border border-slate-200 dark:border-slate-800 transition-colors">
+        <div className="hidden dark:block absolute top-0 right-0 w-96 h-96 bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="hidden dark:block absolute bottom-0 left-1/3 w-64 h-64 bg-emerald-600/10 rounded-full blur-2xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="max-w-xl space-y-2">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-xs font-semibold">
-              <Sparkles size={13} className="text-amber-400" />
+            <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-500/20 border border-blue-200 dark:border-blue-400/30 text-blue-700 dark:text-blue-300 text-xs font-semibold">
+              <Sparkles size={13} className="text-amber-500 dark:text-amber-400" />
               <span>Republic of the Philippines • Citizen Services Portal</span>
             </div>
             
-            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+            <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
               Welcome back, {user?.name || 'Citizen'}!
             </h1>
             
-            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
+            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
               File applications, track real-time milestone progress, settle assessed municipal fees, and download official QR-verified permits directly from your dashboard.
             </p>
 
             {user?.organization && (
-              <div className="pt-1 flex items-center space-x-2 text-xs text-blue-200 bg-blue-900/40 border border-blue-700/50 px-3 py-1.5 rounded-xl w-fit">
-                <Building size={14} className="text-blue-400" />
-                <span>Registered Entity: <strong className="text-white">{user.organization}</strong></span>
+              <div className="pt-1 flex items-center space-x-2 text-xs text-slate-700 dark:text-blue-200 bg-slate-100 dark:bg-blue-900/40 border border-slate-200 dark:border-blue-700/50 px-3 py-1.5 rounded-xl w-fit">
+                <Building size={14} className="text-blue-600 dark:text-blue-400" />
+                <span>Registered Entity: <strong className="text-slate-900 dark:text-white">{user.organization}</strong></span>
               </div>
             )}
           </div>
@@ -285,7 +285,7 @@ export const CitizenDashboard: React.FC<CitizenDashboardProps> = ({
                 const el = document.getElementById('applications-management-section');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="px-6 py-3 bg-slate-800/80 hover:bg-slate-800 text-slate-200 text-xs sm:text-sm font-semibold rounded-2xl border border-slate-700 transition-all flex items-center justify-center space-x-2 cursor-pointer"
+              className="px-6 py-3 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs sm:text-sm font-semibold rounded-2xl border border-slate-200 dark:border-slate-700 transition-all flex items-center justify-center space-x-2 cursor-pointer"
             >
               <Search size={15} />
               <span>Track My Applications</span>

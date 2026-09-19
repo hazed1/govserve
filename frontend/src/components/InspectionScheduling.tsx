@@ -535,7 +535,7 @@ Digital Security Seal Hash     : SHA256-INSP-DISPATCH-${item.id}-AUTHENTICATED
   });
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
+    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
       
       {/* Toast Notification */}
       {toastMessage && (
@@ -641,9 +641,9 @@ Digital Security Seal Hash     : SHA256-INSP-DISPATCH-${item.id}-AUTHENTICATED
       {/* ========================================================================= */}
       {/* 2. FULL-WIDTH HERO SECTION */}
       {/* ========================================================================= */}
-      <section className="w-full bg-gradient-to-r from-[#071326] via-[#0E2744] to-[#0A1A2F] text-white py-7 sm:py-8 px-4 sm:px-8 border-b border-slate-800 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-sky-600/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
+      <section className="w-full bg-white dark:bg-gradient-to-r dark:from-[#071326] dark:via-[#0E2744] dark:to-[#0A1A2F] text-slate-900 dark:text-white py-7 sm:py-8 px-4 sm:px-8 border-b border-slate-200 dark:border-slate-800 relative overflow-hidden transition-colors">
+        <div className="hidden dark:block absolute top-0 right-0 w-[500px] h-[500px] bg-sky-600/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="hidden dark:block absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-7xl mx-auto relative z-10 space-y-3">
           {currentView !== 'preview' && currentView !== 'admin_dispatch' && (
@@ -659,12 +659,12 @@ Digital Security Seal Hash     : SHA256-INSP-DISPATCH-${item.id}-AUTHENTICATED
           )}
 
           <div className="space-y-2 max-w-4xl">
-            <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white leading-tight">
+            <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
               {currentView === 'admin_dispatch'
                 ? 'Inspector Scheduling & Field Dispatch Console'
                 : 'On-Site Inspection & Scheduling Portal'}
             </h1>
-            <p className="text-slate-300 text-xs sm:text-sm max-w-3xl leading-relaxed">
+            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-3xl leading-relaxed">
               {currentView === 'admin_dispatch'
                 ? 'Real-Time Field Inspector Assignment, Joint Engineering & Fire Safety Walkthroughs, and Compliance Scorecard Audit Suite.'
                 : 'Review official inspection regulatory tariffs, multi-agency audit protocols (OBO, BFP, Health, TRU), and mandatory documentary requirements before booking your site validation.'}

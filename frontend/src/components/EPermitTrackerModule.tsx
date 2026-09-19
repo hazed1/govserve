@@ -211,7 +211,7 @@ Security Timestamp            : ${new Date().toISOString()}
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
+    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
       
       {/* Toast */}
       {toastMessage && (
@@ -317,9 +317,9 @@ Security Timestamp            : ${new Date().toISOString()}
       {/* ========================================================================= */}
       {/* 2. FULL-WIDTH HERO SECTION */}
       {/* ========================================================================= */}
-      <section className="w-full bg-gradient-to-r from-[#071326] via-[#0E2744] to-[#0A1A2F] text-white py-7 sm:py-9 px-4 sm:px-8 border-b border-slate-800 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-teal-600/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
+      <section className="w-full bg-white dark:bg-gradient-to-r dark:from-[#071326] dark:via-[#0E2744] dark:to-[#0A1A2F] text-slate-900 dark:text-white py-7 sm:py-9 px-4 sm:px-8 border-b border-slate-200 dark:border-slate-800 relative overflow-hidden transition-colors">
+        <div className="hidden dark:block absolute top-0 right-0 w-[500px] h-[500px] bg-teal-600/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="hidden dark:block absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-7xl mx-auto relative z-10 space-y-3">
           {currentView !== 'preview' && (
@@ -335,10 +335,10 @@ Security Timestamp            : ${new Date().toISOString()}
           )}
 
           <div className="space-y-2 max-w-4xl">
-            <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white leading-tight">
+            <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
               QR Authenticity & E-Permit Verification Portal
             </h1>
-            <p className="text-slate-300 text-xs sm:text-sm max-w-3xl leading-relaxed">
+            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-3xl leading-relaxed">
               Verify cryptographic security signatures, authenticate official LGU permits, check real-time milestone progress, and validate digital watermarks across all municipal permits.
             </p>
           </div>
