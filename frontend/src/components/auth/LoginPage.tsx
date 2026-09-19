@@ -907,11 +907,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
           </div>
 
-          {/* Bottom Security Info Tag */}
-          <div className="mt-5 text-center text-[11px] text-slate-500 flex items-center justify-center space-x-2">
-            <Lock size={12} className="text-slate-400" />
-            <span>256-Bit SSL Encrypted • Powered by Eprovider Platform</span>
-          </div>
 
         </div>
 
