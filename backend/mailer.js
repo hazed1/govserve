@@ -27,17 +27,20 @@ function getTransporter() {
       host: 'smtp.gmail.com',
       port: 465,
       secure: true,
-      family: 4,
+      lookup: (hostname, options, callback) => {
+        dns.lookup(hostname, { family: 4 }, callback);
+      },
+      tls: {
+        servername: 'smtp.gmail.com',
+        rejectUnauthorized: false
+      },
       auth: {
         user,
         pass
       },
       connectionTimeout: 15000,
       greetingTimeout: 15000,
-      socketTimeout: 15000,
-      tls: {
-        rejectUnauthorized: false
-      }
+      socketTimeout: 15000
     });
   }
 
