@@ -144,16 +144,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {!isAdmin ? (
             <>
               {/* ========================================================== */}
-              {/* PERSPECTIVE A: CITIZEN / BUSINESS USER NAVIGATION (SIMPLE) */}
+              {/* PERSPECTIVE A: CITIZEN / BUSINESS USER NAVIGATION (5 MODULES) */}
               {/* ========================================================== */}
               <div className="pt-2 space-y-4">
                 
-                {/* Section: PERMIT SERVICES */}
+                {/* Section: 5 CORE PERMIT MODULES */}
                 <div className="space-y-1">
                   <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                    {t('Permit Applications', 'Permit Applications')}
+                    {t('Permit Applications', 'Permit Modules')}
                   </p>
 
+                  {/* Module 1: Business Permit */}
                   <button
                     onClick={() => handleSubItemClick('Business Registration (New / Renewal)')}
                     className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left transition-all text-xs font-medium cursor-pointer ${
@@ -163,21 +164,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }`}
                   >
                     <Building2 size={17} className="text-blue-500 dark:text-blue-400 flex-shrink-0" />
-                    <span className="truncate">{t('Business Permit', 'Business Permit')}</span>
+                    <span className="truncate">{t('card_business_title', 'Business Permit')}</span>
                   </button>
 
+                  {/* Module 2: Building and Construction Permit */}
                   <button
                     onClick={() => handleSubItemClick('Building Permit Filing')}
                     className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left transition-all text-xs font-medium cursor-pointer ${
-                      activeTab === 'Building Permit Filing' || activeTab === 'Building & Construction Permits'
+                      activeTab === 'Building Permit Filing' || activeTab === 'Building & Construction Permits' || activeTab === 'Plan & Blueprint Upload'
                         ? 'bg-blue-600 text-white font-bold shadow-md shadow-blue-600/25'
                         : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-white'
                     }`}
                   >
                     <Building size={17} className="text-amber-500 dark:text-amber-400 flex-shrink-0" />
-                    <span className="truncate">{t('Building & Construction', 'Building & Construction')}</span>
+                    <span className="truncate">{t('card_building_title', 'Building and Construction Permit')}</span>
                   </button>
 
+                  {/* Module 3: Franchise & Transport Permit */}
                   <button
                     onClick={() => handleSubItemClick('Franchise & Transport Permits')}
                     className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left transition-all text-xs font-medium cursor-pointer ${
@@ -187,9 +190,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }`}
                   >
                     <Bus size={17} className="text-emerald-500 dark:text-emerald-400 flex-shrink-0" />
-                    <span className="truncate">{t('Franchise & Transport (MTOP)', 'Franchise & Transport (MTOP)')}</span>
+                    <span className="truncate">{t('card_transport_title', 'Franchise & Transport Permit')}</span>
                   </button>
 
+                  {/* Module 4: Barangay Permit Integration */}
                   <button
                     onClick={() => handleSubItemClick('Barangay Permit Integration')}
                     className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left transition-all text-xs font-medium cursor-pointer ${
@@ -199,52 +203,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }`}
                   >
                     <ShieldCheck size={17} className="text-purple-500 dark:text-purple-400 flex-shrink-0" />
-                    <span className="truncate">{t('Barangay Clearance', 'Barangay Clearance')}</span>
-                  </button>
-                </div>
-
-                {/* Section: CITIZEN SERVICES & TOOLS */}
-                <div className="space-y-1 pt-1">
-                  <p className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
-                    {t('Citizen Services', 'Citizen Services')}
-                  </p>
-
-                  <button
-                    onClick={() => handleSubItemClick('Inspection Scheduling')}
-                    className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left transition-all text-xs font-medium cursor-pointer ${
-                      activeTab === 'Inspection Scheduling'
-                        ? 'bg-blue-600 text-white font-bold shadow-md shadow-blue-600/25'
-                        : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-white'
-                    }`}
-                  >
-                    <Calendar size={17} className="text-sky-500 dark:text-sky-400 flex-shrink-0" />
-                    <span className="truncate">{t('Schedule Inspection', 'Schedule Inspection')}</span>
+                    <span className="truncate">{t('card_barangay_title', 'Barangay Permit Integration')}</span>
                   </button>
 
-                  <button
-                    onClick={() => handleSubItemClick('Requirements Submission')}
-                    className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left transition-all text-xs font-medium cursor-pointer ${
-                      activeTab === 'Requirements Submission'
-                        ? 'bg-blue-600 text-white font-bold shadow-md shadow-blue-600/25'
-                        : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-white'
-                    }`}
-                  >
-                    <FileCheck size={17} className="text-indigo-500 dark:text-indigo-400 flex-shrink-0" />
-                    <span className="truncate">{t('Upload Documents', 'Upload Documents')}</span>
-                  </button>
-
-                  <button
-                    onClick={() => handleSubItemClick('Fee Assessment & Computation')}
-                    className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left transition-all text-xs font-medium cursor-pointer ${
-                      activeTab === 'Fee Assessment & Computation'
-                        ? 'bg-blue-600 text-white font-bold shadow-md shadow-blue-600/25'
-                        : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-white'
-                    }`}
-                  >
-                    <Zap size={17} className="text-rose-500 dark:text-rose-400 flex-shrink-0" />
-                    <span className="truncate">{t('Fees & Payments', 'Fees & Payments')}</span>
-                  </button>
-
+                  {/* Module 5: E-Permit tracker */}
                   <button
                     onClick={() => handleSubItemClick('E-Permit Tracker')}
                     className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left transition-all text-xs font-medium cursor-pointer ${
@@ -254,7 +216,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     }`}
                   >
                     <QrCode size={17} className="text-teal-500 dark:text-teal-400 flex-shrink-0" />
-                    <span className="truncate">{t('Track & Verify E-Permit', 'Track & Verify E-Permit')}</span>
+                    <span className="truncate">{t('card_tracking_title', 'E-Permit tracker')}</span>
                   </button>
                 </div>
 
@@ -320,7 +282,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 >
                   <div className="flex items-center space-x-2.5 truncate">
                     <Building size={18} className="text-amber-500 dark:text-amber-400 flex-shrink-0" />
-                    <span className="font-bold text-slate-800 dark:text-white text-[12px] truncate">{t('Building & Construction Permits', 'Building & Construction Permits')}</span>
+                    <span className="font-bold text-slate-800 dark:text-white text-[12px] truncate">{t('Building and Construction Permit', 'Building and Construction Permit')}</span>
                   </div>
                   {m2Open ? <ChevronDown size={14} className="text-slate-400 dark:text-slate-500" /> : <ChevronRight size={14} className="text-slate-400 dark:text-slate-500" />}
                 </button>
@@ -351,7 +313,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 )}
               </div>
 
-              {/* Module 3: Franchise & Transport Permits */}
+              {/* Module 3: Franchise & Transport Permit */}
               <div className="space-y-1">
                 <button
                   onClick={() => setM3Open(!m3Open)}
@@ -359,7 +321,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 >
                   <div className="flex items-center space-x-2.5 truncate">
                     <Bus size={18} className="text-emerald-500 dark:text-emerald-400 flex-shrink-0" />
-                    <span className="font-bold text-slate-800 dark:text-white text-[12px] truncate">{t('Franchise & Transport Permits', 'Franchise & Transport Permits')}</span>
+                    <span className="font-bold text-slate-800 dark:text-white text-[12px] truncate">{t('Franchise & Transport Permit', 'Franchise & Transport Permit')}</span>
                   </div>
                   {m3Open ? <ChevronDown size={14} className="text-slate-400 dark:text-slate-500" /> : <ChevronRight size={14} className="text-slate-400 dark:text-slate-500" />}
                 </button>
@@ -435,7 +397,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 >
                   <div className="flex items-center space-x-2.5 truncate">
                     <QrCode size={18} className="text-teal-500 dark:text-teal-400 flex-shrink-0" />
-                    <span className="font-bold text-slate-800 dark:text-white text-[12px] truncate">{t('E-Permit Tracker', 'E-Permit Tracker')}</span>
+                    <span className="font-bold text-slate-800 dark:text-white text-[12px] truncate">{t('E-Permit tracker', 'E-Permit tracker')}</span>
                   </div>
                   {m5Open ? <ChevronDown size={14} className="text-slate-400 dark:text-slate-500" /> : <ChevronRight size={14} className="text-slate-400 dark:text-slate-500" />}
                 </button>

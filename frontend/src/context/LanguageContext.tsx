@@ -223,42 +223,50 @@ const translations: Record<string, { en: string; tl: string }> = {
     tl: 'Business Permit'
   },
   'card_business_subtitle': {
-    en: "Mayor's Permit & Business Licensing",
+    en: "Mayor's Permits & Business Licensing",
     tl: "Permit ng Alkalde at Lisensya sa Negosyo"
   },
   'card_business_category': {
     en: 'Commercial & Retail',
-    tl: 'Komersyal at Tindahan'
+    tl: 'Commercial & Retail'
   },
   'card_business_desc': {
-    en: 'Register new single proprietorships, partnerships, or corporations, declare annual gross sales, and file mandatory mayor\'s permit renewals online.',
-    tl: 'Magrehistro ng bagong negosyo, korporasyon o partnership, magdeklara ng kabuuang benta, at mag-renew ng permit ng alkalde online.'
+    en: 'Register and manage your business permit application with minimal data entry through document-based information extraction.',
+    tl: 'Magrehistro at mamahala ng inyong business permit nang may kaunting pagta-type sa tulong ng document-based information extraction.'
   },
   'card_business_tag1': {
-    en: 'Instant DTI / SEC verification sync',
-    tl: 'Mabilis na beripikasyon sa DTI / SEC'
+    en: 'Upload-based applicant and business information',
+    tl: 'Upload-based na impormasyon ng aplikante at negosyo'
   },
   'card_business_tag2': {
-    en: 'Automated Local Business Tax (LBT) calculation',
-    tl: 'Awtomatikong pagkwenta ng Buwis sa Negosyo (LBT)'
+    en: 'Automatic document information extraction',
+    tl: 'Awtomatikong pag-extract ng impormasyon mula sa dokumento'
   },
   'card_business_tag3': {
-    en: 'Digital QR-certified Mayor\'s Permit release',
-    tl: 'Paglabas ng QR-certified na Permit ng Alkalde'
+    en: 'Automatic business registration document identification',
+    tl: 'Awtomatikong pagkilala sa uri ng dokumento ng rehistro'
+  },
+  'card_business_tag4': {
+    en: 'Digital application tracking',
+    tl: 'Digital na pagsubaybay sa aplikasyon'
   },
   'card_business_btn_primary': {
-    en: 'Apply for Business Permit',
-    tl: 'Mag-apply para sa Business Permit'
+    en: 'Apply for Business Permit →',
+    tl: 'Mag-apply para sa Business Permit →'
   },
   'card_business_btn_secondary': {
     en: 'Renew Permit',
-    tl: 'Mag-renew ng Permit'
+    tl: 'Renew Permit'
+  },
+  'card_business_btn_requirements': {
+    en: 'View Requirements',
+    tl: 'Tingnan ang Requirements'
   },
 
-  // Card 2: Building & Construction
+  // Card 2: Building and Construction Permit
   'card_building_title': {
-    en: 'Building & Construction',
-    tl: 'Gusali at Konstruksyon'
+    en: 'Building and Construction Permit',
+    tl: 'Building and Construction Permit'
   },
   'card_building_subtitle': {
     en: 'Building Clearances & Blueprint Permits',
@@ -269,8 +277,8 @@ const translations: Record<string, { en: string; tl: string }> = {
     tl: 'Inhinyeriya at Imprastraktura'
   },
   'card_building_desc': {
-    en: 'Submit architectural CAD drawings, structural calculations, fire safety evaluations, and schedule on-site municipal engineering inspections.',
-    tl: 'Magsumite ng architectural CAD blueprints, structural calculations, fire safety evaluations, at mag-iskedyul ng engineering inspection.'
+    en: 'A Building and Construction Permit from a Local Government Unit (LGU) is an official legal authorization required before starting any new construction, major renovation, or demolition.',
+    tl: 'Ang Building and Construction Permit mula sa Local Government Unit (LGU) ay opisyal na legal na pahintulot na kinakailangan bago magsimula ng anumang bagong konstruksyon, malaking renobasyon, o demolisyon.'
   },
   'card_building_tag1': {
     en: 'CAD & PDF Blueprint Upload & Verification',
@@ -285,30 +293,30 @@ const translations: Record<string, { en: string; tl: string }> = {
     tl: 'Integrasyon ng Fire Safety Clearance (FSEC)'
   },
   'card_building_btn_primary': {
-    en: 'Apply for Building Permit',
-    tl: 'Mag-apply para sa Building Permit'
+    en: 'Apply for Building Permit →',
+    tl: 'Mag-apply para sa Building Permit →'
   },
   'card_building_btn_secondary': {
     en: 'Upload Plans',
     tl: 'Mag-upload ng Plano'
   },
 
-  // Card 3: Franchise & Transport
+  // Card 3: Franchise & Transport Permit
   'card_transport_title': {
-    en: 'Franchise & Transport',
-    tl: 'Prangkisa at Transportasyon'
+    en: 'Franchise & Transport Permit',
+    tl: 'Franchise & Transport Permit'
   },
   'card_transport_subtitle': {
     en: 'Tricycle (MTOP) & PUV Licensing',
     tl: 'Lisensya sa Traysikel (MTOP) at PUV'
   },
   'card_transport_category': {
-    en: 'Tricycle & PUV Licensing',
-    tl: 'Lisensya sa Traysikel at PUV'
+    en: 'Public Transport & Fleet',
+    tl: 'Pampublikong Transportasyon at Fleet'
   },
   'card_transport_desc': {
-    en: 'File tricycle operator franchise permits (MTOP), public transport route authorizations, roadworthiness unit inspections, and windshield QR decals.',
-    tl: 'Mag-file ng prangkisa sa traysikel (MTOP), awtorisasyon sa ruta, inspeksyon sa sasakyan, at windshield QR sticker decals.'
+    en: 'A transport franchise and permit legally authorizes you to operate public utility or for-hire vehicles (such as tricle, jeepneys, buses, taxis, UV Express, or trucks-for-hire) on Philippine roads.',
+    tl: 'Ang transport franchise at permit ay legal na nagbibigay-pahintulot sa iyo na magpatakbo ng pampublikong sasakyan (tulad ng traysikel, dyip, bus, taxi, UV Express, o mga truck-for-hire) sa mga kalsada ng Pilipinas.'
   },
   'card_transport_tag1': {
     en: 'Tricycle MTOP operator & fleet registry',
@@ -323,18 +331,18 @@ const translations: Record<string, { en: string; tl: string }> = {
     tl: 'Opisyal na QR Decal sa Harapang Salamin'
   },
   'card_transport_btn_primary': {
-    en: 'Apply for MTOP Franchise',
-    tl: 'Mag-apply para sa MTOP Franchise'
+    en: 'Apply for MTOP Franchise →',
+    tl: 'Mag-apply para sa MTOP Franchise →'
   },
   'card_transport_btn_secondary': {
     en: 'Fleet Status',
     tl: 'Katayuan ng Sasakyan'
   },
 
-  // Card 4: Barangay Clearance
+  // Card 4: Barangay Permit Integration
   'card_barangay_title': {
-    en: 'Barangay Clearance',
-    tl: 'Barangay Clearance'
+    en: 'Barangay Permit Integration',
+    tl: 'Barangay Permit Integration'
   },
   'card_barangay_subtitle': {
     en: 'Barangay Endorsement & Cedula (CTC)',
@@ -345,8 +353,8 @@ const translations: Record<string, { en: string; tl: string }> = {
     tl: 'Network ng 24 na Barangay'
   },
   'card_barangay_desc': {
-    en: 'File official barangay business clearances, community tax certificates (Cedula CTC), and residency endorsements across all 24 partner barangays.',
-    tl: 'Kumuha ng opisyal na business clearance sa barangay, sedula (CTC), at patunay ng paninirahan sa lahat ng 24 na barangay.'
+    en: 'allows business owners to seamlessly process and pay for integrated barangay business clearances and fees directly online alongside their Mayor’s Permit application.',
+    tl: 'Nagbibigay-daan sa mga may-ari ng negosyo na madaling maproseso at mabayaran ang integrated barangay business clearances at mga bayarin nang direkta online kasabay ng kanilang Mayor’s Permit application.'
   },
   'card_barangay_tag1': {
     en: '24-Barangay live digital endorsement sync',
@@ -361,88 +369,50 @@ const translations: Record<string, { en: string; tl: string }> = {
     tl: 'Opisyal na selyo at lagda ng Punong Barangay'
   },
   'card_barangay_btn_primary': {
-    en: 'Request Barangay Clearance',
-    tl: 'Humiling ng Barangay Clearance'
+    en: 'Request Barangay Clearance →',
+    tl: 'Humiling ng Barangay Clearance →'
   },
   'card_barangay_btn_secondary': {
     en: 'Cedula CTC Filing',
     tl: 'Kumuha ng Sedula'
   },
 
-  // Card 5: On-Site Inspection
-  'card_inspection_title': {
-    en: 'On-Site Inspection',
-    tl: 'On-Site na Inspeksyon'
-  },
-  'card_inspection_subtitle': {
-    en: 'Building, Fire, Sanitary & PUV Safety',
-    tl: 'Kaligtasan sa Gusali, Sunog, Sanitasyon at PUV'
-  },
-  'card_inspection_category': {
-    en: 'Joint Inspection Team',
-    tl: 'Pinagsamang Pangkat ng Inspeksyon'
-  },
-  'card_inspection_desc': {
-    en: 'Schedule on-site technical evaluations with municipal building officials, Bureau of Fire Protection (BFP) inspectors, sanitary officers, and PUV roadworthiness inspectors.',
-    tl: 'Mag-iskedyul ng teknikal na inspeksyon kasama ang mga inhinyero ng munisipyo, bumbero (BFP), sanitary officers, at PUV inspectors.'
-  },
-  'card_inspection_tag1': {
-    en: 'Real-time appointment scheduling & calendar booking',
-    tl: 'Real-time na pag-iskedyul ng appointment sa kalendaryo'
-  },
-  'card_inspection_tag2': {
-    en: 'BFP Fire Safety (FSIC) & Joint Inspection coordination',
-    tl: 'Koordinasyon sa BFP Fire Safety (FSIC) at inspeksyon'
-  },
-  'card_inspection_tag3': {
-    en: 'Instant Digital Appointment Slip & QR confirmation',
-    tl: 'Mabilis na Digital Appointment Slip at QR kumpirmasyon'
-  },
-  'card_inspection_btn_primary': {
-    en: 'Book On-Site Inspection',
-    tl: 'Mag-book ng Inspeksyon'
-  },
-  'card_inspection_btn_secondary': {
-    en: 'Inspection Queue',
-    tl: 'Pila ng Inspeksyon'
-  },
-
-  // Card 6: QR Permit Tracker
+  // Card 5: E-Permit tracker
   'card_tracking_title': {
-    en: 'QR Permit Tracker',
-    tl: 'Tracker ng QR Permit'
+    en: 'E-Permit tracker',
+    tl: 'E-Permit tracker'
   },
   'card_tracking_subtitle': {
-    en: 'Authenticity & Live Milestone Tracking',
-    tl: 'Beripikasyon at Live na Katayuan ng Aplikasyon'
+    en: 'Online Application & Status Tracking',
+    tl: 'Online na Pagsubaybay sa Aplikasyon at Katayuan'
   },
   'card_tracking_category': {
-    en: 'Cryptographic Security',
-    tl: 'Seguridad at Kriptograpiya'
+    en: 'Digital Services & Tracking',
+    tl: 'Digital Services & Tracking'
   },
   'card_tracking_desc': {
-    en: 'Verify cryptographic security signatures, validate issued digital permits against the master municipal registry, and track live application milestone progress in real-time.',
-    tl: 'Patunayan ang digital signature ng permit, alamin kung orihinal laban sa talaan ng munisipyo, at subaybayan ang progreso ng iyong aplikasyon.'
+    en: 'You can track your permit application or status online.',
+    tl: 'Maaari mong subaybayan ang iyong permit application o status online.'
   },
   'card_tracking_tag1': {
-    en: '2048-bit RSA & SHA-256 Government Signature Audit',
-    tl: '2048-bit RSA at SHA-256 Government Signature Audit'
+    en: 'Real-time application status and milestone tracking',
+    tl: 'Real-time na katayuan ng aplikasyon at milestone timeline'
   },
   'card_tracking_tag2': {
-    en: 'Live milestone timeline tracking from filing to release',
-    tl: 'Live na pagsunod sa bawat hakbang mula pag-file hanggang labas'
+    en: 'Public reference code lookup (BP / BC / FT / BR)',
+    tl: 'Paghahanap gamit ang reference code (BP / BC / FT / BR)'
   },
   'card_tracking_tag3': {
-    en: 'Tamper-proof hologram verification & fraud reporting',
-    tl: 'Tamper-proof na pagsusuri at pag-ulat ng pekeng permit'
+    en: 'Digital authenticity and official QR code verification',
+    tl: 'Digital na autentisidad at opisyal na beripikasyon ng QR code'
   },
   'card_tracking_btn_primary': {
-    en: 'Verify QR Authenticity',
-    tl: 'I-verify ang Orihinalidad ng QR'
+    en: 'Track Permit Application →',
+    tl: 'Subaybayan ang Permit Application →'
   },
   'card_tracking_btn_secondary': {
-    en: 'Track Reference',
-    tl: 'Subaybayan ang Reference Code'
+    en: 'Verify QR Authenticity',
+    tl: 'I-verify ang Katunayan ng QR'
   },
 
   // Common UI Actions

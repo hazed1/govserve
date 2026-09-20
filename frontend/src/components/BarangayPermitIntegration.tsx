@@ -36,6 +36,8 @@ import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
 import { LanguageToggle } from './ui/LanguageToggle';
 import { TabType } from '../types';
+import { BarangayPermitUploadWizard } from './BarangayPermitUploadWizard';
+
 
 export interface BarangayClearanceItem {
   id: string;
@@ -1649,165 +1651,14 @@ Digital Security Hash   : ${item.qrHash}
         )}
 
         {/* ========================================================================= */}
-        {/* SUBVIEW 1: NEW CLEARANCE FILING FORM */}
+        {/* SUBVIEW 1: NEW CLEARANCE (UPLOAD-FIRST WIZARD) */}
         {/* ========================================================================= */}
         {currentView === 'new_clearance' && (
-          <div className="space-y-6 max-w-3xl mx-auto animate-in fade-in pb-8">
-            <div className="flex items-center justify-between">
-              <button
-                onClick={() => setCurrentView('preview')}
-                className="flex items-center space-x-2 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors cursor-pointer"
-              >
-                <ArrowLeft size={16} />
-                <span>Return to Overview</span>
-              </button>
-            </div>
-
-            <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
-              <div className="flex items-center space-x-3 pb-4 border-b border-slate-100 dark:border-slate-800">
-                <div className="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-950 text-purple-600 flex items-center justify-center font-bold">
-                  <ShieldCheck size={24} />
-                </div>
-                <div>
-                  <h2 className="text-xl font-black text-slate-900 dark:text-white">New Barangay Clearance Application</h2>
-                  <p className="text-xs text-slate-500">Official Community Endorsement for LGU Permitting</p>
-                </div>
-              </div>
-
-              {!newSubmitted ? (
-                <div className="space-y-4 text-xs">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="font-bold text-slate-700 dark:text-slate-300">Applicant Full Name *</label>
-                      <input 
-                        type="text" 
-                        value={applicantName} 
-                        onChange={(e) => setApplicantName(e.target.value)} 
-                        className="w-full mt-1 p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl" 
-                      />
-                    </div>
-                    <div>
-                      <label className="font-bold text-slate-700 dark:text-slate-300">Contact Number *</label>
-                      <input 
-                        type="text" 
-                        value={contactNumber} 
-                        onChange={(e) => setContactNumber(e.target.value)} 
-                        className="w-full mt-1 p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-mono" 
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="font-bold text-slate-700 dark:text-slate-300">Jurisdiction Barangay *</label>
-                      <select 
-                        value={selectedBrgy} 
-                        onChange={(e) => setSelectedBrgy(e.target.value)} 
-                        className="w-full mt-1 p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-medium"
-                      >
-                        {BARANGAY_LIST_24.map((b) => <option key={b} value={b}>{b}</option>)}
-                      </select>
-                    </div>
-                    <div>
-                      <label className="font-bold text-slate-700 dark:text-slate-300">Clearance Purpose *</label>
-                      <select 
-                        value={purpose} 
-                        onChange={(e) => setPurpose(e.target.value)} 
-                        className="w-full mt-1 p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-medium"
-                      >
-                        <option value="New Business Permit">New Business Permit</option>
-                        <option value="Business Permit Renewal">Business Permit Renewal</option>
-                        <option value="Building Construction Endorsement">Building Construction Endorsement</option>
-                        <option value="Franchise Tricycle MTOP">Franchise Tricycle MTOP</option>
-                        <option value="Barangay Residency Clearance">Barangay Residency Clearance</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="font-bold text-slate-700 dark:text-slate-300">Business / Project Name (if applicable)</label>
-                    <input 
-                      type="text" 
-                      value={businessName} 
-                      onChange={(e) => setBusinessName(e.target.value)} 
-                      className="w-full mt-1 p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl" 
-                    />
-                  </div>
-
-                  <div>
-                    <label className="font-bold text-slate-700 dark:text-slate-300">Establishment / Property Address *</label>
-                    <input 
-                      type="text" 
-                      value={propertyAddress} 
-                      onChange={(e) => setPropertyAddress(e.target.value)} 
-                      className="w-full mt-1 p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl" 
-                    />
-                  </div>
-
-                  <div>
-                    <label className="font-bold text-slate-700 dark:text-slate-300">Community Tax Certificate (Cedula) No. *</label>
-                    <input 
-                      type="text" 
-                      value={cedulaNumber} 
-                      onChange={(e) => setCedulaNumber(e.target.value)} 
-                      className="w-full mt-1 p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-mono" 
-                    />
-                  </div>
-
-                  <div className="p-4 rounded-2xl bg-purple-50/60 dark:bg-purple-950/40 border border-purple-200/60 dark:border-purple-800/60 space-y-1">
-                    <p className="font-bold text-purple-900 dark:text-purple-200">Automated Lupon Dispute Pre-Screening:</p>
-                    <p className="text-[11px] text-slate-600 dark:text-slate-400">
-                      ✓ Instant query against {selectedBrgy} Lupon records: <span className="font-semibold text-emerald-600 dark:text-emerald-400">Clean (No Pending Cases)</span>
-                    </p>
-                  </div>
-
-                  <div className="flex justify-end pt-4 border-t border-slate-100 dark:border-slate-800">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const newBcId = `BC-2025-0${Math.floor(400 + Math.random() * 500)}`;
-                        setNewSubmitted(true);
-                        showToast('Barangay Clearance lodged successfully!');
-                        if (onAddNewApplication) {
-                          onAddNewApplication(applicantName || user?.name || 'Citizen Applicant', `Barangay Clearance (${selectedBrgy})`);
-                        }
-                      }}
-                      className="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-bold shadow-md cursor-pointer transition-all active:scale-[0.98]"
-                    >
-                      Submit Clearance Application
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="text-center py-8 space-y-4">
-                  <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-950/80 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
-                    <CheckCircle2 size={36} />
-                  </div>
-                  <h3 className="text-xl font-bold">Barangay Clearance Submitted</h3>
-                  <p className="text-xs text-slate-500 max-w-md mx-auto">
-                    Your clearance reference is <strong className="text-purple-600 font-mono">BC-2025-0422</strong> for {selectedBrgy}. Ready for municipal permit integration.
-                  </p>
-                  <div className="pt-2 flex justify-center space-x-3">
-                    <button 
-                      onClick={() => setCurrentView('preview')} 
-                      className="px-5 py-2.5 bg-slate-800 text-white rounded-xl text-xs font-bold cursor-pointer"
-                    >
-                      Return to Overview
-                    </button>
-                    <button
-                      onClick={() => {
-                        setFeeBrgyNo('BC-2025-0422');
-                        setCurrentView('pay_fees');
-                      }}
-                      className="px-5 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold cursor-pointer"
-                    >
-                      Pay Clearance Dues
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
+          <BarangayPermitUploadWizard
+            onBack={() => setCurrentView('preview')}
+            onAddNewApplication={onAddNewApplication}
+            onNavigateToDashboard={onNavigateToDashboard}
+          />
         )}
 
         {/* ========================================================================= */}

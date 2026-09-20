@@ -56,7 +56,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
   const { t, language } = useLanguage();
   
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [selectedReqCategory, setSelectedReqCategory] = useState<'business' | 'building' | 'transport' | 'barangay' | 'inspection' | 'tracking' | null>(null);
+  const [selectedReqCategory, setSelectedReqCategory] = useState<'business' | 'building' | 'transport' | 'barangay' | 'tracking' | null>(null);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -71,23 +71,25 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Requirements checklist data (Bilingual: Tagalog / English)
+  // Requirements checklist data (Bilingual: Tagalog / English) - 5 Core Modules
   const requirementsData = {
     business: {
       title: language === 'tl' ? 'Mga Kinakailangan sa Business Permit at Lisensya' : "Business Permit & Mayor's License Requirements",
       category: language === 'tl' ? 'Rehistro ng Negosyo (Bago / Pagpapanibago)' : 'Business Registration (New / Renewal)',
       items: language === 'tl' ? [
-        { name: 'Sertipiko ng Pangalan ng Negosyo sa DTI / Rehistrasyon sa SEC', mandatory: true },
+        { name: 'Sertipiko ng Pangalan ng Negosyo sa DTI / Rehistrasyon sa SEC / CDA Certificate', mandatory: true },
         { name: 'Barangay Business Clearance (Kasalukuyang Taon)', mandatory: true },
         { name: 'Kontrata ng Upa (kung umuupa) o Titulo ng Lupa / Tax Declaration', mandatory: true },
+        { name: 'May-bisang Valid ID ng May-ari / Awtorisadong Kinatawan', mandatory: true },
         { name: 'Locational / Zoning Clearance', mandatory: true },
         { name: 'Fire Safety Inspection Certificate (FSIC)', mandatory: true },
         { name: 'Sanitary Permit at Health Cards para sa mga Empleyado', mandatory: false },
-        { name: 'Deklarasyon ng Kabuuang Benta at Financial Statement (Para sa Renewal)', mandatory: false },
+        { name: 'Deklarasyon ng Kabuuang Benta at Gross Sales (Para sa Renewal)', mandatory: false },
       ] : [
-        { name: 'DTI Business Name Certificate / SEC Registration', mandatory: true },
+        { name: 'DTI Business Name Certificate / SEC / CDA Registration Certificate', mandatory: true },
         { name: 'Barangay Business Clearance (Current Year)', mandatory: true },
         { name: 'Contract of Lease (if rented) or Land Title / Tax Declaration (if owned)', mandatory: true },
+        { name: 'Valid Government Issued Photo ID of Owner / Representative', mandatory: true },
         { name: 'Locational / Zoning Clearance', mandatory: true },
         { name: 'Fire Safety Inspection Certificate (FSIC)', mandatory: true },
         { name: 'Sanitary Permit & Health Cards for Employees', mandatory: false },
@@ -95,7 +97,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
       ]
     },
     building: {
-      title: language === 'tl' ? 'Mga Kinakailangan sa Building & Construction Permit' : 'Building & Construction Permit Requirements',
+      title: language === 'tl' ? 'Mga Kinakailangan sa Building and Construction Permit' : 'Building and Construction Permit Requirements',
       category: language === 'tl' ? 'Mga Clearance sa Gusali at Konstruksyon' : 'Building & Construction Clearances',
       items: language === 'tl' ? [
         { name: 'Certified True Copy ng Transfer Certificate of Title (TCT)', mandatory: true },
@@ -116,7 +118,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
       ]
     },
     transport: {
-      title: language === 'tl' ? 'Mga Kinakailangan sa Prangkisa at Transportasyon (MTOP)' : 'Franchise & Transport Permit (MTOP) Requirements',
+      title: language === 'tl' ? 'Mga Kinakailangan sa Franchise & Transport Permit (MTOP)' : 'Franchise & Transport Permit (MTOP) Requirements',
       category: language === 'tl' ? 'Lisensya sa Traysikel at PUV' : 'Tricycle & PUV Franchise Licensing',
       items: language === 'tl' ? [
         { name: 'Opisyal na Resibo (OR) at Rehistrasyon (CR) mula sa LTO', mandatory: true },
@@ -135,73 +137,57 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
       ]
     },
     barangay: {
-      title: language === 'tl' ? 'Mga Kinakailangan sa Barangay Clearance at Sedula' : 'Barangay Clearance & Cedula Requirements',
+      title: language === 'tl' ? 'Mga Kinakailangan sa Barangay Permit Integration' : 'Barangay Permit Integration Requirements',
       category: language === 'tl' ? 'Barangay Clearance at Mga Permit sa Komunidad' : 'Barangay Clearance & Community Permits',
       items: language === 'tl' ? [
-        { name: 'May-bisang ID na May Larawan mula sa Pamahalaan (UMID, Pasaporte, Lisensya)', mandatory: true },
+        { name: 'May-bisang ID na May Larawan mula sa Pamahalaan (PhilID, Pasaporte, Lisensya)', mandatory: true },
         { name: 'Community Tax Certificate (Sedula CTC) para sa kasalukuyang taon', mandatory: true },
         { name: 'Patunay ng Paninirahan / Kontrata ng Upa o Barangay Certificate', mandatory: true },
         { name: 'Sertipikasyon ng Lupon Tagapamayapa na Walang Nakabinbing Alitan', mandatory: false },
         { name: 'Sertipiko ng DTI / SEC (para sa Business Barangay Clearance)', mandatory: false }
       ] : [
-        { name: 'Valid Government Issued Photo ID (e.g. UMID, Passport, Driver\'s License)', mandatory: true },
+        { name: 'Valid Government Issued Photo ID (e.g. PhilID, Passport, Driver\'s License)', mandatory: true },
         { name: 'Community Tax Certificate (Cedula CTC) for current calendar year', mandatory: true },
         { name: 'Proof of Residency / Contract of Lease or Barangay Certificate of Residency', mandatory: true },
         { name: 'Lupon Tagapamayapa Certification of No Pending Dispute', mandatory: false },
         { name: 'DTI / SEC Certificate (for Business Barangay Clearance)', mandatory: false }
       ]
     },
-    inspection: {
-      title: language === 'tl' ? 'Gabay at Paghahanda sa Pinagsamang On-Site na Inspeksyon' : 'Joint On-Site Inspection Guidelines & Preparation',
-      category: language === 'tl' ? 'Pinagsamang Inspeksyon ng Munisipyo at BFP' : 'Municipal & BFP Joint Safety Inspection',
-      items: language === 'tl' ? [
-        { name: 'Aprubadong Building Blueprint at Fire Safety Evaluation Clearance (FSEC)', mandatory: true },
-        { name: 'Gumaganang fire extinguishers na may balidong taunang inspection tag', mandatory: true },
-        { name: 'Emergency exit lights, signages at maliwanag na fire egress path', mandatory: true },
-        { name: 'Awtorisadong Project Engineer / May-ari ng Ari-arian sa site habang nag-iinspeksyon', mandatory: true },
-        { name: 'Para sa PUV: Kumpletong ilaw, preno, at malinis na emission status', mandatory: true }
-      ] : [
-        { name: 'Approved Building Blueprint & Fire Safety Evaluation Clearance (FSEC)', mandatory: true },
-        { name: 'Functional portable fire extinguishers with valid annual inspection tags', mandatory: true },
-        { name: 'Emergency exit lights, directional signage & illuminated fire egress path', mandatory: true },
-        { name: 'Authorized Project Engineer / Property Owner on site during inspection', mandatory: true },
-        { name: 'For PUV: Complete headlight, tail light, brake, and clean emission status', mandatory: true }
-      ]
-    },
     tracking: {
-      title: language === 'tl' ? 'Gabay sa Beripikasyon ng QR Laban sa Panloloko' : 'Anti-Fraud & Cryptographic QR Verification Guide',
-      category: language === 'tl' ? 'Beripikasyon ng Permit at Proteksyon Laban sa Peke' : 'Permit Verification & Anti-Counterfeiting',
+      title: language === 'tl' ? 'Gabay sa Pagsubaybay ng E-Permit at Katayuan' : 'E-Permit Tracker & Verification Guidelines',
+      category: language === 'tl' ? 'Online Permit Status & QR Authenticity' : 'Online Permit Status & QR Authenticity',
       items: language === 'tl' ? [
-        { name: 'Opisyal na Holographic Seal at QR Stamp sa pisikal na permit', mandatory: true },
-        { name: 'Tumutugmang SHA-256 Hash code sa opisyal na database ng Munisipyo', mandatory: true },
-        { name: 'Direktang resibo at reference number ng pagbabayad sa Ingat-yaman (LGU Treasurer)', mandatory: true },
-        { name: 'Huwag kailanman makipag-transaksyon sa mga fixer o magbayad sa labas ng awtorisadong kahera', mandatory: true }
+        { name: 'Opisyal na Reference Number (hal. BP-2026-XXXXX, BC-2026-XXXXX, FT-2026-XXXXX)', mandatory: true },
+        { name: 'May-bisang Pangalan ng Rehistradong Negosyo o Aplikante', mandatory: true },
+        { name: 'Opisyal na Holographic QR Code sa Aprubadong Permit', mandatory: true },
+        { name: 'Direktang Resibo ng Bayad sa Ingat-yaman (Official Receipt No.)', mandatory: false }
       ] : [
-        { name: 'Official Municipal Holographic Seal & QR Stamp on physical permit', mandatory: true },
-        { name: 'Matching SHA-256 Hash code with live Municipal Ledger database', mandatory: true },
-        { name: 'Direct LGU Treasurer payment transaction reference (Official Receipt No.)', mandatory: true },
-        { name: 'Never transact with fixers or pay outside authorized city payment counters', mandatory: true }
+        { name: 'Official Reference Number (e.g. BP-2026-XXXXX, BC-2026-XXXXX, FT-2026-XXXXX)', mandatory: true },
+        { name: 'Registered Business or Applicant Name', mandatory: true },
+        { name: 'Official Holographic QR Stamp on Physical / Digital Permit', mandatory: true },
+        { name: 'Direct LGU Treasurer payment transaction reference (Official Receipt No.)', mandatory: false }
       ]
     }
   };
 
-  // 6 Core Permit Modules with metadata for live search & filtering (Bilingual)
+  // Exactly 5 Core Permit Modules with metadata for live search & filtering (Bilingual)
   const PERMIT_SERVICES = [
     {
       id: 'business',
       title: t('card_business_title', 'Business Permit'),
-      subtitle: t('card_business_subtitle', "Mayor's Permit & Business Licensing"),
+      subtitle: t('card_business_subtitle', "Mayor's Permits & Business Licensing"),
       category: t('card_business_category', 'Commercial & Retail'),
-      description: t('card_business_desc', 'Register new single proprietorships, partnerships, or corporations, declare annual gross sales, and file mandatory mayor\'s permit renewals online.'),
+      description: t('card_business_desc', 'Register and manage your business permit application with minimal data entry through document-based information extraction.'),
       tags: [
-        t('card_business_tag1', 'Instant DTI / SEC verification sync'),
-        t('card_business_tag2', 'Automated Local Business Tax (LBT) calculation'),
-        t('card_business_tag3', 'Digital QR-certified Mayor\'s Permit release')
+        t('card_business_tag1', 'Upload-based applicant and business information'),
+        t('card_business_tag2', 'Automatic document information extraction'),
+        t('card_business_tag3', 'Automatic business registration document identification'),
+        t('card_business_tag4', 'Digital application tracking')
       ],
-      keywords: ['business', 'negosyo', 'mayor', 'alkalde', 'commercial', 'retail', 'renewal', 'rehistro', 'dti', 'sec', 'tax', 'buwis', 'lbt', 'license', 'lisensya'],
-      primaryBtnText: t('card_business_btn_primary', 'Apply for Business Permit'),
+      keywords: ['business', 'negosyo', 'mayor', 'alkalde', 'commercial', 'retail', 'renewal', 'rehistro', 'dti', 'sec', 'cda', 'hoa', 'tax', 'buwis', 'lbt', 'license', 'lisensya', 'upload'],
+      primaryBtnText: t('card_business_btn_primary', 'Apply for Business Permit →'),
       primaryTab: 'Business Registration (New / Renewal)' as TabType,
-      secondaryBtnText: t('card_business_btn_secondary', 'Renew License'),
+      secondaryBtnText: t('card_business_btn_secondary', 'Renew Permit'),
       secondaryTab: 'Renewal' as TabType,
       reqCategory: 'business' as const,
       icon: Building2,
@@ -218,17 +204,17 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
     },
     {
       id: 'building',
-      title: t('card_building_title', 'Building & Construction'),
+      title: t('card_building_title', 'Building and Construction Permit'),
       subtitle: t('card_building_subtitle', 'Building Clearances & Blueprint Permits'),
       category: t('card_building_category', 'Engineering & Infrastructure'),
-      description: t('card_building_desc', 'Submit architectural CAD drawings, structural calculations, fire safety evaluations, and schedule on-site municipal engineering inspections.'),
+      description: t('card_building_desc', 'A Building and Construction Permit from a Local Government Unit (LGU) is an official legal authorization required before starting any new construction, major renovation, or demolition.'),
       tags: [
         t('card_building_tag1', 'CAD & PDF Blueprint Upload & Verification'),
         t('card_building_tag2', 'Structural, Sanitary & Electrical Safety Review'),
         t('card_building_tag3', 'Fire Safety Evaluation Clearance (FSEC) integration')
       ],
       keywords: ['building', 'gusali', 'construction', 'konstruksyon', 'engineering', 'blueprint', 'plano', 'cad', 'fsec', 'clearances', 'architectural', 'sanitary'],
-      primaryBtnText: t('card_building_btn_primary', 'Apply for Building Permit'),
+      primaryBtnText: t('card_building_btn_primary', 'Apply for Building Permit →'),
       primaryTab: 'Building Permit Filing' as TabType,
       secondaryBtnText: t('card_building_btn_secondary', 'Upload Plans'),
       secondaryTab: 'Plan & Blueprint Upload' as TabType,
@@ -247,17 +233,17 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
     },
     {
       id: 'transport',
-      title: t('card_transport_title', 'Franchise & Transport'),
+      title: t('card_transport_title', 'Franchise & Transport Permit'),
       subtitle: t('card_transport_subtitle', 'Tricycle (MTOP) & PUV Licensing'),
-      category: t('card_transport_category', 'Tricycle & PUV Licensing'),
-      description: t('card_transport_desc', 'File tricycle operator franchise permits (MTOP), public transport route authorizations, roadworthiness unit inspections, and windshield QR decals.'),
+      category: t('card_transport_category', 'Public Transport & Fleet'),
+      description: t('card_transport_desc', 'A transport franchise and permit legally authorizes you to operate public utility or for-hire vehicles (such as tricle, jeepneys, buses, taxis, UV Express, or trucks-for-hire) on Philippine roads.'),
       tags: [
         t('card_transport_tag1', 'Tricycle MTOP operator & fleet registry'),
         t('card_transport_tag2', 'Route conflict checking & TODA validation'),
         t('card_transport_tag3', 'Official Windshield QR Verification Decal')
       ],
       keywords: ['transport', 'transportasyon', 'franchise', 'prangkisa', 'mtop', 'tricycle', 'traysikel', 'puv', 'toda', 'route', 'ruta', 'vehicle', 'inspection'],
-      primaryBtnText: t('card_transport_btn_primary', 'Apply for MTOP Franchise'),
+      primaryBtnText: t('card_transport_btn_primary', 'Apply for MTOP Franchise →'),
       primaryTab: 'Franchise & Transport Permits' as TabType,
       secondaryBtnText: t('card_transport_btn_secondary', 'Fleet Status'),
       secondaryTab: 'Route & Unit Inspection' as TabType,
@@ -276,17 +262,17 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
     },
     {
       id: 'barangay',
-      title: t('card_barangay_title', 'Barangay Clearance'),
+      title: t('card_barangay_title', 'Barangay Permit Integration'),
       subtitle: t('card_barangay_subtitle', 'Barangay Endorsement & Cedula (CTC)'),
       category: t('card_barangay_category', '24-Barangay Network'),
-      description: t('card_barangay_desc', 'File official barangay business clearances, community tax certificates (Cedula CTC), and residency endorsements across all 24 partner barangays.'),
+      description: t('card_barangay_desc', 'allows business owners to seamlessly process and pay for integrated barangay business clearances and fees directly online alongside their Mayor’s Permit application.'),
       tags: [
         t('card_barangay_tag1', '24-Barangay live digital endorsement sync'),
         t('card_barangay_tag2', 'Automated Cedula / Community Tax Certificate (CTC)'),
         t('card_barangay_tag3', 'Official Punong Barangay QR signature seal')
       ],
       keywords: ['barangay', 'clearance', 'cedula', 'sedula', 'ctc', 'community', 'tax', 'buwis', 'lupon', 'endorsement', 'endoso'],
-      primaryBtnText: t('card_barangay_btn_primary', 'Request Barangay Clearance'),
+      primaryBtnText: t('card_barangay_btn_primary', 'Request Barangay Clearance →'),
       primaryTab: 'Barangay Permit Integration' as TabType,
       secondaryBtnText: t('card_barangay_btn_secondary', 'Cedula CTC Filing'),
       secondaryTab: 'Barangay Clearance Filing' as TabType,
@@ -304,49 +290,20 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
       }
     },
     {
-      id: 'inspection',
-      title: t('card_inspection_title', 'On-Site Inspection'),
-      subtitle: t('card_inspection_subtitle', 'Building, Fire, Sanitary & PUV Safety'),
-      category: t('card_inspection_category', 'Joint Inspection Team'),
-      description: t('card_inspection_desc', 'Schedule on-site technical evaluations with municipal building officials, Bureau of Fire Protection (BFP) inspectors, sanitary officers, and PUV roadworthiness inspectors.'),
-      tags: [
-        t('card_inspection_tag1', 'Real-time appointment scheduling & calendar booking'),
-        t('card_inspection_tag2', 'BFP Fire Safety (FSIC) & Joint Inspection coordination'),
-        t('card_inspection_tag3', 'Instant Digital Appointment Slip & QR confirmation')
-      ],
-      keywords: ['inspection', 'inspeksyon', 'appointment', 'iskedyul', 'bfp', 'fire', 'sunog', 'safety', 'sanitary', 'fsic', 'schedule', 'calendar'],
-      primaryBtnText: t('card_inspection_btn_primary', 'Book On-Site Inspection'),
-      primaryTab: 'Inspection Scheduling' as TabType,
-      secondaryBtnText: t('card_inspection_btn_secondary', 'Inspection Queue'),
-      secondaryTab: 'Inspection & Local Validation' as TabType,
-      reqCategory: 'inspection' as const,
-      icon: Calendar,
-      accent: {
-        borderHover: 'hover:border-sky-500 dark:hover:border-sky-500',
-        bgGlow: 'bg-sky-500/10 group-hover:bg-sky-500/20',
-        iconBox: 'bg-sky-50 dark:bg-sky-950/80 text-sky-600 dark:text-sky-400 border-sky-200/60 dark:border-sky-800/60',
-        badge: 'bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-800',
-        titleHover: 'group-hover:text-sky-600 dark:group-hover:text-sky-400',
-        checkIcon: 'text-sky-600 dark:text-sky-400',
-        primaryBtn: 'bg-sky-600 hover:bg-sky-500 text-white shadow-sky-600/25',
-        secondaryBtn: 'text-sky-600 dark:text-sky-400'
-      }
-    },
-    {
       id: 'tracking',
-      title: t('card_tracking_title', 'QR Permit Tracker'),
-      subtitle: t('card_tracking_subtitle', 'Authenticity & Live Milestone Tracking'),
-      category: t('card_tracking_category', 'Cryptographic Security'),
-      description: t('card_tracking_desc', 'Verify cryptographic security signatures, validate issued digital permits against the master municipal registry, and track live application milestone progress in real-time.'),
+      title: t('card_tracking_title', 'E-Permit tracker'),
+      subtitle: t('card_tracking_subtitle', 'Online Application & Status Tracking'),
+      category: t('card_tracking_category', 'Digital Services & Tracking'),
+      description: t('card_tracking_desc', 'You can track your permit application or status online.'),
       tags: [
-        t('card_tracking_tag1', '2048-bit RSA & SHA-256 Government Signature Audit'),
-        t('card_tracking_tag2', 'Live milestone timeline tracking from filing to release'),
-        t('card_tracking_tag3', 'Tamper-proof hologram verification & fraud reporting')
+        t('card_tracking_tag1', 'Real-time application status and milestone tracking'),
+        t('card_tracking_tag2', 'Public reference code lookup (BP / BC / FT / BR)'),
+        t('card_tracking_tag3', 'Digital authenticity and official QR code verification')
       ],
-      keywords: ['tracker', 'subaybay', 'qr', 'verify', 'beripika', 'authenticity', 'milestone', 'status', 'katayuan', 'anti-fraud', 'cryptographic', 'reference'],
-      primaryBtnText: t('card_tracking_btn_primary', 'Verify QR Authenticity'),
+      keywords: ['tracker', 'subaybay', 'qr', 'verify', 'beripika', 'authenticity', 'milestone', 'status', 'katayuan', 'anti-fraud', 'cryptographic', 'reference', 'online'],
+      primaryBtnText: t('card_tracking_btn_primary', 'Track Permit Application →'),
       primaryTab: 'E-Permit Tracker' as TabType,
-      secondaryBtnText: t('card_tracking_btn_secondary', 'Track Reference'),
+      secondaryBtnText: t('card_tracking_btn_secondary', 'Verify QR Authenticity'),
       secondaryTab: 'Public Reference Code Tracker' as TabType,
       reqCategory: 'tracking' as const,
       icon: QrCode,
@@ -651,7 +608,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                           className="text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 flex items-center space-x-1 cursor-pointer"
                         >
                           <Info size={13} />
-                          <span>{t('view_requirements', 'Requirements')}</span>
+                          <span>{service.id === 'business' ? t('card_business_btn_requirements', 'View Requirements') : t('view_requirements', 'Requirements')}</span>
                         </button>
                       </div>
                     </div>
@@ -671,8 +628,8 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
                   {language === 'tl' 
-                    ? <>Walang natagpuang permit na tumutugma sa iyong keyword. Subukang maghanap ng <span className="font-semibold text-blue-600 dark:text-blue-400">Business Permit</span>, <span className="font-semibold text-amber-600 dark:text-amber-400">Gusali</span>, <span className="font-semibold text-emerald-600 dark:text-emerald-400">MTOP</span>, o <span className="font-semibold text-purple-600 dark:text-purple-400">Barangay</span>.</>
-                    : <>We couldn't find any permit matching your keywords. Try searching for <span className="font-semibold text-blue-600 dark:text-blue-400">Business Permit</span>, <span className="font-semibold text-amber-600 dark:text-amber-400">Building Clearances</span>, <span className="font-semibold text-emerald-600 dark:text-emerald-400">MTOP</span>, or <span className="font-semibold text-purple-600 dark:text-purple-400">Barangay</span>.</>}
+                    ? <>Walang natagpuang permit na tumutugma sa iyong keyword. Subukang maghanap ng <span className="font-semibold text-blue-600 dark:text-blue-400">Business Permit</span>, <span className="font-semibold text-amber-600 dark:text-amber-400">Building</span>, <span className="font-semibold text-emerald-600 dark:text-emerald-400">Transport</span>, <span className="font-semibold text-purple-600 dark:text-purple-400">Barangay</span>, o <span className="font-semibold text-teal-600 dark:text-teal-400">E-Permit Tracker</span>.</>
+                    : <>We couldn't find any permit matching your keywords. Try searching for <span className="font-semibold text-blue-600 dark:text-blue-400">Business Permit</span>, <span className="font-semibold text-amber-600 dark:text-amber-400">Building and Construction</span>, <span className="font-semibold text-emerald-600 dark:text-emerald-400">Franchise & Transport</span>, <span className="font-semibold text-purple-600 dark:text-purple-400">Barangay Integration</span>, or <span className="font-semibold text-teal-600 dark:text-teal-400">E-Permit Tracker</span>.</>}
                 </p>
               </div>
               <div>
@@ -849,15 +806,14 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
               </button>
               <button 
                 onClick={() => {
-                  let targetTab = 'Business Registration (New / Renewal)';
+                  let targetTab: TabType = 'Business Registration (New / Renewal)';
                   if (selectedReqCategory === 'building') targetTab = 'Building Permit Filing';
                   else if (selectedReqCategory === 'transport') targetTab = 'Franchise & Transport Permits';
                   else if (selectedReqCategory === 'barangay') targetTab = 'Barangay Permit Integration';
-                  else if (selectedReqCategory === 'inspection') targetTab = 'Inspection Scheduling';
                   else if (selectedReqCategory === 'tracking') targetTab = 'E-Permit Tracker';
                   
                   setSelectedReqCategory(null);
-                  onNavigateToTab(targetTab as TabType);
+                  onNavigateToTab(targetTab);
                 }} 
                 className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/20 cursor-pointer flex items-center space-x-1.5"
               >
