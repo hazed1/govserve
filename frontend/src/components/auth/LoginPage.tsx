@@ -634,36 +634,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   </div>
                 )}
 
-                {/* Instant Verification Code Display */}
-                {devOtpCode && (
-                  <div className="p-3.5 bg-blue-50/90 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800/70 rounded-xl text-xs flex items-center justify-between shadow-xs animate-fadeIn">
-                    <div className="flex items-center space-x-2">
-                      <KeyRound size={16} className="text-blue-600 dark:text-blue-400" />
-                      <div>
-                        <p className="font-bold text-blue-950 dark:text-blue-200">Security Verification Code:</p>
-                        <p className="text-[11px] text-blue-700/80 dark:text-blue-400">Valid for 5 minutes</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-2.5">
-                      <span className="font-mono font-black text-blue-700 dark:text-blue-300 text-base tracking-widest bg-white dark:bg-blue-900/60 px-3 py-1 rounded-lg border border-blue-200 dark:border-blue-700 select-all shadow-xs">
-                        {devOtpCode}
-                      </span>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          const digits = devOtpCode.split('').slice(0, 6);
-                          setOtpDigits(digits);
-                          setTimeout(() => inputRefs.current[5]?.focus(), 50);
-                        }}
-                        className="px-2.5 py-1 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg text-xs shadow-xs transition-colors cursor-pointer"
-                      >
-                        Auto-fill
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-
                 {/* 6 Individual Digit Boxes Form */}
                 <form onSubmit={handleVerifyOtpSubmit} className="space-y-5">
                   <div>
