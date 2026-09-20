@@ -532,30 +532,43 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         <div className="relative z-10 flex items-center justify-between">
           <div className="mb-6">
             <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white">
-              E-Permit & Business Licensing Hub
+              {language === 'tl' ? 'Sentro ng E-Permit at Paglilisensya ng Negosyo' : 'E-Permit & Business Licensing Hub'}
             </h1>
-            <p className="text-xs text-slate-400 font-medium mt-0.5">Republic of the Philippines • Local Government Unit</p>
+            <p className="text-xs text-slate-400 font-medium mt-0.5">
+              {language === 'tl' ? 'Republika ng Pilipinas • Lokal na Pamahalaan' : 'Republic of the Philippines • Local Government Unit'}
+            </p>
           </div>
         </div>
 
         {/* Centered Main Title & Subtitle */}
         <div className="relative z-10 my-auto py-10 flex flex-col items-center justify-center text-center max-w-xl mx-auto">
           <h2 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-black text-white leading-[1.15] tracking-tight drop-shadow-md text-center">
-            Licensing And <br />
-            Business Permit
+            {language === 'tl' ? (
+              <>
+                Paglilisensya At <br />
+                Permiso sa Negosyo
+              </>
+            ) : (
+              <>
+                Licensing And <br />
+                Business Permit
+              </>
+            )}
           </h2>
           <p className="mt-4 text-slate-300 text-sm sm:text-base leading-relaxed text-center max-w-lg">
-            A centralized digital platform for securely managing local government licensing services, business permits, taxpayer accounts, and official records.
+            {language === 'tl'
+              ? 'Isang sentralisadong digital na plataporma para sa ligtas na pamamahala ng mga serbisyo sa paglilisensya ng lokal na pamahalaan, mga permiso sa negosyo, account ng mga nagbabayad ng buwis, at mga opisyal na talaan.'
+              : 'A centralized digital platform for securely managing local government licensing services, business permits, taxpayer accounts, and official records.'}
           </p>
         </div>
 
         {/* Bottom Tagline / Official Notice */}
         <div className="relative z-10 pt-6 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
           <span className="font-semibold tracking-wider uppercase text-[11px] text-slate-400">
-            Official LGU Portal
+            {language === 'tl' ? 'Opisyal na Portal ng LGU' : 'Official LGU Portal'}
           </span>
           <span className="text-[11px] text-slate-500">
-            Republic of the Philippines
+            {language === 'tl' ? 'Republika ng Pilipinas' : 'Republic of the Philippines'}
           </span>
         </div>
       </div>
@@ -803,7 +816,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       onClick={() => setAuthMode('forgot')}
                       className="text-[11px] text-blue-500 hover:text-blue-400 font-medium transition-colors cursor-pointer"
                     >
-                      Forgot Password?
+                      {language === 'tl' ? 'Nakalimutan ang Password?' : 'Forgot Password?'}
                     </button>
                   </div>
 
@@ -820,11 +833,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     {isLoading ? (
                       <>
                         <RefreshCw size={16} className="animate-spin" />
-                        <span>Authenticating Credentials...</span>
+                        <span>{language === 'tl' ? 'Sinusuri ang Kredensyal...' : 'Authenticating Credentials...'}</span>
                       </>
                     ) : (
                       <>
-                        <span>Sign In</span>
+                        <span>{language === 'tl' ? 'Mag-sign In' : 'Sign In'}</span>
                         <ArrowRight size={16} className={loginCooldown > 0 ? '' : 'group-hover:translate-x-1 transition-transform'} />
                       </>
                     )}
@@ -937,7 +950,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                           className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                           required
                         >
-                          <option value="">Month</option>
+                          <option value="">{language === 'tl' ? 'Buwan' : 'Month'}</option>
                           {['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].map(m => (
                             <option key={m} value={m}>{m}</option>
                           ))}
@@ -951,7 +964,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                             const digits = e.target.value.replace(/\D/g, '').slice(0, 2);
                             setRegBirthDay(digits);
                           }}
-                          placeholder="Day"
+                          placeholder={language === 'tl' ? 'Araw' : 'Day'}
                           className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-center"
                           required
                         />
@@ -964,7 +977,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                             const digits = e.target.value.replace(/\D/g, '').slice(0, 4);
                             setRegBirthYear(digits);
                           }}
-                          placeholder="Year"
+                          placeholder={language === 'tl' ? 'Taon' : 'Year'}
                           className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 text-center"
                           required
                         />
@@ -1153,7 +1166,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
                   {/* SECTION 4: LOGIN CREDENTIALS */}
                   <div className="pt-2 border-t border-slate-100">
-                    <h3 className="text-sm font-bold text-[#1a5f7a] mb-2.5">Login Credentials</h3>
+                    <h3 className="text-sm font-bold text-[#1a5f7a] mb-2.5">
+                      {language === 'tl' ? 'Kredensyal sa Pag-login' : 'Login Credentials'}
+                    </h3>
                     <div className="mb-3">
                       <label className="block text-xs font-semibold mb-1 text-slate-700">
                         {!regEmail.trim() && <span className="text-red-500 font-bold mr-1">*</span>}{language === 'tl' ? 'Email Address:' : 'Email Address:'}
@@ -1189,21 +1204,21 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                           value={regPassword}
                           onFocus={() => setIsPasswordFocused(true)}
                           onChange={(e) => setRegPassword(e.target.value)}
-                          placeholder="Enter password"
+                          placeholder={language === 'tl' ? 'Ilagay ang password' : 'Enter password'}
                           className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
                           required
                         />
                       </div>
                       <div>
                         <label className="block text-xs font-semibold mb-1 text-slate-700">
-                          {!regConfirmPassword && <span className="text-red-500 font-bold mr-1">*</span>}Confirm Password:
+                          {!regConfirmPassword && <span className="text-red-500 font-bold mr-1">*</span>}{language === 'tl' ? 'Kumpirmahin ang Password:' : 'Confirm Password:'}
                         </label>
                         <div className="relative">
                           <input
                             type="password"
                             value={regConfirmPassword}
                             onChange={(e) => setRegConfirmPassword(e.target.value)}
-                            placeholder="Enter password confirmation"
+                            placeholder={language === 'tl' ? 'Ulitin ang password' : 'Enter password confirmation'}
                             className={`w-full px-3 py-2 rounded-lg text-xs border bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 transition-colors ${
                               regConfirmPassword.length > 0 && regConfirmPassword !== regPassword
                                 ? 'border-rose-400 focus:border-rose-500 focus:ring-rose-500/20 pr-9'
@@ -1216,7 +1231,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                           )}
                         </div>
                         {regConfirmPassword.length > 0 && regConfirmPassword !== regPassword && (
-                          <p className="text-xs text-rose-500 mt-1 font-medium animate-fadeIn">Invalid.</p>
+                          <p className="text-xs text-rose-500 mt-1 font-medium animate-fadeIn">
+                            {language === 'tl' ? 'Hindi tugma ang password.' : 'Invalid.'}
+                          </p>
                         )}
                       </div>
                     </div>
@@ -1225,7 +1242,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     {(isPasswordFocused || regPassword.length > 0) && (
                       <div className="mt-3 p-4 bg-transparent dark:bg-slate-900/40 rounded-2xl border border-slate-300 dark:border-slate-700/80 text-xs shadow-sm animate-fadeIn password-requirements-card">
                         <p className="text-[13px] font-semibold text-slate-800 dark:text-slate-200 mb-2.5 password-requirements-title">
-                          Password must contain the following:
+                          {language === 'tl' ? 'Dapat naglalaman ang password ng mga sumusunod:' : 'Password must contain the following:'}
                         </p>
                         <div className="space-y-1.5 text-xs font-medium">
                           {(() => {
@@ -1239,28 +1256,28 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                                 <div className={`flex items-center space-x-2 ${hasLower ? 'text-teal-600 dark:text-teal-400' : 'text-red-600 dark:text-rose-400'}`}>
                                   <span className="font-bold text-sm leading-none">{hasLower ? '✓' : '✕'}</span>
                                   <span>
-                                    <strong className="font-bold">A lowercase</strong>{' '}
-                                    <span className={hasLower ? 'text-teal-600 dark:text-teal-400' : 'text-red-500 dark:text-rose-400'}>letter</span>
+                                    <strong className="font-bold">{language === 'tl' ? 'Maliit na titik' : 'A lowercase'}</strong>{' '}
+                                    <span className={hasLower ? 'text-teal-600 dark:text-teal-400' : 'text-red-500 dark:text-rose-400'}>{language === 'tl' ? '(lowercase)' : 'letter'}</span>
                                   </span>
                                 </div>
                                 <div className={`flex items-center space-x-2 ${hasUpper ? 'text-teal-600 dark:text-teal-400' : 'text-red-600 dark:text-rose-400'}`}>
                                   <span className="font-bold text-sm leading-none">{hasUpper ? '✓' : '✕'}</span>
                                   <span>
-                                    <strong className="font-bold">A capital (uppercase)</strong>{' '}
-                                    <span className={hasUpper ? 'text-teal-600 dark:text-teal-400' : 'text-rose-400 dark:text-rose-300'}>letter</span>
+                                    <strong className="font-bold">{language === 'tl' ? 'Malaking titik' : 'A capital (uppercase)'}</strong>{' '}
+                                    <span className={hasUpper ? 'text-teal-600 dark:text-teal-400' : 'text-rose-400 dark:text-rose-300'}>{language === 'tl' ? '(uppercase)' : 'letter'}</span>
                                   </span>
                                 </div>
                                 <div className={`flex items-center space-x-2 ${hasNumber ? 'text-teal-600 dark:text-teal-400' : 'text-red-600 dark:text-rose-400'}`}>
                                   <span className="font-bold text-sm leading-none">{hasNumber ? '✓' : '✕'}</span>
                                   <span>
-                                    <strong className="font-bold">A number</strong>
+                                    <strong className="font-bold">{language === 'tl' ? 'Numero' : 'A number'}</strong>
                                   </span>
                                 </div>
                                 <div className={`flex items-center space-x-2 ${hasMinLen ? 'text-teal-600 dark:text-teal-400' : 'text-red-600 dark:text-rose-400'}`}>
                                   <span className="font-bold text-sm leading-none">{hasMinLen ? '✓' : '✕'}</span>
                                   <span>
-                                    <strong className="font-bold">Minimum 8</strong>{' '}
-                                    <span className={hasMinLen ? 'text-teal-600 dark:text-teal-400' : 'text-red-500 dark:text-rose-400'}>characters</span>
+                                    <strong className="font-bold">{language === 'tl' ? 'Hindi bababa sa 8' : 'Minimum 8'}</strong>{' '}
+                                    <span className={hasMinLen ? 'text-teal-600 dark:text-teal-400' : 'text-red-500 dark:text-rose-400'}>{language === 'tl' ? 'karakter' : 'characters'}</span>
                                   </span>
                                 </div>
                               </>
@@ -1278,11 +1295,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     className="w-full mt-4 py-3 bg-[#0d9488] hover:bg-[#0f766e] text-white font-bold text-xs rounded-xl shadow-lg transition-all duration-200 flex items-center justify-center space-x-2 cursor-pointer"
                   >
                     {isSendingOtp ? <RefreshCw size={16} className="animate-spin" /> : <ShieldCheck size={16} />}
-                    <span>Complete Registration</span>
+                    <span>{language === 'tl' ? 'Kumpletuhin ang Pagpaparehistro' : 'Complete Registration'}</span>
                   </button>
 
                   <div className="text-center pt-2">
-                    <span className="text-xs text-slate-500">Already registered? </span>
+                    <span className="text-xs text-slate-500">{language === 'tl' ? 'May account na? ' : 'Already registered? '}</span>
                     <button
                       type="button"
                       onClick={() => {
@@ -1291,7 +1308,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       }}
                       className="text-xs font-bold text-blue-600 hover:text-blue-700 underline cursor-pointer"
                     >
-                      Sign In here
+                      {language === 'tl' ? 'Mag-sign in dito' : 'Sign In here'}
                     </button>
                   </div>
                 </form>
@@ -1305,16 +1322,20 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center mx-auto mb-2 bg-amber-50 text-amber-600 border border-amber-200">
                     <KeyRound size={20} />
                   </div>
-                  <h2 className="text-lg font-bold text-slate-900">Reset Account Password</h2>
+                  <h2 className="text-lg font-bold text-slate-900">
+                    {language === 'tl' ? 'I-reset ang Password ng Account' : 'Reset Account Password'}
+                  </h2>
                   <p className="text-xs mt-1 text-slate-500">
-                    Enter your email or citizen ID to receive password reset instructions.
+                    {language === 'tl'
+                      ? 'Ilagay ang iyong email o citizen ID upang matanggap ang mga tagubilin sa pag-reset ng password.'
+                      : 'Enter your email or citizen ID to receive password reset instructions.'}
                   </p>
                 </div>
 
                 <form onSubmit={handleForgotPasswordSubmit} className="space-y-4">
                   <div>
                     <label className="block text-xs font-bold mb-1.5 text-slate-700">
-                      Email or Citizen ID
+                      {language === 'tl' ? 'Email o Citizen ID' : 'Email or Citizen ID'}
                     </label>
                     <input
                       type="text"
@@ -1330,7 +1351,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     type="submit"
                     className="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-md transition-colors"
                   >
-                    Send Recovery Link
+                    {language === 'tl' ? 'Ipadala ang Link sa Pag-recover' : 'Send Recovery Link'}
                   </button>
                 </form>
               </div>
