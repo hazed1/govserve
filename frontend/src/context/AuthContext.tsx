@@ -307,43 +307,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Reset login attempts on correct password
     resetLoginAttempts(credentials.identifier);
 
-    // 5. Enforce Gmail 2FA Security OTP - skip completely for admin users
-    const isAdmin = matchedProfile.role === 'admin' || matchedProfile.email.toLowerCase() === 'admin@govserve.ph';
-    const isMfaRequired = enforceMFA && matchedProfile.mfaEnabled !== false && !isAdmin;
-
-    if (isMfaRequired) {
-      setPendingUser(matchedProfile);
-      setRequiresMFA(true);
-
-      let devOtpCode: string | undefined = undefined;
-      try {
-        const otpRes = await sendOTPEmail(matchedProfile.email, matchedProfile.name, 'login');
-        if (!otpRes.success) {
-          setIsLoading(false);
-          setPendingUser(null);
-          setRequiresMFA(false);
-          return {
-            success: false,
-            requiresMFA: false,
-            message: otpRes.message || 'This Gmail account is not registered. Please create a Citizen Account before logging in.'
-          };
-        }
-        devOtpCode = otpRes.code;
-      } catch (err) {
-        console.warn('Could not dispatch OTP email:', err);
-      }
-
-      setIsLoading(false);
-      return {
-        success: true,
-        requiresMFA: true,
-        targetEmail: matchedProfile.email,
-        targetName: matchedProfile.name,
-        devOtpCode
-      };
-    }
-
-    // Direct login without 2FA if explicitly disabled
+    // Direct login without 2FA OTP requirement - straight into portal
     setUser(matchedProfile);
     setPendingUser(null);
     setRequiresMFA(false);

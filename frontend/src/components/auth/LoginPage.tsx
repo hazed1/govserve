@@ -214,7 +214,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         password,
         rememberMe,
         role: selectedRolePreset
-      }, selectedRolePreset !== 'admin');
+      }, false);
 
       if (!result.success) {
         if (result.cooldownSeconds) {
@@ -229,22 +229,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
       setRemainingAttempts(null);
       setLoginCooldown(0);
-
-      if (result.requiresMFA) {
-        const destEmail = result.targetEmail || identifier.trim();
-        setTargetEmail(destEmail);
-        setTargetName(result.targetName || 'Citizen');
-        setDevOtpCode(result.devOtpCode || null);
-        setAuthMode('otp');
-        setOtpDigits(['', '', '', '', '', '']);
-        setResendCooldown(60);
-        setExpirySeconds(300);
-        setPendingRegData(null);
-        setSuccessMessage(`A 6-digit verification code has been sent to ${destEmail}`);
-        setTimeout(() => inputRefs.current[0]?.focus(), 150);
-      } else {
-        setSuccessMessage('Login successful! Redirecting...');
-      }
+      setSuccessMessage('Login successful! Redirecting...');
     } catch (err: any) {
       setErrorMessage(err?.message || 'Authentication failed. Please verify credentials.');
     }
@@ -457,25 +442,14 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
     setIsSendingOtp(true);
     try {
-      const otpRes = await sendOTPEmail(regData.email, regData.fullName, 'registration');
-      if (!otpRes.success) {
-        setErrorMessage(otpRes.message || 'Failed to send verification code. Please try again.');
-        setIsSendingOtp(false);
-        return;
+      const regResult = await register(regData);
+      if (regResult.success) {
+        setSuccessMessage('Registration successful! Redirecting to portal...');
+      } else {
+        setErrorMessage(regResult.message || 'Registration failed. Please try again.');
       }
-
-      setPendingRegData(regData);
-      setTargetEmail(regData.email);
-      setTargetName(regData.fullName);
-      setDevOtpCode(otpRes.code || null);
-      setAuthMode('otp');
-      setOtpDigits(['', '', '', '', '', '']);
-      setResendCooldown(60);
-      setExpirySeconds(300);
-      setSuccessMessage(`A 6-digit verification code has been sent to ${regData.email}`);
-      setTimeout(() => inputRefs.current[0]?.focus(), 150);
     } catch (err: any) {
-      setErrorMessage(err?.message || 'Failed to send verification code.');
+      setErrorMessage(err?.message || 'Registration failed. Please try again.');
     } finally {
       setIsSendingOtp(false);
     }
@@ -589,23 +563,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               </div>
             )}
 
-            {/* If in OTP mode: Blue Notice Card on top */}
-            {authMode === 'otp' && (
-              <div className="mb-4 p-3.5 bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800/60 rounded-xl text-xs space-y-1.5 animate-fadeIn">
-                <div className="flex items-start space-x-2.5 text-blue-950 dark:text-blue-100 font-medium">
-                  <ShieldCheck size={18} className="text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
-                  <div>
-                    <span>{language === 'tl' ? <>Nagpadala kami ng <strong>6-digit security code</strong> sa iyong Gmail account</> : <>We sent a <strong>6-digit security code</strong> to your Gmail account</>}</span>
-                  </div>
-                </div>
-                <p className="text-[11px] text-blue-700/80 dark:text-blue-300/70 pl-7">
-                  {language === 'tl' ? 'Pakisuri ang iyong Inbox (o Spam folder) at ilagay ang code sa ibaba.' : 'Please check your Inbox (or Spam/Junk folder) and enter the code below.'}
-                </p>
-              </div>
-            )}
-
-            {/* If NOT in OTP mode: standard success message */}
-            {authMode !== 'otp' && successMessage && (
+            {/* Success Message Banner */}
+            {successMessage && (
               <div className="mb-4 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center space-x-2">
                 <CheckCircle2 size={16} className="text-emerald-600 flex-shrink-0" />
                 <div className="flex-1 font-semibold">{successMessage}</div>
