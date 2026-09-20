@@ -50,6 +50,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
     login, 
     quickLogin, 
     register, 
+    checkEmailExists,
     verifyOTP,
     sendOTPEmail,
     isLoading 
@@ -96,6 +97,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   const [regSex, setRegSex] = useState<string>('');
   const [regPhone, setRegPhone] = useState<string>('');
   const [regEmail, setRegEmail] = useState<string>('');
+  const [emailError, setEmailError] = useState<string | null>(null);
   const [regPassword, setRegPassword] = useState<string>('');
   const [regConfirmPassword, setRegConfirmPassword] = useState<string>('');
   const [isPasswordFocused, setIsPasswordFocused] = useState<boolean>(false);
@@ -396,9 +398,21 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       return;
     }
     if (!regEmail.trim()) {
-      setErrorMessage('Email Address is required.');
+      setErrorMessage(language === 'tl' ? 'Kinakailangan ang Email Address.' : 'Email Address is required.');
       return;
     }
+
+    // Strict duplicate check before submitting registration
+    const isAlreadyTaken = await checkEmailExists(regEmail.trim());
+    if (isAlreadyTaken) {
+      const msg = language === 'tl'
+        ? 'Ang Gmail address na ito ay nagamit na / nakarehistro na. Bawal na ulet itong gamitin.'
+        : 'This Gmail address is already registered. Please sign in or use a different email.';
+      setErrorMessage(msg);
+      setEmailError(msg);
+      return;
+    }
+
     const hasLower = /[a-z]/.test(regPassword);
     const hasUpper = /[A-Z]/.test(regPassword);
     const hasNumber = /[0-9]/.test(regPassword);
@@ -444,14 +458,47 @@ export const LoginPage: React.FC<LoginPageProps> = ({
     try {
       const regResult = await register(regData);
       if (regResult.success) {
-        setSuccessMessage('Registration successful! Redirecting to portal...');
+        setSuccessMessage(language === 'tl' ? 'Matagumpay ang pagpaparehistro! Papasok na sa portal...' : 'Registration successful! Redirecting to portal...');
       } else {
-        setErrorMessage(regResult.message || 'Registration failed. Please try again.');
+        const errorMsg = regResult.message || (language === 'tl' ? 'Bigo ang pagpaparehistro. Pakisubukang muli.' : 'Registration failed. Please try again.');
+        setErrorMessage(errorMsg);
+        if (errorMsg.toLowerCase().includes('already registered') || errorMsg.toLowerCase().includes('nagamit na') || errorMsg.toLowerCase().includes('nakarehistro')) {
+          setEmailError(
+            language === 'tl'
+              ? 'Ang Gmail address na ito ay nagamit na / nakarehistro na. Bawal na ulet itong gamitin.'
+              : 'This Gmail address is already registered. Please sign in or use a different email.'
+          );
+        }
       }
     } catch (err: any) {
-      setErrorMessage(err?.message || 'Registration failed. Please try again.');
+      setErrorMessage(err?.message || (language === 'tl' ? 'Bigo ang pagpaparehistro. Pakisubukang muli.' : 'Registration failed. Please try again.'));
     } finally {
       setIsSendingOtp(false);
+    }
+  };
+
+  const handleEmailChange = (val: string) => {
+    setRegEmail(val);
+    if (emailError) {
+      setEmailError(null);
+    }
+  };
+
+  const handleEmailBlur = async () => {
+    const clean = regEmail.trim();
+    if (!clean) {
+      setEmailError(null);
+      return;
+    }
+    const exists = await checkEmailExists(clean);
+    if (exists) {
+      setEmailError(
+        language === 'tl'
+          ? 'Ang Gmail address na ito ay nagamit na / nakarehistro na. Bawal na ulet itong gamitin.'
+          : 'This Gmail address is already registered. Please sign in or use a different email.'
+      );
+    } else {
+      setEmailError(null);
     }
   };
 
@@ -1109,16 +1156,27 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     <h3 className="text-sm font-bold text-[#1a5f7a] mb-2.5">Login Credentials</h3>
                     <div className="mb-3">
                       <label className="block text-xs font-semibold mb-1 text-slate-700">
-                        {!regEmail.trim() && <span className="text-red-500 font-bold mr-1">*</span>}Email Address:
+                        {!regEmail.trim() && <span className="text-red-500 font-bold mr-1">*</span>}{language === 'tl' ? 'Email Address:' : 'Email Address:'}
                       </label>
                       <input
                         type="email"
                         value={regEmail}
-                        onChange={(e) => setRegEmail(e.target.value)}
-                        placeholder="Enter email address"
-                        className="w-full px-3 py-2 rounded-lg text-xs border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+                        onChange={(e) => handleEmailChange(e.target.value)}
+                        onBlur={handleEmailBlur}
+                        placeholder={language === 'tl' ? 'Ilagay ang email address' : 'Enter email address'}
+                        className={`w-full px-3 py-2 rounded-lg text-xs border transition-colors ${
+                          emailError
+                            ? 'border-red-500 bg-red-50/40 text-red-900 placeholder:text-red-300 focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500'
+                            : 'border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500'
+                        }`}
                         required
                       />
+                      {emailError && (
+                        <p className="text-[11px] font-semibold text-red-600 mt-1 flex items-center space-x-1 animate-fadeIn">
+                          <AlertCircle size={13} className="flex-shrink-0 text-red-600" />
+                          <span>{emailError}</span>
+                        </p>
+                      )}
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">

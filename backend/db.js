@@ -287,10 +287,10 @@ async function executeMemoryQuery(text, params = []) {
   }
 
   // 10. Select user by email or citizen_id
-  if (lowerSql.includes('from users') && (lowerSql.includes('email = $1') || lowerSql.includes('citizen_id = $1'))) {
+  if (lowerSql.includes('from users') && (lowerSql.includes('email = $1') || lowerSql.includes('email') || lowerSql.includes('citizen_id = $1'))) {
     const identifier = (params[0] || '').toLowerCase().trim();
     const found = memoryStore.users.find(u => 
-      u.email.toLowerCase() === identifier || (u.citizen_id && u.citizen_id.toLowerCase() === identifier)
+      (u.email && u.email.toLowerCase() === identifier) || (u.citizen_id && u.citizen_id.toLowerCase() === identifier)
     );
     return { rows: found ? [found] : [] };
   }

@@ -21,6 +21,7 @@ interface AuthContextType {
   verifyOTP: (code: string, email?: string) => Promise<{ success: boolean; message?: string }>;
   quickLogin: (role: UserRole) => void;
   register: (credentials: RegisterCredentials) => Promise<{ success: boolean; message?: string }>;
+  checkEmailExists: (email: string) => Promise<boolean>;
   logout: () => void;
   switchRole: (role: UserRole) => void;
   cancelMFA: () => void;
@@ -365,11 +366,56 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setPendingUser(null);
   };
 
+  const checkEmailExists = async (email: string): Promise<boolean> => {
+    const clean = email.toLowerCase().trim();
+    if (!clean) return false;
+    if (registeredAccounts[clean]) {
+      return true;
+    }
+    try {
+      const resp = await fetch(`/api/auth/check-email?email=${encodeURIComponent(clean)}`);
+      if (resp.ok) {
+        const data = await resp.json();
+        return !!data.exists;
+      }
+    } catch {
+      // ignore
+    }
+    return false;
+  };
+
   const register = async (credentials: RegisterCredentials): Promise<{ success: boolean; message?: string }> => {
     setIsLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
     const emailKey = credentials.email.toLowerCase().trim();
+
+    // 1. Strict duplicate check against local registered accounts
+    if (registeredAccounts[emailKey]) {
+      setIsLoading(false);
+      return {
+        success: false,
+        message: 'This Gmail address is already registered. Please sign in or use a different email.'
+      };
+    }
+
+    // 2. Strict duplicate check against backend database
+    try {
+      const checkResp = await fetch(`/api/auth/check-email?email=${encodeURIComponent(emailKey)}`);
+      if (checkResp.ok) {
+        const checkData = await checkResp.json();
+        if (checkData.exists) {
+          setIsLoading(false);
+          return {
+            success: false,
+            message: 'This Gmail address is already registered. Please sign in or use a different email.'
+          };
+        }
+      }
+    } catch (e) {
+      console.warn('Backend check-email failed:', e);
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 300));
+
     const newUser: UserProfile & { password?: string } = {
       id: `USR-2025-${Math.floor(1000 + Math.random() * 9000)}`,
       name: credentials.fullName.trim(),
@@ -385,16 +431,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       password: credentials.password
     };
 
-    const updated = {
-      ...registeredAccounts,
-      [emailKey]: newUser,
-      [(newUser.citizenId || newUser.id).toLowerCase()]: newUser
-    };
-    saveRegisteredAccounts(updated);
-
-    // Persist in backend
+    // 3. Persist in backend and check response
     try {
-      await fetch('/api/auth/register', {
+      const resp = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -406,9 +445,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           businessName: credentials.businessName
         })
       });
+      const data = await resp.json();
+      if (!resp.ok || !data.success) {
+        setIsLoading(false);
+        return {
+          success: false,
+          message: data.error || 'This Gmail address is already registered. Please sign in or use a different email.'
+        };
+      }
     } catch (e) {
       console.warn('Backend register sync failed:', e);
     }
+
+    const updated = {
+      ...registeredAccounts,
+      [emailKey]: newUser,
+      [(newUser.citizenId || newUser.id).toLowerCase()]: newUser
+    };
+    saveRegisteredAccounts(updated);
 
     // Direct login on register
     setUser(newUser);
@@ -451,6 +505,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         verifyOTP,
         quickLogin,
         register,
+        checkEmailExists,
         logout,
         switchRole,
         cancelMFA,

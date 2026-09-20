@@ -65,15 +65,45 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// GET /api/auth/check-email?email=...
+router.get('/check-email', async (req, res) => {
+  try {
+    const email = req.query.email;
+    if (!email) {
+      return res.json({ exists: false });
+    }
+    const cleanEmail = email.toString().toLowerCase().trim();
+    const result = await db.query('SELECT id FROM users WHERE LOWER(email) = $1', [cleanEmail]);
+    return res.json({ exists: result.rows.length > 0 });
+  } catch (err) {
+    console.error('Check email error:', err);
+    return res.json({ exists: false });
+  }
+});
+
 // POST /api/auth/register
 router.post('/register', async (req, res) => {
   try {
     const { fullName, email, citizenId, phone, role = 'user', businessName } = req.body;
 
+    if (!email || !email.trim()) {
+      return res.status(400).json({ success: false, error: 'Email address is required.' });
+    }
+
+    const cleanEmail = email.toLowerCase().trim();
+
+    // STRICT CHECK: Reject if email already registered
+    const existing = await db.query('SELECT id, email FROM users WHERE LOWER(email) = $1', [cleanEmail]);
+    if (existing.rows.length > 0) {
+      return res.status(409).json({
+        success: false,
+        error: 'This Gmail address is already registered. Please sign in or use a different email.'
+      });
+    }
+
     const insertQuery = `
       INSERT INTO users (citizen_id, full_name, email, phone, role, role_title, department, organization)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-      ON CONFLICT (email) DO UPDATE SET full_name = EXCLUDED.full_name
       RETURNING *;
     `;
 
@@ -84,7 +114,7 @@ router.post('/register', async (req, res) => {
     const result = await db.query(insertQuery, [
       citizenId || `PH-CITIZEN-${Math.floor(10000 + Math.random() * 90000)}`,
       fullName,
-      email,
+      cleanEmail,
       phone,
       role,
       roleTitle,
