@@ -34,7 +34,12 @@ import {
   MapPin,
   HelpCircle,
   Landmark,
-  Compass
+  Compass,
+  Users,
+  Banknote,
+  Camera,
+  Image as ImageIcon,
+  UploadCloud
 } from 'lucide-react';
 import { TabType, ApplicationItem } from '../../types';
 import { useAuth } from '../../context/AuthContext';
@@ -175,16 +180,35 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
     {
       id: 'business',
       title: t('card_business_title', 'Business Permit'),
-      subtitle: t('card_business_subtitle', "Mayor's Permits & Business Licensing"),
+      subtitle: t('card_business_subtitle', 'Business Permit Services'),
       category: t('card_business_category', 'Commercial & Retail'),
-      description: t('card_business_desc', 'Register and manage your business permit application with minimal data entry through document-based information extraction.'),
-      tags: [
-        t('card_business_tag1', 'Upload-based applicant and business information'),
-        t('card_business_tag2', 'Automatic document information extraction'),
-        t('card_business_tag3', 'Automatic business registration document identification'),
-        t('card_business_tag4', 'Digital application tracking')
+      description: t('card_business_desc', 'Apply and manage your Quezon City business permit online with picture document upload and automated evaluation.'),
+      targetUsersTitle: t('boss_target_users_title', 'Target Users'),
+      targetUsers: t('boss_target_users_desc', 'Business owners in Quezon City (including Nano Enterprises)'),
+      serviceMethodTitle: t('boss_service_method_title', 'Service Method'),
+      serviceMethod: t('boss_service_method_desc', 'Online application through GovServe'),
+      timePeriodTitle: t('boss_time_period_title', 'Time Period'),
+      timePeriod: t('boss_time_period_desc', '3 days upon approval of Initial Evaluation'),
+      chargesTitle: t('boss_charges_title', 'Charges & Payment'),
+      chargesPayment: t('boss_charges_desc', 'Depends on the business of the QCitizen'),
+      paymentMethodTitle: t('boss_payment_method_title', 'Payment Method'),
+      paymentMethod: t('boss_payment_method_desc', 'Via GovServe online portal'),
+      uploadTitle: t('boss_doc_upload_title', 'Document Photo & Picture Upload Active'),
+      uploadDesc: t('boss_doc_upload_desc', 'Upload clear photos or pictures of your DTI/SEC certificate, Barangay Clearance, Cedula, and Valid Government ID with instant AI OCR recognition.'),
+      chips: [
+        { label: 'DTI / SEC', color: 'text-blue-500' },
+        { label: 'Barangay Clearance', color: 'text-emerald-500' },
+        { label: 'Cedula / CTC', color: 'text-amber-500' },
+        { label: 'Valid Gov ID', color: 'text-purple-500' }
       ],
-      keywords: ['business', 'negosyo', 'mayor', 'alkalde', 'commercial', 'retail', 'renewal', 'rehistro', 'dti', 'sec', 'cda', 'hoa', 'tax', 'buwis', 'lbt', 'license', 'lisensya', 'upload'],
+      tags: [
+        t('card_business_tag1', 'Target Users: Business owners in Quezon City (including Nano Enterprises)'),
+        t('card_business_tag2', 'Service Method: Online application through GovServe'),
+        t('card_business_tag3', 'Time Period: 3 days upon approval of Initial Evaluation'),
+        t('card_business_tag4', 'Charges & Payment: Depends on the business of the QCitizen'),
+        t('card_business_tag5', 'Payment Method: Via GovServe online portal')
+      ],
+      keywords: ['business', 'boss', 'govserve', 'govserve services', 'quezon city', 'qc', 'negosyo', 'mayor', 'alkalde', 'commercial', 'retail', 'renewal', 'rehistro', 'dti', 'sec', 'cda', 'hoa', 'tax', 'buwis', 'lbt', 'license', 'lisensya', 'upload', 'picture', 'larawan'],
       primaryBtnText: t('card_business_btn_primary', 'Apply for Business Permit →'),
       primaryTab: 'Business Registration (New / Renewal)' as TabType,
       secondaryBtnText: t('card_business_btn_secondary', 'Renew Permit'),
@@ -192,14 +216,14 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
       reqCategory: 'business' as const,
       icon: Building2,
       accent: {
-        borderHover: 'hover:border-blue-500 dark:hover:border-blue-500',
-        bgGlow: 'bg-blue-500/10 group-hover:bg-blue-500/20',
-        iconBox: 'bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 border-blue-200/60 dark:border-blue-800/60',
-        badge: 'bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-800',
-        titleHover: 'group-hover:text-blue-600 dark:group-hover:text-blue-400',
-        checkIcon: 'text-blue-600 dark:text-blue-400',
+        borderHover: 'hover:border-sky-500 dark:hover:border-sky-500',
+        bgGlow: 'bg-sky-500/10 group-hover:bg-sky-500/20',
+        iconBox: 'bg-sky-50 dark:bg-sky-950/80 text-sky-600 dark:text-sky-400 border-sky-200/60 dark:border-sky-800/60',
+        badge: 'bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-800',
+        titleHover: 'group-hover:text-sky-600 dark:group-hover:text-sky-400',
+        checkIcon: 'text-sky-600 dark:text-sky-400',
         primaryBtn: 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/25',
-        secondaryBtn: 'text-blue-600 dark:text-blue-400'
+        secondaryBtn: 'text-sky-600 dark:text-sky-400'
       }
     },
     {
@@ -208,6 +232,24 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
       subtitle: t('card_building_subtitle', 'Building Clearances & Blueprint Permits'),
       category: t('card_building_category', 'Engineering & Infrastructure'),
       description: t('card_building_desc', 'A Building and Construction Permit from a Local Government Unit (LGU) is an official legal authorization required before starting any new construction, major renovation, or demolition.'),
+      targetUsersTitle: t('bld_target_users_title', 'Target Users'),
+      targetUsers: t('bld_target_users_desc', 'Property developers, structural owners, and licensed architects / civil engineers'),
+      serviceMethodTitle: t('bld_service_method_title', 'Service Method'),
+      serviceMethod: t('bld_service_method_desc', 'Online application through GovServe'),
+      timePeriodTitle: t('bld_time_period_title', 'Time Period'),
+      timePeriod: t('bld_time_period_desc', '5 to 7 days upon joint engineering & FSEC review'),
+      chargesTitle: t('bld_charges_title', 'Charges & Payment'),
+      chargesPayment: t('bld_charges_desc', 'Assessed per total floor area (sqm) under National Building Code'),
+      paymentMethodTitle: t('bld_payment_method_title', 'Payment Method'),
+      paymentMethod: t('bld_payment_method_desc', 'Via GovServe online portal'),
+      uploadTitle: t('bld_doc_upload_title', 'Blueprint & Technical Document Upload Active'),
+      uploadDesc: t('bld_doc_upload_desc', 'Upload clear architectural CAD/PDF plans, structural analyses, soil tests, and FSEC clearances with automated digital evaluation.'),
+      chips: [
+        { label: 'Architectural Plans', color: 'text-amber-500' },
+        { label: 'Structural CAD', color: 'text-blue-500' },
+        { label: 'Title / TCT', color: 'text-emerald-500' },
+        { label: 'FSEC Clearance', color: 'text-rose-500' }
+      ],
       tags: [
         t('card_building_tag1', 'CAD & PDF Blueprint Upload & Verification'),
         t('card_building_tag2', 'Structural, Sanitary & Electrical Safety Review'),
@@ -227,7 +269,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
         badge: 'bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800',
         titleHover: 'group-hover:text-amber-600 dark:group-hover:text-amber-400',
         checkIcon: 'text-amber-600 dark:text-amber-400',
-        primaryBtn: 'bg-amber-600 hover:bg-amber-500 text-white shadow-amber-600/25',
+        primaryBtn: 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/25',
         secondaryBtn: 'text-amber-600 dark:text-amber-400'
       }
     },
@@ -237,6 +279,24 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
       subtitle: t('card_transport_subtitle', 'Tricycle (MTOP) & PUV Licensing'),
       category: t('card_transport_category', 'Public Transport & Fleet'),
       description: t('card_transport_desc', 'A transport franchise and permit legally authorizes you to operate public utility or for-hire vehicles (such as tricle, jeepneys, buses, taxis, UV Express, or trucks-for-hire) on Philippine roads.'),
+      targetUsersTitle: t('trans_target_users_title', 'Target Users'),
+      targetUsers: t('trans_target_users_desc', 'Tricycle MTOP operators, TODA cooperative members, and PUV drivers'),
+      serviceMethodTitle: t('trans_service_method_title', 'Service Method'),
+      serviceMethod: t('trans_service_method_desc', 'Online application through GovServe'),
+      timePeriodTitle: t('trans_time_period_title', 'Time Period'),
+      timePeriod: t('trans_time_period_desc', '2 to 3 days upon TODA route verification & roadworthiness audit'),
+      chargesTitle: t('trans_charges_title', 'Charges & Payment'),
+      chargesPayment: t('trans_charges_desc', '₱1,350.00 Base Franchise Regulatory Tariff + TODA clearance'),
+      paymentMethodTitle: t('trans_payment_method_title', 'Payment Method'),
+      paymentMethod: t('trans_payment_method_desc', 'Via GovServe online portal'),
+      uploadTitle: t('trans_doc_upload_title', 'LTO Documents & Vehicle Photo Upload Active'),
+      uploadDesc: t('trans_doc_upload_desc', 'Upload clear photos or scans of your LTO OR/CR, Professional Driver\'s License, TODA endorsement, and unit inspection pictures.'),
+      chips: [
+        { label: 'LTO OR / CR', color: 'text-emerald-500' },
+        { label: 'Driver\'s License', color: 'text-blue-500' },
+        { label: 'TODA Endorsement', color: 'text-amber-500' },
+        { label: 'Unit Vehicle Photo', color: 'text-purple-500' }
+      ],
       tags: [
         t('card_transport_tag1', 'Tricycle MTOP operator & fleet registry'),
         t('card_transport_tag2', 'Route conflict checking & TODA validation'),
@@ -256,7 +316,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
         badge: 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800',
         titleHover: 'group-hover:text-emerald-600 dark:group-hover:text-emerald-400',
         checkIcon: 'text-emerald-600 dark:text-emerald-400',
-        primaryBtn: 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-600/25',
+        primaryBtn: 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/25',
         secondaryBtn: 'text-emerald-600 dark:text-emerald-400'
       }
     },
@@ -266,6 +326,24 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
       subtitle: t('card_barangay_subtitle', 'Barangay Endorsement & Cedula (CTC)'),
       category: t('card_barangay_category', '24-Barangay Network'),
       description: t('card_barangay_desc', 'allows business owners to seamlessly process and pay for integrated barangay business clearances and fees directly online alongside their Mayor’s Permit application.'),
+      targetUsersTitle: t('brgy_target_users_title', 'Target Users'),
+      targetUsers: t('brgy_target_users_desc', 'Residents, business locators, and applicants across the 24 LGU Barangays'),
+      serviceMethodTitle: t('brgy_service_method_title', 'Service Method'),
+      serviceMethod: t('brgy_service_method_desc', 'Online application through GovServe'),
+      timePeriodTitle: t('brgy_time_period_title', 'Time Period'),
+      timePeriod: t('brgy_time_period_desc', 'Instant digital endorsement & 24 to 48 hours for Punong Barangay seal'),
+      chargesTitle: t('brgy_charges_title', 'Charges & Payment'),
+      chargesPayment: t('brgy_charges_desc', '₱150.00 - ₱500.00 standard barangay clearance tariff + Cedula CTC'),
+      paymentMethodTitle: t('brgy_payment_method_title', 'Payment Method'),
+      paymentMethod: t('brgy_payment_method_desc', 'Via GovServe online portal'),
+      uploadTitle: t('brgy_doc_upload_title', 'Residency Proof & Cedula Upload Active'),
+      uploadDesc: t('brgy_doc_upload_desc', 'Upload clear photos or pictures of your Valid Government ID, Proof of Residency, Cedula (CTC), and Barangay endorsement.'),
+      chips: [
+        { label: 'Valid Gov ID', color: 'text-purple-500' },
+        { label: 'Proof of Residency', color: 'text-blue-500' },
+        { label: 'Cedula / CTC', color: 'text-amber-500' },
+        { label: 'Barangay Clearance', color: 'text-emerald-500' }
+      ],
       tags: [
         t('card_barangay_tag1', '24-Barangay live digital endorsement sync'),
         t('card_barangay_tag2', 'Automated Cedula / Community Tax Certificate (CTC)'),
@@ -285,7 +363,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
         badge: 'bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-800',
         titleHover: 'group-hover:text-purple-600 dark:group-hover:text-purple-400',
         checkIcon: 'text-purple-600 dark:text-purple-400',
-        primaryBtn: 'bg-purple-600 hover:bg-purple-500 text-white shadow-purple-600/25',
+        primaryBtn: 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/25',
         secondaryBtn: 'text-purple-600 dark:text-purple-400'
       }
     },
@@ -295,6 +373,24 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
       subtitle: t('card_tracking_subtitle', 'Online Application & Status Tracking'),
       category: t('card_tracking_category', 'Digital Services & Tracking'),
       description: t('card_tracking_desc', 'You can track your permit application or status online.'),
+      targetUsersTitle: t('track_target_users_title', 'Target Users'),
+      targetUsers: t('track_target_users_desc', 'All citizens and applicants tracking pending or approved LGU permits'),
+      serviceMethodTitle: t('track_service_method_title', 'Service Method'),
+      serviceMethod: t('track_service_method_desc', 'Online tracking through GovServe'),
+      timePeriodTitle: t('track_time_period_title', 'Time Period'),
+      timePeriod: t('track_time_period_desc', 'Instant 24/7 digital status lookup with milestone audit history'),
+      chargesTitle: t('track_charges_title', 'Charges & Payment'),
+      chargesPayment: t('track_charges_desc', 'Free Public LGU Service (₱0.00 Tariff)'),
+      paymentMethodTitle: t('track_payment_method_title', 'Payment Method'),
+      paymentMethod: t('track_payment_method_desc', 'Via GovServe online portal'),
+      uploadTitle: t('track_doc_upload_title', 'QR Decal & Reference Scanner Active'),
+      uploadDesc: t('track_doc_upload_desc', 'Scan or upload clear photos of your Permit QR Decal, Official Receipt QR, or enter reference code for instant validation.'),
+      chips: [
+        { label: 'Permit QR Decal', color: 'text-teal-500' },
+        { label: 'Official Receipt QR', color: 'text-blue-500' },
+        { label: 'Reference Code', color: 'text-purple-500' },
+        { label: 'Digital Seal', color: 'text-emerald-500' }
+      ],
       tags: [
         t('card_tracking_tag1', 'Real-time application status and milestone tracking'),
         t('card_tracking_tag2', 'Public reference code lookup (BP / BC / FT / BR)'),
@@ -314,7 +410,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
         badge: 'bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-800',
         titleHover: 'group-hover:text-teal-600 dark:group-hover:text-teal-400',
         checkIcon: 'text-teal-600 dark:text-teal-400',
-        primaryBtn: 'bg-teal-600 hover:bg-teal-500 text-white shadow-teal-600/25',
+        primaryBtn: 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/25',
         secondaryBtn: 'text-teal-600 dark:text-teal-400'
       }
     }
@@ -564,25 +660,110 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                       </div>
 
                       <div>
-                        <h3 className={`text-lg font-black text-slate-900 dark:text-white ${service.accent.titleHover} transition-colors`}>
+                        <h3 className={`text-xl font-black text-slate-900 dark:text-white ${service.accent.titleHover} tracking-tight transition-colors`}>
                           {service.title}
                         </h3>
                         <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold mt-0.5">
                           {service.subtitle}
                         </p>
-                        <p className="text-xs text-slate-600 dark:text-slate-300 mt-2.5 leading-relaxed">
-                          {service.description}
-                        </p>
                       </div>
 
-                      {/* Highlights & Tags */}
-                      <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
-                        {service.tags.map((tag, idx) => (
-                          <div key={idx} className="flex items-center text-xs text-slate-700 dark:text-slate-300 space-x-2">
-                            <CheckCircle2 size={14} className={`${service.accent.checkIcon} flex-shrink-0`} />
-                            <span>{tag}</span>
+                      {/* Picture 2 Style 5 Feature Rows with Circular Badges */}
+                      <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800">
+                        {/* Row 1: Target Users */}
+                        <div className="flex items-start space-x-3.5 group/item">
+                          <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                            <Users size={18} />
                           </div>
-                        ))}
+                          <div className="space-y-0.5">
+                            <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                              {service.targetUsersTitle}
+                            </h4>
+                            <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 leading-snug">
+                              {service.targetUsers}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Row 2: Service Method */}
+                        <div className="flex items-start space-x-3.5 group/item">
+                          <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                            <IconComponent size={18} />
+                          </div>
+                          <div className="space-y-0.5">
+                            <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                              {service.serviceMethodTitle}
+                            </h4>
+                            <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 leading-snug">
+                              {service.serviceMethod}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Row 3: Time Period */}
+                        <div className="flex items-start space-x-3.5 group/item">
+                          <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                            <Clock size={18} />
+                          </div>
+                          <div className="space-y-0.5">
+                            <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                              {service.timePeriodTitle}
+                            </h4>
+                            <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 leading-snug">
+                              {service.timePeriod}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Row 4: Charges & Payment */}
+                        <div className="flex items-start space-x-3.5 group/item">
+                          <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                            <Banknote size={18} />
+                          </div>
+                          <div className="space-y-0.5">
+                            <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                              {service.chargesTitle}
+                            </h4>
+                            <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 leading-snug">
+                              {service.chargesPayment}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Row 5: Payment Method */}
+                        <div className="flex items-start space-x-3.5 group/item">
+                          <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                            <CreditCard size={18} />
+                          </div>
+                          <div className="space-y-0.5">
+                            <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                              {service.paymentMethodTitle}
+                            </h4>
+                            <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 leading-snug">
+                              {service.paymentMethod}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Document Photo & Picture Upload Highlight Box */}
+                      <div className="p-3.5 rounded-2xl bg-gradient-to-r from-blue-50 to-sky-50 dark:from-blue-950/40 dark:to-sky-950/40 border border-blue-200 dark:border-blue-800/60 space-y-2 mt-2">
+                        <div className="flex items-center space-x-2 text-blue-800 dark:text-blue-300">
+                          <div className="w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center shadow-xs flex-shrink-0">
+                            <Camera size={13} />
+                          </div>
+                          <span className="text-xs font-bold">{service.uploadTitle}</span>
+                        </div>
+                        <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                          {service.uploadDesc}
+                        </p>
+                        <div className="flex flex-wrap gap-1.5 pt-0.5">
+                          {service.chips.map((chip, chipIdx) => (
+                            <span key={chipIdx} className="px-2 py-0.5 rounded-md bg-white dark:bg-slate-800 border border-blue-200/80 dark:border-blue-800 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                              <ImageIcon size={10} className={chip.color} /> {chip.label}
+                            </span>
+                          ))}
+                        </div>
                       </div>
                     </div>
 

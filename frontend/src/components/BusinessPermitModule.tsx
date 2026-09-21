@@ -48,7 +48,11 @@ import {
   Eye,
   Trash2,
   CheckSquare,
-  RefreshCw
+  RefreshCw,
+  Users,
+  Banknote,
+  Camera,
+  Image as ImageIcon
 } from 'lucide-react';
 import { TabType } from '../types';
 import { useAuth } from '../context/AuthContext';
@@ -103,7 +107,8 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
 
   // STEP 1: Registration Document State
   const [regFile, setRegFile] = useState<File | null>(null);
-  const [regFileName, setRegFileName] = useState<string>('DTI_Business_Name_ABC_Trading.pdf');
+  const [regFileName, setRegFileName] = useState<string>('DTI_Business_Name_ABC_Trading.jpg');
+  const [regImagePreview, setRegImagePreview] = useState<string | null>('/New Application.jpg');
   const [regDetectedType, setRegDetectedType] = useState<string>('DTI Business Name Registration');
   const [regIsExtracting, setRegIsExtracting] = useState<boolean>(false);
   const [regExtracted, setRegExtracted] = useState<boolean>(true);
@@ -124,7 +129,8 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
 
   // STEP 2: Proof of Address State
   const [locFile, setLocFile] = useState<File | null>(null);
-  const [locFileName, setLocFileName] = useState<string>('Notarized_Lease_Contract_Ayala.pdf');
+  const [locFileName, setLocFileName] = useState<string>('Barangay_Business_Clearance_2025.jpg');
+  const [locImagePreview, setLocImagePreview] = useState<string | null>('/Renewal.jpg');
   const [locDetectedType, setLocDetectedType] = useState<string>('Contract of Lease (Notarized)');
   const [locIsExtracting, setLocIsExtracting] = useState<boolean>(false);
   const [locExtracted, setLocExtracted] = useState<boolean>(true);
@@ -144,6 +150,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
   // STEP 3: Owner Government ID State
   const [idFile, setIdFile] = useState<File | null>(null);
   const [idFileName, setIdFileName] = useState<string>('Philippine_National_ID_Juan_Dela_Cruz.jpg');
+  const [idImagePreview, setIdImagePreview] = useState<string | null>('/Amendment.jpg');
   const [idDetectedType, setIdDetectedType] = useState<string>('Philippine National ID (PhilID)');
   const [idIsExtracting, setIdIsExtracting] = useState<boolean>(false);
   const [idExtracted, setIdExtracted] = useState<boolean>(true);
@@ -176,7 +183,8 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
     setRegExtracted(false);
     setTimeout(() => {
       if (type === 'dti') {
-        setRegFileName('DTI_Business_Name_ABC_Trading.pdf');
+        setRegFileName('DTI_Business_Name_ABC_Trading.jpg');
+        setRegImagePreview('/New Application.jpg');
         setRegDetectedType('DTI Business Name Registration');
         setRegConfidence(99.4);
         setRegData({
@@ -192,7 +200,8 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
           validUntil: 'January 15, 2030'
         });
       } else if (type === 'sec') {
-        setRegFileName('SEC_Certificate_Apex_Global_Tech.pdf');
+        setRegFileName('SEC_Certificate_Apex_Global_Tech.jpg');
+        setRegImagePreview('/Renewal.jpg');
         setRegDetectedType('SEC Certificate of Incorporation');
         setRegConfidence(98.8);
         setRegData({
@@ -208,7 +217,8 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
           validUntil: 'Perpetual'
         });
       } else if (type === 'cda') {
-        setRegFileName('CDA_Registration_Bagong_Silang_Coop.pdf');
+        setRegFileName('CDA_Registration_Bagong_Silang_Coop.jpg');
+        setRegImagePreview('/Special Permit.jpg');
         setRegDetectedType('CDA Registration Certificate');
         setRegConfidence(99.1);
         setRegData({
@@ -224,7 +234,8 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
           validUntil: 'Active Good Standing'
         });
       } else {
-        setRegFileName('HOA_Commercial_Authorization_Greenhills.pdf');
+        setRegFileName('HOA_Commercial_Authorization_Greenhills.jpg');
+        setRegImagePreview('/Amendment.jpg');
         setRegDetectedType('HOA Registration & Authorization Document');
         setRegConfidence(97.6);
         setRegData({
@@ -252,6 +263,14 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
     setRegFileName(file.name);
     setRegIsExtracting(true);
     setRegExtracted(false);
+
+    if (file.type.startsWith('image/')) {
+      try {
+        setRegImagePreview(URL.createObjectURL(file));
+      } catch (err) {
+        console.warn('Preview object URL error:', err);
+      }
+    }
     
     const lower = file.name.toLowerCase();
     let detected = 'DTI Business Name Registration';
@@ -280,7 +299,8 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
     setLocExtracted(false);
     setTimeout(() => {
       if (type === 'lease') {
-        setLocFileName('Notarized_Lease_Contract_Ayala.pdf');
+        setLocFileName('Notarized_Lease_Contract_Ayala.jpg');
+        setLocImagePreview('/Renewal.jpg');
         setLocDetectedType('Contract of Lease (Notarized)');
         setLocConfidence(98.9);
         setLocData({
@@ -294,7 +314,8 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
           networkSynced: true
         });
       } else {
-        setLocFileName('Barangay_Business_Clearance_2025.pdf');
+        setLocFileName('Barangay_Business_Clearance_2025.jpg');
+        setLocImagePreview('/Special Permit.jpg');
         setLocDetectedType('Barangay Business Clearance');
         setLocConfidence(99.6);
         setLocData({
@@ -321,6 +342,14 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
     setLocIsExtracting(true);
     setLocExtracted(false);
     
+    if (file.type.startsWith('image/')) {
+      try {
+        setLocImagePreview(URL.createObjectURL(file));
+      } catch (err) {
+        console.warn('Loc preview error:', err);
+      }
+    }
+
     setTimeout(() => {
       setLocDetectedType('Contract of Lease (Notarized)');
       setLocConfidence(98.7);
@@ -335,6 +364,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
     setTimeout(() => {
       if (type === 'philid') {
         setIdFileName('Philippine_National_ID_Juan_Dela_Cruz.jpg');
+        setIdImagePreview('/Amendment.jpg');
         setIdDetectedType('Philippine National ID (PhilID)');
         setIdConfidence(99.2);
         setIdData({
@@ -348,6 +378,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
         });
       } else {
         setIdFileName('LTO_Drivers_License_Juan_Dela_Cruz.jpg');
+        setIdImagePreview('/New Application.jpg');
         setIdDetectedType("Land Transportation Office Driver's License");
         setIdConfidence(99.5);
         setIdData({
@@ -372,6 +403,14 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
     setIdFileName(file.name);
     setIdIsExtracting(true);
     setIdExtracted(false);
+
+    if (file.type.startsWith('image/')) {
+      try {
+        setIdImagePreview(URL.createObjectURL(file));
+      } catch (err) {
+        console.warn('ID preview error:', err);
+      }
+    }
     
     setTimeout(() => {
       setIdDetectedType('Philippine National ID (PhilID)');
@@ -732,24 +771,50 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
         {/* PREVIEW PAGE: OFFICIAL BUSINESS FEE SCHEDULE & REGULATORY TARIFF GUIDE */}
         {/* ========================================================================= */}
         {currentView === 'preview' && (
-          <div className="space-y-10 animate-in fade-in pb-10">
+          <div className="space-y-8 animate-in fade-in pb-10">
             
             {/* ========================================================================= */}
-            {/* HERO SECTION: OFFICIAL BUSINESS PERMIT CARD (UPLOAD-FIRST REFERENCE DESIGN) */}
+            {/* TOP GATEWAY ACTION CTA */}
             {/* ========================================================================= */}
-            <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-blue-950/80 to-slate-900 dark:from-slate-900 dark:via-[#091e3a] dark:to-slate-950 border border-blue-500/30 text-white shadow-xl overflow-hidden group">
-              <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/15 rounded-full blur-3xl pointer-events-none group-hover:bg-blue-500/25 transition-all duration-700" />
-              <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
+            <div className="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-blue-600 via-indigo-600 to-slate-900 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="space-y-1.5 text-center md:text-left">
+                <h3 className="text-xl sm:text-2xl font-black">
+                  Ready to Start Your Business Permit Application?
+                </h3>
+                <p className="text-xs sm:text-sm text-blue-100 max-w-xl">
+                  Proceed to register a new commercial enterprise, renew your existing license, or file business record amendments.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setNewAppStep(1);
+                    setNewAppTermsAccepted(true);
+                    setCurrentView('new_app');
+                  }}
+                  className="px-8 py-4 bg-white hover:bg-slate-100 text-slate-950 font-black rounded-2xl text-xs sm:text-sm shadow-lg transition-all flex items-center space-x-2 cursor-pointer active:scale-[0.98]"
+                >
+                  <span>Start New Application</span>
+                  <ArrowRight size={16} strokeWidth={3} className="text-blue-600" />
+                </button>
+              </div>
+            </div>
+            
+            {/* ========================================================================= */}
+            {/* ========================================================================= */}
+            {/* HERO SECTION: OFFICIAL BUSINESS ONE STOP SHOP (BOSS) REFERENCE DESIGN */}
+            {/* ========================================================================= */}
+            <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#071d3d] to-slate-950 border border-sky-500/30 text-white shadow-xl overflow-hidden group">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-sky-500/15 rounded-full blur-3xl pointer-events-none group-hover:bg-sky-500/25 transition-all duration-700" />
+              <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-blue-500/10 rounded-full blur-2xl pointer-events-none" />
 
               <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
                 <div className="space-y-4 max-w-2xl">
                   <div className="flex items-center space-x-3">
-                    <span className="px-3.5 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-blue-500/20 text-blue-300 border border-blue-400/30">
+                    <span className="px-3.5 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-sky-500/20 text-sky-300 border border-sky-400/30">
                       Commercial & Retail
-                    </span>
-                    <span className="px-3 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center space-x-1.5">
-                      <Sparkles size={12} className="text-emerald-400" />
-                      <span>Upload-First Automation Active</span>
                     </span>
                   </div>
 
@@ -757,31 +822,86 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                     <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
                       Business Permit
                     </h2>
-                    <p className="text-sm font-semibold text-blue-300 mt-1">
-                      Mayor's Permits & Business Licensing
-                    </p>
-                    <p className="text-xs sm:text-sm text-slate-300 mt-2.5 leading-relaxed">
-                      "Register and manage your business permit application with minimal data entry through document-based information extraction."
+                    <p className="text-sm font-semibold text-sky-300 mt-1">
+                      Business Permit Services
                     </p>
                   </div>
 
-                  {/* 4 Core Features */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2 border-t border-white/10">
-                    <div className="flex items-center space-x-2 text-xs text-slate-200">
-                      <CheckCircle2 size={15} className="text-blue-400 flex-shrink-0" />
-                      <span>Upload-based applicant and business information</span>
+                  {/* Picture 2 Style 5 Feature Rows with Circular Badges */}
+                  <div className="space-y-2.5 pt-2 border-t border-white/10">
+                    <div className="flex items-start space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-sky-100 text-[#0288d1] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                        <Users size={16} />
+                      </div>
+                      <div className="text-xs">
+                        <span className="font-bold text-white block">Target Users</span>
+                        <span className="text-slate-300">Business owners in Quezon City (including Nano Enterprises)</span>
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-2 text-xs text-slate-200">
-                      <CheckCircle2 size={15} className="text-blue-400 flex-shrink-0" />
-                      <span>Automatic document information extraction</span>
+
+                    <div className="flex items-start space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-sky-100 text-[#0288d1] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                        <Building2 size={16} />
+                      </div>
+                      <div className="text-xs">
+                        <span className="font-bold text-white block">Service Method</span>
+                        <span className="text-slate-300">Online application through GovServe</span>
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-2 text-xs text-slate-200">
-                      <CheckCircle2 size={15} className="text-blue-400 flex-shrink-0" />
-                      <span>Automatic business registration document identification</span>
+
+                    <div className="flex items-start space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-sky-100 text-[#0288d1] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                        <Clock size={16} />
+                      </div>
+                      <div className="text-xs">
+                        <span className="font-bold text-white block">Time Period</span>
+                        <span className="text-slate-300">3 days upon approval of Initial Evaluation</span>
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-2 text-xs text-slate-200">
-                      <CheckCircle2 size={15} className="text-blue-400 flex-shrink-0" />
-                      <span>Digital application tracking</span>
+
+                    <div className="flex items-start space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-sky-100 text-[#0288d1] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                        <Banknote size={16} />
+                      </div>
+                      <div className="text-xs">
+                        <span className="font-bold text-white block">Charges & Payment</span>
+                        <span className="text-slate-300">Depends on the business of the QCitizen</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-sky-100 text-[#0288d1] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                        <CreditCard size={16} />
+                      </div>
+                      <div className="text-xs">
+                        <span className="font-bold text-white block">Payment Method</span>
+                        <span className="text-slate-300">Via GovServe online portal</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Document Photo Upload Callout */}
+                  <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
+                    <div className="flex items-center space-x-2 text-sky-300 text-xs font-bold">
+                      <Camera size={15} className="text-sky-400" />
+                      <span>Document Photo & Picture Upload Active</span>
+                    </div>
+                    <p className="text-[11px] text-slate-300">
+                      Upload clear photos or pictures of your DTI/SEC certificate, Barangay Clearance, Cedula, and Valid Government ID with instant AI OCR recognition.
+                    </p>
+                    <div className="flex flex-wrap gap-1.5 pt-0.5">
+                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-300" /> DTI / SEC
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-300" /> Barangay Clearance
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-300" /> Cedula / CTC
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-300" /> Valid Gov ID
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -821,357 +941,438 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
               </div>
             </div>
 
-            {/* 4 Interactive Service Category Cards (Direct Action Functional Buttons) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              
-              {/* Card 1: New Mayor's Business Permit */}
-              <button
-                type="button"
-                onClick={() => {
-                  setWizardStep(1);
-                  setCurrentView('new_app');
-                }}
-                className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3 flex flex-col justify-between hover:border-blue-500 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left group active:scale-[0.99]"
-              >
-                <div className="space-y-2 w-full">
-                  <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/80 text-blue-600 flex items-center justify-center font-bold group-hover:bg-blue-500 group-hover:text-white transition-colors">
-                      <Building2 size={20} />
-                    </div>
-                    <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                      <span>Upload-First</span>
-                      <ChevronRight size={12} strokeWidth={3} />
-                    </span>
-                  </div>
-                  <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                    New Business Permit
-                  </h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Upload-first application with automatic DTI/SEC document recognition and zero manual typing.
-                  </p>
-                </div>
-                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between w-full">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Total Assessment</span>
-                  <span className="font-mono font-black text-blue-600 dark:text-blue-400 text-sm">₱3,850.00</span>
-                </div>
-              </button>
-
-              {/* Card 2: Annual Business License Renewal */}
-              <button
-                type="button"
-                onClick={() => {
-                  setRenewalSubmitted(false);
-                  setCurrentView('renewal');
-                }}
-                className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3 flex flex-col justify-between hover:border-emerald-500 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left group active:scale-[0.99]"
-              >
-                <div className="space-y-2 w-full">
-                  <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/80 text-emerald-600 flex items-center justify-center font-bold group-hover:bg-emerald-500 group-hover:text-white transition-colors">
-                      <RotateCw size={20} />
-                    </div>
-                    <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                      <span>Fast-Track</span>
-                      <ChevronRight size={12} strokeWidth={3} />
-                    </span>
-                  </div>
-                  <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                    Annual License Renewal
-                  </h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Annual License Renewal gamit ang inyong existing Permit No. at Official Receipt (OR) Number.
-                  </p>
-                </div>
-                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between w-full">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Annual Fee</span>
-                  <span className="font-mono font-black text-emerald-600 dark:text-emerald-400 text-sm">₱3,850.00</span>
-                </div>
-              </button>
-
-              {/* Card 3: Business Record Amendment */}
-              <button
-                type="button"
-                onClick={() => {
-                  setAmendSubmitted(false);
-                  setCurrentView('amendment');
-                }}
-                className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3 flex flex-col justify-between hover:border-purple-500 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left group active:scale-[0.99]"
-              >
-                <div className="space-y-2 w-full">
-                  <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/80 text-purple-600 flex items-center justify-center font-bold group-hover:bg-purple-500 group-hover:text-white transition-colors">
-                      <Edit3 size={20} />
-                    </div>
-                    <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                      <span>Amend Form</span>
-                      <ChevronRight size={12} strokeWidth={3} />
-                    </span>
-                  </div>
-                  <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                    Business Amendment
-                  </h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Pagpapalit ng business address, trade name, line of business, o transfer of ownership.
-                  </p>
-                </div>
-                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between w-full">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Legal Tariff</span>
-                  <span className="font-mono font-black text-purple-600 dark:text-purple-400 text-sm">₱1,500.00</span>
-                </div>
-              </button>
-
-              {/* Card 4: Special Event & Short-Term Permit */}
-              <button
-                type="button"
-                onClick={() => {
-                  setSpecialSubmitted(false);
-                  setCurrentView('special_permit');
-                }}
-                className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3 flex flex-col justify-between hover:border-amber-500 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left group active:scale-[0.99]"
-              >
-                <div className="space-y-2 w-full">
-                  <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/80 text-amber-600 flex items-center justify-center font-bold group-hover:bg-amber-500 group-hover:text-white transition-colors">
-                      <Calendar size={20} />
-                    </div>
-                    <span className="text-[10px] font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                      <span>Get Permit</span>
-                      <ChevronRight size={12} strokeWidth={3} />
-                    </span>
-                  </div>
-                  <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
-                    Special Event Permit
-                  </h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Temporary trade bazaar, commercial pop-up expo, concert showcase, at outdoor event clearance.
-                  </p>
-                </div>
-                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between w-full">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Standard Pass</span>
-                  <span className="font-mono font-black text-amber-600 dark:text-amber-400 text-sm">₱1,200.00</span>
-                </div>
-              </button>
-
-            </div>
-
             {/* ========================================================================= */}
-            {/* SECTION: ITEMIZED FEE SCHEDULE TABLES */}
+            {/* 3 EXPANDED SERVICE MODULE CARDS (SAME FORMAT AS BUSINESS ONE STOP SHOP) */}
             {/* ========================================================================= */}
             <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
-                    <CreditCard className="text-blue-500" size={20} />
-                    <span>Official Business Regulatory Tariff Schedules</span>
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                    Breakdown of municipal taxes and regulatory clearances mandated under the Quezon City Revenue Code (SP-1944)
-                  </p>
-                </div>
-              </div>
+              
+              {/* ======================================================================= */}
+              {/* CARD 1: ANNUAL LICENSE RENEWAL (IDENTICAL HORIZONTAL DESIGN TO PICTURE 1) */}
+              {/* ======================================================================= */}
+              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#06241a] to-slate-950 border border-emerald-500/30 text-white shadow-xl overflow-hidden group">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none group-hover:bg-emerald-500/25 transition-all duration-700" />
+                <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-teal-500/10 rounded-full blur-2xl pointer-events-none" />
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                
-                {/* Table 1: New Business Permit & Annual License */}
-                <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm space-y-4">
-                  <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+                  <div className="space-y-4 max-w-2xl">
+                    <div className="flex items-center space-x-3">
+                      <span className="px-3.5 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
+                        Commercial & Retail
+                      </span>
+                    </div>
+
                     <div>
-                      <div className="flex items-center gap-2">
-                        <span className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-                        <h4 className="font-black text-slate-900 dark:text-white text-sm">
-                          1. New Business Permit & Annual License
-                        </h4>
-                      </div>
-                      <p className="text-[11px] text-slate-500">Standard municipal assessment schedule per registered business</p>
+                      <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white flex items-center gap-2.5">
+                        <RotateCw className="text-emerald-400" size={26} />
+                        <span>License Renewal</span>
+                      </h2>
+                      <p className="text-xs sm:text-sm font-medium text-emerald-300/90 mt-1">
+                        License Renewal Services
+                      </p>
                     </div>
-                    <span className="font-mono font-black text-blue-600 dark:text-blue-400 text-base">
-                      ₱3,850.00
-                    </span>
+
+                    {/* 5 Feature Rows with Circular Badges */}
+                    <div className="space-y-2.5 pt-2 border-t border-white/10">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Users size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Target Users</span>
+                          <span className="text-slate-300">Registered QC businesses with existing Mayor's Permit and Tax Clearances</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Building2 size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Service Method</span>
+                          <span className="text-slate-300">Online renewal via GovServe Services (with prior Year Permit No. & OR)</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Clock size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Time Period</span>
+                          <span className="text-slate-300">1 to 2 working days upon verification of submitted gross sales</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Banknote size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Charges & Payment</span>
+                          <span className="text-slate-300">₱3,850.00 Base Regulatory Tariff + LBT (Local Business Tax)</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <CreditCard size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Payment Method</span>
+                          <span className="text-slate-300">Via GovServe online portal (e-Wallets, Maya, GCash, Landbank)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Document Photo Upload Callout with exact Chips from Picture 2 */}
+                    <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
+                      <div className="flex items-center space-x-2 text-emerald-300 text-xs font-bold">
+                        <Camera size={15} className="text-emerald-400" />
+                        <span>Document Photo & Picture Upload Active</span>
+                      </div>
+                      <p className="text-[11px] text-slate-300">
+                        Upload clear photos or pictures of Previous Year Mayor's Permit, Official Receipt (OR), Barangay Business Clearance, and ITR / Audited Financials.
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 pt-0.5">
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-300" /> Prior Permit
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-300" /> Official Receipt
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-300" /> Brgy. Renewal
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-300" /> Gross Sales / ITR
+                        </span>
+                      </div>
+                    </div>
                   </div>
 
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs">
-                      <thead>
-                        <tr className="border-b border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 uppercase tracking-wider">
-                          <th className="pb-2 font-bold">Code</th>
-                          <th className="pb-2 font-bold">Assessment Component</th>
-                          <th className="pb-2 font-bold hidden sm:table-cell">Legal Basis</th>
-                          <th className="pb-2 font-bold text-right">Fee</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60 text-[11px]">
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">BPLD-01</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Mayor's Permit & Licensing Fee</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">QC Revenue Code Sec. 18</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱1,500.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">BPLD-02</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Business Tax & Initial Assessment</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">QC Local Tax Tariff</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱1,000.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">BPLD-03</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Sanitary Inspection & Health Clearance Fee</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">City Health Department</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱400.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">BPLD-04</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Fire Safety Inspection Certificate (FSIC)</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">Republic Act No. 9514</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱500.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">BPLD-05</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Zoning & Locational Clearance Fee</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">City Planning & Dev. Office</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱250.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">BPLD-06</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Environmental & Solid Waste Management Fee</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">QC EPWMD Compliance</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱150.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">BPLD-07</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Legal Research Fund (LRF)</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">Republic Act No. 3870</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱50.00</td>
-                        </tr>
-                      </tbody>
-                      <tfoot>
-                        <tr className="border-t-2 border-slate-200 dark:border-slate-700 font-bold text-xs">
-                          <td colSpan={2} className="pt-3 text-slate-900 dark:text-white">Total Assessment</td>
-                          <td className="pt-3 hidden sm:table-cell text-slate-400 font-normal text-[10px]">All 7 Components</td>
-                          <td className="pt-3 text-right font-mono text-blue-600 dark:text-blue-400 text-sm">₱3,850.00</td>
-                        </tr>
-                      </tfoot>
-                    </table>
+                  {/* Primary & Secondary Action Controls */}
+                  <div className="w-full lg:w-80 flex flex-col space-y-3 flex-shrink-0">
+                    <button
+                      onClick={() => {
+                        setRenewalSubmitted(false);
+                        setCurrentView('renewal');
+                      }}
+                      className="w-full py-4 px-6 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl text-xs sm:text-sm font-black shadow-lg shadow-emerald-600/30 hover:shadow-emerald-600/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center space-x-2.5 cursor-pointer group/btn"
+                    >
+                      <span>Renew Business License →</span>
+                    </button>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => {
+                          setRenewalSubmitted(false);
+                          setCurrentView('renewal');
+                        }}
+                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      >
+                        <Banknote size={13} className="text-emerald-400" />
+                        <span>Base Tariff: ₱3,850</span>
+                      </button>
+                      <button
+                        onClick={() => setIsReqModalOpen(true)}
+                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      >
+                        <Info size={13} />
+                        <span>Requirements</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
-
-                {/* Table 2: Business Amendment & Special Event Clearances */}
-                <div className="space-y-6">
-                  
-                  {/* Amendment Table */}
-                  <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm space-y-4">
-                    <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="w-2.5 h-2.5 rounded-full bg-purple-500" />
-                          <h4 className="font-black text-slate-900 dark:text-white text-sm">
-                            2. Business Amendment & Record Modification
-                          </h4>
-                        </div>
-                        <p className="text-[11px] text-slate-500">Change of address, trade name, business line, or owner</p>
-                      </div>
-                      <span className="font-mono font-black text-purple-600 dark:text-purple-400 text-base">
-                        ₱1,500.00
-                      </span>
-                    </div>
-
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left text-xs">
-                        <thead>
-                          <tr className="border-b border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 uppercase tracking-wider">
-                            <th className="pb-2 font-bold">Code</th>
-                            <th className="pb-2 font-bold">Component</th>
-                            <th className="pb-2 font-bold text-right">Fee</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60 text-[11px]">
-                          <tr>
-                            <td className="py-2 font-mono text-slate-400">AMD-01</td>
-                            <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Amendment Filing & Record Verification</td>
-                            <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱500.00</td>
-                          </tr>
-                          <tr>
-                            <td className="py-2 font-mono text-slate-400">AMD-02</td>
-                            <td className="py-2 font-medium text-slate-800 dark:text-slate-200">New Mayor's Permit Certificate Issuance</td>
-                            <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱400.00</td>
-                          </tr>
-                          <tr>
-                            <td className="py-2 font-mono text-slate-400">AMD-03</td>
-                            <td className="py-2 font-medium text-slate-800 dark:text-slate-200">On-Site Joint Inspection & Validation Fee</td>
-                            <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱450.00</td>
-                          </tr>
-                          <tr>
-                            <td className="py-2 font-mono text-slate-400">AMD-04</td>
-                            <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Legal Research Fund (LRF)</td>
-                            <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱150.00</td>
-                          </tr>
-                        </tbody>
-                        <tfoot>
-                          <tr className="border-t-2 border-slate-200 dark:border-slate-700 font-bold text-xs">
-                            <td colSpan={2} className="pt-3 text-slate-900 dark:text-white">Total Amendment Assessment</td>
-                            <td className="pt-3 text-right font-mono text-purple-600 dark:text-purple-400 text-sm">₱1,500.00</td>
-                          </tr>
-                        </tfoot>
-                      </table>
-                    </div>
-                  </div>
-
-                  {/* Special Event Table */}
-                  <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm space-y-4">
-                    <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-                          <h4 className="font-black text-slate-900 dark:text-white text-sm">
-                            3. Special Event & Short-Term Trade Clearance
-                          </h4>
-                        </div>
-                        <p className="text-[11px] text-slate-500">Temporary commercial clearance for bazaars & pop-up expos</p>
-                      </div>
-                      <span className="font-mono font-black text-amber-600 dark:text-amber-400 text-base">
-                        ₱1,200.00
-                      </span>
-                    </div>
-
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left text-xs">
-                        <thead>
-                          <tr className="border-b border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 uppercase tracking-wider">
-                            <th className="pb-2 font-bold">Code</th>
-                            <th className="pb-2 font-bold">Component</th>
-                            <th className="pb-2 font-bold text-right">Fee</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60 text-[11px]">
-                          <tr>
-                            <td className="py-2 font-mono text-slate-400">STP-01</td>
-                            <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Special Event Commercial Clearance</td>
-                            <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱650.00</td>
-                          </tr>
-                          <tr>
-                            <td className="py-2 font-mono text-slate-400">STP-02</td>
-                            <td className="py-2 font-medium text-slate-800 dark:text-slate-200">DPOS Crowd & Traffic Management Surcharge</td>
-                            <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱400.00</td>
-                          </tr>
-                          <tr>
-                            <td className="py-2 font-mono text-slate-400">STP-03</td>
-                            <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Legal Research Fund (LRF)</td>
-                            <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱150.00</td>
-                          </tr>
-                        </tbody>
-                        <tfoot>
-                          <tr className="border-t-2 border-slate-200 dark:border-slate-700 font-bold text-xs">
-                            <td colSpan={2} className="pt-3 text-slate-900 dark:text-white">Total Special Event Assessment</td>
-                            <td className="pt-3 text-right font-mono text-amber-600 dark:text-amber-400 text-sm">₱1,200.00</td>
-                          </tr>
-                        </tfoot>
-                      </table>
-                    </div>
-                  </div>
-
-                </div>
-
               </div>
+
+              {/* ======================================================================= */}
+              {/* CARD 2: BUSINESS AMENDMENT (IDENTICAL HORIZONTAL DESIGN TO PICTURE 1) */}
+              {/* ======================================================================= */}
+              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#1e0a2e] to-slate-950 border border-purple-500/30 text-white shadow-xl overflow-hidden group">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/15 rounded-full blur-3xl pointer-events-none group-hover:bg-purple-500/25 transition-all duration-700" />
+                <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-fuchsia-500/10 rounded-full blur-2xl pointer-events-none" />
+
+                <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+                  <div className="space-y-4 max-w-2xl">
+                    <div className="flex items-center space-x-3">
+                      <span className="px-3.5 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-purple-500/20 text-purple-300 border border-purple-400/30">
+                        Corporate & Legal
+                      </span>
+                      <span className="px-3 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30 flex items-center space-x-1.5">
+                        <Edit3 size={12} className="text-purple-400" />
+                        <span>Registry Modification</span>
+                      </span>
+                    </div>
+
+                    <div>
+                      <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white flex items-center gap-2.5">
+                        <Edit3 className="text-purple-400" size={26} />
+                        <span>Business Amendment</span>
+                      </h2>
+                      <p className="text-xs sm:text-sm font-medium text-purple-300/90 mt-1">
+                        Modification of Trade Name, Address, Capital, or Ownership
+                      </p>
+                    </div>
+
+                    {/* 5 Feature Rows with Circular Badges */}
+                    <div className="space-y-2.5 pt-2 border-t border-white/10">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Users size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Target Users</span>
+                          <span className="text-slate-300">QC business owners updating business address, trade name, or lines</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Building2 size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Service Method</span>
+                          <span className="text-slate-300">Online filing via GovServe Services – Business Amendment & Registry Revision</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Clock size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Time Period</span>
+                          <span className="text-slate-300">2 to 3 days upon submission of amended national registration certificate</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Banknote size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Charges & Payment</span>
+                          <span className="text-slate-300">₱1,500.00 Legal Tariff & Certificate Amendment Assessment</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <CreditCard size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Payment Method</span>
+                          <span className="text-slate-300">Via GovServe online portal (Online Banking, e-Wallets, Over-The-Counter)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Document Photo Upload Callout with exact Chips from Picture 2 */}
+                    <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
+                      <div className="flex items-center space-x-2 text-purple-300 text-xs font-bold">
+                        <Camera size={15} className="text-purple-400" />
+                        <span>Document Photo & Picture Upload Active</span>
+                      </div>
+                      <p className="text-[11px] text-slate-300">
+                        Upload clear photos or pictures of Amended DTI/SEC Certificate, Board Resolution, New Lease Contract (address change), and BIR Form 1905.
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 pt-0.5">
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-300" /> Amended DTI/SEC
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-300" /> Board Resolution
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-300" /> New Lease Photo
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-300" /> BIR Form 1905
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Primary & Secondary Action Controls */}
+                  <div className="w-full lg:w-80 flex flex-col space-y-3 flex-shrink-0">
+                    <button
+                      onClick={() => {
+                        setAmendSubmitted(false);
+                        setCurrentView('amendment');
+                      }}
+                      className="w-full py-4 px-6 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl text-xs sm:text-sm font-black shadow-lg shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center space-x-2.5 cursor-pointer group/btn"
+                    >
+                      <span>File Business Amendment →</span>
+                    </button>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => {
+                          setAmendSubmitted(false);
+                          setCurrentView('amendment');
+                        }}
+                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      >
+                        <Banknote size={13} className="text-purple-400" />
+                        <span>Legal Tariff: ₱1,500</span>
+                      </button>
+                      <button
+                        onClick={() => setIsReqModalOpen(true)}
+                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      >
+                        <Info size={13} />
+                        <span>Requirements</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* ======================================================================= */}
+              {/* CARD 3: SPECIAL EVENT PERMIT (IDENTICAL HORIZONTAL DESIGN TO PICTURE 1) */}
+              {/* ======================================================================= */}
+              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#271604] to-slate-950 border border-amber-500/30 text-white shadow-xl overflow-hidden group">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none group-hover:bg-amber-500/25 transition-all duration-700" />
+                <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-orange-500/10 rounded-full blur-2xl pointer-events-none" />
+
+                <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+                  <div className="space-y-4 max-w-2xl">
+                    <div className="flex items-center space-x-3">
+                      <span className="px-3.5 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-amber-500/20 text-amber-300 border border-amber-400/30">
+                        Events & Commercial
+                      </span>
+                      <span className="px-3 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center space-x-1.5">
+                        <Calendar size={12} className="text-amber-400" />
+                        <span>Short-Term Municipal Pass</span>
+                      </span>
+                    </div>
+
+                    <div>
+                      <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white flex items-center gap-2.5">
+                        <Calendar className="text-amber-400" size={26} />
+                        <span>Special Event Permit</span>
+                      </h2>
+                      <p className="text-xs sm:text-sm font-medium text-amber-300/90 mt-1">
+                        Pop-Up Bazaar, Exhibit, Showcase & Outdoor Trade Clearance
+                      </p>
+                    </div>
+
+                    {/* 5 Feature Rows with Circular Badges */}
+                    <div className="space-y-2.5 pt-2 border-t border-white/10">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Users size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Target Users</span>
+                          <span className="text-slate-300">Event organizers, pop-up commercial booth operators, bazaar exhibitors</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Building2 size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Service Method</span>
+                          <span className="text-slate-300">Online filing via GovServe Services – Special Permits & Short-Term Municipal Activity</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Clock size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Time Period</span>
+                          <span className="text-slate-300">1 to 2 days express evaluation prior to scheduled event date</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Banknote size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Charges & Payment</span>
+                          <span className="text-slate-300">₱1,200.00 Standard Pass per booth / event day</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <CreditCard size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Payment Method</span>
+                          <span className="text-slate-300">Instant digital checkout via GovServe online portal</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Document Photo Upload Callout with exact Chips from Picture 2 */}
+                    <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
+                      <div className="flex items-center space-x-2 text-amber-300 text-xs font-bold">
+                        <Camera size={15} className="text-amber-400" />
+                        <span>Document Photo & Picture Upload Active</span>
+                      </div>
+                      <p className="text-[11px] text-slate-300">
+                        Upload clear photos or pictures of Venue Authorization / Mall Contract, Organizer DTI/SEC Certificate, Barangay Endorsement, and Layout Plan.
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 pt-0.5">
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-300" /> Venue Contract
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-300" /> Organizer DTI/SEC
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-300" /> Brgy. Endorsement
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-300" /> Floor Plan Layout
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Primary & Secondary Action Controls */}
+                  <div className="w-full lg:w-80 flex flex-col space-y-3 flex-shrink-0">
+                    <button
+                      onClick={() => {
+                        setSpecialSubmitted(false);
+                        setCurrentView('special_permit');
+                      }}
+                      className="w-full py-4 px-6 bg-amber-600 hover:bg-amber-500 text-white rounded-2xl text-xs sm:text-sm font-black shadow-lg shadow-amber-600/30 hover:shadow-amber-600/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center space-x-2.5 cursor-pointer group/btn"
+                    >
+                      <span>Apply for Special Permit →</span>
+                    </button>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => {
+                          setSpecialSubmitted(false);
+                          setCurrentView('special_permit');
+                        }}
+                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      >
+                        <Banknote size={13} className="text-amber-400" />
+                        <span>Standard Pass: ₱1,200</span>
+                      </button>
+                      <button
+                        onClick={() => setIsReqModalOpen(true)}
+                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      >
+                        <Info size={13} />
+                        <span>Requirements</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
             </div>
+
 
             {/* ========================================================================= */}
             {/* SECTION: MANDATORY DOCUMENTARY CHECKLIST */}
@@ -1230,131 +1431,9 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
               </div>
             </div>
 
-            {/* ========================================================================= */}
-            {/* SECTION: QUICK REGULATORY SERVICES & DIGITAL VERIFICATION */}
-            {/* ========================================================================= */}
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
-                  <ShieldCheck className="text-blue-500" size={20} />
-                  <span>Quick Regulatory Services & Digital Document Portal</span>
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                  Instant document verification, Certified True Copy (CTC) pulling, Safe Seal application, and tax settlement
-                </p>
-              </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                
-                {/* BIS / CTC Pulling */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setCtcStep(1);
-                    setCtcPaid(false);
-                    setCurrentView('ctc_pulling');
-                  }}
-                  className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2 hover:border-purple-500 hover:shadow-md transition-all cursor-pointer text-left group"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950 text-purple-600 flex items-center justify-center font-bold">
-                    <Layers size={20} />
-                  </div>
-                  <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-purple-600 transition-colors">
-                    Pull Certified True Copies (CTC)
-                  </h4>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Official watermarked digital copies of Mayor's Permit, Tax Assessments, and Closures.
-                  </p>
-                </button>
 
-                {/* Permit Verification */}
-                <button
-                  type="button"
-                  onClick={() => setCurrentView('verification')}
-                  className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2 hover:border-emerald-500 hover:shadow-md transition-all cursor-pointer text-left group"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center font-bold">
-                    <ShieldCheck size={20} />
-                  </div>
-                  <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-emerald-600 transition-colors">
-                    Mayor's Permit Verification
-                  </h4>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Real-time legal standing, FSIC, Sanitary, and Zoning compliance lookup.
-                  </p>
-                </button>
 
-                {/* Pay Tax */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setTaxPaymentReceipt(null);
-                    setCurrentView('pay_tax');
-                  }}
-                  className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2 hover:border-blue-500 hover:shadow-md transition-all cursor-pointer text-left group"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950 text-blue-600 flex items-center justify-center font-bold">
-                    <CreditCard size={20} />
-                  </div>
-                  <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
-                    Pay Business Tax & Dues
-                  </h4>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Settle quarterly business tax and local assessment fees online with instant e-Receipt.
-                  </p>
-                </button>
-
-                {/* Safe Seal */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSafeSealIssued(false);
-                    setCurrentView('safe_seal');
-                  }}
-                  className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2 hover:border-amber-500 hover:shadow-md transition-all cursor-pointer text-left group"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950 text-amber-600 flex items-center justify-center font-bold">
-                    <Award size={20} />
-                  </div>
-                  <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-amber-600 transition-colors">
-                    QC Safe Seal Decal
-                  </h4>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Apply for the official Stop All Forms of Exploitation (SAFE) Seal and downloadable QR decal.
-                  </p>
-                </button>
-
-              </div>
-            </div>
-
-            {/* ========================================================================= */}
-            {/* BOTTOM GATEWAY ACTION CTA */}
-            {/* ========================================================================= */}
-            <div className="rounded-3xl p-8 bg-gradient-to-r from-blue-600 via-indigo-600 to-slate-900 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="space-y-1.5 text-center md:text-left">
-                <h3 className="text-xl sm:text-2xl font-black">
-                  Ready to Start Your Business Permit Application?
-                </h3>
-                <p className="text-xs sm:text-sm text-blue-100 max-w-xl">
-                  Proceed to register a new commercial enterprise, renew your existing license, or file business record amendments.
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setNewAppStep(1);
-                    setNewAppTermsAccepted(true);
-                    setCurrentView('new_app');
-                  }}
-                  className="px-8 py-4 bg-white hover:bg-slate-100 text-slate-950 font-black rounded-2xl text-xs sm:text-sm shadow-lg transition-all flex items-center space-x-2 cursor-pointer active:scale-[0.98]"
-                >
-                  <span>Start New Application</span>
-                  <ArrowRight size={16} strokeWidth={3} className="text-blue-600" />
-                </button>
-              </div>
-            </div>
 
           </div>
         )}
@@ -1524,6 +1603,34 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                     </button>
                   </div>
                 </div>
+
+                {/* Document Picture Preview (Live Photo View) */}
+                {regImagePreview && (
+                  <div className="p-4 rounded-2xl bg-blue-50/50 dark:bg-blue-950/30 border border-blue-200/80 dark:border-blue-800/60 space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <Camera size={16} className="text-blue-600 dark:text-blue-400" />
+                        <span className="text-xs font-bold text-slate-900 dark:text-white">
+                          Uploaded Registration Document Photo Preview
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
+                          ✓ Photo Loaded
+                        </span>
+                      </div>
+                      <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+                        {regFileName}
+                      </span>
+                    </div>
+
+                    <div className="relative rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-900/5 max-h-56 flex items-center justify-center group/img">
+                      <img 
+                        src={regImagePreview} 
+                        alt="Registration Document Picture" 
+                        className="w-full max-h-56 object-contain rounded-lg transition-transform group-hover/img:scale-[1.01]"
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Extraction Progress Overlay */}
@@ -1834,6 +1941,34 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                     </button>
                   </div>
                 </div>
+
+                {/* Proof of Address Document Picture Preview */}
+                {locImagePreview && (
+                  <div className="p-4 rounded-2xl bg-blue-50/50 dark:bg-blue-950/30 border border-blue-200/80 dark:border-blue-800/60 space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <Camera size={16} className="text-blue-600 dark:text-blue-400" />
+                        <span className="text-xs font-bold text-slate-900 dark:text-white">
+                          Uploaded Address / Barangay Clearance Photo Preview
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
+                          ✓ Photo Loaded
+                        </span>
+                      </div>
+                      <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+                        {locFileName}
+                      </span>
+                    </div>
+
+                    <div className="relative rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-900/5 max-h-56 flex items-center justify-center group/img">
+                      <img 
+                        src={locImagePreview} 
+                        alt="Address Document Picture" 
+                        className="w-full max-h-56 object-contain rounded-lg transition-transform group-hover/img:scale-[1.01]"
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Extraction Progress */}
@@ -1993,6 +2128,34 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                     </button>
                   </div>
                 </div>
+
+                {/* Government ID Document Picture Preview */}
+                {idImagePreview && (
+                  <div className="p-4 rounded-2xl bg-blue-50/50 dark:bg-blue-950/30 border border-blue-200/80 dark:border-blue-800/60 space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <Camera size={16} className="text-blue-600 dark:text-blue-400" />
+                        <span className="text-xs font-bold text-slate-900 dark:text-white">
+                          Uploaded Government ID Photo Preview
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
+                          ✓ Photo Loaded
+                        </span>
+                      </div>
+                      <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+                        {idFileName}
+                      </span>
+                    </div>
+
+                    <div className="relative rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-900/5 max-h-56 flex items-center justify-center group/img">
+                      <img 
+                        src={idImagePreview} 
+                        alt="Government ID Document Picture" 
+                        className="w-full max-h-56 object-contain rounded-lg transition-transform group-hover/img:scale-[1.01]"
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* Extraction Progress */}
@@ -3914,8 +4077,8 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
             <span>Republic of the Philippines • Business Permits and Licensing Office (BPLO)</span>
           </div>
           <div className="flex items-center space-x-6">
-            <span className="hover:text-slate-800 dark:hover:text-white cursor-pointer" onClick={() => onNavigateToTab?.('E-Permit Portal')}>
-              E-Permit Portal
+            <span className="hover:text-slate-800 dark:hover:text-white cursor-pointer" onClick={() => onNavigateToTab?.('Home')}>
+              Home
             </span>
             <span className="hover:text-slate-800 dark:hover:text-white cursor-pointer" onClick={() => onNavigateToTab?.('Home')}>
               Dashboard & Tracker

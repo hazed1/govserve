@@ -42,7 +42,9 @@ import {
   Car,
   Zap,
   CreditCard,
-  Home
+  Home,
+  Users,
+  Banknote
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -1411,138 +1413,583 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
             
 
 
-            {/* 4 Interactive Service Category Cards (Direct Action Functional Buttons) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* ========================================================================= */}
+            {/* TOP GATEWAY ACTION CTA */}
+            {/* ========================================================================= */}
+            <div className="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-blue-600 via-indigo-600 to-slate-900 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="space-y-1.5 text-center md:text-left">
+                <h3 className="text-xl sm:text-2xl font-black">
+                  Ready to Start Your Franchise Application?
+                </h3>
+                <p className="text-xs sm:text-sm text-blue-100 max-w-xl">
+                  Proceed to file a new MTOP franchise, renew your motorized tricycle license, or submit vehicle unit amendment & substitution filings.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setWizardStep(1);
+                    setNewFranchiseSubmitted(false);
+                    setApplicationType('New');
+                    setCurrentView('new_franchise_wizard');
+                  }}
+                  className="px-8 py-4 bg-white hover:bg-slate-100 text-slate-950 font-black rounded-2xl text-xs sm:text-sm shadow-lg transition-all flex items-center space-x-2 cursor-pointer active:scale-[0.98]"
+                >
+                  <span>Start New Application</span>
+                  <ArrowRight size={16} strokeWidth={3} className="text-blue-600" />
+                </button>
+              </div>
+            </div>
+
+            {/* ========================================================================= */}
+            {/* HERO SECTION: OFFICIAL PICTURE 3 REFERENCE DESIGN */}
+            {/* ========================================================================= */}
+            <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#10243e] to-slate-950 border border-sky-500/30 text-white shadow-xl overflow-hidden group">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-sky-500/15 rounded-full blur-3xl pointer-events-none group-hover:bg-sky-500/25 transition-all duration-700" />
+              <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-blue-500/10 rounded-full blur-2xl pointer-events-none" />
+
+              <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+                <div className="space-y-4 max-w-2xl">
+                  <div className="flex items-center space-x-3">
+                    <span className="px-3.5 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-sky-500/20 text-sky-300 border border-sky-400/30">
+                      Public Transport & Fleet
+                    </span>
+                  </div>
+
+                  <div>
+                    <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+                      Franchise & Transport Permit
+                    </h2>
+                    <p className="text-sm font-semibold text-sky-300 mt-1">
+                      Tricycle (MTOP) & PUV Licensing
+                    </p>
+                  </div>
+
+                  {/* 5 Feature Rows with Circular Badges matching Picture 3 */}
+                  <div className="space-y-2.5 pt-2 border-t border-white/10">
+                    <div className="flex items-start space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-sky-100 text-[#0288d1] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                        <Users size={16} />
+                      </div>
+                      <div className="text-xs">
+                        <span className="font-bold text-white block">Target Users</span>
+                        <span className="text-slate-300">Tricycle MTOP operators, TODA cooperative members, and PUV drivers</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-sky-100 text-[#0288d1] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                        <Bus size={16} />
+                      </div>
+                      <div className="text-xs">
+                        <span className="font-bold text-white block">Service Method</span>
+                        <span className="text-slate-300">Online application through GovServe</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-sky-100 text-[#0288d1] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                        <Clock size={16} />
+                      </div>
+                      <div className="text-xs">
+                        <span className="font-bold text-white block">Time Period</span>
+                        <span className="text-slate-300">2 to 3 days upon TODA route verification & roadworthiness audit</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-sky-100 text-[#0288d1] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                        <Banknote size={16} />
+                      </div>
+                      <div className="text-xs">
+                        <span className="font-bold text-white block">Charges & Payment</span>
+                        <span className="text-slate-300">₱1,350.00 Base Franchise Regulatory Tariff + TODA clearance</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-sky-100 text-[#0288d1] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                        <CreditCard size={16} />
+                      </div>
+                      <div className="text-xs">
+                        <span className="font-bold text-white block">Payment Method</span>
+                        <span className="text-slate-300">Via GovServe online portal</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Document Photo Upload Callout */}
+                  <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
+                    <div className="flex items-center space-x-2 text-sky-300 text-xs font-bold">
+                      <Camera size={15} className="text-sky-400" />
+                      <span>LTO Documents & Vehicle Photo Upload Active</span>
+                    </div>
+                    <p className="text-[11px] text-slate-300">
+                      Upload clear photos or scans of your LTO OR/CR, Professional Driver's License, TODA endorsement, and unit inspection pictures.
+                    </p>
+                    <div className="flex flex-wrap gap-1.5 pt-0.5">
+                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-300" /> LTO OR / CR
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-300" /> Driver's License
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-300" /> TODA Endorsement
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-300" /> Unit Vehicle Photo
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Controls matching Picture 3 */}
+                <div className="w-full lg:w-80 flex flex-col space-y-3 flex-shrink-0">
+                  <button
+                    onClick={() => {
+                      setWizardStep(1);
+                      setNewFranchiseSubmitted(false);
+                      setApplicationType('New');
+                      setCurrentView('new_franchise_wizard');
+                    }}
+                    className="w-full py-4 px-6 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl text-xs sm:text-sm font-black shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center space-x-2.5 cursor-pointer group/btn"
+                  >
+                    <span>Apply for MTOP Franchise →</span>
+                  </button>
+
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      onClick={() => {
+                        setRenewalSubmitted(false);
+                        setCurrentView('renewal');
+                      }}
+                      className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                    >
+                      <RefreshCw size={13} />
+                      <span>Annual Renewal</span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        showToast('Viewing Franchise Requirements & TODA Regulations');
+                      }}
+                      className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                    >
+                      <FileCheck size={13} />
+                      <span>View Requirements</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 3 Interactive Service Category Cards (Expanded Horizontal Cards matching Picture 1) */}
+            <div className="space-y-6">
               
-              {/* Card 1: New MTOP Franchise */}
-              <button
-                type="button"
-                onClick={() => {
-                  setWizardStep(1);
-                  setNewFranchiseSubmitted(false);
-                  setApplicationType('New');
-                  setCurrentView('new_franchise_wizard');
-                }}
-                className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3 flex flex-col justify-between hover:border-emerald-500 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left group active:scale-[0.99]"
-              >
-                <div className="space-y-2 w-full">
-                  <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/80 text-emerald-600 flex items-center justify-center font-bold group-hover:bg-emerald-500 group-hover:text-white transition-colors">
-                      <Bus size={20} />
+              {/* Card 1: Annual Franchise Renewal */}
+              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#06241a] to-slate-950 border border-emerald-500/30 text-white shadow-xl overflow-hidden group">
+                <div className="absolute -right-16 -top-16 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-emerald-500/15 transition-all"></div>
+                <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+                  <div className="space-y-4 max-w-3xl">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[11px] font-black uppercase tracking-wider">
+                        Fast-Track Franchise Renewal
+                      </span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-slate-300 text-[10px] font-bold">
+                        ● Annual Compliance
+                      </span>
                     </div>
-                    <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                      <span>Step 1 Form</span>
-                      <ChevronRight size={12} strokeWidth={3} />
-                    </span>
-                  </div>
-                  <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                    New MTOP Franchise
-                  </h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    New MTOP Application Wizard (Step 1 of 3) para sa bagong rehistro ng prangkisa at rota.
-                  </p>
-                </div>
-                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between w-full">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Total Assessment</span>
-                  <span className="font-mono font-black text-emerald-600 dark:text-emerald-400 text-sm">₱1,250.00</span>
-                </div>
-              </button>
 
-              {/* Card 2: Annual Renewal */}
-              <button
-                type="button"
-                onClick={() => {
-                  setRenewalSubmitted(false);
-                  setCurrentView('renewal');
-                }}
-                className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3 flex flex-col justify-between hover:border-blue-500 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left group active:scale-[0.99]"
-              >
-                <div className="space-y-2 w-full">
-                  <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/80 text-blue-600 flex items-center justify-center font-bold group-hover:bg-blue-500 group-hover:text-white transition-colors">
-                      <RefreshCw size={20} />
+                    <div>
+                      <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                        Annual Franchise Renewal
+                      </h2>
+                      <p className="text-xs sm:text-sm text-slate-300 mt-1 font-medium">
+                        MTOP Fast-Track Verification, Franchise ID Re-validation & Route Decal Clearance
+                      </p>
                     </div>
-                    <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                      <span>Fast-Track</span>
-                      <ChevronRight size={12} strokeWidth={3} />
-                    </span>
-                  </div>
-                  <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                    Annual Renewal
-                  </h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Franchise Annual Renewal (Fast-Track lookup) gamit ang inyong existing MTOP No.
-                  </p>
-                </div>
-                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between w-full">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Annual Fee</span>
-                  <span className="font-mono font-black text-blue-600 dark:text-blue-400 text-sm">₱1,250.00</span>
-                </div>
-              </button>
 
-              {/* Card 3: Amendment & Substitution */}
-              <button
-                type="button"
-                onClick={() => {
-                  setAmendSubmitted(false);
-                  setCurrentView('amendment');
-                }}
-                className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3 flex flex-col justify-between hover:border-purple-500 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left group active:scale-[0.99]"
-              >
-                <div className="space-y-2 w-full">
-                  <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/80 text-purple-600 flex items-center justify-center font-bold group-hover:bg-purple-500 group-hover:text-white transition-colors">
-                      <FileText size={20} />
-                    </div>
-                    <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                      <span>Amend Form</span>
-                      <ChevronRight size={12} strokeWidth={3} />
-                    </span>
-                  </div>
-                  <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                    Amendment & Substitution
-                  </h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Form para sa pagpapalit ng unit, plate number, route transfer, o deed of sale filing.
-                  </p>
-                </div>
-                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between w-full">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Legal Tariff</span>
-                  <span className="font-mono font-black text-purple-600 dark:text-purple-400 text-sm">₱900.00</span>
-                </div>
-              </button>
+                    {/* 5 Feature Rows with Circular Badges */}
+                    <div className="space-y-2.5 pt-2 border-t border-white/10">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Users size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Target Users</span>
+                          <span className="text-slate-300">Registered tricycle operators, TODA member franchises with active MTOP numbers</span>
+                        </div>
+                      </div>
 
-              {/* Card 4: Special Trip Clearance */}
-              <button
-                type="button"
-                onClick={() => {
-                  setSpecialTripSubmitted(false);
-                  setCurrentView('special_trip');
-                }}
-                className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3 flex flex-col justify-between hover:border-amber-500 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left group active:scale-[0.99]"
-              >
-                <div className="space-y-2 w-full">
-                  <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/80 text-amber-600 flex items-center justify-center font-bold group-hover:bg-amber-500 group-hover:text-white transition-colors">
-                      <MapPin size={20} />
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <RefreshCw size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Service Method</span>
+                          <span className="text-slate-300">Online application through GovServe</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Clock size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Time Period</span>
+                          <span className="text-slate-300">1 to 2 business days upon TODA validation & record audit</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Banknote size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Charges & Payment</span>
+                          <span className="text-slate-300">₱1,250.00 Annual MTOP Renewal Regulatory Tariff</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <CreditCard size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Payment Method</span>
+                          <span className="text-slate-300">Via GovServe online portal</span>
+                        </div>
+                      </div>
                     </div>
-                    <span className="text-[10px] font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                      <span>Get Permit</span>
-                      <ChevronRight size={12} strokeWidth={3} />
-                    </span>
+
+                    {/* Document Photo Upload Callout */}
+                    <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
+                      <div className="flex items-center space-x-2 text-emerald-300 text-xs font-bold">
+                        <Camera size={15} className="text-emerald-400" />
+                        <span>Renewal Documents & QR Sticker Verification Active</span>
+                      </div>
+                      <p className="text-[11px] text-slate-300">
+                        Upload updated LTO OR/CR, updated Barangay Clearance, TODA validation receipt, and previous MTOP certificate.
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 pt-0.5">
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-300" /> LTO OR / CR
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-300" /> TODA Receipt
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-300" /> Barangay Clearance
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-300" /> Old MTOP Decal
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
-                    Special Trip Clearance
-                  </h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Application form para sa temporary route passes, charter, out-of-zone, at event permits.
-                  </p>
+
+                  {/* Action Controls matching Picture 1 */}
+                  <div className="w-full lg:w-80 flex flex-col space-y-3 flex-shrink-0">
+                    <button
+                      onClick={() => {
+                        setRenewalSubmitted(false);
+                        setCurrentView('renewal');
+                      }}
+                      className="w-full py-4 px-6 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl text-xs sm:text-sm font-black shadow-lg shadow-emerald-600/30 hover:shadow-emerald-600/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center space-x-2.5 cursor-pointer group/btn"
+                    >
+                      <span>Renew MTOP Franchise →</span>
+                    </button>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="py-2.5 px-3 rounded-xl bg-white/10 border border-white/10 text-xs font-bold text-center flex flex-col justify-center">
+                        <span className="text-[10px] uppercase text-emerald-300">Total Assessment</span>
+                        <span className="text-white font-black font-mono">₱1,250.00</span>
+                      </div>
+
+                      <button
+                        onClick={() => {
+                          showToast('Viewing MTOP Renewal Requirements');
+                        }}
+                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      >
+                        <FileCheck size={13} />
+                        <span>View Requirements</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between w-full">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Standard Pass</span>
-                  <span className="font-mono font-black text-amber-600 dark:text-amber-400 text-sm">₱350.00</span>
+              </div>
+
+              {/* Card 2: Amendment & Substitution */}
+              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#1e0a2e] to-slate-950 border border-purple-500/30 text-white shadow-xl overflow-hidden group">
+                <div className="absolute -right-16 -top-16 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-purple-500/15 transition-all"></div>
+                <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+                  <div className="space-y-4 max-w-3xl">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="px-3 py-1 rounded-full bg-purple-500/20 border border-purple-400/30 text-purple-300 text-[11px] font-black uppercase tracking-wider">
+                        Unit & Route Modification
+                      </span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-slate-300 text-[10px] font-bold">
+                        ● Legal Amendment
+                      </span>
+                    </div>
+
+                    <div>
+                      <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                        Amendment & Substitution
+                      </h2>
+                      <p className="text-xs sm:text-sm text-slate-300 mt-1 font-medium">
+                        Vehicle Unit Replacement, Driver Reassignment & Route Transfer Filing
+                      </p>
+                    </div>
+
+                    {/* 5 Feature Rows with Circular Badges */}
+                    <div className="space-y-2.5 pt-2 border-t border-white/10">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Users size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Target Users</span>
+                          <span className="text-slate-300">Franchise holders changing motor unit, engine, plate number, or transfer of ownership</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <FileText size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Service Method</span>
+                          <span className="text-slate-300">Online application through GovServe</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Clock size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Time Period</span>
+                          <span className="text-slate-300">2 to 3 days upon Legal Office & Traffic Board review</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Banknote size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Charges & Payment</span>
+                          <span className="text-slate-300">₱900.00 Legal Tariff & Motorized Substitution Fee</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <CreditCard size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Payment Method</span>
+                          <span className="text-slate-300">Via GovServe online portal</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Document Photo Upload Callout */}
+                    <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
+                      <div className="flex items-center space-x-2 text-purple-300 text-xs font-bold">
+                        <Camera size={15} className="text-purple-400" />
+                        <span>Legal Deeds & Vehicle Inspection Documents Active</span>
+                      </div>
+                      <p className="text-[11px] text-slate-300">
+                        Upload notarized Deed of Sale, new engine LTO certificate, physical motor inspection photos, and TODA concurrence.
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 pt-0.5">
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-300" /> Deed of Sale
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-300" /> New Engine LTO
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-300" /> Motor Inspection
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-300" /> TODA Endorsement
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action Controls matching Picture 1 */}
+                  <div className="w-full lg:w-80 flex flex-col space-y-3 flex-shrink-0">
+                    <button
+                      onClick={() => {
+                        setAmendSubmitted(false);
+                        setCurrentView('amendment');
+                      }}
+                      className="w-full py-4 px-6 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl text-xs sm:text-sm font-black shadow-lg shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center space-x-2.5 cursor-pointer group/btn"
+                    >
+                      <span>File Unit Substitution →</span>
+                    </button>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="py-2.5 px-3 rounded-xl bg-white/10 border border-white/10 text-xs font-bold text-center flex flex-col justify-center">
+                        <span className="text-[10px] uppercase text-purple-300">Legal Tariff</span>
+                        <span className="text-white font-black font-mono">₱900.00</span>
+                      </div>
+
+                      <button
+                        onClick={() => {
+                          showToast('Viewing Amendment & Substitution Requirements');
+                        }}
+                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      >
+                        <FileCheck size={13} />
+                        <span>View Requirements</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </button>
+              </div>
+
+              {/* Card 3: Special Trip Clearance */}
+              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#1c1303] to-slate-950 border border-amber-500/30 text-white shadow-xl overflow-hidden group">
+                <div className="absolute -right-16 -top-16 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-amber-500/15 transition-all"></div>
+                <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+                  <div className="space-y-4 max-w-3xl">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 text-[11px] font-black uppercase tracking-wider">
+                        Temporary Route Pass
+                      </span>
+                      <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-slate-300 text-[10px] font-bold">
+                        ● Special Clearance
+                      </span>
+                    </div>
+
+                    <div>
+                      <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                        Special Trip Clearance
+                      </h2>
+                      <p className="text-xs sm:text-sm text-slate-300 mt-1 font-medium">
+                        Out-of-Line Exemption, Event Charter & Funeral Escort Pass
+                      </p>
+                    </div>
+
+                    {/* 5 Feature Rows with Circular Badges */}
+                    <div className="space-y-2.5 pt-2 border-t border-white/10">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Users size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Target Users</span>
+                          <span className="text-slate-300">Operators and groups requesting temporary out-of-zone transit clearance</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <MapPin size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Service Method</span>
+                          <span className="text-slate-300">Online application through GovServe</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Clock size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Time Period</span>
+                          <span className="text-slate-300">Same-day or within 24 hours approval</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Banknote size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Charges & Payment</span>
+                          <span className="text-slate-300">₱350.00 Standard Pass Fee</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <CreditCard size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Payment Method</span>
+                          <span className="text-slate-300">Via GovServe online portal</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Document Photo Upload Callout */}
+                    <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
+                      <div className="flex items-center space-x-2 text-amber-300 text-xs font-bold">
+                        <Camera size={15} className="text-amber-400" />
+                        <span>Route Itinerary & Special Transit Pass Active</span>
+                      </div>
+                      <p className="text-[11px] text-slate-300">
+                        Upload special trip destination itinerary, driver identification, passenger manifest, and dispatch clearance.
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 pt-0.5">
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-300" /> Trip Itinerary
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-300" /> Passenger Manifest
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-300" /> Driver ID
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-300" /> Dispatch Slip
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action Controls matching Picture 1 */}
+                  <div className="w-full lg:w-80 flex flex-col space-y-3 flex-shrink-0">
+                    <button
+                      onClick={() => {
+                        setSpecialTripSubmitted(false);
+                        setCurrentView('special_trip');
+                      }}
+                      className="w-full py-4 px-6 bg-amber-600 hover:bg-amber-500 text-white rounded-2xl text-xs sm:text-sm font-black shadow-lg shadow-amber-600/30 hover:shadow-amber-600/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center space-x-2.5 cursor-pointer group/btn"
+                    >
+                      <span>Request Special Trip Pass →</span>
+                    </button>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="py-2.5 px-3 rounded-xl bg-white/10 border border-white/10 text-xs font-bold text-center flex flex-col justify-center">
+                        <span className="text-[10px] uppercase text-amber-300">Standard Pass</span>
+                        <span className="text-white font-black font-mono">₱350.00</span>
+                      </div>
+
+                      <button
+                        onClick={() => {
+                          showToast('Viewing Special Trip Guidelines');
+                        }}
+                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      >
+                        <FileCheck size={13} />
+                        <span>View Guidelines</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
             </div>
 
@@ -1763,103 +2210,6 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                 </div>
               </div>
 
-            </div>
-
-            {/* ========================================================================= */}
-            {/* SECTION: QUICK REGULATORY SERVICES & TRANSPORT VERIFICATION */}
-            {/* ========================================================================= */}
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
-                  <ShieldCheck className="text-emerald-500" size={20} />
-                  <span>Quick Regulatory Services & Digital Document Portal</span>
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                  Instant franchise verification, Certified True Copy (CTC) pulling, Clean Air Transport Seal, and fee settlement
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                
-                {/* BIS / CTC Pulling */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setCtcStep(1);
-                    setCtcPaid(false);
-                    setCurrentView('ctc_pulling');
-                  }}
-                  className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2 hover:border-purple-500 hover:shadow-md transition-all cursor-pointer text-left group"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950 text-purple-600 flex items-center justify-center font-bold">
-                    <Layers size={20} />
-                  </div>
-                  <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-purple-600 transition-colors">
-                    Pull Certified True Copies (CTC)
-                  </h4>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Official watermarked digital copies of MTOP Franchise, Route Decal, and Clearances.
-                  </p>
-                </button>
-
-                {/* Franchise Verification */}
-                <button
-                  type="button"
-                  onClick={() => setCurrentView('verification')}
-                  className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2 hover:border-emerald-500 hover:shadow-md transition-all cursor-pointer text-left group"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center font-bold">
-                    <ShieldCheck size={20} />
-                  </div>
-                  <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-emerald-600 transition-colors">
-                    Franchise Verification
-                  </h4>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Real-time MTOP franchise standing, route zone validity, and LTO unit verification.
-                  </p>
-                </button>
-
-                {/* Pay Franchise Fees */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setFeeReceipt(null);
-                    setCurrentView('pay_fees');
-                  }}
-                  className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2 hover:border-blue-500 hover:shadow-md transition-all cursor-pointer text-left group"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950 text-blue-600 flex items-center justify-center font-bold">
-                    <CreditCard size={20} />
-                  </div>
-                  <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
-                    Pay Transport Fees
-                  </h4>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Settle regulatory dues, route inspection fees, and MTOP renewals online.
-                  </p>
-                </button>
-
-                {/* Green Seal / Safe Transport */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSealSubmitted(false);
-                    setCurrentView('safety_seal');
-                  }}
-                  className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2 hover:border-amber-500 hover:shadow-md transition-all cursor-pointer text-left group"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950 text-amber-600 flex items-center justify-center font-bold">
-                    <Award size={20} />
-                  </div>
-                  <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-amber-600 transition-colors">
-                    Clean Transport Seal
-                  </h4>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Apply for Quezon City Road Safety & Emission-Compliant Operator certification.
-                  </p>
-                </button>
-
-              </div>
             </div>
 
             {/* ========================================================================= */}

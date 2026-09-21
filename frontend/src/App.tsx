@@ -635,7 +635,7 @@ function GovServePortal() {
             onNavigateToTab={(tab) => setActiveTab(tab)}
             onAddNewApplication={handleAddNewApplication}
             onNavigateToDashboard={handleNavigateToDashboard}
-            initialView={activeTab === 'Renewal' ? 'renewal' : (activeTab === 'Business Registration (New / Renewal)' || activeTab === 'New Registration' || activeTab === 'Business Permit Application') ? 'new_app' : 'preview'}
+            initialView={activeTab === 'Renewal' ? 'renewal' : (activeTab === 'New Registration' || activeTab === 'Business Permit Application') ? 'new_app' : 'preview'}
           />
         );
 
@@ -841,7 +841,7 @@ function GovServePortal() {
           onNavigateToTab={(tab) => setActiveTab(tab)}
           onAddNewApplication={handleAddNewApplication}
           onNavigateToDashboard={handleNavigateToDashboard}
-          initialView={activeTab === 'Renewal' ? 'renewal' : 'new_app'}
+          initialView={activeTab === 'Renewal' ? 'renewal' : (activeTab === 'New Registration' || activeTab === 'Business Permit Application') ? 'new_app' : 'preview'}
         />
         {/* Global Floating AI Permit Assistant Widget */}
         <AIChatWidget onNavigateToTab={(tab) => setActiveTab(tab)} />

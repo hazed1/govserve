@@ -223,32 +223,84 @@ const translations: Record<string, { en: string; tl: string }> = {
     tl: 'Business Permit'
   },
   'card_business_subtitle': {
-    en: "Mayor's Permits & Business Licensing",
-    tl: "Permit ng Alkalde at Lisensya sa Negosyo"
+    en: 'Business Permit Services',
+    tl: 'Business Permit Services'
   },
   'card_business_category': {
     en: 'Commercial & Retail',
     tl: 'Commercial & Retail'
   },
   'card_business_desc': {
-    en: 'Register and manage your business permit application with minimal data entry through document-based information extraction.',
-    tl: 'Magrehistro at mamahala ng inyong business permit nang may kaunting pagta-type sa tulong ng document-based information extraction.'
+    en: 'Apply and manage your Quezon City business permit online with picture document upload and automated evaluation.',
+    tl: 'Mag-apply at mamahala ng inyong Quezon City business permit online gamit ang pag-upload ng larawan ng dokumento at awtomatikong pagsusuri.'
   },
   'card_business_tag1': {
-    en: 'Upload-based applicant and business information',
-    tl: 'Upload-based na impormasyon ng aplikante at negosyo'
+    en: 'Target Users: Business owners in Quezon City (including Nano Enterprises)',
+    tl: 'Target Users: Mga may-ari ng negosyo sa Quezon City (kabilang ang Nano Enterprises)'
   },
   'card_business_tag2': {
-    en: 'Automatic document information extraction',
-    tl: 'Awtomatikong pag-extract ng impormasyon mula sa dokumento'
+    en: 'Service Method: Online application through GovServe',
+    tl: 'Paraan ng Serbisyo: Online application sa pamamagitan ng GovServe'
   },
   'card_business_tag3': {
-    en: 'Automatic business registration document identification',
-    tl: 'Awtomatikong pagkilala sa uri ng dokumento ng rehistro'
+    en: 'Time Period: 3 days upon approval of Initial Evaluation',
+    tl: 'Panahon: 3 araw pagkatapos maaprubahan ang Initial Evaluation'
   },
   'card_business_tag4': {
-    en: 'Digital application tracking',
-    tl: 'Digital na pagsubaybay sa aplikasyon'
+    en: 'Charges & Payment: Depends on the business of the QCitizen',
+    tl: 'Bayarin: Depende sa uri ng negosyo ng QCitizen'
+  },
+  'card_business_tag5': {
+    en: 'Payment Method: Via GovServe online portal',
+    tl: 'Paraan ng Pagbabayad: Sa pamamagitan ng GovServe online portal'
+  },
+  'boss_target_users_title': {
+    en: 'Target Users',
+    tl: 'Target Users'
+  },
+  'boss_target_users_desc': {
+    en: 'Business owners in Quezon City (including Nano Enterprises)',
+    tl: 'Mga may-ari ng negosyo sa Quezon City (kabilang ang Nano Enterprises)'
+  },
+  'boss_service_method_title': {
+    en: 'Service Method',
+    tl: 'Service Method'
+  },
+  'boss_service_method_desc': {
+    en: 'Online application through GovServe',
+    tl: 'Online application through GovServe'
+  },
+  'boss_time_period_title': {
+    en: 'Time Period',
+    tl: 'Time Period'
+  },
+  'boss_time_period_desc': {
+    en: '3 days upon approval of Initial Evaluation',
+    tl: '3 days upon approval of Initial Evaluation'
+  },
+  'boss_charges_title': {
+    en: 'Charges & Payment',
+    tl: 'Charges & Payment'
+  },
+  'boss_charges_desc': {
+    en: 'Depends on the business of the QCitizen',
+    tl: 'Depends on the business of the QCitizen'
+  },
+  'boss_payment_method_title': {
+    en: 'Payment Method',
+    tl: 'Payment Method'
+  },
+  'boss_payment_method_desc': {
+    en: 'Via GovServe online portal',
+    tl: 'Via GovServe online portal'
+  },
+  'boss_doc_upload_title': {
+    en: 'Document Photo & Picture Upload Required',
+    tl: 'Pag-upload ng Larawan ng mga Dokumento'
+  },
+  'boss_doc_upload_desc': {
+    en: 'Upload clear photos or pictures of your DTI/SEC certificate, Barangay Clearance, Cedula (CTC), and Valid ID with instant AI OCR extraction.',
+    tl: 'Mag-upload ng malinaw na litrato o larawan ng DTI/SEC rehistro, Barangay Clearance, Cedula (CTC), at Valid ID na may mabilis na AI OCR extraction.'
   },
   'card_business_btn_primary': {
     en: 'Apply for Business Permit →',

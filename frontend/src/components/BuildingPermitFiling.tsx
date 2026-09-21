@@ -45,7 +45,10 @@ import {
   Sun,
   Moon,
   CreditCard,
-  Home
+  Home,
+  Users,
+  Banknote,
+  Camera
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -691,137 +694,610 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
             
 
 
-            {/* 4 Interactive Service Category Cards (Direct Action Functional Buttons) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* ========================================================================= */}
+            {/* TOP GATEWAY ACTION CTA */}
+            {/* ========================================================================= */}
+            <div className="rounded-3xl p-6 sm:p-8 bg-gradient-to-r from-blue-600 via-indigo-600 to-slate-900 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="space-y-1.5 text-center md:text-left">
+                <h3 className="text-xl sm:text-2xl font-black">
+                  Ready to Start Your Building Permit Application?
+                </h3>
+                <p className="text-xs sm:text-sm text-blue-100 max-w-xl">
+                  Proceed to file a new building construction permit, upload architectural & engineering blueprints, or request ancillary clearances.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setNewAppStep(1);
+                    setNewBuildingSubmitted(false);
+                    setCurrentView('new_building_app');
+                  }}
+                  className="px-8 py-4 bg-white hover:bg-slate-100 text-slate-950 font-black rounded-2xl text-xs sm:text-sm shadow-lg transition-all flex items-center space-x-2 cursor-pointer active:scale-[0.98]"
+                >
+                  <span>Start New Application</span>
+                  <ArrowRight size={16} strokeWidth={3} className="text-blue-600" />
+                </button>
+              </div>
+            </div>
+
+            {/* ========================================================================= */}
+            {/* HERO SECTION: OFFICIAL PICTURE 3 REFERENCE DESIGN */}
+            {/* ========================================================================= */}
+            <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#10243e] to-slate-950 border border-sky-500/30 text-white shadow-xl overflow-hidden group">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-sky-500/15 rounded-full blur-3xl pointer-events-none group-hover:bg-sky-500/25 transition-all duration-700" />
+              <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-blue-500/10 rounded-full blur-2xl pointer-events-none" />
+
+              <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+                <div className="space-y-4 max-w-2xl">
+                  <div className="flex items-center space-x-3">
+                    <span className="px-3.5 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-sky-500/20 text-sky-300 border border-sky-400/30">
+                      Engineering & Infrastructure
+                    </span>
+                  </div>
+
+                  <div>
+                    <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+                      Building and Construction Permit
+                    </h2>
+                    <p className="text-sm font-semibold text-sky-300 mt-1">
+                      Building Clearances & Blueprint Permits
+                    </p>
+                  </div>
+
+                  {/* 5 Feature Rows with Circular Badges matching Picture 3 */}
+                  <div className="space-y-2.5 pt-2 border-t border-white/10">
+                    <div className="flex items-start space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-sky-100 text-[#0288d1] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                        <Users size={16} />
+                      </div>
+                      <div className="text-xs">
+                        <span className="font-bold text-white block">Target Users</span>
+                        <span className="text-slate-300">Property developers, structural owners, and licensed architects / civil engineers</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-sky-100 text-[#0288d1] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                        <Building2 size={16} />
+                      </div>
+                      <div className="text-xs">
+                        <span className="font-bold text-white block">Service Method</span>
+                        <span className="text-slate-300">Online application through GovServe</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-sky-100 text-[#0288d1] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                        <Clock size={16} />
+                      </div>
+                      <div className="text-xs">
+                        <span className="font-bold text-white block">Time Period</span>
+                        <span className="text-slate-300">5 to 7 days upon joint engineering & FSEC review</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-sky-100 text-[#0288d1] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                        <Banknote size={16} />
+                      </div>
+                      <div className="text-xs">
+                        <span className="font-bold text-white block">Charges & Payment</span>
+                        <span className="text-slate-300">Assessed per total floor area (sqm) under National Building Code</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start space-x-3">
+                      <div className="w-8 h-8 rounded-full bg-sky-100 text-[#0288d1] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                        <CreditCard size={16} />
+                      </div>
+                      <div className="text-xs">
+                        <span className="font-bold text-white block">Payment Method</span>
+                        <span className="text-slate-300">Via GovServe online portal</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Document Photo Upload Callout */}
+                  <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
+                    <div className="flex items-center space-x-2 text-sky-300 text-xs font-bold">
+                      <Camera size={15} className="text-sky-400" />
+                      <span>Blueprint & Technical Document Upload Active</span>
+                    </div>
+                    <p className="text-[11px] text-slate-300">
+                      Upload clear architectural CAD/PDF plans, structural analyses, soil tests, and FSEC clearances with automated digital evaluation.
+                    </p>
+                    <div className="flex flex-wrap gap-1.5 pt-0.5">
+                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-300" /> Architectural Plans
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-300" /> Structural CAD
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-300" /> Title / TCT
+                      </span>
+                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-300" /> FSEC Clearance
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Controls matching Picture 3 */}
+                <div className="w-full lg:w-80 flex flex-col space-y-3 flex-shrink-0">
+                  <button
+                    onClick={() => {
+                      setNewAppStep(1);
+                      setNewBuildingSubmitted(false);
+                      setCurrentView('new_building_app');
+                    }}
+                    className="w-full py-4 px-6 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl text-xs sm:text-sm font-black shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center space-x-2.5 cursor-pointer group/btn"
+                  >
+                    <span>Apply for Building Permit →</span>
+                  </button>
+
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      onClick={() => {
+                        setAncillarySubmitted(false);
+                        setCurrentView('ancillary');
+                      }}
+                      className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                    >
+                      <Wrench size={13} />
+                      <span>Upload Plans</span>
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        showToast('Viewing Building Permit Requirements & NBCP Standards');
+                      }}
+                      className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                    >
+                      <FileCheck size={13} />
+                      <span>View Requirements</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* ========================================================================= */}
+            {/* 3 EXPANDED BUILDING SERVICE MODULE CARDS (SAME FORMAT AS PICTURE 1) */}
+            {/* ========================================================================= */}
+            <div className="space-y-6">
               
-              {/* Card 1: New Building Permit */}
-              <button
-                type="button"
-                onClick={() => {
-                  setNewAppStep(1);
-                  setNewBuildingSubmitted(false);
-                  setCurrentView('new_building_app');
-                }}
-                className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3 flex flex-col justify-between hover:border-blue-500 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left group active:scale-[0.99]"
-              >
-                <div className="space-y-2 w-full">
-                  <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950/80 text-blue-600 flex items-center justify-center font-bold group-hover:bg-blue-500 group-hover:text-white transition-colors">
-                      <Building2 size={20} />
-                    </div>
-                    <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                      <span>Step 1 Form</span>
-                      <ChevronRight size={12} strokeWidth={3} />
-                    </span>
-                  </div>
-                  <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                    New Building Permit
-                  </h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    New Building Construction Application Wizard (7-Step Form) para sa architectural, structural, at zoning clearances.
-                  </p>
-                </div>
-                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between w-full">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Total Assessment</span>
-                  <span className="font-mono font-black text-blue-600 dark:text-blue-400 text-sm">₱4,850.00</span>
-                </div>
-              </button>
+              {/* ======================================================================= */}
+              {/* CARD 1: ANCILLARY PERMITS */}
+              {/* ======================================================================= */}
+              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#1c1303] to-slate-950 border border-amber-500/30 text-white shadow-xl overflow-hidden group">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-amber-500/15 rounded-full blur-3xl pointer-events-none group-hover:bg-amber-500/25 transition-all duration-700" />
+                <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-yellow-500/10 rounded-full blur-2xl pointer-events-none" />
 
-              {/* Card 2: Ancillary Permits */}
-              <button
-                type="button"
-                onClick={() => {
-                  setAncillarySubmitted(false);
-                  setCurrentView('ancillary');
-                }}
-                className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3 flex flex-col justify-between hover:border-amber-500 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left group active:scale-[0.99]"
-              >
-                <div className="space-y-2 w-full">
-                  <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/80 text-amber-600 flex items-center justify-center font-bold group-hover:bg-amber-500 group-hover:text-white transition-colors">
-                      <Wrench size={20} />
+                <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+                  <div className="space-y-4 max-w-2xl">
+                    <div className="flex items-center space-x-3">
+                      <span className="px-3.5 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-amber-500/20 text-amber-300 border border-amber-400/30">
+                        Technical Clearances
+                      </span>
+                      <span className="px-3 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 flex items-center space-x-1.5">
+                        <Wrench size={12} className="text-amber-400" />
+                        <span>Fast-Track Clearance</span>
+                      </span>
                     </div>
-                    <span className="text-[10px] font-bold text-amber-600 dark:text-amber-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                      <span>Fast-Track</span>
-                      <ChevronRight size={12} strokeWidth={3} />
-                    </span>
-                  </div>
-                  <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
-                    Ancillary Permits
-                  </h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Electrical, Sanitary/Plumbing, Mechanical (HVAC/Elevator), at Electronics clearances para sa inyong building project.
-                  </p>
-                </div>
-                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between w-full">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Standard Fee</span>
-                  <span className="font-mono font-black text-amber-600 dark:text-amber-400 text-sm">₱1,650.00</span>
-                </div>
-              </button>
 
-              {/* Card 3: Certificate of Occupancy */}
-              <button
-                type="button"
-                onClick={() => {
-                  setOccupancySubmitted(false);
-                  setCurrentView('occupancy');
-                }}
-                className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3 flex flex-col justify-between hover:border-emerald-500 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left group active:scale-[0.99]"
-              >
-                <div className="space-y-2 w-full">
-                  <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/80 text-emerald-600 flex items-center justify-center font-bold group-hover:bg-emerald-500 group-hover:text-white transition-colors">
-                      <ShieldCheck size={20} />
+                    <div>
+                      <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white flex items-center gap-2.5">
+                        <Wrench className="text-amber-400" size={26} />
+                        <span>Ancillary Permits</span>
+                      </h2>
+                      <p className="text-xs sm:text-sm font-medium text-amber-300/90 mt-1">
+                        Electrical, Sanitary/Plumbing, Mechanical (HVAC/Elevator), & Electronics Clearances
+                      </p>
                     </div>
-                    <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                      <span>Occupancy Form</span>
-                      <ChevronRight size={12} strokeWidth={3} />
-                    </span>
-                  </div>
-                  <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
-                    Certificate of Occupancy
-                  </h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Final engineering inspection, fire safety compliance (FSIC), at official Certificate of Occupancy issuance.
-                  </p>
-                </div>
-                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between w-full">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Tariff</span>
-                  <span className="font-mono font-black text-emerald-600 dark:text-emerald-400 text-sm">₱2,400.00</span>
-                </div>
-              </button>
 
-              {/* Card 4: Special Permits */}
-              <button
-                type="button"
-                onClick={() => {
-                  setSpecialDemoSubmitted(false);
-                  setCurrentView('special_permit');
-                }}
-                className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3 flex flex-col justify-between hover:border-purple-500 hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer text-left group active:scale-[0.99]"
-              >
-                <div className="space-y-2 w-full">
-                  <div className="flex items-center justify-between">
-                    <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950/80 text-purple-600 flex items-center justify-center font-bold group-hover:bg-purple-500 group-hover:text-white transition-colors">
-                      <HardHat size={20} />
+                    {/* 5 Feature Rows with Circular Badges */}
+                    <div className="space-y-2.5 pt-2 border-t border-white/10">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Users size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Target Users</span>
+                          <span className="text-slate-300">Professional Electrical (PEE), Master Plumbers, and Mechanical Engineers</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Building2 size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Service Method</span>
+                          <span className="text-slate-300">Online filing via GovServe – Technical Ancillary Clearance Desk</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Clock size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Time Period</span>
+                          <span className="text-slate-300">2 to 3 working days upon plan verification & load schedule check</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Banknote size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Charges & Payment</span>
+                          <span className="text-slate-300">₱1,650.00 Standard Assessment per technical trade clearance</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <CreditCard size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Payment Method</span>
+                          <span className="text-slate-300">Via GovServe online portal (e-Wallets, Maya, GCash, Landbank)</span>
+                        </div>
+                      </div>
                     </div>
-                    <span className="text-[10px] font-bold text-purple-600 dark:text-purple-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                      <span>Get Permit</span>
-                      <ChevronRight size={12} strokeWidth={3} />
-                    </span>
+
+                    {/* Document Photo Upload Callout */}
+                    <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
+                      <div className="flex items-center space-x-2 text-amber-300 text-xs font-bold">
+                        <Camera size={15} className="text-amber-400" />
+                        <span>Trade Line Plans & Engineering Specifications Upload Active</span>
+                      </div>
+                      <p className="text-[11px] text-slate-300">
+                        Upload clear single-line wiring diagrams, plumbing riser blueprints, HVAC mechanical schematics, and sealed PRC specifications.
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 pt-0.5">
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-300" /> Electrical Single-Line
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-300" /> Sanitary Riser
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-300" /> Mechanical Plan
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-300" /> Electronics Diagram
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
-                    Special Permits
-                  </h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Temporary sidewalk enclosure, perimeter scaffolding, deep excavation, at structural demolition permits.
-                  </p>
+
+                  {/* Primary & Secondary Action Controls */}
+                  <div className="w-full lg:w-80 flex flex-col space-y-3 flex-shrink-0">
+                    <button
+                      onClick={() => {
+                        setAncillarySubmitted(false);
+                        setCurrentView('ancillary');
+                      }}
+                      className="w-full py-4 px-6 bg-amber-600 hover:bg-amber-500 text-white rounded-2xl text-xs sm:text-sm font-black shadow-lg shadow-amber-600/30 hover:shadow-amber-600/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center space-x-2.5 cursor-pointer group/btn"
+                    >
+                      <span>Apply for Ancillary Permits →</span>
+                    </button>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => {
+                          setAncillarySubmitted(false);
+                          setCurrentView('ancillary');
+                        }}
+                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      >
+                        <Banknote size={13} className="text-amber-400" />
+                        <span>Standard: ₱1,650</span>
+                      </button>
+                      <button
+                        onClick={() => showToast('Viewing Ancillary Clearance Guidelines')}
+                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      >
+                        <FileCheck size={13} />
+                        <span>Requirements</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between w-full">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Standard Pass</span>
-                  <span className="font-mono font-black text-purple-600 dark:text-purple-400 text-sm">₱1,200.00</span>
+              </div>
+
+              {/* ======================================================================= */}
+              {/* CARD 2: CERTIFICATE OF OCCUPANCY */}
+              {/* ======================================================================= */}
+              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#06241a] to-slate-950 border border-emerald-500/30 text-white shadow-xl overflow-hidden group">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none group-hover:bg-emerald-500/25 transition-all duration-700" />
+                <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-teal-500/10 rounded-full blur-2xl pointer-events-none" />
+
+                <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+                  <div className="space-y-4 max-w-2xl">
+                    <div className="flex items-center space-x-3">
+                      <span className="px-3.5 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
+                        Habitation Clearance
+                      </span>
+                      <span className="px-3 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center space-x-1.5">
+                        <ShieldCheck size={12} className="text-emerald-400" />
+                        <span>Final Sign-Off</span>
+                      </span>
+                    </div>
+
+                    <div>
+                      <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white flex items-center gap-2.5">
+                        <ShieldCheck className="text-emerald-400" size={26} />
+                        <span>Certificate of Occupancy</span>
+                      </h2>
+                      <p className="text-xs sm:text-sm font-medium text-emerald-300/90 mt-1">
+                        Final Engineering Inspection, Fire Safety Compliance (FSIC), & Habitation Authorization
+                      </p>
+                    </div>
+
+                    {/* 5 Feature Rows with Circular Badges */}
+                    <div className="space-y-2.5 pt-2 border-t border-white/10">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Users size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Target Users</span>
+                          <span className="text-slate-300">Building owners and developers with completed structural construction</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Building2 size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Service Method</span>
+                          <span className="text-slate-300">Online inspection request & document verification via GovServe</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Clock size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Time Period</span>
+                          <span className="text-slate-300">3 to 5 working days upon on-site joint inspector sign-off</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Banknote size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Charges & Payment</span>
+                          <span className="text-slate-300">₱2,400.00 Official Occupancy Inspection Tariff</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <CreditCard size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Payment Method</span>
+                          <span className="text-slate-300">Via GovServe online portal (e-Wallets, Maya, GCash, Landbank)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Document Photo Upload Callout */}
+                    <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
+                      <div className="flex items-center space-x-2 text-emerald-300 text-xs font-bold">
+                        <Camera size={15} className="text-emerald-400" />
+                        <span>As-Built Plans & Completion Documents Upload Active</span>
+                      </div>
+                      <p className="text-[11px] text-slate-300">
+                        Upload clear as-built architectural drawings, Certificate of Completion by Supervising Engineer, FSIC certificate, and site photos.
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 pt-0.5">
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-300" /> As-Built Plans
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-300" /> Certificate of Completion
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-300" /> FSIC Certificate
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-300" /> Structural Sign-Off
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Primary & Secondary Action Controls */}
+                  <div className="w-full lg:w-80 flex flex-col space-y-3 flex-shrink-0">
+                    <button
+                      onClick={() => {
+                        setOccupancySubmitted(false);
+                        setCurrentView('occupancy');
+                      }}
+                      className="w-full py-4 px-6 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl text-xs sm:text-sm font-black shadow-lg shadow-emerald-600/30 hover:shadow-emerald-600/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center space-x-2.5 cursor-pointer group/btn"
+                    >
+                      <span>Request Occupancy Inspection →</span>
+                    </button>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => {
+                          setOccupancySubmitted(false);
+                          setCurrentView('occupancy');
+                        }}
+                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      >
+                        <Banknote size={13} className="text-emerald-400" />
+                        <span>Tariff: ₱2,400</span>
+                      </button>
+                      <button
+                        onClick={() => showToast('Viewing Occupancy Prerequisites & Checklist')}
+                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      >
+                        <FileCheck size={13} />
+                        <span>Checklist</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </button>
+              </div>
+
+              {/* ======================================================================= */}
+              {/* CARD 3: SPECIAL & DEMOLITION PERMITS */}
+              {/* ======================================================================= */}
+              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#1e0a2e] to-slate-950 border border-purple-500/30 text-white shadow-xl overflow-hidden group">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/15 rounded-full blur-3xl pointer-events-none group-hover:bg-purple-500/25 transition-all duration-700" />
+                <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-fuchsia-500/10 rounded-full blur-2xl pointer-events-none" />
+
+                <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+                  <div className="space-y-4 max-w-2xl">
+                    <div className="flex items-center space-x-3">
+                      <span className="px-3.5 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-purple-500/20 text-purple-300 border border-purple-400/30">
+                        Hazardous & Special
+                      </span>
+                      <span className="px-3 py-0.5 rounded-full text-[10px] font-bold bg-purple-500/20 text-purple-300 border border-purple-500/30 flex items-center space-x-1.5">
+                        <HardHat size={12} className="text-purple-400" />
+                        <span>Public Safety</span>
+                      </span>
+                    </div>
+
+                    <div>
+                      <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white flex items-center gap-2.5">
+                        <HardHat className="text-purple-400" size={26} />
+                        <span>Special & Demolition Permits</span>
+                      </h2>
+                      <p className="text-xs sm:text-sm font-medium text-purple-300/90 mt-1">
+                        Temporary Sidewalk Enclosure, Deep Excavation, Scaffolding, & Structural Demolition Permits
+                      </p>
+                    </div>
+
+                    {/* 5 Feature Rows with Circular Badges */}
+                    <div className="space-y-2.5 pt-2 border-t border-white/10">
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Users size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Target Users</span>
+                          <span className="text-slate-300">Demolition contractors, excavation crews, and civil construction builders</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Building2 size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Service Method</span>
+                          <span className="text-slate-300">Online hazardous works filing and structural safety audit via GovServe</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Clock size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Time Period</span>
+                          <span className="text-slate-300">2 to 4 working days upon safety perimeter & structural engineering audit</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <Banknote size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Charges & Payment</span>
+                          <span className="text-slate-300">₱1,200.00 Base Special Permit & Protective Enclosure Pass</span>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
+                          <CreditCard size={16} />
+                        </div>
+                        <div className="text-xs">
+                          <span className="font-bold text-white block">Payment Method</span>
+                          <span className="text-slate-300">Via GovServe online portal (e-Wallets, Maya, GCash, Landbank)</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Document Photo Upload Callout */}
+                    <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
+                      <div className="flex items-center space-x-2 text-purple-300 text-xs font-bold">
+                        <Camera size={15} className="text-purple-400" />
+                        <span>Demolition Method & Structural Shoring Upload Active</span>
+                      </div>
+                      <p className="text-[11px] text-slate-300">
+                        Upload clear structural demolition sequence plans, protective catch platform blueprints, and neighbor protection agreements.
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 pt-0.5">
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-300" /> Demolition Plan
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-300" /> Soil Shoring Design
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-300" /> Public Safety Plan
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-300" /> Neighbor Consent
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Primary & Secondary Action Controls */}
+                  <div className="w-full lg:w-80 flex flex-col space-y-3 flex-shrink-0">
+                    <button
+                      onClick={() => {
+                        setSpecialDemoSubmitted(false);
+                        setCurrentView('special_permit');
+                      }}
+                      className="w-full py-4 px-6 bg-purple-600 hover:bg-purple-500 text-white rounded-2xl text-xs sm:text-sm font-black shadow-lg shadow-purple-600/30 hover:shadow-purple-600/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center space-x-2.5 cursor-pointer group/btn"
+                    >
+                      <span>File Special Permit →</span>
+                    </button>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={() => {
+                          setSpecialDemoSubmitted(false);
+                          setCurrentView('special_permit');
+                        }}
+                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      >
+                        <Banknote size={13} className="text-purple-400" />
+                        <span>Pass: ₱1,200</span>
+                      </button>
+                      <button
+                        onClick={() => showToast('Viewing Special Permit Safety Standards')}
+                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      >
+                        <FileCheck size={13} />
+                        <span>Safety Code</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
             </div>
 
@@ -1092,103 +1568,6 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                     Geotechnical soil investigation report and structural design computations (mandatory for 2-storey and above).
                   </p>
                 </div>
-              </div>
-            </div>
-
-            {/* ========================================================================= */}
-            {/* SECTION: QUICK REGULATORY SERVICES & BLUEPRINT VERIFICATION */}
-            {/* ========================================================================= */}
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
-                  <ShieldCheck className="text-blue-500" size={20} />
-                  <span>Quick Regulatory Services & Digital Document Portal</span>
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                  Instant blueprint verification, Certified True Copy (CTC) pulling, Green Building Seal, and fee settlement
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                
-                {/* BIS / CTC Pulling */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setCtcStep(1);
-                    setCtcPaid(false);
-                    setCurrentView('ctc_pulling');
-                  }}
-                  className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2 hover:border-purple-500 hover:shadow-md transition-all cursor-pointer text-left group"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-950 text-purple-600 flex items-center justify-center font-bold">
-                    <Layers size={20} />
-                  </div>
-                  <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-purple-600 transition-colors">
-                    Pull Certified True Copies (CTC)
-                  </h4>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Official watermarked digital copies of Building Permits, Assessments, and Occupancy.
-                  </p>
-                </button>
-
-                {/* Building Permit Verification */}
-                <button
-                  type="button"
-                  onClick={() => setCurrentView('verification')}
-                  className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2 hover:border-emerald-500 hover:shadow-md transition-all cursor-pointer text-left group"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center font-bold">
-                    <ShieldCheck size={20} />
-                  </div>
-                  <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-emerald-600 transition-colors">
-                    Building Permit Verification
-                  </h4>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    NBCP P.D. 1096 and structural safety verification with live QR audit check.
-                  </p>
-                </button>
-
-                {/* Pay Building Fees */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setFeeReceipt(null);
-                    setCurrentView('pay_fees');
-                  }}
-                  className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2 hover:border-blue-500 hover:shadow-md transition-all cursor-pointer text-left group"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-950 text-blue-600 flex items-center justify-center font-bold">
-                    <CreditCard size={20} />
-                  </div>
-                  <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors">
-                    Pay Engineering Fees
-                  </h4>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Settle structural inspection dues and building assessment fees online with instant e-Receipt.
-                  </p>
-                </button>
-
-                {/* Green Building Seal */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setGreenSubmitted(false);
-                    setCurrentView('green_seal');
-                  }}
-                  className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2 hover:border-amber-500 hover:shadow-md transition-all cursor-pointer text-left group"
-                >
-                  <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950 text-amber-600 flex items-center justify-center font-bold">
-                    <Award size={20} />
-                  </div>
-                  <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-amber-600 transition-colors">
-                    Green Building & Safety Seal
-                  </h4>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
-                    Apply for Quezon City Green Building Certification and disaster resilience badge.
-                  </p>
-                </button>
-
               </div>
             </div>
 
