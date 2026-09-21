@@ -1713,172 +1713,7 @@ Digital Security Hash   : ${item.qrHash}
             </div>
 
             {/* ========================================================================= */}
-            {/* SECTION: ITEMIZED REGULATORY FEE SCHEDULE TABLES */}
-            {/* ========================================================================= */}
-            <div className="space-y-6">
-              <div>
-                <h3 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
-                  <FileSpreadsheet className="text-purple-500" size={20} />
-                  <span>Itemized Barangay Regulatory Fee Schedules & Tariffs</span>
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                  Official statutory tariffs mandated under Republic Act No. 7160 (Local Government Code) & QC Barangay Revenue Ordinances
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                
-                {/* Table 1: Commercial & Construction Clearances */}
-                <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm space-y-4">
-                  <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="w-2.5 h-2.5 rounded-full bg-purple-500" />
-                        <h4 className="font-black text-slate-900 dark:text-white text-sm">
-                          1. Commercial & Construction Clearances
-                        </h4>
-                      </div>
-                      <p className="text-[11px] text-slate-500">Official statutory clearances for enterprises and physical sites</p>
-                    </div>
-                    <span className="font-mono font-black text-purple-600 dark:text-purple-400 text-base">
-                      ₱1,800.00
-                    </span>
-                  </div>
-
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs">
-                      <thead>
-                        <tr className="border-b border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 uppercase tracking-wider">
-                          <th className="pb-2 font-bold">Code</th>
-                          <th className="pb-2 font-bold">Clearance Component</th>
-                          <th className="pb-2 font-bold hidden sm:table-cell">Legal Basis</th>
-                          <th className="pb-2 font-bold text-right">Fee</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60 text-[11px]">
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">BC-01</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Barangay Business Clearance</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">RA 7160 Sec. 152</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱500.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">BC-02</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Construction & Locational Endorsement</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">Barangay Code Art. 4</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱800.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">BC-03</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Signboard / Billboard Barangay Permit</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">Local Tax Ordinance</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱250.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">BC-04</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Lupon Non-Dispute Record Clearance</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">Katarungang Pambarangay</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱100.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">BC-05</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Solid Waste & Cleanliness Administrative Dues</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">Eco-Waste Compliance</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱100.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">BC-06</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Legal Research & Community Fund (LRF)</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">RA 3870</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱50.00</td>
-                        </tr>
-                      </tbody>
-                      <tfoot>
-                        <tr className="border-t-2 border-slate-200 dark:border-slate-700 font-bold text-xs">
-                          <td colSpan={2} className="pt-3 text-slate-900 dark:text-white">Total Commercial Assessment</td>
-                          <td className="pt-3 hidden sm:table-cell text-slate-400 font-normal text-[10px]">Standard Package</td>
-                          <td className="pt-3 text-right font-mono text-purple-600 dark:text-purple-400 text-sm">₱1,800.00</td>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                </div>
-
-                {/* Table 2: Cedula (CTC) & Individual Certifications */}
-                <div className="space-y-6">
-                  <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm space-y-4">
-                    <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                          <h4 className="font-black text-slate-900 dark:text-white text-sm">
-                            2. Community Tax (Cedula) & Certifications
-                          </h4>
-                        </div>
-                        <p className="text-[11px] text-slate-500">Individual tax certificates, residency, and event permits</p>
-                      </div>
-                      <span className="font-mono font-black text-emerald-600 dark:text-emerald-400 text-base">
-                        Variable Rates
-                      </span>
-                    </div>
-
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left text-xs">
-                        <thead>
-                          <tr className="border-b border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 uppercase tracking-wider">
-                            <th className="pb-2 font-bold">Code</th>
-                            <th className="pb-2 font-bold">Service / Document</th>
-                            <th className="pb-2 font-bold">Rate / Formula</th>
-                            <th className="pb-2 font-bold text-right">Standard Fee</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60 text-[11px]">
-                          <tr>
-                            <td className="py-2 font-mono text-slate-400">CTC-01</td>
-                            <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Basic Individual Cedula</td>
-                            <td className="py-2 text-slate-500">Fixed statutory basic</td>
-                            <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱5.00</td>
-                          </tr>
-                          <tr>
-                            <td className="py-2 font-mono text-slate-400">CTC-02</td>
-                            <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Additional Tax per ₱1,000 Income</td>
-                            <td className="py-2 text-slate-500">₱1.00 per ₱1k earnings</td>
-                            <td className="py-2 font-mono font-semibold text-right text-emerald-600 dark:text-emerald-400">Formula</td>
-                          </tr>
-                          <tr>
-                            <td className="py-2 font-mono text-slate-400">BR-01</td>
-                            <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Certificate of Residency / Good Moral</td>
-                            <td className="py-2 text-slate-500">Per Certificate</td>
-                            <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱100.00</td>
-                          </tr>
-                          <tr>
-                            <td className="py-2 font-mono text-slate-400">BR-02</td>
-                            <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Special Street Activity / Event Pass</td>
-                            <td className="py-2 text-slate-500">Valid up to 3 days</td>
-                            <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱350.00</td>
-                          </tr>
-                        </tbody>
-                        <tfoot>
-                          <tr className="border-t-2 border-slate-200 dark:border-slate-700 font-bold text-xs">
-                            <td colSpan={2} className="pt-3 text-slate-900 dark:text-white">Cedula Online Calculator</td>
-                            <td colSpan={2} className="pt-3 text-right">
-                              <button
-                                onClick={() => setCurrentView('cedula')}
-                                className="text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 font-bold inline-flex items-center gap-1 cursor-pointer"
-                              >
-                                <span>Open Cedula Tool</span>
-                                <ArrowRight size={12} />
-                              </button>
-                            </td>
-                          </tr>
-                        </tfoot>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
+            {/* SECTION: MANDATORY DOCUMENTARY CHECKLIST */}
 
             {/* ========================================================================= */}
             {/* SECTION: MANDATORY DOCUMENTARY CHECKLIST */}
@@ -1937,61 +1772,7 @@ Digital Security Hash   : ${item.qrHash}
               </div>
             </div>
 
-            {/* 24-Barangay Automated Inter-Connectivity Network Strip */}
-            <div className="p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div>
-                  <h3 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
-                    <MapPin size={18} className="text-purple-500" />
-                    <span>24-Barangay Automated Inter-Connectivity Grid</span>
-                  </h3>
-                  <p className="text-xs text-slate-500">Real-time clearance validation synced across all Quezon City districts</p>
-                </div>
-                <button
-                  onClick={() => setCurrentView('grid_network')}
-                  className="px-4 py-2 bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 rounded-xl text-xs font-bold hover:bg-purple-100 dark:hover:bg-purple-900/80 cursor-pointer self-start sm:self-auto"
-                >
-                  View Full Grid (24 Barangays)
-                </button>
-              </div>
 
-              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2.5 text-xs">
-                {BARANGAY_LIST_24.slice(0, 12).map((brgy, i) => (
-                  <div key={i} className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center space-x-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="truncate font-semibold text-[11px]">{brgy}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ========================================================================= */}
-            {/* BOTTOM GATEWAY ACTION CTA */}
-            {/* ========================================================================= */}
-            <div className="rounded-3xl p-8 bg-gradient-to-r from-purple-700 via-indigo-700 to-blue-700 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="space-y-1.5 text-center md:text-left">
-                <h3 className="text-xl sm:text-2xl font-black">
-                  Ready to Get Your Barangay Clearance or Cedula?
-                </h3>
-                <p className="text-xs sm:text-sm text-purple-100 max-w-xl">
-                  Proceed to file online applications, compute community tax (Cedula), request certified true copies, or verify clearance standing.
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setNewSubmitted(false);
-                    setCurrentView('new_clearance');
-                  }}
-                  className="px-8 py-4 bg-white hover:bg-slate-100 text-slate-950 font-black rounded-2xl text-xs sm:text-sm shadow-lg transition-all flex items-center space-x-2 cursor-pointer active:scale-[0.98]"
-                >
-                  <span>Start New Application</span>
-                  <ArrowRight size={16} strokeWidth={3} className="text-purple-600" />
-                </button>
-              </div>
-            </div>
 
           </div>
         )}
@@ -2012,15 +1793,6 @@ Digital Security Hash   : ${item.qrHash}
         {/* ========================================================================= */}
         {currentView === 'cedula' && (
           <div className="space-y-6 max-w-xl mx-auto animate-in fade-in pb-8">
-            <div className="flex items-center justify-between">
-              <button
-                onClick={() => setCurrentView('preview')}
-                className="flex items-center space-x-2 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors cursor-pointer"
-              >
-                <ArrowLeft size={16} />
-                <span>Return to Overview</span>
-              </button>
-            </div>
 
             <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
               <div className="flex items-center space-x-3 pb-4 border-b border-slate-100 dark:border-slate-800">
@@ -2136,15 +1908,6 @@ Digital Security Hash   : ${item.qrHash}
         {/* ========================================================================= */}
         {currentView === 'pay_fees' && (
           <div className="space-y-6 max-w-xl mx-auto animate-in fade-in pb-8">
-            <div className="flex items-center justify-between">
-              <button
-                onClick={() => setCurrentView('preview')}
-                className="flex items-center space-x-2 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors cursor-pointer"
-              >
-                <ArrowLeft size={16} />
-                <span>Return to Overview</span>
-              </button>
-            </div>
 
             <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
               <div className="flex items-center space-x-3 pb-4 border-b border-slate-100 dark:border-slate-800">
@@ -2230,15 +1993,6 @@ Digital Security Hash   : ${item.qrHash}
         {/* ========================================================================= */}
         {currentView === 'special_clearance' && (
           <div className="space-y-6 max-w-xl mx-auto animate-in fade-in pb-8">
-            <div className="flex items-center justify-between">
-              <button
-                onClick={() => setCurrentView('preview')}
-                className="flex items-center space-x-2 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors cursor-pointer"
-              >
-                <ArrowLeft size={16} />
-                <span>Return to Overview</span>
-              </button>
-            </div>
 
             <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
               <div className="flex items-center space-x-3 pb-4 border-b border-slate-100 dark:border-slate-800">
@@ -2331,15 +2085,6 @@ Digital Security Hash   : ${item.qrHash}
         {/* ========================================================================= */}
         {currentView === 'ctc_pulling' && (
           <div className="space-y-6 max-w-2xl mx-auto animate-in fade-in pb-8">
-            <div className="flex items-center justify-between">
-              <button
-                onClick={() => setCurrentView('preview')}
-                className="flex items-center space-x-2 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors cursor-pointer"
-              >
-                <ArrowLeft size={16} />
-                <span>Return to Overview</span>
-              </button>
-            </div>
 
             <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
               <div className="flex items-center space-x-3 pb-4 border-b border-slate-100 dark:border-slate-800">
@@ -2426,15 +2171,6 @@ Digital Security Hash   : ${item.qrHash}
         {/* ========================================================================= */}
         {currentView === 'verification' && (
           <div className="space-y-6 max-w-2xl mx-auto animate-in fade-in pb-8">
-            <div className="flex items-center justify-between">
-              <button
-                onClick={() => setCurrentView('preview')}
-                className="flex items-center space-x-2 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors cursor-pointer"
-              >
-                <ArrowLeft size={16} />
-                <span>Return to Overview</span>
-              </button>
-            </div>
 
             <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
               <div className="flex items-center space-x-3 pb-4 border-b border-slate-100 dark:border-slate-800">
@@ -2525,15 +2261,6 @@ Digital Security Hash   : ${item.qrHash}
         {/* ========================================================================= */}
         {currentView === 'safety_seal' && (
           <div className="space-y-6 max-w-xl mx-auto animate-in fade-in pb-8">
-            <div className="flex items-center justify-between">
-              <button
-                onClick={() => setCurrentView('preview')}
-                className="flex items-center space-x-2 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors cursor-pointer"
-              >
-                <ArrowLeft size={16} />
-                <span>Return to Overview</span>
-              </button>
-            </div>
 
             <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
               <div className="flex items-center space-x-3 pb-4 border-b border-slate-100 dark:border-slate-800">

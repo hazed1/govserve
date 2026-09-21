@@ -1332,29 +1332,6 @@ Digital Security Seal Hash     : SHA256-INSP-DISPATCH-${item.id}-AUTHENTICATED
               </div>
             </div>
 
-            {/* Bottom Gateway Action CTA Banner */}
-            <div className="rounded-3xl p-7 bg-gradient-to-r from-sky-900 via-slate-900 to-blue-900 border border-sky-500/30 text-white flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-xl">
-              <div className="space-y-1 max-w-2xl">
-                <h3 className="text-lg sm:text-xl font-black">
-                  Ready to Book Your On-Site Safety Inspection?
-                </h3>
-                <p className="text-xs text-slate-300">
-                  Select your establishment's category, choose a preferred date and time slot, and receive automated SMS appointment confirmation.
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => {
-                  setBookingType('Building Structural & Architectural Inspection');
-                  setBookingSubmitted(false);
-                  setCurrentView('book_wizard');
-                }}
-                className="px-6 py-3.5 bg-sky-500 hover:bg-sky-400 text-slate-950 font-black rounded-2xl text-xs sm:text-sm shadow-xl shadow-sky-500/25 transition-all flex items-center space-x-2 shrink-0 cursor-pointer active:scale-[0.98]"
-              >
-                <span>Book Inspection Appointment</span>
-                <ArrowRight size={16} strokeWidth={2.5} />
-              </button>
-            </div>
 
           </div>
         )}

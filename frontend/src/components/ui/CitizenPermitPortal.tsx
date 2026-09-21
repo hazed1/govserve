@@ -502,40 +502,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                     )}
                   </div>
 
-                  <div className="py-1">
-                    <button
-                      onClick={() => {
-                        setProfileDropdownOpen(false);
-                        onNavigateToTab('Home');
-                      }}
-                      className="w-full px-4 py-2 text-left text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center space-x-2 cursor-pointer"
-                    >
-                      <Clock size={14} className="text-blue-500" />
-                      <span>My Applications & Milestone Tracker</span>
-                    </button>
-                    <button
-                      onClick={() => {
-                        setProfileDropdownOpen(false);
-                        onNavigateToTab('Home');
-                      }}
-                      className="w-full px-4 py-2 text-left text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center space-x-2 cursor-pointer"
-                    >
-                      <Clock size={14} className="text-blue-500" />
-                      <span>{t('my_applications_tracker', 'My Applications & Milestone Tracker')}</span>
-                    </button>
-                    <button
-                      onClick={() => {
-                        setProfileDropdownOpen(false);
-                        onNavigateToTab('E-Permit Tracker');
-                      }}
-                      className="w-full px-4 py-2 text-left text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center space-x-2 cursor-pointer"
-                    >
-                      <QrCode size={14} className="text-teal-500" />
-                      <span>{t('verify_qr_permit', 'Verify QR Permit')}</span>
-                    </button>
-                  </div>
-
-                  <div className="border-t border-slate-100 dark:border-slate-800 pt-1">
+                  <div className="pt-1">
                     <button
                       onClick={() => {
                         setProfileDropdownOpen(false);

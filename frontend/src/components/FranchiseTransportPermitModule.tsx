@@ -1994,250 +1994,59 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
             </div>
 
             {/* ========================================================================= */}
-            {/* SECTION: ITEMIZED FEE SCHEDULE TABLES */}
+            {/* SECTION: MANDATORY DOCUMENTARY CHECKLIST */}
             {/* ========================================================================= */}
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
-                    <CreditCard className="text-emerald-500" size={20} />
-                    <span>Official Transport Regulatory Tariff Schedules</span>
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                    Breakdown of regulatory fees and legal bases as mandated under Quezon City Revenue Ordinances
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                
-                {/* Table 1: New MTOP Franchise & Annual Renewal */}
-                <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm space-y-4">
-                  <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                        <h4 className="font-black text-slate-900 dark:text-white text-sm">
-                          1. New MTOP Franchise & Annual Renewal
-                        </h4>
-                      </div>
-                      <p className="text-[11px] text-slate-500">Standard tariff per authorized tricycle unit</p>
-                    </div>
-                    <span className="font-mono font-black text-emerald-600 dark:text-emerald-400 text-base">
-                      ₱1,250.00
-                    </span>
-                  </div>
-
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs">
-                      <thead>
-                        <tr className="border-b border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 uppercase tracking-wider">
-                          <th className="pb-2 font-bold">Code</th>
-                          <th className="pb-2 font-bold">Assessment Component</th>
-                          <th className="pb-2 font-bold hidden sm:table-cell">Legal Basis</th>
-                          <th className="pb-2 font-bold text-right">Fee</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60 text-[11px]">
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">TRB-01</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Franchise Supervision & Regulatory Fee</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">QC Revenue Code Sec. 42</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱350.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">TRB-02</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Filing & Application Processing Fee</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">DPOS Admin Order 2024-01</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱200.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">TRB-03</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Annual Validation Sticker & Security QR Plate</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">TRB Anti-Colorum Standard</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱150.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">TRB-04</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Motor Vehicle Inspection Fee (Roadworthiness)</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">City Motorpool Engineering</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱250.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">TRB-05</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Terminal & Route Quota Management Fee</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">TODA Coordination Office</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱150.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">TRB-06</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Environmental & Anti-Smoke Belching Fee</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">QC EPWMD Compliance</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱100.00</td>
-                        </tr>
-                        <tr>
-                          <td className="py-2 font-mono text-slate-400">TRB-07</td>
-                          <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Legal Research Fund (LRF)</td>
-                          <td className="py-2 text-slate-500 hidden sm:table-cell">Republic Act No. 3870</td>
-                          <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱50.00</td>
-                        </tr>
-                      </tbody>
-                      <tfoot>
-                        <tr className="border-t-2 border-slate-200 dark:border-slate-700 font-bold text-xs">
-                          <td colSpan={2} className="pt-3 text-slate-900 dark:text-white">Total Assessment</td>
-                          <td className="pt-3 hidden sm:table-cell text-slate-400 font-normal text-[10px]">All 7 Components</td>
-                          <td className="pt-3 text-right font-mono text-emerald-600 dark:text-emerald-400 text-sm">₱1,250.00</td>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                </div>
-
-                {/* Table 2: Franchise Amendment & Route Modification */}
-                <div className="space-y-6">
-                  
-                  {/* Amendment Table */}
-                  <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm space-y-4">
-                    <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="w-2.5 h-2.5 rounded-full bg-purple-500" />
-                          <h4 className="font-black text-slate-900 dark:text-white text-sm">
-                            2. Franchise Amendment & Unit Substitution
-                          </h4>
-                        </div>
-                        <p className="text-[11px] text-slate-500">Unit substitution, operator deed of sale, or route transfer</p>
-                      </div>
-                      <span className="font-mono font-black text-purple-600 dark:text-purple-400 text-base">
-                        ₱900.00
-                      </span>
-                    </div>
-
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left text-xs">
-                        <thead>
-                          <tr className="border-b border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 uppercase tracking-wider">
-                            <th className="pb-2 font-bold">Code</th>
-                            <th className="pb-2 font-bold">Component</th>
-                            <th className="pb-2 font-bold text-right">Fee</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60 text-[11px]">
-                          <tr>
-                            <td className="py-2 font-mono text-slate-400">AMD-01</td>
-                            <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Amendment Filing & Legal Evaluation</td>
-                            <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱300.00</td>
-                          </tr>
-                          <tr>
-                            <td className="py-2 font-mono text-slate-400">AMD-02</td>
-                            <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Board Resolution & Route Endorsement</td>
-                            <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱250.00</td>
-                          </tr>
-                          <tr>
-                            <td className="py-2 font-mono text-slate-400">AMD-03</td>
-                            <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Certificate of Dropping / Substitution</td>
-                            <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱150.00</td>
-                          </tr>
-                          <tr>
-                            <td className="py-2 font-mono text-slate-400">AMD-04</td>
-                            <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Physical Roadworthiness & Smoke Check</td>
-                            <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱200.00</td>
-                          </tr>
-                        </tbody>
-                        <tfoot>
-                          <tr className="border-t-2 border-slate-200 dark:border-slate-700 font-bold text-xs">
-                            <td colSpan={2} className="pt-3 text-slate-900 dark:text-white">Total Amendment Assessment</td>
-                            <td className="pt-3 text-right font-mono text-purple-600 dark:text-purple-400 text-sm">₱900.00</td>
-                          </tr>
-                        </tfoot>
-                      </table>
-                    </div>
-                  </div>
-
-                  {/* Special Trip Table */}
-                  <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm space-y-4">
-                    <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-                          <h4 className="font-black text-slate-900 dark:text-white text-sm">
-                            3. Special Trip & Out-of-Line Clearance
-                          </h4>
-                        </div>
-                        <p className="text-[11px] text-slate-500">Temporary deviation permit for events & shuttles</p>
-                      </div>
-                      <span className="font-mono font-black text-amber-600 dark:text-amber-400 text-base">
-                        ₱350.00
-                      </span>
-                    </div>
-
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left text-xs">
-                        <thead>
-                          <tr className="border-b border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 uppercase tracking-wider">
-                            <th className="pb-2 font-bold">Code</th>
-                            <th className="pb-2 font-bold">Component</th>
-                            <th className="pb-2 font-bold text-right">Fee</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60 text-[11px]">
-                          <tr>
-                            <td className="py-2 font-mono text-slate-400">STP-01</td>
-                            <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Special Route Deviation Permit</td>
-                            <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱200.00</td>
-                          </tr>
-                          <tr>
-                            <td className="py-2 font-mono text-slate-400">STP-02</td>
-                            <td className="py-2 font-medium text-slate-800 dark:text-slate-200">DPOS Traffic Monitoring Surcharge</td>
-                            <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱100.00</td>
-                          </tr>
-                          <tr>
-                            <td className="py-2 font-mono text-slate-400">STP-03</td>
-                            <td className="py-2 font-medium text-slate-800 dark:text-slate-200">Legal Research Fund (LRF)</td>
-                            <td className="py-2 font-mono font-semibold text-right text-slate-900 dark:text-slate-100">₱50.00</td>
-                          </tr>
-                        </tbody>
-                        <tfoot>
-                          <tr className="border-t-2 border-slate-200 dark:border-slate-700 font-bold text-xs">
-                            <td colSpan={2} className="pt-3 text-slate-900 dark:text-white">Total Special Trip Assessment</td>
-                            <td className="pt-3 text-right font-mono text-amber-600 dark:text-amber-400 text-sm">₱350.00</td>
-                          </tr>
-                        </tfoot>
-                      </table>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-            </div>
-
-            {/* ========================================================================= */}
-            {/* BOTTOM GATEWAY ACTION CTA */}
-            {/* ========================================================================= */}
-            <div className="rounded-3xl p-8 bg-gradient-to-r from-emerald-600 via-teal-600 to-blue-600 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
-              <div className="space-y-1.5 text-center md:text-left">
-                <h3 className="text-xl sm:text-2xl font-black">
-                  Ready to Start Your Transport Franchise Application?
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
+                  <ShieldCheck className="text-emerald-500" size={20} />
+                  <span>Mandatory Documentary Checklist Before Transport Franchise Filing</span>
                 </h3>
-                <p className="text-xs sm:text-sm text-emerald-100 max-w-xl">
-                  Proceed to file MTOP applications, renew active operator franchises, or schedule physical roadworthiness inspections.
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                  Prepare official LTO vehicle registration, operator credentials, and TODA endorsements before initiating your application
                 </p>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setWizardStep(1);
-                    setNewFranchiseSubmitted(false);
-                    setCurrentView('new_franchise_wizard');
-                  }}
-                  className="px-8 py-4 bg-white hover:bg-slate-100 text-slate-950 font-black rounded-2xl text-xs sm:text-sm shadow-lg transition-all flex items-center space-x-2 cursor-pointer active:scale-[0.98]"
-                >
-                  <span>Start New Application</span>
-                  <ArrowRight size={16} strokeWidth={3} className="text-emerald-600" />
-                </button>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center font-bold text-xs">
+                    1
+                  </div>
+                  <h4 className="font-bold text-xs text-slate-900 dark:text-white">LTO Official Receipt & CR</h4>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Original and Certified True Copy of active LTO Official Receipt (OR) and Certificate of Registration (CR) under applicant's name.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2">
+                  <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950 text-blue-600 flex items-center justify-center font-bold text-xs">
+                    2
+                  </div>
+                  <h4 className="font-bold text-xs text-slate-900 dark:text-white">TODA Route Endorsement</h4>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Certificate of Active Membership and authorized Body Number Allocation from accredited TODA Federation / Route Association.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2">
+                  <div className="w-8 h-8 rounded-xl bg-purple-50 dark:bg-purple-950 text-purple-600 flex items-center justify-center font-bold text-xs">
+                    3
+                  </div>
+                  <h4 className="font-bold text-xs text-slate-900 dark:text-white">Professional Driver's License</h4>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Valid Professional Driver's License with authorized vehicle restriction codes and Government-issued ID of registered operator.
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2">
+                  <div className="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-950 text-amber-600 flex items-center justify-center font-bold text-xs">
+                    4
+                  </div>
+                  <h4 className="font-bold text-xs text-slate-900 dark:text-white">Roadworthiness & Emission</h4>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+                    Passed Motor Vehicle Inspection System (MVIS) roadworthiness clearance and QC EPWMD Anti-Smoke Belching emission certificate.
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -2273,16 +2082,6 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
 
           return (
             <div className="space-y-4 max-w-5xl mx-auto animate-in fade-in pb-8">
-              {/* Return to Overview Button */}
-              <div className="flex items-center justify-between">
-                <button
-                  onClick={() => setCurrentView('preview')}
-                  className="flex items-center space-x-2 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer"
-                >
-                  <ArrowLeft size={16} />
-                  <span>Return to Overview</span>
-                </button>
-              </div>
 
               <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-8">
                 {/* Header */}
@@ -2656,16 +2455,6 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
 
           return (
             <div className="space-y-4 max-w-5xl mx-auto animate-in fade-in pb-8">
-              {/* Return to Overview Button */}
-              <div className="flex items-center justify-between">
-                <button
-                  onClick={() => setCurrentView('preview')}
-                  className="flex items-center space-x-2 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer"
-                >
-                  <ArrowLeft size={16} />
-                  <span>Return to Overview</span>
-                </button>
-              </div>
 
               <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-8">
                 {/* Header */}
@@ -3105,15 +2894,6 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
         {/* ========================================================================= */}
         {currentView === 'pay_fees' && (
           <div className="space-y-4 max-w-2xl mx-auto animate-in fade-in pb-8">
-            <div className="flex items-center justify-between">
-              <button
-                onClick={() => setCurrentView('preview')}
-                className="flex items-center space-x-2 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer"
-              >
-                <ArrowLeft size={16} />
-                <span>Return to Overview</span>
-              </button>
-            </div>
             <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
               <div className="flex items-center space-x-3 pb-4 border-b border-slate-100 dark:border-slate-800">
                 <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center font-bold">
@@ -3243,16 +3023,6 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
 
           return (
             <div className="space-y-4 max-w-2xl mx-auto animate-in fade-in pb-8">
-              {/* Return to Overview Button */}
-              <div className="flex items-center justify-between">
-                <button
-                  onClick={() => setCurrentView('preview')}
-                  className="flex items-center space-x-2 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer"
-                >
-                  <ArrowLeft size={16} />
-                  <span>Return to Overview</span>
-                </button>
-              </div>
 
               <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
                 {/* Header */}
@@ -3503,15 +3273,6 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
         {/* ========================================================================= */}
         {currentView === 'ctc_pulling' && (
           <div className="space-y-4 max-w-3xl mx-auto animate-in fade-in pb-8">
-            <div className="flex items-center justify-between">
-              <button
-                onClick={() => setCurrentView('preview')}
-                className="flex items-center space-x-2 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer"
-              >
-                <ArrowLeft size={16} />
-                <span>Return to Overview</span>
-              </button>
-            </div>
             <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
               <div className="flex items-center space-x-3 pb-4 border-b border-slate-100 dark:border-slate-800">
                 <div className="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-950 text-purple-600 flex items-center justify-center font-bold">
@@ -3639,15 +3400,6 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
         {/* ========================================================================= */}
         {currentView === 'verification' && (
           <div className="space-y-4 max-w-3xl mx-auto animate-in fade-in pb-8">
-            <div className="flex items-center justify-between">
-              <button
-                onClick={() => setCurrentView('preview')}
-                className="flex items-center space-x-2 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer"
-              >
-                <ArrowLeft size={16} />
-                <span>Return to Overview</span>
-              </button>
-            </div>
             <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
               <div className="flex items-center space-x-3 pb-4 border-b border-slate-100 dark:border-slate-800">
                 <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center font-bold">
@@ -3717,15 +3469,6 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
         {/* ========================================================================= */}
         {currentView === 'safety_seal' && (
           <div className="space-y-4 max-w-3xl mx-auto animate-in fade-in pb-8">
-            <div className="flex items-center justify-between">
-              <button
-                onClick={() => setCurrentView('preview')}
-                className="flex items-center space-x-2 text-xs font-bold text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors cursor-pointer"
-              >
-                <ArrowLeft size={16} />
-                <span>Return to Overview</span>
-              </button>
-            </div>
             <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
               <div className="flex items-center space-x-3 pb-4 border-b border-slate-100 dark:border-slate-800">
                 <div className="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950 text-amber-600 flex items-center justify-center font-bold">
