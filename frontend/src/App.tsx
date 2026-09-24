@@ -379,7 +379,9 @@ function GovServePortal() {
       statusColor: finalStatusColor,
       date: 'Just now',
       assessmentFee: extraDetails?.assessmentFee || 3450.00,
-      assignedOfficer: 'LGU Licensing Officer'
+      assignedOfficer: 'LGU Licensing Officer',
+      formData: extraDetails?.formData || (isObject ? (applicantOrData as any).formData : {}),
+      requirements: extraDetails?.requirements || (isObject ? (applicantOrData as any).requirements : [])
     };
 
     setApplications(prev => [newAppItem, ...prev]);
@@ -516,6 +518,26 @@ function GovServePortal() {
       await updateApplicationStatus(id, 'Rejected', reason || 'Document non-compliance');
     } catch (err) {
       console.warn(`Database update failed for ${id}:`, err);
+    }
+  };
+
+  const handleUpdateStatus = async (id: string, status: string, remarks?: string) => {
+    setApplications(prev => prev.map(app => {
+      if (app.id === id) {
+        return {
+          ...app,
+          status,
+          remarks: remarks || app.remarks
+        };
+      }
+      return app;
+    }));
+
+    try {
+      await updateApplicationStatus(id, status, remarks);
+      await loadDatabaseData();
+    } catch (err) {
+      console.warn(`Database update status failed for ${id}:`, err);
     }
   };
 
@@ -673,6 +695,7 @@ function GovServePortal() {
             onSimulateNewApplication={handleSimulateNewApplication}
             onApproveApplication={handleApproveApplication}
             onRejectApplication={handleRejectApplication}
+            onUpdateStatus={handleUpdateStatus}
             onNavigateToTab={(tab) => setActiveTab(tab as TabType)}
           />
         );

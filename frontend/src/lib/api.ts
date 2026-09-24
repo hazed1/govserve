@@ -110,6 +110,81 @@ export async function deleteApplication(id: string): Promise<boolean> {
   }
 }
 
+// Update individual document status (Evaluator)
+export async function updateDocumentStatus(
+  appId: string,
+  docId: string,
+  status: 'Accepted' | 'Needs Correction' | 'Rejected',
+  comment?: string,
+  reviewedBy: string = 'LGU Licensing Evaluator'
+): Promise<ApplicationItem> {
+  const res = await fetch(`${API_BASE_URL}/applications/${appId}/documents/${docId}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status, comment, reviewedBy })
+  });
+
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    throw new Error(errData.error || `Failed to update document status (HTTP ${res.status})`);
+  }
+
+  const json = await res.json();
+  return json.data;
+}
+
+// Replace document (Citizen)
+export async function replaceDocument(
+  appId: string,
+  docId: string,
+  filePayload: { fileName: string; fileUrl?: string; fileType?: string; fileSize?: number }
+): Promise<ApplicationItem> {
+  const res = await fetch(`${API_BASE_URL}/applications/${appId}/documents/replace`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ docId, ...filePayload })
+  });
+
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    throw new Error(errData.error || `Failed to replace document (HTTP ${res.status})`);
+  }
+
+  const json = await res.json();
+  return json.data;
+}
+
+// Record & Verify Payment
+export async function submitPayment(
+  appId: string,
+  paymentData: { amount: number; paymentMethod?: string; orNumber?: string }
+): Promise<ApplicationItem> {
+  const res = await fetch(`${API_BASE_URL}/applications/${appId}/payment`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(paymentData)
+  });
+
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    throw new Error(errData.error || `Failed to process payment (HTTP ${res.status})`);
+  }
+
+  const json = await res.json();
+  return json.data;
+}
+
+// Get Released Permit Data
+export async function getPermitReleaseData(appId: string): Promise<any> {
+  const res = await fetch(`${API_BASE_URL}/applications/${appId}/permit`);
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    throw new Error(errData.error || `Failed to get permit data (HTTP ${res.status})`);
+  }
+  const json = await res.json();
+  return json.data;
+}
+
 // Auth API
 export async function apiLogin(credentials: LoginCredentials): Promise<UserProfile> {
   const res = await fetch(`${API_BASE_URL}/auth/login`, {
@@ -140,3 +215,4 @@ export async function apiRegister(credentials: RegisterCredentials): Promise<Use
   const json = await res.json();
   return json.user;
 }
+

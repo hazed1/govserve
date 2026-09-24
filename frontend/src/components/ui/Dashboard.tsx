@@ -47,6 +47,7 @@ import {
   ArrowUpRight
 } from 'lucide-react';
 import { ApplicationItem, TabType } from '../../types';
+import { updateDocumentStatus, updateApplicationStatus } from '../../lib/api';
 import { AISettingsModal } from './AISettingsModal';
 
 interface DashboardProps {
@@ -151,6 +152,11 @@ export const Dashboard: React.FC<DashboardProps> = ({
   const [rejectReason, setRejectReason] = useState<string>('Incomplete locational sketch and expired Barangay clearance.');
   const [exportSuccess, setExportSuccess] = useState<boolean>(false);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
+  const [evaluatorNotes, setEvaluatorNotes] = useState<Record<string, string>>({});
+  const [isUpdatingDoc, setIsUpdatingDoc] = useState<string | null>(null);
+  const [registryTypeFilter, setRegistryTypeFilter] = useState<string>('All');
+  const [registryStatusFilter, setRegistryStatusFilter] = useState<string>('All');
+  const [registrySearch, setRegistrySearch] = useState<string>('');
 
   // Simulation Form State
   const [simApplicant, setSimApplicant] = useState('');
@@ -598,6 +604,41 @@ export const Dashboard: React.FC<DashboardProps> = ({
   };
 
   // Quick Preset for Simulate Modal
+  const handleEvaluateDoc = async (docName: string, newStatus: string) => {
+    if (!activeModalApp) return;
+    setIsUpdatingDoc(docName);
+    const comment = evaluatorNotes[docName] || '';
+    
+    // Update local modal state
+    const updatedReqs = (activeModalApp.requirements || []).map(r => {
+      if (r.name === docName) {
+        return { ...r, status: newStatus as any, notes: comment, remarks: comment };
+      }
+      return r;
+    });
+
+    const updatedApp = {
+      ...activeModalApp,
+      requirements: updatedReqs,
+      status: newStatus === 'Needs Correction' ? 'Needs Correction' : activeModalApp.status,
+      statusColor: newStatus === 'Needs Correction' ? 'text-amber-700 bg-amber-50 border border-amber-300' : activeModalApp.statusColor
+    };
+    setActiveModalApp(updatedApp);
+
+    try {
+      await updateDocumentStatus(activeModalApp.id, docName, newStatus as any, comment);
+      if (newStatus === 'Needs Correction' && onUpdateStatus) {
+        onUpdateStatus(activeModalApp.id, 'Needs Correction', comment || 'Correction requested for uploaded document');
+      }
+      setToastMsg(`Document "${docName}" marked as ${newStatus}!`);
+      setTimeout(() => setToastMsg(null), 4000);
+    } catch (err) {
+      console.warn('Document update failed:', err);
+    } finally {
+      setIsUpdatingDoc(null);
+    }
+  };
+
   const handleAutoFillSimulation = () => {
     const sampleBusinesses = [
       { name: 'Apex Logistics & Freight Hub', applicant: 'Roberto M. Tan', type: 'Franchise Permit', addr: 'Block 12 Lot 5 Industrial Valley, Laguna', contact: '+63 917 882 1923' },
@@ -1554,9 +1595,12 @@ export const Dashboard: React.FC<DashboardProps> = ({
               )}
 
               {activeModalTab === 'requirements' && (
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <div className="flex justify-between items-center pb-2 border-b border-slate-200 dark:border-slate-700">
-                    <span className="font-bold text-slate-700 dark:text-slate-300">Mandatory LGU Clearances</span>
+                    <div>
+                      <span className="font-bold text-slate-800 dark:text-slate-200">Mandatory Documentary Dossier Review</span>
+                      <p className="text-[11px] text-slate-400">Evaluate each submitted document, inspect attachments, or request rectification</p>
+                    </div>
                     <button 
                       onClick={() => onNavigateToTab?.('AI Document Verification')}
                       className="text-blue-600 dark:text-blue-400 font-bold hover:underline cursor-pointer flex items-center space-x-1"
@@ -1565,23 +1609,91 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       <span>Run AI OCR Scanner →</span>
                     </button>
                   </div>
-                  <div className="space-y-2">
-                    {[
-                      { name: 'DTI / SEC Registration Certificate', status: 'Verified', color: 'text-emerald-600 bg-emerald-50 border-emerald-200' },
-                      { name: 'Barangay Business Clearance (2025)', status: 'Verified', color: 'text-emerald-600 bg-emerald-50 border-emerald-200' },
-                      { name: 'Locational & Zoning Compliance Certificate', status: 'Verified', color: 'text-emerald-600 bg-emerald-50 border-emerald-200' },
-                      { name: 'Fire Safety Inspection Certificate (FSIC)', status: 'Pending Review', color: 'text-amber-600 bg-amber-50 border-amber-200' }
-                    ].map((doc, idx) => (
-                      <div key={idx} className="p-3 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center justify-between">
-                        <div className="flex items-center space-x-2">
-                          <FileText size={16} className="text-slate-400" />
-                          <span className="font-medium text-slate-800 dark:text-slate-200">{doc.name}</span>
+
+                  <div className="space-y-3">
+                    {((activeModalApp.requirements && activeModalApp.requirements.length > 0)
+                      ? activeModalApp.requirements
+                      : [
+                          { name: 'Business Registration (DTI / SEC / CDA)', status: 'Uploaded', fileType: 'PDF' },
+                          { name: 'Proof of Right to Use / Lease Contract', status: 'Uploaded', fileType: 'PDF' },
+                          { name: 'Applicant Government-Issued Valid ID', status: 'Uploaded', fileType: 'JPG' },
+                          { name: 'Business Location / Storefront Photo', status: 'Uploaded', fileType: 'JPG' }
+                        ]
+                    ).map((doc: any, idx: number) => {
+                      const isAccepted = doc.status === 'Accepted' || doc.status === 'Verified';
+                      const isCorrection = doc.status === 'Needs Correction';
+                      const isRejected = doc.status === 'Rejected';
+
+                      return (
+                        <div key={idx} className="p-3.5 bg-slate-50 dark:bg-slate-850 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-2.5">
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div className="flex items-center space-x-2.5">
+                              <div className="p-2 bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 rounded-xl">
+                                <FileText size={16} />
+                              </div>
+                              <div>
+                                <p className="font-bold text-slate-900 dark:text-white text-xs">{doc.name}</p>
+                                <p className="text-[10px] text-slate-400">
+                                  {doc.fileName ? `${doc.fileName} (${doc.fileSize || '2.4 MB'})` : `Attached Document • ${doc.fileType || 'Scanned Copy'}`}
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="flex items-center space-x-2">
+                              <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
+                                isAccepted ? 'text-emerald-700 bg-emerald-50 border-emerald-300 dark:bg-emerald-950 dark:text-emerald-300' :
+                                isCorrection ? 'text-amber-700 bg-amber-50 border-amber-300 dark:bg-amber-950 dark:text-amber-300' :
+                                isRejected ? 'text-rose-700 bg-rose-50 border-rose-300 dark:bg-rose-950 dark:text-rose-300' :
+                                'text-blue-700 bg-blue-50 border-blue-300 dark:bg-blue-950 dark:text-blue-300'
+                              }`}>
+                                {doc.status || 'Under Review'}
+                              </span>
+
+                              {doc.fileUrl && (
+                                <button
+                                  type="button"
+                                  onClick={() => window.open(doc.fileUrl, '_blank')}
+                                  className="px-2 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg text-[10px] font-bold cursor-pointer"
+                                >
+                                  Preview File
+                                </button>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Evaluator Notes / Rectification Box */}
+                          <div className="flex flex-col sm:flex-row gap-2 pt-1">
+                            <input
+                              type="text"
+                              placeholder="Evaluator note (e.g. Uploaded image is blurry. Please upload clearer scan)..."
+                              value={evaluatorNotes[doc.name] !== undefined ? evaluatorNotes[doc.name] : (doc.notes || doc.remarks || '')}
+                              onChange={(e) => setEvaluatorNotes({ ...evaluatorNotes, [doc.name]: e.target.value })}
+                              className="flex-1 p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-[11px] focus:ring-1 focus:ring-blue-500"
+                            />
+                            <div className="flex items-center space-x-1.5 flex-shrink-0">
+                              <button
+                                type="button"
+                                disabled={isUpdatingDoc === doc.name}
+                                onClick={() => handleEvaluateDoc(doc.name, 'Accepted')}
+                                className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-[11px] font-bold shadow-xs cursor-pointer flex items-center space-x-1"
+                              >
+                                <CheckCircle2 size={12} />
+                                <span>Accept</span>
+                              </button>
+                              <button
+                                type="button"
+                                disabled={isUpdatingDoc === doc.name}
+                                onClick={() => handleEvaluateDoc(doc.name, 'Needs Correction')}
+                                className="px-3 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-[11px] font-bold shadow-xs cursor-pointer flex items-center space-x-1"
+                              >
+                                <AlertTriangle size={12} />
+                                <span>Needs Correction</span>
+                              </button>
+                            </div>
+                          </div>
                         </div>
-                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${doc.color}`}>
-                          {doc.status}
-                        </span>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
               )}
@@ -1633,67 +1745,107 @@ export const Dashboard: React.FC<DashboardProps> = ({
             </div>
 
             {/* Workflow Action Footer */}
-            <div className="p-4 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-800 flex flex-wrap gap-2 justify-between items-center">
-              <div className="flex flex-wrap items-center gap-2">
-                <button
-                  onClick={() => {
-                    const appId = activeModalApp.id;
-                    setActiveModalApp(null);
-                    onViewDetails(appId);
-                  }}
-                  className="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-xs transition-colors flex items-center space-x-1.5 cursor-pointer"
-                >
-                  <span>Open Full Workspace</span>
-                  <ChevronRight size={14} />
-                </button>
+            {(() => {
+              const reqs = activeModalApp.requirements || [];
+              const totalReqs = reqs.length;
+              const acceptedReqs = reqs.filter((r: any) => r.status === 'Accepted' || r.status === 'Verified').length;
+              const hasCorrection = reqs.some((r: any) => r.status === 'Needs Correction');
+              const isClearedForApproval = totalReqs > 0 ? (acceptedReqs === totalReqs) : true;
 
-                {activeModalApp.status !== 'Approved' && onApproveApplication && (
-                  <button
-                    onClick={() => {
-                      onApproveApplication(activeModalApp.id);
-                      setActiveModalApp(null);
-                    }}
-                    className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-xs transition-colors flex items-center space-x-1.5 cursor-pointer"
-                  >
-                    <CheckCircle2 size={14} />
-                    <span>Approve Permit</span>
-                  </button>
-                )}
+              return (
+                <div className="p-4 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row gap-3 justify-between items-center">
+                  <div className="flex items-center space-x-2 text-xs">
+                    {hasCorrection ? (
+                      <span className="text-amber-600 dark:text-amber-400 font-bold flex items-center space-x-1">
+                        <AlertTriangle size={14} />
+                        <span>Document correction required before approval</span>
+                      </span>
+                    ) : isClearedForApproval ? (
+                      <span className="text-emerald-600 dark:text-emerald-400 font-bold flex items-center space-x-1">
+                        <CheckCircle2 size={14} />
+                        <span>Mandatory requirements cleared ({acceptedReqs}/{totalReqs || 'All'} Accepted)</span>
+                      </span>
+                    ) : (
+                      <span className="text-slate-500 font-medium">
+                        Pending review: {acceptedReqs}/{totalReqs} documents accepted
+                      </span>
+                    )}
+                  </div>
 
-                {activeModalApp.status !== 'Rejected' && onRejectApplication && (
-                  <button
-                    onClick={() => {
-                      setRejectModalApp(activeModalApp);
-                      setActiveModalApp(null);
-                    }}
-                    className="px-3.5 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow-xs transition-colors flex items-center space-x-1.5 cursor-pointer"
-                  >
-                    <XCircle size={14} />
-                    <span>Reject / Issue Deficiencies</span>
-                  </button>
-                )}
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button
+                      onClick={() => {
+                        const appId = activeModalApp.id;
+                        setActiveModalApp(null);
+                        onViewDetails(appId);
+                      }}
+                      className="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-xs transition-colors flex items-center space-x-1.5 cursor-pointer"
+                    >
+                      <span>Open Workspace</span>
+                      <ChevronRight size={14} />
+                    </button>
 
-                {activeModalApp.status === 'Approved' && (
-                  <button
-                    onClick={() => {
-                      setActiveModalApp(null);
-                      onNavigateToTab?.('Permit Generation');
-                    }}
-                    className="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-bold shadow-xs transition-colors flex items-center space-x-1.5 cursor-pointer"
-                  >
-                    <QrCode size={14} />
-                    <span>Generate Digital Permit & QR</span>
-                  </button>
-                )}
-              </div>
+                    {activeModalApp.status !== 'Approved' && (
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          const appId = activeModalApp.id;
+                          setActiveModalApp({
+                            ...activeModalApp,
+                            status: 'Needs Correction',
+                            statusColor: 'text-amber-700 bg-amber-50 border border-amber-300'
+                          });
+                          if (onUpdateStatus) {
+                            onUpdateStatus(appId, 'Needs Correction', 'Please rectify and re-upload defective documentary requirements');
+                          }
+                          setToastMsg(`Application ${appId} marked as Needs Correction. Citizen notified!`);
+                          setTimeout(() => setToastMsg(null), 4000);
+                        }}
+                        className="px-3.5 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold shadow-xs transition-colors flex items-center space-x-1.5 cursor-pointer"
+                      >
+                        <AlertTriangle size={14} />
+                        <span>Request Correction</span>
+                      </button>
+                    )}
 
-              <button 
-                onClick={() => setActiveModalApp(null)} 
-                className="px-4 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-100 rounded-xl text-xs font-semibold cursor-pointer"
-              >
-                Close
-              </button>
-            </div>
+                    {activeModalApp.status !== 'Approved' && onApproveApplication && (
+                      <button
+                        disabled={!isClearedForApproval}
+                        title={!isClearedForApproval ? 'Cannot approve: All mandatory documents must be reviewed and accepted first' : 'Approve application'}
+                        onClick={() => {
+                          onApproveApplication(activeModalApp.id);
+                          setActiveModalApp(null);
+                        }}
+                        className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-xl text-xs font-bold shadow-xs transition-colors flex items-center space-x-1.5 cursor-pointer"
+                      >
+                        <CheckCircle2 size={14} />
+                        <span>Approve Permit</span>
+                      </button>
+                    )}
+
+                    {activeModalApp.status !== 'Rejected' && onRejectApplication && (
+                      <button
+                        onClick={() => {
+                          setRejectModalApp(activeModalApp);
+                          setActiveModalApp(null);
+                        }}
+                        className="px-3.5 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow-xs transition-colors flex items-center space-x-1.5 cursor-pointer"
+                      >
+                        <XCircle size={14} />
+                        <span>Reject</span>
+                      </button>
+                    )}
+
+                    <button 
+                      onClick={() => setActiveModalApp(null)} 
+                      className="px-4 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-100 rounded-xl text-xs font-semibold cursor-pointer"
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              );
+            })()}
           </div>
         </div>
       )}

@@ -62,3 +62,120 @@ CREATE TABLE IF NOT EXISTS otp_verifications (
 
 CREATE INDEX IF NOT EXISTS idx_otp_email ON otp_verifications (email, used, expires_at);
 
+-- =============================================================================
+-- BOSS Workflow Entities: Businesses, Documents, Payments & Notifications
+-- =============================================================================
+
+CREATE TABLE IF NOT EXISTS businesses (
+    id SERIAL PRIMARY KEY,
+    owner_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
+    business_name VARCHAR(255) NOT NULL,
+    trade_name VARCHAR(255),
+    business_type VARCHAR(64) NOT NULL DEFAULT 'Sole Proprietorship', -- Sole Proprietorship, Partnership, Corporation, Cooperative
+    business_activity VARCHAR(255),
+    nature_of_business TEXT,
+    address TEXT NOT NULL,
+    barangay VARCHAR(128) NOT NULL,
+    city VARCHAR(128) NOT NULL DEFAULT 'Quezon City',
+    province VARCHAR(128) NOT NULL DEFAULT 'Metro Manila',
+    contact_number VARCHAR(64),
+    business_email VARCHAR(255),
+    date_started DATE,
+    employee_count INTEGER DEFAULT 1,
+    capital_investment NUMERIC(14, 2) DEFAULT 0.00,
+    annual_gross_sales NUMERIC(14, 2) DEFAULT 0.00,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS business_permit_applications (
+    id VARCHAR(64) PRIMARY KEY,
+    application_id VARCHAR(64) REFERENCES applications(id) ON DELETE CASCADE,
+    business_id INTEGER REFERENCES businesses(id) ON DELETE SET NULL,
+    application_type VARCHAR(32) NOT NULL DEFAULT 'NEW', -- 'NEW', 'RENEWAL', 'AMENDMENT'
+    applicant_type VARCHAR(32) NOT NULL DEFAULT 'OWNER', -- 'OWNER', 'REPRESENTATIVE'
+    representative_name VARCHAR(255),
+    representative_contact VARCHAR(64),
+    property_tenure VARCHAR(64) NOT NULL DEFAULT 'OWNED', -- 'OWNED', 'LEASED', 'GOVERNMENT_PROPERTY', 'OTHER_AUTHORIZED_USE'
+    registration_agency VARCHAR(32), -- 'DTI', 'SEC', 'CDA'
+    registration_number VARCHAR(128),
+    current_status VARCHAR(64) NOT NULL DEFAULT 'Submitted',
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS business_document_types (
+    id SERIAL PRIMARY KEY,
+    code VARCHAR(64) UNIQUE NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    is_mandatory BOOLEAN DEFAULT TRUE,
+    applicable_types JSONB DEFAULT '["NEW", "RENEWAL", "AMENDMENT"]'::jsonb,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS business_documents (
+    id SERIAL PRIMARY KEY,
+    application_id VARCHAR(64) REFERENCES applications(id) ON DELETE CASCADE,
+    document_code VARCHAR(64) NOT NULL,
+    document_name VARCHAR(255) NOT NULL,
+    file_name VARCHAR(255),
+    file_path TEXT,
+    file_type VARCHAR(64),
+    file_size_bytes INTEGER,
+    status VARCHAR(32) NOT NULL DEFAULT 'Uploaded', -- 'Uploaded', 'Under Review', 'Accepted', 'Needs Correction', 'Rejected'
+    evaluator_comment TEXT,
+    reviewed_by VARCHAR(128),
+    reviewed_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_business_documents_app ON business_documents(application_id);
+
+CREATE TABLE IF NOT EXISTS application_status_history (
+    id SERIAL PRIMARY KEY,
+    application_id VARCHAR(64) REFERENCES applications(id) ON DELETE CASCADE,
+    from_status VARCHAR(64),
+    to_status VARCHAR(64) NOT NULL,
+    changed_by VARCHAR(128) NOT NULL,
+    remarks TEXT,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS application_comments (
+    id SERIAL PRIMARY KEY,
+    application_id VARCHAR(64) REFERENCES applications(id) ON DELETE CASCADE,
+    author_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
+    author_name VARCHAR(128) NOT NULL,
+    author_role VARCHAR(32) NOT NULL DEFAULT 'evaluator',
+    comment TEXT NOT NULL,
+    is_internal BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS application_notifications (
+    id SERIAL PRIMARY KEY,
+    application_id VARCHAR(64) REFERENCES applications(id) ON DELETE CASCADE,
+    recipient_email VARCHAR(255),
+    title VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    event_type VARCHAR(64) NOT NULL, -- 'SUBMITTED', 'ACCEPTED', 'CORRECTION_REQUIRED', 'ASSESSMENT', 'PAYMENT_REQUIRED', 'APPROVED', 'REJECTED', 'PERMIT_READY'
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS payments (
+    id SERIAL PRIMARY KEY,
+    application_id VARCHAR(64) REFERENCES applications(id) ON DELETE CASCADE,
+    assessment_number VARCHAR(64),
+    or_number VARCHAR(64),
+    amount NUMERIC(12, 2) NOT NULL,
+    payment_method VARCHAR(64) DEFAULT 'ONLINE_CHECKOUT',
+    payment_status VARCHAR(32) NOT NULL DEFAULT 'Pending', -- 'Pending', 'Verified', 'Failed'
+    proof_of_payment_url TEXT,
+    verified_by VARCHAR(128),
+    paid_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+

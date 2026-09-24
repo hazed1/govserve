@@ -165,16 +165,18 @@ async function executeMemoryQuery(text, params = []) {
   // 2. Count aggregates for stats: SELECT COUNT(*) FROM applications WHERE status ...
   if (lowerSql.startsWith('select count(*)') && lowerSql.includes('from applications')) {
     let filtered = memoryStore.applications;
-    if (lowerSql.includes("status in ('for evaluation', 'in progress')")) {
-      filtered = memoryStore.applications.filter(a => a.status === 'For Evaluation' || a.status === 'In Progress' || a.status === 'Under Review');
+    if (lowerSql.includes("status in ('for evaluation', 'in progress')") || lowerSql.includes("status in ('submitted', 'under initial review', 'documents under review', 'for evaluation', 'in progress')")) {
+      filtered = memoryStore.applications.filter(a => ['Submitted', 'Under Initial Review', 'Documents Under Review', 'For Evaluation', 'In Progress', 'Under Review'].includes(a.status));
     } else if (lowerSql.includes("status = 'for approval'")) {
-      filtered = memoryStore.applications.filter(a => a.status === 'For Approval');
+      filtered = memoryStore.applications.filter(a => ['For Approval', 'For Assessment', 'For Payment'].includes(a.status));
     } else if (lowerSql.includes("status = 'for inspection'")) {
       filtered = memoryStore.applications.filter(a => a.status === 'For Inspection');
-    } else if (lowerSql.includes("status = 'approved'")) {
-      filtered = memoryStore.applications.filter(a => a.status === 'Approved');
+    } else if (lowerSql.includes("status = 'approved'") || lowerSql.includes("status in ('approved', 'permit ready', 'completed')")) {
+      filtered = memoryStore.applications.filter(a => ['Approved', 'Permit Ready', 'Completed', 'Payment Verified'].includes(a.status));
     } else if (lowerSql.includes("status = 'rejected'")) {
       filtered = memoryStore.applications.filter(a => a.status === 'Rejected');
+    } else if (lowerSql.includes("status = 'needs correction'")) {
+      filtered = memoryStore.applications.filter(a => a.status === 'Needs Correction');
     }
     return { rows: [{ count: filtered.length }] };
   }
@@ -197,9 +199,10 @@ async function executeMemoryQuery(text, params = []) {
           rows = rows.filter(a => 
             (a.applicant_name && a.applicant_name.toLowerCase().includes(search)) ||
             (a.id && a.id.toLowerCase().includes(search)) ||
-            (a.permit_type && a.permit_type.toLowerCase().includes(search))
+            (a.permit_type && a.permit_type.toLowerCase().includes(search)) ||
+            (a.form_data && JSON.stringify(a.form_data).toLowerCase().includes(search))
           );
-        } else if (['For Evaluation', 'For Approval', 'For Inspection', 'Approved', 'Rejected'].includes(p)) {
+        } else if (['Submitted', 'Under Initial Review', 'Documents Under Review', 'Under Review', 'Needs Correction', 'For Evaluation', 'For Assessment', 'For Approval', 'For Inspection', 'Approved', 'Rejected', 'For Payment', 'Payment Verified', 'Permit Ready', 'Completed'].includes(p)) {
           rows = rows.filter(a => a.status === p);
         } else if (['business', 'building', 'transport', 'barangay', 'inspection'].includes(p)) {
           rows = rows.filter(a => a.category === p);
@@ -218,7 +221,7 @@ async function executeMemoryQuery(text, params = []) {
       applicant_name: params[1],
       permit_type: params[2],
       category: params[3] || 'business',
-      status: params[4] || 'For Evaluation',
+      status: params[4] || 'Submitted',
       status_color: params[5] || 'text-amber-600 bg-amber-50 border border-amber-200',
       form_data: typeof params[6] === 'string' ? JSON.parse(params[6] || '{}') : (params[6] || {}),
       requirements: typeof params[7] === 'string' ? JSON.parse(params[7] || '[]') : (params[7] || []),
@@ -236,8 +239,27 @@ async function executeMemoryQuery(text, params = []) {
     return { rows: [newApp] };
   }
 
-  // 6. Update application status
+  // 6. Update application status or requirements
   if (lowerSql.startsWith('update applications')) {
+    if (lowerSql.includes('requirements = $1')) {
+      const reqParam = typeof params[0] === 'string' ? JSON.parse(params[0] || '[]') : params[0];
+      const statusParam = params[1];
+      const statusColorParam = params[2];
+      const remarksParam = params[3];
+      const idParam = params[4];
+
+      const target = memoryStore.applications.find(a => a.id === idParam);
+      if (target) {
+        target.requirements = reqParam;
+        if (statusParam) target.status = statusParam;
+        if (statusColorParam) target.status_color = statusColorParam;
+        if (remarksParam) target.remarks = remarksParam;
+        target.updated_at = new Date().toISOString();
+        return { rows: [target] };
+      }
+      return { rows: [] };
+    }
+
     const status = params[0];
     const statusColor = params[1];
     const remarks = params[2];
