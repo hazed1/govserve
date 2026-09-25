@@ -40,6 +40,16 @@ import {
   Building,
   CheckCircle
 } from 'lucide-react';
+import { QCOccupancyPermitApplication } from './QCOccupancyPermitApplication';
+import { QCTelcoPermitApplication } from './QCTelcoPermitApplication';
+import { QCSignPermitApplication } from './QCSignPermitApplication';
+import { QCDemolitionPermitApplication } from './QCDemolitionPermitApplication';
+import { QCMechanicalPermitApplication } from './QCMechanicalPermitApplication';
+import { QCElectronicsPermitApplication } from './QCElectronicsPermitApplication';
+import { QCFencingPermitApplication } from './QCFencingPermitApplication';
+import { QCSidewalkPermitApplication } from './QCSidewalkPermitApplication';
+import { QCRepairPermitApplication } from './QCRepairPermitApplication';
+import { QCExcavationGroundPermitApplication } from './QCExcavationGroundPermitApplication';
 
 const QC_BARANGAYS_LIST = [
   'Batasan Hills', 'Commonwealth', 'Holy Spirit', 'Payatas', 'Bagong Silangan',
@@ -1590,7 +1600,42 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
               {activeTab === 'form' && (
                 <div className="space-y-6 animate-in fade-in">
 
-                  {permitData.id === 'building' ? (
+                  {permitData.id === 'occupancy' ? (
+                    /* EXACT REPLICA OF OFFICIAL QC DBO OCCUPANCY PERMIT APPLICATION (PICTURES 1, 2, 3, 4) */
+                    <QCOccupancyPermitApplication
+                      onCancel={onClose}
+                      onProceedWithoutBuildingPermit={() => {
+                        setFormData(QC_PERMITS_FULL_DATABASE.building.defaultFormData);
+                        showToast('Navigating to Application For Building Permit as required...');
+                      }}
+                      onProceedWithBuildingPermit={(data) => {
+                        handleInputChange('specificField1Value', data.buildingPermitNo);
+                        handleInputChange('applicantName', data.applicantName);
+                        handleInputChange('streetAddress', data.applicantAddress);
+                        handleInputChange('specificField2Value', data.issuedDate);
+                        handleSubmitApplication();
+                      }}
+                      showToast={showToast}
+                    />
+                  ) : permitData.id === 'telco' ? (
+                    /* EXACT REPLICA OF OFFICIAL QC DBO TELCO PERMIT APPLICATION (PICTURE 1) */
+                    <QCTelcoPermitApplication
+                      onCancel={onClose}
+                      onSubmit={(data) => {
+                        handleInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                        handleInputChange('applicantContact', data.mobileNo);
+                        handleInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                        handleInputChange('barangay', data.barangay);
+                        handleInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                        handleInputChange('tctNo', data.tctNo);
+                        handleInputChange('taxDecNo', data.taxDecNo);
+                        handleInputChange('projectTitle', `${data.telcoProvider} Cell Site Installation`);
+                        handleInputChange('specificField1Value', data.constructionType);
+                        handleSubmitApplication();
+                      }}
+                      showToast={showToast}
+                    />
+                  ) : permitData.id === 'building' ? (
                     /* EXACT REPLICA OF OFFICIAL QC DBO BUILDING PERMIT FORM (PICTURE 1) */
                     <div className="space-y-6">
 
@@ -1904,14 +1949,21 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                         </div>
                       </div>
 
-                      {/* Form-level Blue Submit button matching Picture 1 */}
-                      <div>
+                      {/* Form-level Blue Submit & Red Cancel buttons matching Picture 2 */}
+                      <div className="space-y-2.5 pt-2">
                         <button
                           type="button"
                           onClick={handleSubmitApplication}
-                          className="w-full py-2.5 bg-[#0047ba] hover:bg-[#003ca0] text-white font-bold rounded-lg text-sm transition-colors cursor-pointer shadow-sm text-center"
+                          className="w-full py-2.5 bg-[#0047ba] hover:bg-[#003ca0] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
                         >
                           Submit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={onClose}
+                          className="w-full py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+                        >
+                          Cancel
                         </button>
                       </div>
 
@@ -1919,12 +1971,12 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                   ) : permitData.id === 'electrical' ? (
                     /* EXACT REPLICA OF APPLY FOR ELECTRICITY (PICTURE 1) */
                     <div className="space-y-6">
-                      <fieldset className="rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0c1629] p-4 sm:p-6 shadow-xs">
-                        <legend className="px-2 text-xs font-semibold text-slate-800 dark:text-slate-200">
+                      <div className="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0c1629] shadow-xs">
+                        <div className="bg-[#0c4366] text-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider">
                           Apply for Electricity
-                        </legend>
+                        </div>
 
-                        <div className="space-y-5 pt-1">
+                        <div className="p-4 sm:p-5 space-y-5">
                           {/* 1. Application Specification */}
                           <div>
                             <h4 className="text-[11px] text-slate-500 dark:text-slate-400 mb-2">Application Specification</h4>
@@ -2320,8 +2372,144 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                             </button>
                           </div>
                         </div>
-                      </fieldset>
+                      </div>
                     </div>
+                  ) : permitData.id === 'sign' ? (
+                    /* EXACT REPLICA OF OFFICIAL QC DBO SIGN PERMIT APPLICATION (PICTURE 1) */
+                    <QCSignPermitApplication
+                      onCancel={onClose}
+                      onSubmit={(data) => {
+                        handleInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                        handleInputChange('applicantContact', data.mobileNo);
+                        handleInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                        handleInputChange('barangay', data.barangay);
+                        handleInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                        handleInputChange('tctNo', data.tctNo);
+                        handleInputChange('taxDecNo', data.taxDecNo);
+                        handleInputChange('projectTitle', `Signboard / Commercial Display Installation`);
+                        handleSubmitApplication();
+                      }}
+                      showToast={showToast}
+                    />
+                  ) : permitData.id === 'demolition' ? (
+                    /* EXACT REPLICA OF OFFICIAL QC DBO DEMOLITION PERMIT APPLICATION (PICTURE 3) */
+                    <QCDemolitionPermitApplication
+                      onCancel={onClose}
+                      onSubmit={(data) => {
+                        handleInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                        handleInputChange('applicantContact', data.mobileNo);
+                        handleInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                        handleInputChange('barangay', data.barangay);
+                        handleInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                        handleInputChange('tctNo', data.tctNo);
+                        handleInputChange('taxDecNo', data.taxDecNo);
+                        handleInputChange('projectTitle', `Controlled Demolition Work`);
+                        handleSubmitApplication();
+                      }}
+                      showToast={showToast}
+                    />
+                  ) : permitData.id === 'mechanical' ? (
+                    /* EXACT REPLICA OF OFFICIAL QC DBO MECHANICAL PERMIT APPLICATION (PICTURE 2) */
+                    <QCMechanicalPermitApplication
+                      onCancel={onClose}
+                      onSubmit={(data) => {
+                        handleInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                        handleInputChange('applicantContact', data.mobileNo);
+                        handleInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                        handleInputChange('barangay', data.barangay);
+                        handleInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                        handleInputChange('tctNo', data.tctNo);
+                        handleInputChange('taxDecNo', data.taxDecNo);
+                        handleInputChange('projectTitle', `Mechanical Installation & Machinery`);
+                        handleSubmitApplication();
+                      }}
+                      showToast={showToast}
+                    />
+                  ) : permitData.id === 'electronics' ? (
+                    /* EXACT REPLICA OF OFFICIAL QC DBO ELECTRONICS PERMIT APPLICATION (PICTURE 4) */
+                    <QCElectronicsPermitApplication
+                      onCancel={onClose}
+                      onSubmit={(data) => {
+                        handleInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                        handleInputChange('applicantContact', data.mobileNo);
+                        handleInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                        handleInputChange('barangay', data.barangay);
+                        handleInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                        handleInputChange('tctNo', data.tctNo);
+                        handleInputChange('taxDecNo', data.taxDecNo);
+                        handleInputChange('projectTitle', `Electronics & Telecommunications Network System`);
+                        handleSubmitApplication();
+                      }}
+                      showToast={showToast}
+                    />
+                  ) : permitData.id === 'fencing' ? (
+                    /* EXACT REPLICA OF OFFICIAL QC DBO FENCING PERMIT APPLICATION (PICTURE 2) */
+                    <QCFencingPermitApplication
+                      onCancel={onClose}
+                      onSubmit={(data) => {
+                        handleInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                        handleInputChange('applicantContact', data.mobileNo);
+                        handleInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                        handleInputChange('barangay', data.barangay);
+                        handleInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                        handleInputChange('tctNo', data.tctNo);
+                        handleInputChange('taxDecNo', data.taxDecNo);
+                        handleInputChange('projectTitle', `Industrial Warehouse Perimeter Security Fencing & Gates`);
+                        handleSubmitApplication();
+                      }}
+                      showToast={showToast}
+                    />
+                  ) : permitData.id === 'sidewalk' ? (
+                    /* EXACT REPLICA OF OFFICIAL QC DBO SIDEWALK PERMIT APPLICATION (PICTURE 4) */
+                    <QCSidewalkPermitApplication
+                      onCancel={onClose}
+                      onSubmit={(data) => {
+                        handleInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                        handleInputChange('applicantContact', data.mobileNo);
+                        handleInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                        handleInputChange('barangay', data.barangay);
+                        handleInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                        handleInputChange('tctNo', data.tctNo);
+                        handleInputChange('taxDecNo', data.taxDecNo);
+                        handleInputChange('projectTitle', `Overhead Pedestrian Protective Canopy & Scaffolding Enclosure`);
+                        handleSubmitApplication();
+                      }}
+                      showToast={showToast}
+                    />
+                  ) : permitData.id === 'repair' ? (
+                    /* EXACT REPLICA OF OFFICIAL QC DBO REPAIR PERMIT APPLICATION (PICTURE 2) */
+                    <QCRepairPermitApplication
+                      onCancel={onClose}
+                      onSubmit={(data) => {
+                        handleInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                        handleInputChange('applicantContact', data.mobileNo);
+                        handleInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                        handleInputChange('barangay', data.barangay);
+                        handleInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                        handleInputChange('tctNo', data.tctNo);
+                        handleInputChange('taxDecNo', data.taxDecNo);
+                        handleInputChange('projectTitle', `Commercial Building Roof Truss Replacement & Waterproofing`);
+                        handleSubmitApplication();
+                      }}
+                      showToast={showToast}
+                    />
+                  ) : permitData.id === 'excavation_ground' ? (
+                    /* EXACT REPLICA OF OFFICIAL QC DBO EXCAVATION GROUND PREPARATION PERMIT APPLICATION (PICTURE 4) */
+                    <QCExcavationGroundPermitApplication
+                      onCancel={onClose}
+                      onSubmit={(data) => {
+                        handleInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                        handleInputChange('applicantContact', data.mobileNo);
+                        handleInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                        handleInputChange('barangay', data.barangay);
+                        handleInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                        handleInputChange('tctNo', data.tctNo);
+                        handleInputChange('taxDecNo', data.taxDecNo);
+                        handleInputChange('projectTitle', `Deep 3-Basement Parking Excavation & Diaphragm Shoring`);
+                        handleSubmitApplication();
+                      }}
+                      showToast={showToast}
+                    />
                   ) : (
                     /* GENERAL SPECIFICATIONS FOR OTHER PERMITS */
                     <div className="space-y-6">
@@ -2570,7 +2758,7 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
               )}
 
               {/* TAB 2: OFFICIAL CHECKLIST & UPLOADS */}
-              {activeTab === 'checklist' && (
+              {false && (
                 <div className="space-y-6 animate-in fade-in">
                   
                   {/* Uploader Box */}
@@ -2709,7 +2897,7 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
               )}
 
               {/* TAB 3: ORDER OF PAYMENT */}
-              {activeTab === 'fees' && (
+              {false && (
                 <div className="space-y-6 animate-in fade-in">
                   
                   <div className="p-6 rounded-2xl bg-white dark:bg-[#0e1c33] border border-slate-200 dark:border-sky-500/30 text-slate-900 dark:text-slate-100 shadow-xs space-y-4">
@@ -2788,7 +2976,7 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
               )}
 
               {/* TAB 4: LEGAL GUIDELINES & DBO RULES */}
-              {activeTab === 'guidelines' && (
+              {false && (
                 <div className="space-y-5 animate-in fade-in">
                   
                   <div className="p-5 rounded-2xl bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 shadow-xs space-y-3">
@@ -2895,7 +3083,7 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
             </div>
 
             {/* ACTION FOOTER */}
-            {permitData.id !== 'building' && permitData.id !== 'electrical' && (
+            {false && (
               <div className="px-5 py-4 border-t border-slate-200 dark:border-[#1e293b] bg-slate-50 dark:bg-[#0c1629] flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
                 <div className="flex items-center space-x-3 text-slate-400 text-[11px]">
                   <span>⏱️ {permitData.processingDays}</span>

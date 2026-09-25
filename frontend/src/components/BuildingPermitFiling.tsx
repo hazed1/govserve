@@ -72,6 +72,16 @@ import { LanguageToggle } from './ui/LanguageToggle';
 import { GreenSealComplianceForm } from './GreenSealComplianceForm';
 import { BuildingPermitUploadWizard } from './BuildingPermitUploadWizard';
 import { QCEservicesPermitModal, QC_PERMITS_FULL_DATABASE } from './QCEservicesPermitModal';
+import { QCOccupancyPermitApplication } from './QCOccupancyPermitApplication';
+import { QCTelcoPermitApplication } from './QCTelcoPermitApplication';
+import { QCSignPermitApplication } from './QCSignPermitApplication';
+import { QCDemolitionPermitApplication } from './QCDemolitionPermitApplication';
+import { QCMechanicalPermitApplication } from './QCMechanicalPermitApplication';
+import { QCElectronicsPermitApplication } from './QCElectronicsPermitApplication';
+import { QCFencingPermitApplication } from './QCFencingPermitApplication';
+import { QCSidewalkPermitApplication } from './QCSidewalkPermitApplication';
+import { QCRepairPermitApplication } from './QCRepairPermitApplication';
+import { QCExcavationGroundPermitApplication } from './QCExcavationGroundPermitApplication';
 
 const QC_BARANGAYS_LIST = [
   'Batasan Hills', 'Commonwealth', 'Holy Spirit', 'Payatas', 'Bagong Silangan',
@@ -4199,68 +4209,64 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                         </div>
                       ) : (
                         <>
-                          {/* TOP CENTER BUTTON: RETURN TO PERMIT APPLICATIONS CATALOG (PICTURE 2) */}
-                          <div className="flex justify-center items-center">
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setSelectedPermitForModal(null);
-                                setPermitModalActiveView('catalog');
-                                document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
-                              }}
-                              className="inline-flex items-center space-x-2 px-4 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 dark:bg-sky-500/15 dark:hover:bg-sky-500/25 text-blue-700 dark:text-sky-300 border border-blue-200 dark:border-sky-500/30 text-xs font-bold transition-all shadow-xs hover:shadow cursor-pointer"
-                            >
-                              <ArrowLeft size={14} />
-                              <LayoutGrid size={14} />
-                              <span>View All Permits</span>
-                            </button>
-                          </div>
 
-                          {/* TOP HEADER & NAVIGATION */}
-                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-white dark:bg-[#0b1322] border border-slate-200 dark:border-sky-500/30 shadow-xs">
-                            <div className="flex items-center space-x-3">
-                              <div>
-                                <div className="flex items-center space-x-2">
-                                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-sky-700 dark:text-sky-400 bg-sky-50 dark:bg-sky-950/80 px-2 py-0.5 rounded-md border border-sky-200 dark:border-sky-800">
-                                    {qcData.code}
-                                  </span>
-                                  <span className="text-[10px] text-slate-500 dark:text-slate-400 font-semibold">{qcData.category}</span>
-                                </div>
-                                <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white mt-0.5">
-                                  {qcData.name} • Quezon City DBO Official Portal
-                                </h3>
-                              </div>
-                            </div>
-
-                            <div className="flex items-center space-x-3 text-xs shrink-0">
-                              <span className="text-slate-600 dark:text-slate-400 font-semibold">⏱️ {qcData.processingDays}</span>
-                            </div>
-                          </div>
-
-
-
-                          {/* Legal Mandate & Assigned Office */}
-                          <div className="p-3.5 rounded-2xl bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs shadow-xs">
-                            <div className="space-y-0.5">
-                              <span className="text-[10px] font-bold text-sky-700 dark:text-sky-400 uppercase tracking-wider block">
-                                ⚖️ Official Legal Basis
-                              </span>
-                              <p className="text-slate-800 dark:text-slate-300 font-medium">{qcData.legalBasis}</p>
-                            </div>
-                            <div className="text-left sm:text-right shrink-0">
-                              <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
-                                Assigned DBO Section
-                              </span>
-                              <span className="text-slate-800 dark:text-slate-200 font-semibold">{qcData.dboDivision}</span>
-                            </div>
-                          </div>
 
 
                           {/* TAB 1: QC APPLICATION FORM CONTENT */}
                           {activeDetailTab === 'form' && (
                             <div className="space-y-6 animate-in fade-in">
 
-                              {qcData.id === 'building' ? (
+                              {qcData.id === 'occupancy' ? (
+                                /* EXACT REPLICA OF OFFICIAL QC DBO OCCUPANCY PERMIT APPLICATION (PICTURES 1, 2, 3, 4) */
+                                <QCOccupancyPermitApplication
+                                  onCancel={() => {
+                                    setSelectedPermitForModal(null);
+                                    setPermitModalActiveView('catalog');
+                                    document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+                                  }}
+                                  onProceedWithoutBuildingPermit={() => {
+                                    const bItem = QC_PERMIT_APPLICATIONS_CATALOG.find(p => p.id === 'building');
+                                    if (bItem) {
+                                      setSelectedPermitForModal(bItem);
+                                      setPermitModalActiveView('detail');
+                                      setActiveDetailTab('form');
+                                      setDetailSubmissionDone(null);
+                                      showToast('Navigating to Application For Building Permit as required...');
+                                      document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+                                    }
+                                  }}
+                                  onProceedWithBuildingPermit={(data) => {
+                                    handleLocalInputChange('specificField1Value', data.buildingPermitNo);
+                                    handleLocalInputChange('applicantName', data.applicantName);
+                                    handleLocalInputChange('streetAddress', data.applicantAddress);
+                                    handleLocalInputChange('specificField2Value', data.issuedDate);
+                                    handleLocalSubmit();
+                                  }}
+                                  showToast={showToast}
+                                />
+                              ) : qcData.id === 'telco' ? (
+                                /* EXACT REPLICA OF OFFICIAL QC DBO TELCO PERMIT APPLICATION (PICTURE 1) */
+                                <QCTelcoPermitApplication
+                                  onCancel={() => {
+                                    setSelectedPermitForModal(null);
+                                    setPermitModalActiveView('catalog');
+                                    document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+                                  }}
+                                  onSubmit={(data) => {
+                                    handleLocalInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                                    handleLocalInputChange('applicantContact', data.mobileNo);
+                                    handleLocalInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                                    handleLocalInputChange('barangay', data.barangay);
+                                    handleLocalInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                                    handleLocalInputChange('tctNo', data.tctNo);
+                                    handleLocalInputChange('taxDecNo', data.taxDecNo);
+                                    handleLocalInputChange('projectTitle', `${data.telcoProvider} Cell Site Installation`);
+                                    handleLocalInputChange('specificField1Value', data.constructionType);
+                                    handleLocalSubmit();
+                                  }}
+                                  showToast={showToast}
+                                />
+                              ) : qcData.id === 'building' ? (
                                 /* EXACT REPLICA OF OFFICIAL QC DBO BUILDING PERMIT FORM (PICTURE 1) */
                                 <div className="space-y-6">
 
@@ -4574,14 +4580,25 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                     </div>
                                   </div>
 
-                                  {/* Form-level Blue Submit button matching Picture 1 */}
-                                  <div>
+                                  {/* Form-level Blue Submit & Red Cancel buttons matching Picture 2 */}
+                                  <div className="space-y-2.5 pt-2">
                                     <button
                                       type="button"
                                       onClick={handleLocalSubmit}
-                                      className="w-full py-2.5 bg-[#0047ba] hover:bg-[#003ca0] text-white font-bold rounded-lg text-sm transition-colors cursor-pointer shadow-sm text-center"
+                                      className="w-full py-2.5 bg-[#0047ba] hover:bg-[#003ca0] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
                                     >
                                       Submit
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        setSelectedPermitForModal(null);
+                                        setPermitModalActiveView('catalog');
+                                        document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+                                      }}
+                                      className="w-full py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+                                    >
+                                      Cancel
                                     </button>
                                   </div>
 
@@ -4589,12 +4606,12 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                               ) : qcData.id === 'electrical' ? (
                                 /* EXACT REPLICA OF APPLY FOR ELECTRICITY (PICTURE 1) */
                                 <div className="space-y-6">
-                                  <fieldset className="rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0c1629] p-4 sm:p-6 shadow-xs">
-                                    <legend className="px-2 text-xs font-semibold text-slate-800 dark:text-slate-200">
+                                  <div className="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0c1629] shadow-xs">
+                                    <div className="bg-[#0c4366] text-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider">
                                       Apply for Electricity
-                                    </legend>
+                                    </div>
 
-                                    <div className="space-y-5 pt-1">
+                                    <div className="p-4 sm:p-5 space-y-5">
                                       {/* 1. Application Specification */}
                                       <div>
                                         <h4 className="text-[11px] text-slate-500 dark:text-slate-400 mb-2">Application Specification</h4>
@@ -4994,8 +5011,176 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                         </button>
                                       </div>
                                     </div>
-                                  </fieldset>
+                                  </div>
                                 </div>
+                              ) : qcData.id === 'sign' ? (
+                                /* EXACT REPLICA OF OFFICIAL QC DBO SIGN PERMIT APPLICATION (PICTURE 1) */
+                                <QCSignPermitApplication
+                                  onCancel={() => {
+                                    setSelectedPermitForModal(null);
+                                    setPermitModalActiveView('catalog');
+                                    document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+                                  }}
+                                  onSubmit={(data) => {
+                                    handleLocalInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                                    handleLocalInputChange('applicantContact', data.mobileNo);
+                                    handleLocalInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                                    handleLocalInputChange('barangay', data.barangay);
+                                    handleLocalInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                                    handleLocalInputChange('tctNo', data.tctNo);
+                                    handleLocalInputChange('taxDecNo', data.taxDecNo);
+                                    handleLocalInputChange('projectTitle', `Signboard / Commercial Display Installation`);
+                                    handleLocalSubmit();
+                                  }}
+                                  showToast={showToast}
+                                />
+                              ) : qcData.id === 'demolition' ? (
+                                /* EXACT REPLICA OF OFFICIAL QC DBO DEMOLITION PERMIT APPLICATION (PICTURE 3) */
+                                <QCDemolitionPermitApplication
+                                  onCancel={() => {
+                                    setSelectedPermitForModal(null);
+                                    setPermitModalActiveView('catalog');
+                                    document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+                                  }}
+                                  onSubmit={(data) => {
+                                    handleLocalInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                                    handleLocalInputChange('applicantContact', data.mobileNo);
+                                    handleLocalInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                                    handleLocalInputChange('barangay', data.barangay);
+                                    handleLocalInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                                    handleLocalInputChange('tctNo', data.tctNo);
+                                    handleLocalInputChange('taxDecNo', data.taxDecNo);
+                                    handleLocalInputChange('projectTitle', `Controlled Demolition Work`);
+                                    handleLocalSubmit();
+                                  }}
+                                  showToast={showToast}
+                                />
+                              ) : qcData.id === 'mechanical' ? (
+                                /* EXACT REPLICA OF OFFICIAL QC DBO MECHANICAL PERMIT APPLICATION (PICTURE 2) */
+                                <QCMechanicalPermitApplication
+                                  onCancel={() => {
+                                    setSelectedPermitForModal(null);
+                                    setPermitModalActiveView('catalog');
+                                    document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+                                  }}
+                                  onSubmit={(data) => {
+                                    handleLocalInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                                    handleLocalInputChange('applicantContact', data.mobileNo);
+                                    handleLocalInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                                    handleLocalInputChange('barangay', data.barangay);
+                                    handleLocalInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                                    handleLocalInputChange('tctNo', data.tctNo);
+                                    handleLocalInputChange('taxDecNo', data.taxDecNo);
+                                    handleLocalInputChange('projectTitle', `Mechanical Installation & Machinery`);
+                                    handleLocalSubmit();
+                                  }}
+                                  showToast={showToast}
+                                />
+                              ) : qcData.id === 'electronics' ? (
+                                /* EXACT REPLICA OF OFFICIAL QC DBO ELECTRONICS PERMIT APPLICATION (PICTURE 4) */
+                                <QCElectronicsPermitApplication
+                                  onCancel={() => {
+                                    setSelectedPermitForModal(null);
+                                    setPermitModalActiveView('catalog');
+                                    document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+                                  }}
+                                  onSubmit={(data) => {
+                                    handleLocalInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                                    handleLocalInputChange('applicantContact', data.mobileNo);
+                                    handleLocalInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                                    handleLocalInputChange('barangay', data.barangay);
+                                    handleLocalInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                                    handleLocalInputChange('tctNo', data.tctNo);
+                                    handleLocalInputChange('taxDecNo', data.taxDecNo);
+                                    handleLocalInputChange('projectTitle', `Electronics & Telecommunications Network System`);
+                                    handleLocalSubmit();
+                                  }}
+                                  showToast={showToast}
+                                />
+                              ) : qcData.id === 'fencing' ? (
+                                /* EXACT REPLICA OF OFFICIAL QC DBO FENCING PERMIT APPLICATION (PICTURE 2) */
+                                <QCFencingPermitApplication
+                                  onCancel={() => {
+                                    setSelectedPermitForModal(null);
+                                    setPermitModalActiveView('catalog');
+                                    document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+                                  }}
+                                  onSubmit={(data) => {
+                                    handleLocalInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                                    handleLocalInputChange('applicantContact', data.mobileNo);
+                                    handleLocalInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                                    handleLocalInputChange('barangay', data.barangay);
+                                    handleLocalInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                                    handleLocalInputChange('tctNo', data.tctNo);
+                                    handleLocalInputChange('taxDecNo', data.taxDecNo);
+                                    handleLocalInputChange('projectTitle', `Industrial Warehouse Perimeter Security Fencing & Gates`);
+                                    handleLocalSubmit();
+                                  }}
+                                  showToast={showToast}
+                                />
+                              ) : qcData.id === 'sidewalk' ? (
+                                /* EXACT REPLICA OF OFFICIAL QC DBO SIDEWALK PERMIT APPLICATION (PICTURE 4) */
+                                <QCSidewalkPermitApplication
+                                  onCancel={() => {
+                                    setSelectedPermitForModal(null);
+                                    setPermitModalActiveView('catalog');
+                                    document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+                                  }}
+                                  onSubmit={(data) => {
+                                    handleLocalInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                                    handleLocalInputChange('applicantContact', data.mobileNo);
+                                    handleLocalInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                                    handleLocalInputChange('barangay', data.barangay);
+                                    handleLocalInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                                    handleLocalInputChange('tctNo', data.tctNo);
+                                    handleLocalInputChange('taxDecNo', data.taxDecNo);
+                                    handleLocalInputChange('projectTitle', `Overhead Pedestrian Protective Canopy & Scaffolding Enclosure`);
+                                    handleLocalSubmit();
+                                  }}
+                                  showToast={showToast}
+                                />
+                              ) : qcData.id === 'repair' ? (
+                                /* EXACT REPLICA OF OFFICIAL QC DBO REPAIR PERMIT APPLICATION (PICTURE 2) */
+                                <QCRepairPermitApplication
+                                  onCancel={() => {
+                                    setSelectedPermitForModal(null);
+                                    setPermitModalActiveView('catalog');
+                                    document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+                                  }}
+                                  onSubmit={(data) => {
+                                    handleLocalInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                                    handleLocalInputChange('applicantContact', data.mobileNo);
+                                    handleLocalInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                                    handleLocalInputChange('barangay', data.barangay);
+                                    handleLocalInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                                    handleLocalInputChange('tctNo', data.tctNo);
+                                    handleLocalInputChange('taxDecNo', data.taxDecNo);
+                                    handleLocalInputChange('projectTitle', `Commercial Building Roof Truss Replacement & Waterproofing`);
+                                    handleLocalSubmit();
+                                  }}
+                                  showToast={showToast}
+                                />
+                              ) : qcData.id === 'excavation_ground' ? (
+                                /* EXACT REPLICA OF OFFICIAL QC DBO EXCAVATION GROUND PREPARATION PERMIT APPLICATION (PICTURE 4) */
+                                <QCExcavationGroundPermitApplication
+                                  onCancel={() => {
+                                    setSelectedPermitForModal(null);
+                                    setPermitModalActiveView('catalog');
+                                    document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+                                  }}
+                                  onSubmit={(data) => {
+                                    handleLocalInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                                    handleLocalInputChange('applicantContact', data.mobileNo);
+                                    handleLocalInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                                    handleLocalInputChange('barangay', data.barangay);
+                                    handleLocalInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                                    handleLocalInputChange('tctNo', data.tctNo);
+                                    handleLocalInputChange('taxDecNo', data.taxDecNo);
+                                    handleLocalInputChange('projectTitle', `Deep 3-Basement Parking Excavation & Diaphragm Shoring`);
+                                    handleLocalSubmit();
+                                  }}
+                                  showToast={showToast}
+                                />
                               ) : (
                                 /* GENERAL SPECIFICATIONS FOR OTHER PERMITS */
                                 <div className="space-y-6">
@@ -5242,7 +5427,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                           )}
 
                           {/* TAB 2: OFFICIAL CHECKLIST & UPLOADS */}
-                          {activeDetailTab === 'checklist' && (
+                          {false && (
                             <div className="space-y-6 animate-in fade-in">
                               
                               <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#0e1c33] border border-dashed border-sky-300 dark:border-sky-500/40 shadow-xs space-y-4">
@@ -5393,7 +5578,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                           )}
 
                           {/* TAB 3: ORDER OF PAYMENT */}
-                          {activeDetailTab === 'fees' && (
+                          {false && (
                             <div className="space-y-6 animate-in fade-in">
                               
                               <div className="p-6 rounded-2xl bg-white dark:bg-[#0e1c33] border border-slate-200 dark:border-sky-500/30 shadow-xs space-y-4">
@@ -5472,7 +5657,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                           )}
 
                           {/* TAB 4: LEGAL GUIDELINES */}
-                          {activeDetailTab === 'guidelines' && (
+                          {false && (
                             <div className="space-y-5 animate-in fade-in">
                               
                               <div className="p-5 rounded-2xl bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 space-y-3 shadow-xs">
@@ -5574,7 +5759,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                            )}
 
                            {/* ACTION FOOTER */}
-                           {qcData.id !== 'building' && qcData.id !== 'electrical' && (
+                           {false && (
                             <div className="px-2 py-4 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
                               <div className="flex items-center space-x-3 text-slate-600 dark:text-slate-400 text-[11px] font-semibold">
                                 <span>⏱️ {qcData.processingDays}</span>
