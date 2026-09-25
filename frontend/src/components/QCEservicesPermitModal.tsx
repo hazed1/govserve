@@ -20,6 +20,7 @@ import {
   Upload,
   Download,
   ArrowRight,
+  ArrowLeft,
   X,
   Search,
   Calendar,
@@ -39,6 +40,15 @@ import {
   Building,
   CheckCircle
 } from 'lucide-react';
+
+const QC_BARANGAYS_LIST = [
+  'Batasan Hills', 'Commonwealth', 'Holy Spirit', 'Payatas', 'Bagong Silangan',
+  'Central', 'Diliman', 'Pinyahan', 'UP Campus', 'Krus na Ligas',
+  'Cubao', 'Socorro', 'San Martin de Porres', 'Kaunlaran', 'Bagong Lipunan ng Crame',
+  'Novaliches Proper', 'San Bartolome', 'Gulod', 'Sta. Monica', 'Fairview',
+  'Pasong Tamo', 'Tandang Sora', 'Culiat', 'Sauyo', 'Talipapa',
+  'Project 4', 'Project 6', 'Project 7', 'Project 8', 'Damayan', 'Mariblo'
+];
 
 export interface QCPermitDetailData {
   id: string;
@@ -1307,13 +1317,14 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
   const permitData = QC_PERMITS_FULL_DATABASE[permitId] || QC_PERMITS_FULL_DATABASE.building;
 
   const [activeTab, setActiveTab] = useState<'form' | 'checklist' | 'fees' | 'guidelines'>('form');
-  const [formData, setFormData] = useState(permitData.defaultFormData);
+  const [formData, setFormData] = useState<Record<string, any>>(permitData.defaultFormData);
   const [uploadedFiles, setUploadedFiles] = useState<Array<{ name: string; size: string; time: string }>>(
     existingUploadedFiles.length > 0 ? existingUploadedFiles : []
   );
   const [submissionComplete, setSubmissionComplete] = useState<boolean>(false);
   const [generatedRefCode, setGeneratedRefCode] = useState<string>('');
   const [appointmentWindow, setAppointmentWindow] = useState<string>('');
+  const [isTermsAgreed, setIsTermsAgreed] = useState<boolean>(false);
 
   // Re-sync if permitId changes
   useEffect(() => {
@@ -1323,6 +1334,7 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
         setUploadedFiles(existingUploadedFiles);
       }
       setSubmissionComplete(false);
+      setIsTermsAgreed(false);
       setActiveTab('form');
     }
   }, [permitId]);
@@ -1569,60 +1581,7 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
           </div>
         ) : (
           <>
-            {/* TABS NAVIGATION */}
-            <div className="px-5 pt-3 border-b border-slate-200 dark:border-[#1e293b] bg-slate-50 dark:bg-[#0c1629] flex items-center space-x-1 sm:space-x-2 overflow-x-auto shrink-0">
-              <button
-                type="button"
-                onClick={() => setActiveTab('form')}
-                className={`px-3.5 py-2 text-xs font-bold rounded-t-xl transition-all cursor-pointer flex items-center space-x-1.5 border-b-2 whitespace-nowrap ${
-                  activeTab === 'form'
-                    ? 'border-blue-600 text-blue-600 dark:border-sky-400 dark:text-sky-400 bg-white dark:bg-[#0e1c33]'
-                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
-                }`}
-              >
-                <FileText size={13} />
-                <span>1. QC Application Form</span>
-              </button>
 
-              <button
-                type="button"
-                onClick={() => setActiveTab('checklist')}
-                className={`px-3.5 py-2 text-xs font-bold rounded-t-xl transition-all cursor-pointer flex items-center space-x-1.5 border-b-2 whitespace-nowrap ${
-                  activeTab === 'checklist'
-                    ? 'border-blue-600 text-blue-600 dark:border-sky-400 dark:text-sky-400 bg-white dark:bg-[#0e1c33]'
-                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
-                }`}
-              >
-                <CheckCircle2 size={13} />
-                <span>2. Official Checklist &amp; Files ({uploadedFiles.length})</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveTab('fees')}
-                className={`px-3.5 py-2 text-xs font-bold rounded-t-xl transition-all cursor-pointer flex items-center space-x-1.5 border-b-2 whitespace-nowrap ${
-                  activeTab === 'fees'
-                    ? 'border-blue-600 text-blue-600 dark:border-sky-400 dark:text-sky-400 bg-white dark:bg-[#0e1c33]'
-                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
-                }`}
-              >
-                <DollarSign size={13} />
-                <span>3. Order of Payment (₱ {totalFee.toLocaleString()})</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveTab('guidelines')}
-                className={`px-3.5 py-2 text-xs font-bold rounded-t-xl transition-all cursor-pointer flex items-center space-x-1.5 border-b-2 whitespace-nowrap ${
-                  activeTab === 'guidelines'
-                    ? 'border-blue-600 text-blue-600 dark:border-sky-400 dark:text-sky-400 bg-white dark:bg-[#0e1c33]'
-                    : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
-                }`}
-              >
-                <Info size={13} />
-                <span>4. Legal Basis &amp; DBO Rules</span>
-              </button>
-            </div>
 
             {/* MODAL MAIN CONTENT */}
             <div className="p-5 sm:p-7 overflow-y-auto space-y-6 text-xs flex-1">
@@ -1630,265 +1589,982 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
               {/* TAB 1: QC APPLICATION FORM */}
               {activeTab === 'form' && (
                 <div className="space-y-6 animate-in fade-in">
-                  
-                  {/* Top Bar with Auto-fill helper */}
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 rounded-2xl bg-sky-50 dark:bg-[#0e1f3d]/60 border border-sky-200 dark:border-sky-500/20">
-                    <div>
-                      <span className="font-bold text-xs text-white block">
-                        Quezon City DBO Official Application Fields
-                      </span>
-                      <p className="text-[11px] text-slate-400">
-                        Fill out the project details below or click "Auto-fill QC Demo Data" for rapid evaluation preview.
-                      </p>
+
+                  {permitData.id === 'building' ? (
+                    /* EXACT REPLICA OF OFFICIAL QC DBO BUILDING PERMIT FORM (PICTURE 1) */
+                    <div className="space-y-6">
+
+                      {/* PANEL 1: OWNERSHIP */}
+                      <div className="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0c1629] shadow-xs">
+                        {/* Header bar */}
+                        <div className="bg-[#0c4366] text-white px-4 py-2 text-xs font-bold uppercase tracking-wider">
+                          OWNERSHIP
+                        </div>
+
+                        <div className="p-4 sm:p-5 space-y-4">
+                          {/* Are you the registered owner of the land? */}
+                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1">
+                            <label className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                              Are you the registered owner of the land? <span className="text-red-500 font-bold">*</span>
+                            </label>
+                            <div className="flex items-center space-x-6">
+                              <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
+                                <input
+                                  type="radio"
+                                  name="isRegisteredOwner"
+                                  value="yes"
+                                  checked={formData.isRegisteredOwner === 'yes' || !formData.isRegisteredOwner}
+                                  onChange={() => handleInputChange('isRegisteredOwner', 'yes')}
+                                  className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
+                                />
+                                <span>Yes</span>
+                              </label>
+                              <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
+                                <input
+                                  type="radio"
+                                  name="isRegisteredOwner"
+                                  value="no"
+                                  checked={formData.isRegisteredOwner === 'no'}
+                                  onChange={() => handleInputChange('isRegisteredOwner', 'no')}
+                                  className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
+                                />
+                                <span>No</span>
+                              </label>
+                            </div>
+                          </div>
+
+                          {/* Form of Ownership of Applicant */}
+                          <div>
+                            <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                              Form of Ownership of Applicant <span className="text-red-500 font-bold">*</span>
+                            </label>
+                            <select
+                              value={formData.formOfOwnership || 'Corporation'}
+                              onChange={(e) => handleInputChange('formOfOwnership', e.target.value)}
+                              className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500 focus:border-sky-500"
+                            >
+                              <option value="">Select Form of Ownership...</option>
+                              <option value="Sole Proprietorship / Individual">Sole Proprietorship / Individual</option>
+                              <option value="Corporation">Corporation</option>
+                              <option value="Partnership">Partnership</option>
+                              <option value="Co-Ownership / Joint Venture">Co-Ownership / Joint Venture</option>
+                              <option value="Government Entity">Government Entity</option>
+                            </select>
+                          </div>
+
+                          {/* Subtitle: Project Location */}
+                          <h4 className="text-sm font-semibold text-slate-600 dark:text-slate-300 pt-2 border-t border-slate-200 dark:border-slate-800">
+                            Project Location
+                          </h4>
+
+                          {/* Row 1: Lot no, Blk no, TCT No, Tax dec. no */}
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <div>
+                              <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">Lot no.</label>
+                              <input
+                                type="text"
+                                value={formData.lotNo !== undefined ? formData.lotNo : (formData.lotBlock ? formData.lotBlock.split(',')[0] || '' : '')}
+                                onChange={(e) => handleInputChange('lotNo', e.target.value)}
+                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">Blk no.</label>
+                              <input
+                                type="text"
+                                value={formData.blkNo !== undefined ? formData.blkNo : (formData.lotBlock && formData.lotBlock.includes('Block') ? 'Block 12' : '')}
+                                onChange={(e) => handleInputChange('blkNo', e.target.value)}
+                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">TCT No.</label>
+                              <input
+                                type="text"
+                                value={formData.tctNo || ''}
+                                onChange={(e) => handleInputChange('tctNo', e.target.value)}
+                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">Tax dec. no.</label>
+                              <input
+                                type="text"
+                                value={formData.taxDecNo || ''}
+                                onChange={(e) => handleInputChange('taxDecNo', e.target.value)}
+                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Row 2: No., Street, Barangay, District, City */}
+                          <div className="grid grid-cols-2 sm:grid-cols-12 gap-3">
+                            <div className="col-span-1 sm:col-span-2">
+                              <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">No.</label>
+                              <input
+                                type="text"
+                                value={formData.streetNo || ''}
+                                onChange={(e) => handleInputChange('streetNo', e.target.value)}
+                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                              />
+                            </div>
+                            <div className="col-span-1 sm:col-span-3">
+                              <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                Street <span className="text-red-500 font-bold">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={formData.streetAddress || ''}
+                                onChange={(e) => handleInputChange('streetAddress', e.target.value)}
+                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                              />
+                            </div>
+                            <div className="col-span-2 sm:col-span-3">
+                              <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                Barangay <span className="text-red-500 font-bold">*</span>
+                              </label>
+                              <select
+                                value={formData.barangay || 'Batasan Hills'}
+                                onChange={(e) => handleInputChange('barangay', e.target.value)}
+                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                              >
+                                <option value="">Select Barangay...</option>
+                                <option value="Batasan Hills">Batasan Hills</option>
+                                <option value="Commonwealth">Commonwealth</option>
+                                <option value="Holy Spirit">Holy Spirit</option>
+                                <option value="Bagong Silangan">Bagong Silangan</option>
+                                <option value="Payatas">Payatas</option>
+                                <option value="Fairview">Fairview</option>
+                                <option value="Greater Lagro">Greater Lagro</option>
+                                <option value="Novaliches Proper">Novaliches Proper</option>
+                                <option value="Tandang Sora">Tandang Sora</option>
+                                <option value="Culiat">Culiat</option>
+                                <option value="Matandang Balara">Matandang Balara</option>
+                                <option value="Pinyahan">Pinyahan</option>
+                                <option value="Central">Central</option>
+                                <option value="South Triangle">South Triangle</option>
+                                <option value="Kamuning">Kamuning</option>
+                                <option value="Cubao">Cubao</option>
+                              </select>
+                            </div>
+                            <div className="col-span-1 sm:col-span-2">
+                              <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                District <span className="text-red-500 font-bold">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={formData.district || 'District 2'}
+                                onChange={(e) => handleInputChange('district', e.target.value)}
+                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                              />
+                            </div>
+                            <div className="col-span-1 sm:col-span-2">
+                              <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                City <span className="text-red-500 font-bold">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={formData.city || 'Quezon City'}
+                                onChange={(e) => handleInputChange('city', e.target.value)}
+                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* PANEL 2: APPLICANT */}
+                      <div className="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0c1629] shadow-xs">
+                        {/* Header bar */}
+                        <div className="bg-[#0c4366] text-white px-4 py-2 text-xs font-bold uppercase tracking-wider">
+                          APPLICANT
+                        </div>
+
+                        <div className="p-4 sm:p-5 space-y-4">
+                          {/* Row 1: Last Name, First Name, MI */}
+                          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
+                            <div className="sm:col-span-5">
+                              <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                Last Name <span className="text-red-500 font-bold">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={formData.applicantLastName !== undefined ? formData.applicantLastName : (formData.applicantName ? formData.applicantName.split(' ')[0] || '' : '')}
+                                onChange={(e) => handleInputChange('applicantLastName', e.target.value)}
+                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                              />
+                            </div>
+                            <div className="sm:col-span-5">
+                              <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                First Name <span className="text-red-500 font-bold">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={formData.applicantFirstName !== undefined ? formData.applicantFirstName : (formData.applicantName ? formData.applicantName.split(' ')[1] || '' : '')}
+                                onChange={(e) => handleInputChange('applicantFirstName', e.target.value)}
+                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                              />
+                            </div>
+                            <div className="sm:col-span-2">
+                              <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">MI</label>
+                              <input
+                                type="text"
+                                maxLength={2}
+                                value={formData.applicantMI || ''}
+                                onChange={(e) => handleInputChange('applicantMI', e.target.value)}
+                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Subtitle: Applicant's Address */}
+                          <h4 className="text-sm font-semibold text-slate-600 dark:text-slate-300 pt-2 border-t border-slate-200 dark:border-slate-800">
+                            Applicant's Address
+                          </h4>
+
+                          {/* Row 2: No., Street, Barangay, City/Municipality, Zip Code */}
+                          <div className="grid grid-cols-2 sm:grid-cols-12 gap-3">
+                            <div className="col-span-1 sm:col-span-2">
+                              <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                No. <span className="text-red-500 font-bold">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={formData.applicantNo || ''}
+                                onChange={(e) => handleInputChange('applicantNo', e.target.value)}
+                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                              />
+                            </div>
+                            <div className="col-span-1 sm:col-span-3">
+                              <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                Street <span className="text-red-500 font-bold">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={formData.applicantStreet || ''}
+                                onChange={(e) => handleInputChange('applicantStreet', e.target.value)}
+                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                              />
+                            </div>
+                            <div className="col-span-2 sm:col-span-3">
+                              <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                Barangay <span className="text-red-500 font-bold">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={formData.applicantBarangay || ''}
+                                onChange={(e) => handleInputChange('applicantBarangay', e.target.value)}
+                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                              />
+                            </div>
+                            <div className="col-span-1 sm:col-span-2">
+                              <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                City/Municipality <span className="text-red-500 font-bold">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={formData.applicantCity || 'Quezon City'}
+                                onChange={(e) => handleInputChange('applicantCity', e.target.value)}
+                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                              />
+                            </div>
+                            <div className="col-span-1 sm:col-span-2">
+                              <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">Zip Code</label>
+                              <input
+                                type="text"
+                                value={formData.applicantZip || ''}
+                                onChange={(e) => handleInputChange('applicantZip', e.target.value)}
+                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                              />
+                            </div>
+                          </div>
+
+                          {/* Row 3: Mobile Number, TIN */}
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                              <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">Mobile Number</label>
+                              <input
+                                type="text"
+                                placeholder="09XX XXX XXXX"
+                                value={formData.applicantContact || ''}
+                                onChange={(e) => handleInputChange('applicantContact', e.target.value)}
+                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">TIN</label>
+                              <input
+                                type="text"
+                                value={formData.tinNo || ''}
+                                onChange={(e) => handleInputChange('tinNo', e.target.value)}
+                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Form-level Blue Submit button matching Picture 1 */}
+                      <div>
+                        <button
+                          type="button"
+                          onClick={handleSubmitApplication}
+                          className="w-full py-2.5 bg-[#0047ba] hover:bg-[#003ca0] text-white font-bold rounded-lg text-sm transition-colors cursor-pointer shadow-sm text-center"
+                        >
+                          Submit
+                        </button>
+                      </div>
+
                     </div>
-                    <button
-                      type="button"
-                      onClick={handleAutoFillDemoData}
-                      className="px-3.5 py-1.5 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shrink-0"
-                    >
-                      <Sparkles size={13} className="text-amber-400" />
-                      <span>⚡ Auto-fill QC Demo Data</span>
-                    </button>
-                  </div>
+                  ) : permitData.id === 'electrical' ? (
+                    /* EXACT REPLICA OF APPLY FOR ELECTRICITY (PICTURE 1) */
+                    <div className="space-y-6">
+                      <fieldset className="rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0c1629] p-4 sm:p-6 shadow-xs">
+                        <legend className="px-2 text-xs font-semibold text-slate-800 dark:text-slate-200">
+                          Apply for Electricity
+                        </legend>
 
-                  {/* Section 1: Project & Location */}
-                  <div className="space-y-3">
-                    <h4 className="font-bold text-xs uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
-                      <Building2 size={13} />
-                      <span>Section A: Project Identification &amp; QC Location</span>
-                    </h4>
+                        <div className="space-y-5 pt-1">
+                          {/* 1. Application Specification */}
+                          <div>
+                            <h4 className="text-[11px] text-slate-500 dark:text-slate-400 mb-2">Application Specification</h4>
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1">
+                              <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                Is this for renewal? <span className="text-red-500 font-bold">*</span>
+                              </label>
+                              <div className="flex items-center space-x-6">
+                                <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
+                                  <input
+                                    type="radio"
+                                    name="modal_elec_isRenewal"
+                                    value="yes"
+                                    checked={formData.isRenewal === 'yes'}
+                                    onChange={() => handleInputChange('isRenewal', 'yes')}
+                                    className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
+                                  />
+                                  <span>Yes</span>
+                                </label>
+                                <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
+                                  <input
+                                    type="radio"
+                                    name="modal_elec_isRenewal"
+                                    value="no"
+                                    checked={formData.isRenewal === 'no' || !formData.isRenewal}
+                                    onChange={() => handleInputChange('isRenewal', 'no')}
+                                    className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
+                                  />
+                                  <span>No</span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                      <div>
-                        <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                          Project / Building Title *
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.projectTitle}
-                          onChange={(e) => handleInputChange('projectTitle', e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-xs"
-                          placeholder="Hal. 2-Storey Commercial Building"
-                        />
-                      </div>
+                          {/* 2. Meralco Details */}
+                          <div>
+                            <h4 className="text-[11px] text-slate-500 dark:text-slate-400 mb-2">Meralco Details</h4>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                              <div>
+                                <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                  Please enter a Business Center <span className="text-red-500 font-bold">*</span>
+                                </label>
+                                <input
+                                  type="text"
+                                  placeholder="Business Center"
+                                  value={formData.businessCenter || ''}
+                                  onChange={(e) => handleInputChange('businessCenter', e.target.value)}
+                                  className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                                />
+                              </div>
+                              <div>
+                                <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                  Please enter your Meralco Case Number <span className="text-red-500 font-bold">*</span>
+                                </label>
+                                <input
+                                  type="text"
+                                  placeholder="Meralco Case Number"
+                                  value={formData.meralcoCaseNo || ''}
+                                  onChange={(e) => handleInputChange('meralcoCaseNo', e.target.value)}
+                                  className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                                />
+                              </div>
+                            </div>
+                          </div>
 
-                      <div>
-                        <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                          Quezon City Barangay *
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.barangay}
-                          onChange={(e) => handleInputChange('barangay', e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-xs"
-                          placeholder="Hal. Brgy. Central, District 4"
-                        />
-                      </div>
+                          {/* 3. Lot Location */}
+                          <div>
+                            <h4 className="text-[11px] text-slate-500 dark:text-slate-400 mb-2">Lot Location</h4>
+                            <div className="space-y-2.5">
+                              {/* Row 1: Lot No, Blk no, TCT No, TAX DEC No */}
+                              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                                <div>
+                                  <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">Lot No</label>
+                                  <input
+                                    type="text"
+                                    placeholder="Lot No."
+                                    value={formData.lotNo || ''}
+                                    onChange={(e) => handleInputChange('lotNo', e.target.value)}
+                                    className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">Blk no</label>
+                                  <input
+                                    type="text"
+                                    placeholder="Blk no"
+                                    value={formData.blkNo || ''}
+                                    onChange={(e) => handleInputChange('blkNo', e.target.value)}
+                                    className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">TCT No</label>
+                                  <input
+                                    type="text"
+                                    placeholder="TCT No."
+                                    value={formData.tctNo || ''}
+                                    onChange={(e) => handleInputChange('tctNo', e.target.value)}
+                                    className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">TAX DEC No</label>
+                                  <input
+                                    type="text"
+                                    placeholder="TAX DEC No."
+                                    value={formData.taxDecNo || ''}
+                                    onChange={(e) => handleInputChange('taxDecNo', e.target.value)}
+                                    className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                                  />
+                                </div>
+                              </div>
 
-                      <div>
-                        <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                          Street Address / Road Location *
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.streetAddress}
-                          onChange={(e) => handleInputChange('streetAddress', e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-xs"
-                        />
-                      </div>
+                              {/* Row 2: Street, Barangay, District, City */}
+                              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                                <div>
+                                  <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                    Street <span className="text-red-500 font-bold">*</span>
+                                  </label>
+                                  <input
+                                    type="text"
+                                    placeholder="Street"
+                                    value={formData.street || formData.streetAddress || ''}
+                                    onChange={(e) => handleInputChange('street', e.target.value)}
+                                    className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                    Barangay <span className="text-red-500 font-bold">*</span>
+                                  </label>
+                                  <select
+                                    value={formData.barangay || ''}
+                                    onChange={(e) => handleInputChange('barangay', e.target.value)}
+                                    className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                                  >
+                                    <option value="">Barangay</option>
+                                    {QC_BARANGAYS_LIST.map((brgy) => (
+                                      <option key={brgy} value={brgy}>
+                                        {brgy}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                                <div>
+                                  <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                    District <span className="text-red-500 font-bold">*</span>
+                                  </label>
+                                  <input
+                                    type="text"
+                                    placeholder="District"
+                                    value={formData.district || 'District 4'}
+                                    onChange={(e) => handleInputChange('district', e.target.value)}
+                                    className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                    City <span className="text-red-500 font-bold">*</span>
+                                  </label>
+                                  <input
+                                    type="text"
+                                    readOnly
+                                    value="Quezon City"
+                                    className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs font-medium cursor-not-allowed"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
 
-                      <div>
-                        <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                          Lot &amp; Block No. / Survey Reference
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.lotBlock}
-                          onChange={(e) => handleInputChange('lotBlock', e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-xs"
-                        />
-                      </div>
+                          {/* 4. Owner Details */}
+                          <div>
+                            <h4 className="text-[11px] text-slate-500 dark:text-slate-400 mb-2">Owner Details</h4>
+                            <div className="space-y-3">
+                              <div>
+                                <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                  Form of Ownership <span className="text-red-500 font-bold">*</span>
+                                </label>
+                                <select
+                                  value={formData.formOfOwnership || ''}
+                                  onChange={(e) => handleInputChange('formOfOwnership', e.target.value)}
+                                  className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                                >
+                                  <option value="">Form of Ownership</option>
+                                  <option value="Sole Proprietorship / Individual">Sole Proprietorship / Individual</option>
+                                  <option value="Corporation">Corporation</option>
+                                  <option value="Partnership">Partnership</option>
+                                  <option value="Government Entity">Government Entity</option>
+                                </select>
+                              </div>
 
-                      <div>
-                        <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                          Transfer Certificate of Title (TCT No.)
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.tctNo}
-                          onChange={(e) => handleInputChange('tctNo', e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-xs"
-                        />
-                      </div>
+                              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1">
+                                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                  Are you the land owner? <span className="text-red-500 font-bold">*</span>
+                                </label>
+                                <div className="flex items-center space-x-6">
+                                  <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
+                                    <input
+                                      type="radio"
+                                      name="modal_elec_isLandOwner"
+                                      value="yes"
+                                      checked={formData.isLandOwner === 'yes' || !formData.isLandOwner}
+                                      onChange={() => handleInputChange('isLandOwner', 'yes')}
+                                      className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
+                                    />
+                                    <span>Yes</span>
+                                  </label>
+                                  <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
+                                    <input
+                                      type="radio"
+                                      name="modal_elec_isLandOwner"
+                                      value="no"
+                                      checked={formData.isLandOwner === 'no'}
+                                      onChange={() => handleInputChange('isLandOwner', 'no')}
+                                      className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
+                                    />
+                                    <span>No</span>
+                                  </label>
+                                </div>
+                              </div>
 
-                      <div>
-                        <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                          QC Real Property Tax Declaration (TD No.)
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.taxDecNo}
-                          onChange={(e) => handleInputChange('taxDecNo', e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-xs"
-                        />
-                      </div>
+                              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1">
+                                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                  Do you have HCDRD Certificate? <span className="text-red-500 font-bold">*</span>
+                                </label>
+                                <div className="flex items-center space-x-6">
+                                  <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
+                                    <input
+                                      type="radio"
+                                      name="modal_elec_hasHcdrd"
+                                      value="yes"
+                                      checked={formData.hasHcdrdCert === 'yes'}
+                                      onChange={() => handleInputChange('hasHcdrdCert', 'yes')}
+                                      className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
+                                    />
+                                    <span>Yes</span>
+                                  </label>
+                                  <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
+                                    <input
+                                      type="radio"
+                                      name="modal_elec_hasHcdrd"
+                                      value="no"
+                                      checked={formData.hasHcdrdCert === 'no' || !formData.hasHcdrdCert}
+                                      onChange={() => handleInputChange('hasHcdrdCert', 'no')}
+                                      className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
+                                    />
+                                    <span>No</span>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* 5. Applicant Details */}
+                          <div>
+                            <h4 className="text-[11px] text-slate-500 dark:text-slate-400 mb-2">Applicant Details</h4>
+                            <div className="space-y-3">
+                              {/* Row 1: Last Name, First Name, MI */}
+                              <div className="grid grid-cols-1 sm:grid-cols-5 gap-2.5">
+                                <div className="sm:col-span-2">
+                                  <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                    Last Name <span className="text-red-500 font-bold">*</span>
+                                  </label>
+                                  <input
+                                    type="text"
+                                    placeholder="Last Name"
+                                    value={formData.applicantLastName || ''}
+                                    onChange={(e) => handleInputChange('applicantLastName', e.target.value)}
+                                    className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                                  />
+                                </div>
+                                <div className="sm:col-span-2">
+                                  <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                    First Name <span className="text-red-500 font-bold">*</span>
+                                  </label>
+                                  <input
+                                    type="text"
+                                    placeholder="First Name"
+                                    value={formData.applicantFirstName || ''}
+                                    onChange={(e) => handleInputChange('applicantFirstName', e.target.value)}
+                                    className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">MI</label>
+                                  <input
+                                    type="text"
+                                    placeholder="MI"
+                                    value={formData.applicantMI || ''}
+                                    onChange={(e) => handleInputChange('applicantMI', e.target.value)}
+                                    className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                                  />
+                                </div>
+                              </div>
+
+                              {/* Applicant's Address */}
+                              <h5 className="text-[11px] text-slate-500 dark:text-slate-400 pt-1">Applicant's Address</h5>
+                              <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
+                                <div>
+                                  <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                    No. <span className="text-red-500 font-bold">*</span>
+                                  </label>
+                                  <input
+                                    type="text"
+                                    placeholder="No"
+                                    value={formData.applicantNo || ''}
+                                    onChange={(e) => handleInputChange('applicantNo', e.target.value)}
+                                    className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                    Street <span className="text-red-500 font-bold">*</span>
+                                  </label>
+                                  <input
+                                    type="text"
+                                    placeholder="Street"
+                                    value={formData.applicantStreet || ''}
+                                    onChange={(e) => handleInputChange('applicantStreet', e.target.value)}
+                                    className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                    Barangay <span className="text-red-500 font-bold">*</span>
+                                  </label>
+                                  <input
+                                    type="text"
+                                    placeholder="Barangay"
+                                    value={formData.applicantBarangay || ''}
+                                    onChange={(e) => handleInputChange('applicantBarangay', e.target.value)}
+                                    className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                    City/Municipality <span className="text-red-500 font-bold">*</span>
+                                  </label>
+                                  <input
+                                    type="text"
+                                    placeholder="City"
+                                    value={formData.applicantCity || 'Quezon City'}
+                                    onChange={(e) => handleInputChange('applicantCity', e.target.value)}
+                                    className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                                  />
+                                </div>
+                                <div>
+                                  <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">Zip Code</label>
+                                  <input
+                                    type="text"
+                                    placeholder="Zip Code"
+                                    value={formData.applicantZip || ''}
+                                    onChange={(e) => handleInputChange('applicantZip', e.target.value)}
+                                    className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                                  />
+                                </div>
+                              </div>
+
+                              {/* Mobile Number */}
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                                <div>
+                                  <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                    Mobile Number <span className="text-red-500 font-bold">*</span>
+                                  </label>
+                                  <input
+                                    type="text"
+                                    placeholder="09XX XXX XXXX"
+                                    value={formData.applicantContact || ''}
+                                    onChange={(e) => handleInputChange('applicantContact', e.target.value)}
+                                    className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* 6. Buttons: Submit (Blue) & Cancel (Red) */}
+                          <div className="space-y-2.5 pt-2">
+                            <button
+                              type="button"
+                              onClick={handleSubmitApplication}
+                              className="w-full py-2.5 bg-[#0047ba] hover:bg-[#003ca0] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+                            >
+                              Submit
+                            </button>
+                            <button
+                              type="button"
+                              onClick={onClose}
+                              className="w-full py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      </fieldset>
                     </div>
-                  </div>
+                  ) : (
+                    /* GENERAL SPECIFICATIONS FOR OTHER PERMITS */
+                    <div className="space-y-6">
+                      {/* Section 1: Project & Location */}
+                      <div className="space-y-3">
+                        <h4 className="font-bold text-xs uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
+                          <Building2 size={13} />
+                          <span>Section A: Project Identification &amp; QC Location</span>
+                        </h4>
 
-                  {/* Section 2: Technical Parameters Specific to this Permit */}
-                  <div className="space-y-3 pt-2">
-                    <h4 className="font-bold text-xs uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
-                      <Cpu size={13} />
-                      <span>Section B: Technical Specifications ({permitData.name})</span>
-                    </h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                          <div>
+                            <label className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                              Project / Building Title *
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.projectTitle}
+                              onChange={(e) => handleInputChange('projectTitle', e.target.value)}
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-xs shadow-xs"
+                              placeholder="Hal. 2-Storey Commercial Building"
+                            />
+                          </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 p-4 rounded-2xl bg-slate-50 dark:bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100">
-                      <div>
-                        <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                          {formData.specificField1Label} *
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.specificField1Value}
-                          onChange={(e) => handleInputChange('specificField1Value', e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0b1322] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-xs"
-                        />
+                          <div>
+                            <label className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                              Quezon City Barangay *
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.barangay}
+                              onChange={(e) => handleInputChange('barangay', e.target.value)}
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-xs shadow-xs"
+                              placeholder="Hal. Brgy. Central, District 4"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                              Street Address / Road Location *
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.streetAddress}
+                              onChange={(e) => handleInputChange('streetAddress', e.target.value)}
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-xs shadow-xs"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                              Lot &amp; Block No. / Survey Reference
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.lotBlock}
+                              onChange={(e) => handleInputChange('lotBlock', e.target.value)}
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-xs shadow-xs"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                              Transfer Certificate of Title (TCT No.)
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.tctNo}
+                              onChange={(e) => handleInputChange('tctNo', e.target.value)}
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-xs shadow-xs"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                              QC Real Property Tax Declaration (TD No.)
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.taxDecNo}
+                              onChange={(e) => handleInputChange('taxDecNo', e.target.value)}
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-xs shadow-xs"
+                            />
+                          </div>
+                        </div>
                       </div>
 
-                      <div>
-                        <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                          {formData.specificField2Label} *
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.specificField2Value}
-                          onChange={(e) => handleInputChange('specificField2Value', e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0b1322] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-xs"
-                        />
+                      {/* Section 2: Technical Parameters Specific to this Permit */}
+                      <div className="space-y-3 pt-2">
+                        <h4 className="font-bold text-xs uppercase tracking-wider text-sky-700 dark:text-sky-400 flex items-center gap-1.5">
+                          <Cpu size={13} />
+                          <span>Section B: Technical Specifications ({permitData.name})</span>
+                        </h4>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 p-4 rounded-2xl bg-slate-50 dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100">
+                          <div>
+                            <label className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                              {formData.specificField1Label} *
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.specificField1Value}
+                              onChange={(e) => handleInputChange('specificField1Value', e.target.value)}
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0b1322] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-xs shadow-xs"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                              {formData.specificField2Label} *
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.specificField2Value}
+                              onChange={(e) => handleInputChange('specificField2Value', e.target.value)}
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0b1322] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-xs shadow-xs"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                              {formData.specificField3Label}
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.specificField3Value}
+                              onChange={(e) => handleInputChange('specificField3Value', e.target.value)}
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0b1322] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-xs shadow-xs"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                              {formData.specificField4Label}
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.specificField4Value}
+                              onChange={(e) => handleInputChange('specificField4Value', e.target.value)}
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0b1322] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-xs shadow-xs"
+                            />
+                          </div>
+
+                          <div className="sm:col-span-2">
+                            <label className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                              Estimated Valuation / Construction Cost (Philippine Pesos ₱)
+                            </label>
+                            <div className="relative">
+                              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-600 dark:text-slate-400 font-bold">₱</span>
+                              <input
+                                type="text"
+                                value={formData.valuation}
+                                onChange={(e) => handleInputChange('valuation', e.target.value)}
+                                className="w-full pl-8 pr-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0b1322] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-mono font-bold focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-xs shadow-xs"
+                              />
+                            </div>
+                          </div>
+                        </div>
                       </div>
 
-                      <div>
-                        <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                          {formData.specificField3Label}
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.specificField3Value}
-                          onChange={(e) => handleInputChange('specificField3Value', e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0b1322] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-xs"
-                        />
-                      </div>
+                      {/* Section 3: Licensed Professionals & Applicant */}
+                      <div className="space-y-3 pt-2">
+                        <h4 className="font-bold text-xs uppercase tracking-wider text-sky-700 dark:text-sky-400 flex items-center gap-1.5">
+                          <UserCheck size={13} />
+                          <span>Section C: Applicant &amp; Supervising Licensed Professionals</span>
+                        </h4>
 
-                      <div>
-                        <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                          {formData.specificField4Label}
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.specificField4Value}
-                          onChange={(e) => handleInputChange('specificField4Value', e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0b1322] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-xs"
-                        />
-                      </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                          <div>
+                            <label className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                              Applicant / Corporate Representative *
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.applicantName}
+                              onChange={(e) => handleInputChange('applicantName', e.target.value)}
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-xs shadow-xs"
+                            />
+                          </div>
 
-                      <div className="sm:col-span-2">
-                        <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                          Estimated Valuation / Construction Cost (Philippine Pesos ₱)
-                        </label>
-                        <div className="relative">
-                          <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 font-bold">₱</span>
-                          <input
-                            type="text"
-                            value={formData.valuation}
-                            onChange={(e) => handleInputChange('valuation', e.target.value)}
-                            className="w-full pl-8 pr-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0b1322] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-mono font-bold focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-xs"
-                          />
+                          <div>
+                            <label className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                              Applicant Contact Phone *
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.applicantContact}
+                              onChange={(e) => handleInputChange('applicantContact', e.target.value)}
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-xs shadow-xs"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                              Supervising Licensed Architect / Engineer *
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.professionalName}
+                              onChange={(e) => handleInputChange('professionalName', e.target.value)}
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-xs shadow-xs"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                              PRC License Registration No. *
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.prcLicenseNo}
+                              onChange={(e) => handleInputChange('prcLicenseNo', e.target.value)}
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-xs shadow-xs"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                              Professional Tax Receipt (PTR No. - QC)
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.ptrNo}
+                              onChange={(e) => handleInputChange('ptrNo', e.target.value)}
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-xs shadow-xs"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block mb-1">
+                              Tax Identification Number (TIN)
+                            </label>
+                            <input
+                              type="text"
+                              value={formData.tinNo}
+                              onChange={(e) => handleInputChange('tinNo', e.target.value)}
+                              className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-xs shadow-xs"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Section 3: Licensed Professionals & Applicant */}
-                  <div className="space-y-3 pt-2">
-                    <h4 className="font-bold text-xs uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
-                      <UserCheck size={13} />
-                      <span>Section C: Applicant &amp; Supervising Licensed Professionals</span>
-                    </h4>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                      <div>
-                        <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                          Applicant / Corporate Representative *
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.applicantName}
-                          onChange={(e) => handleInputChange('applicantName', e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-xs"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                          Applicant Contact Phone *
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.applicantContact}
-                          onChange={(e) => handleInputChange('applicantContact', e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-xs"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                          Supervising Licensed Architect / Engineer *
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.professionalName}
-                          onChange={(e) => handleInputChange('professionalName', e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-xs"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                          PRC License Registration No. *
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.prcLicenseNo}
-                          onChange={(e) => handleInputChange('prcLicenseNo', e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-xs"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                          Professional Tax Receipt (PTR No. - QC)
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.ptrNo}
-                          onChange={(e) => handleInputChange('ptrNo', e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-xs"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                          Tax Identification Number (TIN)
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.tinNo}
-                          onChange={(e) => handleInputChange('tinNo', e.target.value)}
-                          className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:border-sky-400 focus:ring-1 focus:ring-sky-400 text-xs"
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  )}
 
                 </div>
               )}
@@ -1898,27 +2574,18 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                 <div className="space-y-6 animate-in fade-in">
                   
                   {/* Uploader Box */}
-                  <div className="p-4 sm:p-5 rounded-2xl bg-[#0e1c33] border border-dashed border-sky-500/40 space-y-4">
+                  <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#0e1c33] border border-dashed border-sky-300 dark:border-sky-500/40 shadow-xs space-y-4">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                       <div>
-                        <span className="font-bold text-xs text-white block">
+                        <span className="font-bold text-xs text-slate-900 dark:text-white block">
                           Digital Pre-Evaluation Document Repository
                         </span>
-                        <p className="text-[11px] text-slate-400">
+                        <p className="text-[11px] text-slate-600 dark:text-slate-400">
                           Upload certified documents, CAD/PDF blueprints, and engineering computations (.PDF, .DWG max 50MB per file).
                         </p>
                       </div>
 
                       <div className="flex items-center space-x-2 shrink-0">
-                        <button
-                          type="button"
-                          onClick={handleLoadSampleDocuments}
-                          className="px-3.5 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer"
-                        >
-                          <Sparkles size={13} className="text-amber-400" />
-                          <span>⚡ Load QC Sample Documents</span>
-                        </button>
-
                         <label className="px-3.5 py-2 bg-[#0070f3] hover:bg-blue-600 text-white rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shadow-xs">
                           <Upload size={13} />
                           <span>Browse Files</span>
@@ -1934,24 +2601,24 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
 
                     {/* Attached files list */}
                     {uploadedFiles.length > 0 ? (
-                      <div className="space-y-2 pt-2 border-t border-slate-800">
-                        <span className="text-[10px] font-bold text-sky-400 uppercase tracking-wider block">
+                      <div className="space-y-2 pt-2 border-t border-slate-200 dark:border-slate-800">
+                        <span className="text-[10px] font-bold text-sky-700 dark:text-sky-400 uppercase tracking-wider block">
                           Attached for Pre-Evaluation ({uploadedFiles.length} files):
                         </span>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                           {uploadedFiles.map((file, idx) => (
-                            <div key={idx} className="p-2.5 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-700/80 flex items-center justify-between text-xs">
+                            <div key={idx} className="p-2.5 rounded-xl bg-slate-50 dark:bg-[#0e1726] border border-slate-200 dark:border-slate-700/80 flex items-center justify-between text-xs shadow-xs">
                               <div className="flex items-center space-x-2.5 truncate pr-2">
-                                <FileText size={16} className="text-sky-400 shrink-0" />
+                                <FileText size={16} className="text-sky-600 dark:text-sky-400 shrink-0" />
                                 <div className="truncate">
-                                  <span className="font-bold text-slate-100 block truncate">{file.name}</span>
-                                  <span className="text-[10px] text-slate-400">{file.size} • {file.time}</span>
+                                  <span className="font-bold text-slate-900 dark:text-slate-100 block truncate">{file.name}</span>
+                                  <span className="text-[10px] text-slate-500 dark:text-slate-400">{file.size} • {file.time}</span>
                                 </div>
                               </div>
                               <button
                                 type="button"
                                 onClick={() => handleRemoveFile(file.name)}
-                                className="p-1 hover:bg-rose-950 text-slate-400 hover:text-rose-400 rounded cursor-pointer"
+                                className="p-1 hover:bg-rose-50 dark:hover:bg-rose-950 text-slate-400 hover:text-rose-600 rounded cursor-pointer"
                               >
                                 <X size={14} />
                               </button>
@@ -1960,29 +2627,29 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                         </div>
                       </div>
                     ) : (
-                      <div className="p-3 text-center text-[11px] text-slate-400 bg-slate-900/40 rounded-xl">
-                        No documents attached yet. Click "⚡ Load QC Sample Documents" to preview approved sample files.
+                      <div className="p-3 text-center text-[11px] text-slate-500 bg-slate-50 dark:bg-slate-900/40 border border-slate-200 dark:border-slate-800 rounded-xl">
+                        No documents attached yet. Click "Browse Files" above to upload your documents.
                       </div>
                     )}
                   </div>
 
                   {/* Multi-Category QC Checklist */}
                   <div className="space-y-4">
-                    <h4 className="font-bold text-xs uppercase tracking-wider text-white">
+                    <h4 className="font-bold text-xs uppercase tracking-wider text-slate-900 dark:text-white">
                       Official QC DBO Checklist Requirements for {permitData.name}
                     </h4>
 
                     {/* Legal Group */}
                     <div className="space-y-2">
-                      <span className="text-[11px] font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
+                      <span className="text-[11px] font-bold text-sky-700 dark:text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
                         <FileCheck2 size={13} />
                         <span>A. Legal &amp; Land Ownership Documents</span>
                       </span>
                       <div className="space-y-1.5">
                         {permitData.checklist.legal.map((item, idx) => (
-                          <div key={idx} className="p-2.5 rounded-xl bg-slate-50 dark:bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 flex items-start space-x-2.5">
-                            <Check size={14} className="text-sky-400 shrink-0 mt-0.5" />
-                            <span className="text-slate-300 text-xs">{item}</span>
+                          <div key={idx} className="p-2.5 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-300 shadow-xs flex items-start space-x-2.5">
+                            <Check size={14} className="text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
+                            <span className="text-slate-800 dark:text-slate-300 text-xs font-medium">{item}</span>
                           </div>
                         ))}
                       </div>
@@ -1990,15 +2657,15 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
 
                     {/* Blueprints Group */}
                     <div className="space-y-2 pt-2">
-                      <span className="text-[11px] font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
+                      <span className="text-[11px] font-bold text-sky-700 dark:text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
                         <Layers size={13} />
                         <span>B. Technical Blueprints &amp; Signed Plans</span>
                       </span>
                       <div className="space-y-1.5">
                         {permitData.checklist.technicalPlans.map((item, idx) => (
-                          <div key={idx} className="p-2.5 rounded-xl bg-slate-50 dark:bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 flex items-start space-x-2.5">
-                            <Check size={14} className="text-sky-400 shrink-0 mt-0.5" />
-                            <span className="text-slate-300 text-xs">{item}</span>
+                          <div key={idx} className="p-2.5 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-300 shadow-xs flex items-start space-x-2.5">
+                            <Check size={14} className="text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
+                            <span className="text-slate-800 dark:text-slate-300 text-xs font-medium">{item}</span>
                           </div>
                         ))}
                       </div>
@@ -2006,15 +2673,15 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
 
                     {/* Computations Group */}
                     <div className="space-y-2 pt-2">
-                      <span className="text-[11px] font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
+                      <span className="text-[11px] font-bold text-sky-700 dark:text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
                         <Cpu size={13} />
                         <span>C. Engineering Design Computations &amp; Calculations</span>
                       </span>
                       <div className="space-y-1.5">
                         {permitData.checklist.computations.map((item, idx) => (
-                          <div key={idx} className="p-2.5 rounded-xl bg-slate-50 dark:bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 flex items-start space-x-2.5">
-                            <Check size={14} className="text-sky-400 shrink-0 mt-0.5" />
-                            <span className="text-slate-300 text-xs">{item}</span>
+                          <div key={idx} className="p-2.5 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-300 shadow-xs flex items-start space-x-2.5">
+                            <Check size={14} className="text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
+                            <span className="text-slate-800 dark:text-slate-300 text-xs font-medium">{item}</span>
                           </div>
                         ))}
                       </div>
@@ -2022,15 +2689,15 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
 
                     {/* Clearances Group */}
                     <div className="space-y-2 pt-2">
-                      <span className="text-[11px] font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
+                      <span className="text-[11px] font-bold text-sky-700 dark:text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
                         <Shield size={13} />
                         <span>D. Inter-Agency Clearances (BFP, DOLE, DPOS, CAAP)</span>
                       </span>
                       <div className="space-y-1.5">
                         {permitData.checklist.clearances.map((item, idx) => (
-                          <div key={idx} className="p-2.5 rounded-xl bg-slate-50 dark:bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 flex items-start space-x-2.5">
-                            <Check size={14} className="text-sky-400 shrink-0 mt-0.5" />
-                            <span className="text-slate-300 text-xs">{item}</span>
+                          <div key={idx} className="p-2.5 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-300 shadow-xs flex items-start space-x-2.5">
+                            <Check size={14} className="text-sky-600 dark:text-sky-400 shrink-0 mt-0.5" />
+                            <span className="text-slate-800 dark:text-slate-300 text-xs font-medium">{item}</span>
                           </div>
                         ))}
                       </div>
@@ -2045,74 +2712,74 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
               {activeTab === 'fees' && (
                 <div className="space-y-6 animate-in fade-in">
                   
-                  <div className="p-6 rounded-2xl bg-sky-50 dark:bg-[#0e1c33] border border-sky-200 dark:border-sky-500/30 text-slate-800 dark:text-slate-100 space-y-4">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-700/60">
+                  <div className="p-6 rounded-2xl bg-white dark:bg-[#0e1c33] border border-slate-200 dark:border-sky-500/30 text-slate-900 dark:text-slate-100 shadow-xs space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-200 dark:border-slate-700/60">
                       <div>
-                        <span className="text-[10px] font-bold text-sky-400 uppercase tracking-wider block">
+                        <span className="text-[10px] font-bold text-sky-700 dark:text-sky-400 uppercase tracking-wider block">
                           Quezon City Unified Order of Payment Assessment
                         </span>
-                        <h4 className="text-base sm:text-lg font-black text-white">
+                        <h4 className="text-base sm:text-lg font-black text-slate-900 dark:text-white">
                           Official Tariff Schedule for {permitData.name}
                         </h4>
                       </div>
                       <div className="text-right">
-                        <span className="text-[10px] text-slate-400 block">Total Assessment Due</span>
-                        <span className="text-xl font-black text-emerald-400">
+                        <span className="text-[10px] text-slate-500 dark:text-slate-400 block">Total Assessment Due</span>
+                        <span className="text-xl font-black text-emerald-600 dark:text-emerald-400">
                           ₱ {totalFee.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </span>
                       </div>
                     </div>
 
                     <div className="space-y-2.5">
-                      <div className="flex items-center justify-between py-2 border-b border-slate-800 text-xs">
+                      <div className="flex items-center justify-between py-2 border-b border-slate-200 dark:border-slate-800 text-xs">
                         <div className="space-y-0.5">
-                          <span className="font-bold text-white block">1. DBO Filing &amp; Administrative Fee</span>
-                          <span className="text-[11px] text-slate-400">Standard registration &amp; intake fee under NBCP Schedule</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">1. DBO Filing &amp; Administrative Fee</span>
+                          <span className="text-[11px] text-slate-500 dark:text-slate-400">Standard registration &amp; intake fee under NBCP Schedule</span>
                         </div>
-                        <span className="font-mono font-bold text-slate-200">
+                        <span className="font-mono font-bold text-slate-800 dark:text-slate-200">
                           ₱ {permitData.fees.filingFee.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </span>
                       </div>
 
-                      <div className="flex items-center justify-between py-2 border-b border-slate-800 text-xs">
+                      <div className="flex items-center justify-between py-2 border-b border-slate-200 dark:border-slate-800 text-xs">
                         <div className="space-y-0.5">
-                          <span className="font-bold text-white block">2. Plan Examination &amp; Technical Processing</span>
-                          <span className="text-[11px] text-slate-400">Evaluation by QC DBO licensed architects and engineers</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">2. Plan Examination &amp; Technical Processing</span>
+                          <span className="text-[11px] text-slate-500 dark:text-slate-400">Evaluation by QC DBO licensed architects and engineers</span>
                         </div>
-                        <span className="font-mono font-bold text-slate-200">
+                        <span className="font-mono font-bold text-slate-800 dark:text-slate-200">
                           ₱ {permitData.fees.processingFee.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </span>
                       </div>
 
-                      <div className="flex items-center justify-between py-2 border-b border-slate-800 text-xs">
+                      <div className="flex items-center justify-between py-2 border-b border-slate-200 dark:border-slate-800 text-xs">
                         <div className="space-y-0.5">
-                          <span className="font-bold text-white block">3. Field Verification &amp; Inspection Fee</span>
-                          <span className="text-[11px] text-slate-400">On-site technical safety audit by municipal inspector</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">3. Field Verification &amp; Inspection Fee</span>
+                          <span className="text-[11px] text-slate-500 dark:text-slate-400">On-site technical safety audit by municipal inspector</span>
                         </div>
-                        <span className="font-mono font-bold text-slate-200">
+                        <span className="font-mono font-bold text-slate-800 dark:text-slate-200">
                           ₱ {permitData.fees.inspectionFee.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </span>
                       </div>
 
-                      <div className="flex items-center justify-between py-2 border-b border-slate-800 text-xs">
+                      <div className="flex items-center justify-between py-2 border-b border-slate-200 dark:border-slate-800 text-xs">
                         <div className="space-y-0.5">
-                          <span className="font-bold text-white block">4. {permitData.fees.surchargeName}</span>
-                          <span className="text-[11px] text-slate-400">Quezon City Special Regulatory &amp; Environmental Assessment</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">4. {permitData.fees.surchargeName}</span>
+                          <span className="text-[11px] text-slate-500 dark:text-slate-400">Quezon City Special Regulatory &amp; Environmental Assessment</span>
                         </div>
-                        <span className="font-mono font-bold text-slate-200">
+                        <span className="font-mono font-bold text-slate-800 dark:text-slate-200">
                           ₱ {permitData.fees.specialSurcharge.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </span>
                       </div>
 
                       <div className="flex items-center justify-between pt-3 text-sm font-black">
-                        <span className="text-white">Total Municipal Assessment:</span>
-                        <span className="text-emerald-400 font-mono text-base">
+                        <span className="text-slate-900 dark:text-white">Total Municipal Assessment:</span>
+                        <span className="text-emerald-600 dark:text-emerald-400 font-mono text-base">
                           ₱ {totalFee.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                         </span>
                       </div>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-slate-900/60 border border-slate-700/60 text-[11px] text-slate-300">
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/60 text-[11px] text-slate-700 dark:text-slate-300">
                       ℹ️ <strong>Note:</strong> {permitData.fees.notes}
                     </div>
                   </div>
@@ -2124,88 +2791,101 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
               {activeTab === 'guidelines' && (
                 <div className="space-y-5 animate-in fade-in">
                   
-                  <div className="p-5 rounded-2xl bg-slate-50 dark:bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 space-y-3">
-                    <span className="text-[10px] font-bold text-sky-400 uppercase tracking-wider block">
+                  <div className="p-5 rounded-2xl bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 shadow-xs space-y-3">
+                    <span className="text-[10px] font-bold text-sky-700 dark:text-sky-400 uppercase tracking-wider block">
                       Legal Mandate &amp; Regulatory Framework
                     </span>
-                    <h4 className="text-sm font-bold text-white">
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white">
                       {permitData.legalBasis}
                     </h4>
-                    <p className="text-slate-300 leading-relaxed text-xs">
+                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed text-xs">
                       {permitData.description}
                     </p>
-                    <div className="pt-2 flex items-center space-x-2 text-slate-400 text-xs">
+                    <div className="pt-2 flex items-center space-x-2 text-slate-600 dark:text-slate-400 text-xs">
                       <span>🏛️ <strong>Assigned Office:</strong> {permitData.dboDivision}</span>
                     </div>
                   </div>
 
                   {/* QC 5-Step Process Workflow */}
                   <div className="space-y-3">
-                    <h4 className="font-bold text-xs uppercase tracking-wider text-white">
+                    <h4 className="font-bold text-xs uppercase tracking-wider text-slate-900 dark:text-white">
                       Official Quezon City E-Services DBO Process Workflow
                     </h4>
 
                     <div className="space-y-2.5">
-                      <div className="p-3 rounded-xl bg-slate-50 dark:bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 flex items-start space-x-3">
-                        <div className="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 font-bold flex items-center justify-center shrink-0 mt-0.5">
+                      <div className="p-3 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 shadow-xs flex items-start space-x-3">
+                        <div className="w-6 h-6 rounded-full bg-sky-100 text-sky-700 dark:bg-sky-500/20 dark:text-sky-400 font-bold flex items-center justify-center shrink-0 mt-0.5 text-xs">
                           1
                         </div>
                         <div>
-                          <span className="font-bold text-white block">Online Pre-Evaluation Filing</span>
-                          <p className="text-slate-400 text-[11px]">
+                          <span className="font-bold text-slate-900 dark:text-white block">Online Pre-Evaluation Filing</span>
+                          <p className="text-slate-600 dark:text-slate-400 text-[11px]">
                             Complete the online application form and upload digital blueprints and checklist documents to the QC E-Services portal.
                           </p>
                         </div>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-slate-50 dark:bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 flex items-start space-x-3">
-                        <div className="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 font-bold flex items-center justify-center shrink-0 mt-0.5">
+                      <div className="p-3 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 shadow-xs flex items-start space-x-3">
+                        <div className="w-6 h-6 rounded-full bg-sky-100 text-sky-700 dark:bg-sky-500/20 dark:text-sky-400 font-bold flex items-center justify-center shrink-0 mt-0.5 text-xs">
                           2
                         </div>
                         <div>
-                          <span className="font-bold text-white block">Technical DBO Review &amp; Order of Payment</span>
-                          <p className="text-slate-400 text-[11px]">
+                          <span className="font-bold text-slate-900 dark:text-white block">Technical DBO Review &amp; Order of Payment</span>
+                          <p className="text-slate-600 dark:text-slate-400 text-[11px]">
                             Quezon City DBO Technical Evaluators review uploaded plans. Upon validation, a Unified Order of Payment (UOP) is issued.
                           </p>
                         </div>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-slate-50 dark:bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 flex items-start space-x-3">
-                        <div className="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 font-bold flex items-center justify-center shrink-0 mt-0.5">
+                      <div className="p-3 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 shadow-xs flex items-start space-x-3">
+                        <div className="w-6 h-6 rounded-full bg-sky-100 text-sky-700 dark:bg-sky-500/20 dark:text-sky-400 font-bold flex items-center justify-center shrink-0 mt-0.5 text-xs">
                           3
                         </div>
                         <div>
-                          <span className="font-bold text-white block">Appointment Scheduling &amp; Physical Blueprints Submission</span>
-                          <p className="text-slate-400 text-[11px]">
+                          <span className="font-bold text-slate-900 dark:text-white block">Appointment Scheduling &amp; Physical Blueprints Submission</span>
+                          <p className="text-slate-600 dark:text-slate-400 text-[11px]">
                             Schedule an official physical submission appointment through the portal to deliver 5 sets of signed &amp; sealed blueprints to Ground Floor DBO, Quezon City Hall.
                           </p>
                         </div>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-slate-50 dark:bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 flex items-start space-x-3">
-                        <div className="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 font-bold flex items-center justify-center shrink-0 mt-0.5">
+                      <div className="p-3 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 shadow-xs flex items-start space-x-3">
+                        <div className="w-6 h-6 rounded-full bg-sky-100 text-sky-700 dark:bg-sky-500/20 dark:text-sky-400 font-bold flex items-center justify-center shrink-0 mt-0.5 text-xs">
                           4
                         </div>
                         <div>
-                          <span className="font-bold text-white block">Joint Inspection &amp; Inter-Agency Clearance</span>
-                          <p className="text-slate-400 text-[11px]">
+                          <span className="font-bold text-slate-900 dark:text-white block">Joint Inspection &amp; Inter-Agency Clearance</span>
+                          <p className="text-slate-600 dark:text-slate-400 text-[11px]">
                             Quezon City Hall building inspectors and Bureau of Fire Protection (BFP) officers conduct a joint on-site inspection.
                           </p>
                         </div>
                       </div>
 
-                      <div className="p-3 rounded-xl bg-slate-50 dark:bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 flex items-start space-x-3">
-                        <div className="w-6 h-6 rounded-full bg-sky-500/20 text-sky-400 font-bold flex items-center justify-center shrink-0 mt-0.5">
+                      <div className="p-3 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 shadow-xs flex items-start space-x-3">
+                        <div className="w-6 h-6 rounded-full bg-sky-100 text-sky-700 dark:bg-sky-500/20 dark:text-sky-400 font-bold flex items-center justify-center shrink-0 mt-0.5 text-xs">
                           5
                         </div>
                         <div>
-                          <span className="font-bold text-white block">Release of Official Permit with Cryptographic QR Code</span>
-                          <p className="text-slate-400 text-[11px]">
+                          <span className="font-bold text-slate-900 dark:text-white block">Release of Official Permit with Cryptographic QR Code</span>
+                          <p className="text-slate-600 dark:text-slate-400 text-[11px]">
                             Following fee settlement and final executive approval by the Building Official, the official permit is released with a verifiable cryptographic QR code.
                           </p>
                         </div>
                       </div>
                     </div>
+
+                    {/* Official I Agree Checkbox */}
+                    <label className="flex items-start sm:items-center space-x-3 p-3.5 sm:p-4 rounded-2xl bg-blue-50/70 dark:bg-[#0e1c33] border border-blue-200 dark:border-sky-500/30 cursor-pointer hover:bg-blue-50 dark:hover:bg-[#122340] transition-colors mt-2">
+                      <input
+                        type="checkbox"
+                        checked={isTermsAgreed}
+                        onChange={(e) => setIsTermsAgreed(e.target.checked)}
+                        className="mt-0.5 sm:mt-0 w-4 h-4 text-[#0070f3] focus:ring-[#0070f3] rounded cursor-pointer shrink-0"
+                      />
+                      <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                        I have read, understood, and agree to the Quezon City Citizen's Charter, DBO Technical Process, and Data Privacy Undertaking.
+                      </span>
+                    </label>
 
                   </div>
 
@@ -2215,32 +2895,60 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
             </div>
 
             {/* ACTION FOOTER */}
-            <div className="px-5 py-4 border-t border-slate-200 dark:border-[#1e293b] bg-slate-50 dark:bg-[#0c1629] flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
-              <div className="flex items-center space-x-3 text-slate-400 text-[11px]">
-                <span>⏱️ {permitData.processingDays}</span>
-                <span>•</span>
-                <span>💳 Assessment: ₱ {totalFee.toLocaleString()}</span>
-              </div>
+            {permitData.id !== 'building' && permitData.id !== 'electrical' && (
+              <div className="px-5 py-4 border-t border-slate-200 dark:border-[#1e293b] bg-slate-50 dark:bg-[#0c1629] flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+                <div className="flex items-center space-x-3 text-slate-400 text-[11px]">
+                  <span>⏱️ {permitData.processingDays}</span>
+                </div>
 
-              <div className="flex items-center space-x-2.5 w-full sm:w-auto justify-end">
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold cursor-pointer transition-all"
-                >
-                  Cancel
-                </button>
+                <div className="flex items-center space-x-2.5 w-full sm:w-auto justify-end">
 
-                <button
-                  type="button"
-                  onClick={handleSubmitApplication}
-                  className="px-6 py-2.5 bg-[#0070f3] hover:bg-blue-600 text-white rounded-xl text-xs font-black shadow-md shadow-blue-500/20 cursor-pointer transition-all flex items-center space-x-1.5"
-                >
-                  <span>Submit Pre-Evaluation Application</span>
-                  <ArrowRight size={14} />
-                </button>
+                  {activeTab !== 'form' && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (activeTab === 'checklist') {
+                          setActiveTab('form');
+                        } else if (activeTab === 'fees') {
+                          setActiveTab('checklist');
+                        } else if (activeTab === 'guidelines') {
+                          setActiveTab('fees');
+                        }
+                      }}
+                      className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-200 rounded-xl text-xs font-bold cursor-pointer transition-all flex items-center space-x-1"
+                    >
+                      <ArrowLeft size={14} />
+                      <span>Back</span>
+                    </button>
+                  )}
+
+                  {activeTab !== 'guidelines' ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (activeTab === 'form') setActiveTab('checklist');
+                        else if (activeTab === 'checklist') setActiveTab('fees');
+                        else if (activeTab === 'fees') setActiveTab('guidelines');
+                      }}
+                      className="px-6 py-2.5 bg-[#0070f3] hover:bg-blue-600 text-white rounded-xl text-xs font-black shadow-md shadow-blue-500/20 cursor-pointer transition-all flex items-center space-x-1.5"
+                    >
+                      <span>Next</span>
+                      <ArrowRight size={14} />
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      disabled={!isTermsAgreed}
+                      onClick={handleSubmitApplication}
+                      className="px-6 py-2.5 bg-[#0070f3] hover:bg-blue-600 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-xl text-xs font-black shadow-md shadow-blue-500/20 cursor-pointer transition-all flex items-center space-x-1.5"
+                    >
+                      <span>Submit Pre-Evaluation Application</span>
+                      <ArrowRight size={14} />
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
           </>
         )}
 

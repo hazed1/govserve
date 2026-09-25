@@ -37,7 +37,8 @@ import {
   Compass,
   Users,
   Banknote,
-  UploadCloud
+  UploadCloud,
+  HardHat
 } from 'lucide-react';
 import { TabType, ApplicationItem } from '../../types';
 import { useAuth } from '../../context/AuthContext';
@@ -231,7 +232,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
       category: t('card_building_category', 'Engineering & Infrastructure'),
       description: t('card_building_desc', 'A Building and Construction Permit from a Local Government Unit (LGU) is an official legal authorization required before starting any new construction, major renovation, or demolition.'),
       targetUsersTitle: t('bld_target_users_title', 'Target Users'),
-      targetUsers: t('bld_target_users_desc', 'Property developers, structural owners, and licensed architects / civil engineers'),
+      targetUsers: t('bld_target_users_desc', 'Property Owners, Real Estate Developers, & Authorized Representatives'),
       serviceMethodTitle: t('bld_service_method_title', 'Service Method'),
       serviceMethod: t('bld_service_method_desc', 'Online application through GovServe'),
       timePeriodTitle: t('bld_time_period_title', 'Time Period'),
@@ -631,58 +632,118 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                       </div>
 
                       {service.id === 'business' ? (
-                        /* 4 Core Business Permitting Services (Styled exactly like Picture 2: Circular Icon + Title, Static & Non-Clickable) */
+                        /* 4 Core Business Permitting Services */
                         <div className="space-y-3.5 pt-2 border-t border-slate-100 dark:border-slate-800">
                           {/* 1. APPLY FOR MAYOR'S PERMIT (BUSINESS) */}
-                          <div className="flex items-center space-x-3.5">
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50">
+                          <div 
+                            onClick={() => onNavigateToTab('Business Permit Application')}
+                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                          >
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
                               <Building2 size={18} />
                             </div>
                             <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
                                 APPLY FOR MAYOR'S PERMIT (BUSINESS)
                               </h4>
                             </div>
                           </div>
 
                           {/* 2. APPLY FOR OCCUPATIONAL / WORK PERMIT */}
-                          <div className="flex items-center space-x-3.5">
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50">
+                          <div 
+                            onClick={() => onNavigateToTab('Business Permit Application')}
+                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                          >
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
                               <Users size={18} />
                             </div>
                             <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
                                 APPLY FOR OCCUPATIONAL / WORK PERMIT
                               </h4>
                             </div>
                           </div>
 
                           {/* 3. BUSINESS INFORMATION SYSTEM */}
-                          <div className="flex items-center space-x-3.5">
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50">
+                          <div 
+                            onClick={() => onNavigateToTab('Business Permit Application')}
+                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                          >
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
                               <FileText size={18} />
                             </div>
                             <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
                                 BUSINESS INFORMATION SYSTEM
                               </h4>
                             </div>
                           </div>
 
                           {/* 4. MAYOR'S PERMIT VERIFICATION */}
-                          <div className="flex items-center space-x-3.5">
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50">
+                          <div 
+                            onClick={() => onNavigateToTab('Business Permit Application')}
+                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                          >
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
                               <ShieldCheck size={18} />
                             </div>
                             <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
                                 MAYOR'S PERMIT VERIFICATION
                               </h4>
                             </div>
                           </div>
                         </div>
+                      ) : service.id === 'building' ? (
+                        /* 3 Core Building Permitting Services (Picture 2, 3, 4) */
+                        <div className="space-y-3.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                          {/* 1. APPLY FOR BUILDING PERMIT */}
+                          <div 
+                            onClick={() => onNavigateToTab('Building Permit Filing')}
+                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                          >
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <Building size={18} />
+                            </div>
+                            <div className="select-text">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                                APPLY FOR BUILDING PERMIT
+                              </h4>
+                            </div>
+                          </div>
+
+                          {/* 2. BUILDING PROFESSIONALS DASHBOARD */}
+                          <div 
+                            onClick={() => onNavigateToTab('Building Permit Filing')}
+                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                          >
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <HardHat size={18} />
+                            </div>
+                            <div className="select-text">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                                BUILDING PROFESSIONALS DASHBOARD
+                              </h4>
+                            </div>
+                          </div>
+
+                          {/* 3. CHECKLIST OF REQUIREMENTS */}
+                          <div 
+                            onClick={() => onNavigateToTab('Building Permit Filing')}
+                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                          >
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <FileCheck size={18} />
+                            </div>
+                            <div className="select-text">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                                CHECKLIST OF REQUIREMENTS
+                              </h4>
+                            </div>
+                          </div>
+                        </div>
                       ) : (
-                        /* 5 Feature Rows for other services (Building, Transport, Barangay) */
+                        /* 5 Feature Rows for other services (Transport, Barangay, Tracker) */
                         <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800">
                           {/* Row 1: Target Users */}
                           <div className="flex items-center space-x-3.5 group/item">

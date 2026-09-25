@@ -1862,18 +1862,18 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
               <ArrowRight size={18} className="text-slate-300 dark:text-slate-600 group-hover:text-blue-600 dark:group-hover:text-sky-400 group-hover:translate-x-1 transition-all" />
             </div>
 
-            {/* 3. AMENDMENT (Exact Picture 2 Representation) */}
+            {/* 3. AMENDMENT */}
             <div
               onClick={() => {
                 setAmendError(false);
                 setShowAmendModal(true);
               }}
-              className="w-full p-5 sm:p-6 rounded-2xl bg-[#09101f] dark:bg-[#070d18] border border-slate-800/90 hover:border-sky-500/80 shadow-md hover:shadow-sky-500/10 transition-all cursor-pointer group flex items-center justify-between"
+              className="w-full p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 hover:border-blue-500 dark:hover:border-sky-500 shadow-xs hover:shadow-md transition-all cursor-pointer group flex items-center justify-between"
             >
-              <span className="text-[#00c0f9] font-extrabold text-base sm:text-lg tracking-wider uppercase group-hover:translate-x-1 transition-transform">
+              <span className="text-[#0e5c7a] dark:text-sky-400 font-extrabold text-base sm:text-lg tracking-wider uppercase group-hover:translate-x-1 transition-transform">
                 AMENDMENT
               </span>
-              <ArrowRight size={18} className="text-slate-500 group-hover:text-[#00c0f9] group-hover:translate-x-1 transition-all" />
+              <ArrowRight size={18} className="text-slate-300 dark:text-slate-600 group-hover:text-blue-600 dark:group-hover:text-sky-400 group-hover:translate-x-1 transition-all" />
             </div>
 
             {/* 4. SPECIAL PERMIT */}
@@ -1918,12 +1918,12 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
             /* ======================================================================= */
             /* APPLICANT INPUT CARD (EXACT REPLICA OF PICTURE 1)                       */
             /* ======================================================================= */
-            <div className="bg-[#0b1424] border border-slate-800/90 rounded-2xl shadow-2xl p-6 sm:p-9 relative animate-in zoom-in-95 duration-200 text-left">
+            <div className="bg-white dark:bg-[#0b1424] border border-slate-200 dark:border-slate-800/90 rounded-2xl shadow-xl p-6 sm:p-9 relative animate-in zoom-in-95 duration-200 text-left">
               {/* Close (X) icon at top right */}
               <button
                 type="button"
                 onClick={() => setCurrentView('select_type')}
-                className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 p-1 rounded-lg transition-colors cursor-pointer"
+                className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-1 rounded-lg transition-colors cursor-pointer"
                 title="Cancel & Return"
               >
                 <X size={18} />
@@ -1931,7 +1931,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
 
               {/* Title: APPLICANT INPUT */}
               <div className="text-center pb-6">
-                <h3 className="text-base sm:text-lg font-bold tracking-wider text-blue-500 uppercase">
+                <h3 className="text-base sm:text-lg font-bold tracking-wider text-blue-600 dark:text-blue-400 uppercase">
                   APPLICANT INPUT
                 </h3>
               </div>
@@ -1939,7 +1939,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
               <div className="space-y-4">
                 {/* Field 1: Mayor's Permit Number */}
                 <div>
-                  <label className="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5">
+                  <label className="block text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1.5">
                     Mayor's Permit Number:
                   </label>
                   <div className="relative">
@@ -1948,7 +1948,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                       value={renewalPermitNo}
                       onChange={(e) => setRenewalPermitNo(e.target.value)}
                       placeholder="e.g. BP-2025-00123"
-                      className="w-full pl-3.5 pr-10 py-2.5 rounded-lg border border-slate-700/80 bg-[#121c2e] text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
+                      className="w-full pl-3.5 pr-10 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700/80 bg-white dark:bg-[#121c2e] text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
                     />
                     <div 
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 cursor-pointer transition-colors"
@@ -1961,7 +1961,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
 
                 {/* Field 2: Official Receipt No.: */}
                 <div>
-                  <label className="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5">
+                  <label className="block text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1.5">
                     Official Receipt No.:
                   </label>
                   <div className="relative">
@@ -1970,7 +1970,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                       value={renewalOrNo}
                       onChange={(e) => setRenewalOrNo(e.target.value)}
                       placeholder={`Input ${new Date().getFullYear()} Official Receipt`}
-                      className="w-full pl-3.5 pr-10 py-2.5 rounded-lg border border-slate-700/80 bg-[#121c2e] text-white text-xs sm:text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
+                      className="w-full pl-3.5 pr-10 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700/80 bg-white dark:bg-[#121c2e] text-slate-900 dark:text-white text-xs sm:text-sm placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
                     />
                     <div 
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 cursor-pointer transition-colors"
@@ -3455,7 +3455,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                 <button
                   type="button"
                   onClick={() => setCurrentView('select_type')}
-                  className="w-full sm:w-auto px-8 py-2.5 rounded-xl border border-blue-600/40 bg-[#0b1424] hover:bg-slate-800 text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all cursor-pointer shadow-xs active:scale-[0.98]"
+                  className="w-full sm:w-auto px-8 py-2.5 rounded-xl border border-slate-300 dark:border-blue-600/40 bg-white dark:bg-[#0b1424] hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all cursor-pointer shadow-xs active:scale-[0.98]"
                 >
                   BACK
                 </button>
@@ -5086,7 +5086,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="bg-[#0b1424] border border-slate-800/90 rounded-2xl shadow-2xl p-6 sm:p-9 max-w-lg w-full relative animate-in zoom-in-95 duration-200 text-left space-y-4"
+            className="bg-white dark:bg-[#0b1424] border border-slate-200 dark:border-slate-800/90 rounded-2xl shadow-2xl p-6 sm:p-9 max-w-lg w-full relative animate-in zoom-in-95 duration-200 text-left space-y-4"
           >
             {/* Close (X) icon at top right */}
             <button
@@ -5095,7 +5095,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                 setShowRenewalModal(false);
                 setRenewalError(false);
               }}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-200 p-1 rounded-lg transition-colors cursor-pointer"
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 p-1 rounded-lg transition-colors cursor-pointer"
               title="Close"
             >
               <X size={18} />
@@ -5103,7 +5103,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
 
             {/* Title: APPLICANT INPUT */}
             <div className="text-center pb-4">
-              <h3 className="text-base sm:text-lg font-bold tracking-wider text-blue-500 uppercase">
+              <h3 className="text-base sm:text-lg font-bold tracking-wider text-blue-600 dark:text-blue-400 uppercase">
                 APPLICANT INPUT
               </h3>
             </div>
@@ -5111,7 +5111,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
             <div className="space-y-4">
               {/* Field 1: Mayor's Permit Number: */}
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5">
+                <label className="block text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1.5">
                   Mayor's Permit Number:
                 </label>
                 <div className="relative">
@@ -5123,10 +5123,10 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                       if (renewalError) setRenewalError(false);
                     }}
                     placeholder=""
-                    className="w-full pl-3.5 pr-10 py-2.5 rounded-lg border border-slate-700/80 bg-[#121c2e] text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
+                    className="w-full pl-3.5 pr-10 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700/80 bg-white dark:bg-[#121c2e] text-slate-900 dark:text-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
                   />
                   <div 
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-400 cursor-pointer transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 cursor-pointer transition-colors"
                     title="Enter your existing Quezon City Mayor's Permit Number"
                     onClick={() => {
                       if (!renewalPermitNo) {
@@ -5140,7 +5140,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   </div>
                 </div>
                 {renewalError && (
-                  <p className="text-red-400 text-xs font-normal mt-1">
+                  <p className="text-red-500 text-xs font-normal mt-1">
                     Required
                   </p>
                 )}
@@ -5148,7 +5148,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
 
               {/* Field 2: Official Receipt No.: */}
               <div>
-                <label className="block text-xs sm:text-sm font-semibold text-slate-200 mb-1.5">
+                <label className="block text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1.5">
                   Official Receipt No.:
                 </label>
                 <div className="relative">
@@ -5157,10 +5157,10 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                     value={renewalOrNo}
                     onChange={(e) => setRenewalOrNo(e.target.value)}
                     placeholder={`Input ${new Date().getFullYear()} Official Receipt`}
-                    className="w-full pl-3.5 pr-10 py-2.5 rounded-lg border border-slate-700/80 bg-[#121c2e] text-white text-xs sm:text-sm placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
+                    className="w-full pl-3.5 pr-10 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700/80 bg-white dark:bg-[#121c2e] text-slate-900 dark:text-white text-xs sm:text-sm placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-colors"
                   />
                   <div 
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-400 cursor-pointer transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-600 cursor-pointer transition-colors"
                     title={`Enter Official Receipt (O.R.) issued by Quezon City Treasurer for ${new Date().getFullYear()} Annual Business Tax`}
                   >
                     <HelpCircle size={18} />
@@ -5173,7 +5173,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                 <button
                   type="button"
                   onClick={() => setShowExemptionModal(true)}
-                  className="text-xs sm:text-sm text-sky-400 hover:text-sky-300 hover:underline font-medium cursor-pointer transition-colors"
+                  className="text-xs sm:text-sm text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 hover:underline font-medium cursor-pointer transition-colors"
                 >
                   Is your business qualified for any tax exemption program? Click here
                 </button>
@@ -5730,27 +5730,27 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
 
           <div className="bg-white dark:bg-slate-900 w-full max-w-4xl rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 animate-in fade-in zoom-in-95 my-auto">
             {/* Modal Header */}
-            <div className="p-5 sm:p-6 bg-gradient-to-r from-[#063323] via-[#094732] to-[#042017] text-white flex items-center justify-between border-b border-emerald-500/30">
+            <div className="p-5 sm:p-6 bg-white dark:bg-slate-900 flex items-center justify-between border-b border-slate-200 dark:border-slate-800">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-400/20 text-emerald-300 border border-emerald-400/30 flex items-center gap-1">
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 flex items-center gap-1">
                     <ShieldCheck size={11} />
                     <span>QC BPLD • Occupational Licensing Portal</span>
                   </span>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/10 text-slate-200 border border-white/10 hidden sm:inline-block">
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hidden sm:inline-block">
                     100% Upload-Driven
                   </span>
                 </div>
-                <h3 className="text-base sm:text-xl font-black tracking-wide uppercase text-white flex items-center gap-2">
+                <h3 className="text-base sm:text-xl font-black tracking-wide uppercase text-slate-900 dark:text-white flex items-center gap-2">
                   <span>Apply for Occupational (Work) Permit</span>
                 </h3>
-                <p className="text-xs text-emerald-100/90 leading-relaxed">
+                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                   Quezon City E-Services Citizen's Charter Compliant • Direct Clearance & Document Upload System
                 </p>
               </div>
               <button 
                 onClick={() => setIsOccupationalModalOpen(false)} 
-                className="text-white/80 hover:text-white p-2.5 rounded-xl hover:bg-white/10 transition-colors cursor-pointer shrink-0"
+                className="text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white p-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer shrink-0"
               >
                 <X size={20} />
               </button>
@@ -6230,32 +6230,6 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                     </div>
                   </div>
 
-                  {/* Fee Assessment & QC Pay Easy */}
-                  <div className="p-4 rounded-2xl bg-gradient-to-r from-slate-900 to-[#072418] text-white border border-emerald-500/40 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <div>
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                        QC BPLD Assessment of Charges
-                      </span>
-                      <div className="flex items-baseline gap-2 mt-0.5">
-                        <span className="text-xl sm:text-2xl font-black text-white">
-                          {occAppType === 'first_time' ? '₱0.00' : '₱170.00'}
-                        </span>
-                        <span className="text-xs text-slate-300">
-                          {occAppType === 'first_time' 
-                            ? '(100% Free under RA 11261 First Time Jobseeker Act)' 
-                            : '(₱150.00 Permit Fee + ₱20.00 Legal Research/Doc Stamp)'}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 w-full sm:w-auto">
-                      <span className="text-xs font-bold text-emerald-400 hidden sm:inline">Pay via:</span>
-                      <div className="flex gap-1.5 w-full sm:w-auto justify-end">
-                        <span className="px-2.5 py-1 rounded-lg bg-white/10 text-[11px] font-bold text-slate-200">QC Pay Easy</span>
-                        <span className="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 text-[11px] font-bold border border-emerald-400/30">GCash / Maya</span>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               )}
             </div>
@@ -6298,27 +6272,27 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
 
           <div className="bg-white dark:bg-slate-900 w-full max-w-4xl rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 animate-in fade-in zoom-in-95 my-auto">
             {/* Modal Header */}
-            <div className="p-5 sm:p-6 bg-gradient-to-r from-[#190724] via-[#2d0e41] to-[#12041b] text-white flex items-center justify-between border-b border-purple-500/30">
+            <div className="p-5 sm:p-6 bg-white dark:bg-slate-900 flex items-center justify-between border-b border-slate-200 dark:border-slate-800">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-400/20 text-purple-300 border border-purple-400/30 flex items-center gap-1">
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-50 dark:bg-purple-950/60 text-purple-800 dark:text-purple-300 border border-purple-200 dark:border-purple-800 flex items-center gap-1">
                     <ShieldCheck size={11} />
                     <span>QC BPLD • Records & Statistics Division</span>
                   </span>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/10 text-slate-200 border border-white/10 hidden sm:inline-block">
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hidden sm:inline-block">
                     100% Upload-Driven
                   </span>
                 </div>
-                <h3 className="text-base sm:text-xl font-black tracking-wide uppercase text-white flex items-center gap-2">
+                <h3 className="text-base sm:text-xl font-black tracking-wide uppercase text-slate-900 dark:text-white flex items-center gap-2">
                   <span>Request Certified True Copy (CTC) / Business Certification</span>
                 </h3>
-                <p className="text-xs text-purple-100/90 leading-relaxed">
+                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                   Quezon City E-Services Citizen's Charter Compliant • Authenticated Electronic Document & Clearance Upload System
                 </p>
               </div>
               <button 
                 onClick={() => setIsBisModalOpen(false)} 
-                className="text-white/80 hover:text-white p-2.5 rounded-xl hover:bg-white/10 transition-colors cursor-pointer shrink-0"
+                className="text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white p-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer shrink-0"
               >
                 <X size={20} />
               </button>
@@ -6798,28 +6772,28 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
 
           <div className="bg-white dark:bg-slate-900 w-full max-w-4xl rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 animate-in fade-in zoom-in-95 my-auto">
             {/* Modal Header */}
-            <div className="p-5 sm:p-6 bg-gradient-to-r from-[#221203] via-[#381e05] to-[#140901] text-white flex items-center justify-between border-b border-amber-500/30">
+            <div className="p-5 sm:p-6 bg-white dark:bg-slate-900 flex items-center justify-between border-b border-slate-200 dark:border-slate-800">
               <div className="space-y-1">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-400/20 text-amber-300 border border-amber-400/30 flex items-center gap-1">
+                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 flex items-center gap-1">
                     <ShieldCheck size={11} />
                     <span>QC BPLD • QC eBOSS Public Registry</span>
                   </span>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
                     100% Free Public Service
                   </span>
                 </div>
-                <h3 className="text-base sm:text-xl font-black tracking-wide uppercase text-white flex items-center gap-2">
+                <h3 className="text-base sm:text-xl font-black tracking-wide uppercase text-slate-900 dark:text-white flex items-center gap-2">
                   <span>Mayor's Business Permit Verification & QR Validation</span>
                 </h3>
-                <p className="text-xs text-amber-100/90 leading-relaxed">
+                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                   Quezon City E-Services Citizen's Charter • Real-Time Business Registration & Regulatory Compliance Check
                 </p>
               </div>
               <button 
                 onClick={() => setIsVerificationModalOpen(false)} 
                 title="Close window"
-                className="text-white/80 hover:text-white p-2.5 rounded-xl hover:bg-white/10 transition-colors cursor-pointer shrink-0"
+                className="text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white p-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer shrink-0"
               >
                 <X size={20} />
               </button>
