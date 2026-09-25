@@ -9,7 +9,7 @@ const QC_BARANGAYS_LIST = [
   'Project 4', 'Project 6', 'Project 7', 'Project 8', 'Damayan', 'Mariblo'
 ];
 
-export interface QCExcavationGroundPermitApplicationProps {
+export interface QCCertificateOperateAccelerographApplicationProps {
   onCancel: () => void;
   onSubmit: (data: {
     typeOfOwnership: string;
@@ -31,30 +31,30 @@ export interface QCExcavationGroundPermitApplicationProps {
   showToast?: (msg: string) => void;
 }
 
-export const QCExcavationGroundPermitApplication: React.FC<QCExcavationGroundPermitApplicationProps> = ({
+export const QCCertificateOperateAccelerographApplication: React.FC<QCCertificateOperateAccelerographApplicationProps> = ({
   onCancel,
   onSubmit,
   showToast
 }) => {
   // Panel 1: Ownership & Applicant Details
   const [typeOfOwnership, setTypeOfOwnership] = useState<string>('Corporation');
-  const [applicantLastName, setApplicantLastName] = useState<string>('Bautista');
-  const [applicantFirstName, setApplicantFirstName] = useState<string>('Enrique');
-  const [applicantMI, setApplicantMI] = useState<string>('L.');
-  const [mobileNo, setMobileNo] = useState<string>('0918 555 4321');
-  const [applicantAddress, setApplicantAddress] = useState<string>('E. Rodriguez Sr. Avenue, Quezon City');
+  const [applicantLastName, setApplicantLastName] = useState<string>('Villanueva');
+  const [applicantFirstName, setApplicantFirstName] = useState<string>('Danilo');
+  const [applicantMI, setApplicantMI] = useState<string>('K.');
+  const [mobileNo, setMobileNo] = useState<string>('0920 444 8811');
+  const [applicantAddress, setApplicantAddress] = useState<string>('Commonwealth Avenue, Diliman, Quezon City');
 
   // Panel 2: Lot Location
-  const [lotNo, setLotNo] = useState<string>('12');
-  const [blkNo, setBlkNo] = useState<string>('5');
-  const [tctNo, setTctNo] = useState<string>('TCT-004-2023008819');
-  const [taxDecNo, setTaxDecNo] = useState<string>('TD-E-008-88121-QC');
-  const [street, setStreet] = useState<string>('E. Rodriguez Sr. Avenue');
-  const [barangay, setBarangay] = useState<string>('Damayan');
-  const [district, setDistrict] = useState<string>('District 4');
+  const [lotNo, setLotNo] = useState<string>('4-B');
+  const [blkNo, setBlkNo] = useState<string>('12');
+  const [tctNo, setTctNo] = useState<string>('TCT-004-2023009841');
+  const [taxDecNo, setTaxDecNo] = useState<string>('TD-E-042-01992-QC');
+  const [street, setStreet] = useState<string>('Commonwealth Avenue');
+  const [barangay, setBarangay] = useState<string>('Batasan Hills');
+  const [district, setDistrict] = useState<string>('District 2');
   const [cityMunicipality] = useState<string>('QUEZON CITY');
 
-  // Panel 3: Land Owner question
+  // Panel 3: Land Owner question matching Picture 1
   const [isLandOwner, setIsLandOwner] = useState<string>('Yes');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -77,7 +77,7 @@ export const QCExcavationGroundPermitApplication: React.FC<QCExcavationGroundPer
       isLandOwner
     });
     if (showToast) {
-      showToast('Excavation Permit application submitted successfully!');
+      showToast('Certificate to Operate (Accelerograph) application submitted successfully!');
     }
   };
 
@@ -86,7 +86,7 @@ export const QCExcavationGroundPermitApplication: React.FC<QCExcavationGroundPer
       <div className="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0c1629] shadow-xs">
         {/* Top Header bar matching Picture 1 */}
         <div className="bg-[#0c4366] text-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider">
-          Excavation Permit Application
+          Certificate to Operate (Accelerograph) Permit Application
         </div>
 
         <div className="p-4 sm:p-5">
@@ -308,7 +308,7 @@ export const QCExcavationGroundPermitApplication: React.FC<QCExcavationGroundPer
                   <label className="inline-flex items-center space-x-2 cursor-pointer">
                     <input
                       type="radio"
-                      name="excavation_isLandOwner"
+                      name="cert_accelerograph_isLandOwner"
                       value="Yes"
                       checked={isLandOwner === 'Yes'}
                       onChange={() => setIsLandOwner('Yes')}
@@ -319,7 +319,7 @@ export const QCExcavationGroundPermitApplication: React.FC<QCExcavationGroundPer
                   <label className="inline-flex items-center space-x-2 cursor-pointer">
                     <input
                       type="radio"
-                      name="excavation_isLandOwner"
+                      name="cert_accelerograph_isLandOwner"
                       value="No"
                       checked={isLandOwner === 'No'}
                       onChange={() => setIsLandOwner('No')}
@@ -353,5 +353,3 @@ export const QCExcavationGroundPermitApplication: React.FC<QCExcavationGroundPer
     </div>
   );
 };
-
-export const QCExcavationPermitApplication = QCExcavationGroundPermitApplication;

@@ -208,7 +208,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
         t('card_business_tag5', 'Payment Method: Via GovServe online portal')
       ],
       keywords: ['business', 'boss', 'govserve', 'govserve services', 'quezon city', 'qc', 'negosyo', 'mayor', 'alkalde', 'commercial', 'retail', 'renewal', 'rehistro', 'dti', 'sec', 'cda', 'hoa', 'tax', 'buwis', 'lbt', 'license', 'lisensya', 'upload', 'picture', 'larawan'],
-      primaryBtnText: t('card_business_btn_primary', 'Apply for Business Permit →'),
+      primaryBtnText: t('card_business_btn_primary', 'Apply for Business Permit'),
       primaryTab: 'Business Registration (New / Renewal)' as TabType,
       secondaryBtnText: t('card_business_btn_secondary', 'Renew Permit'),
       secondaryTab: 'Renewal' as TabType,
@@ -255,7 +255,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
         t('card_building_tag3', 'Fire Safety Evaluation Clearance (FSEC) integration')
       ],
       keywords: ['building', 'gusali', 'construction', 'konstruksyon', 'engineering', 'blueprint', 'plano', 'cad', 'fsec', 'clearances', 'architectural', 'sanitary'],
-      primaryBtnText: t('card_building_btn_primary', 'Apply for Building Permit →'),
+      primaryBtnText: t('card_building_btn_primary', 'Apply for Building Permit'),
       primaryTab: 'Building Permit Filing' as TabType,
       secondaryBtnText: t('card_building_btn_secondary', 'Upload Plans'),
       secondaryTab: 'Plan & Blueprint Upload' as TabType,
@@ -302,7 +302,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
         t('card_transport_tag3', 'Official Windshield QR Verification Decal')
       ],
       keywords: ['transport', 'transportasyon', 'franchise', 'prangkisa', 'mtop', 'tricycle', 'traysikel', 'puv', 'toda', 'route', 'ruta', 'vehicle', 'inspection'],
-      primaryBtnText: t('card_transport_btn_primary', 'Apply for MTOP Franchise →'),
+      primaryBtnText: t('card_transport_btn_primary', 'Apply for MTOP Franchise'),
       primaryTab: 'Franchise & Transport Permits' as TabType,
       secondaryBtnText: t('card_transport_btn_secondary', 'Fleet Status'),
       secondaryTab: 'Route & Unit Inspection' as TabType,
@@ -349,7 +349,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
         t('card_barangay_tag3', 'Official Punong Barangay QR signature seal')
       ],
       keywords: ['barangay', 'clearance', 'cedula', 'sedula', 'ctc', 'community', 'tax', 'buwis', 'lupon', 'endorsement', 'endoso'],
-      primaryBtnText: t('card_barangay_btn_primary', 'Request Barangay Clearance →'),
+      primaryBtnText: t('card_barangay_btn_primary', 'Request Barangay Clearance'),
       primaryTab: 'Barangay Permit Integration' as TabType,
       secondaryBtnText: t('card_barangay_btn_secondary', 'Cedula CTC Filing'),
       secondaryTab: 'Barangay Clearance Filing' as TabType,
@@ -396,7 +396,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
         t('card_tracking_tag3', 'Digital authenticity and official QR code verification')
       ],
       keywords: ['tracker', 'subaybay', 'qr', 'verify', 'beripika', 'authenticity', 'milestone', 'status', 'katayuan', 'anti-fraud', 'cryptographic', 'reference', 'online'],
-      primaryBtnText: t('card_tracking_btn_primary', 'Track Permit Application →'),
+      primaryBtnText: t('card_tracking_btn_primary', 'Track Permit Application'),
       primaryTab: 'E-Permit Tracker' as TabType,
       secondaryBtnText: t('card_tracking_btn_secondary', 'Verify QR Authenticity'),
       secondaryTab: 'Public Reference Code Tracker' as TabType,

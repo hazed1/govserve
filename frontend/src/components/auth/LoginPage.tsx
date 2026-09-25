@@ -22,7 +22,9 @@ import {
   Send,
   Inbox,
   Clock,
-  X
+  X,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { 
   useAuth, 
@@ -32,6 +34,7 @@ import {
   MAX_LOGIN_ATTEMPTS 
 } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
+import { useTheme } from '../../context/ThemeContext';
 import { LanguageToggle } from '../ui/LanguageToggle';
 import { UserRole, MOCK_USERS } from '../../types';
 
@@ -56,6 +59,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
     isLoading 
   } = useAuth();
   const { t, language } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
 
   // View Modes: signin, otp, signup, forgot
   const [authMode, setAuthMode] = useState<'signin' | 'otp' | 'signup' | 'forgot'>(initialMode);
@@ -512,29 +516,29 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col lg:flex-row font-sans antialiased overflow-x-hidden">
+    <div className="min-h-screen w-full flex flex-col lg:flex-row font-sans antialiased overflow-x-hidden bg-white dark:bg-slate-950 transition-colors duration-200">
       
       {/* ========================================================================= */}
-      {/* LEFT COLUMN: Pure Navy Blue Government Branding & Feature Showcase */}
+      {/* LEFT COLUMN: Clean White in Light Mode / Pure Navy Blue in Dark Mode */}
       {/* ========================================================================= */}
-      <div className={`w-full ${authMode === 'signup' ? 'lg:w-[35%]' : 'lg:w-1/2'} p-8 lg:p-14 flex flex-col justify-between relative bg-[#0B192C] text-slate-100 border-b lg:border-b-0 lg:border-r border-slate-800 shadow-2xl overflow-hidden transition-all duration-300`}>
+      <div className={`w-full ${authMode === 'signup' ? 'lg:w-[35%]' : 'lg:w-1/2'} p-8 lg:p-14 flex flex-col justify-between relative bg-white dark:bg-[#0B192C] text-slate-800 dark:text-slate-100 border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-2xl overflow-hidden transition-all duration-300`}>
 
         {/* Perfectly Centered Official Government Seal Watermark Background */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden select-none z-0">
           <img 
             src="/government-logo.png" 
             alt="Official Seal Background" 
-            className="w-[450px] sm:w-[540px] lg:w-[620px] max-w-none opacity-15 pointer-events-none drop-shadow-2xl" 
+            className="w-[450px] sm:w-[540px] lg:w-[620px] max-w-none opacity-10 dark:opacity-15 pointer-events-none drop-shadow-md dark:drop-shadow-2xl" 
           />
         </div>
 
         {/* Top Header & Branding with Back to Home Button */}
         <div className="relative z-10 flex items-center justify-between">
           <div className="mb-6">
-            <h1 className="text-xl sm:text-2xl font-black tracking-tight text-white">
+            <h1 className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 dark:text-white">
               {language === 'tl' ? 'Sentro ng E-Permit at Paglilisensya ng Negosyo' : 'E-Permit & Business Licensing Hub'}
             </h1>
-            <p className="text-xs text-slate-400 font-medium mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
               {language === 'tl' ? 'Republika ng Pilipinas • Lokal na Pamahalaan' : 'Republic of the Philippines • Local Government Unit'}
             </p>
           </div>
@@ -542,7 +546,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
         {/* Centered Main Title & Subtitle */}
         <div className="relative z-10 my-auto py-10 flex flex-col items-center justify-center text-center max-w-xl mx-auto">
-          <h2 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-black text-white leading-[1.15] tracking-tight drop-shadow-md text-center">
+          <h2 className="text-4xl sm:text-5xl lg:text-[3.25rem] font-black text-slate-900 dark:text-white leading-[1.15] tracking-tight drop-shadow-xs dark:drop-shadow-md text-center">
             {language === 'tl' ? (
               <>
                 Paglilisensya At <br />
@@ -555,7 +559,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               </>
             )}
           </h2>
-          <p className="mt-4 text-slate-300 text-sm sm:text-base leading-relaxed text-center max-w-lg">
+          <p className="mt-4 text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed text-center max-w-lg font-normal">
             {language === 'tl'
               ? 'Isang sentralisadong digital na plataporma para sa ligtas na pamamahala ng mga serbisyo sa paglilisensya ng lokal na pamahalaan, mga permiso sa negosyo, account ng mga nagbabayad ng buwis, at mga opisyal na talaan.'
               : 'A centralized digital platform for securely managing local government licensing services, business permits, taxpayer accounts, and official records.'}
@@ -563,11 +567,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({
         </div>
 
         {/* Bottom Tagline / Official Notice */}
-        <div className="relative z-10 pt-6 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-400">
-          <span className="font-semibold tracking-wider uppercase text-[11px] text-slate-400">
+        <div className="relative z-10 pt-6 border-t border-slate-200 dark:border-slate-800/80 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+          <span className="font-semibold tracking-wider uppercase text-[11px] text-slate-600 dark:text-slate-400">
             {language === 'tl' ? 'Opisyal na Portal ng LGU' : 'Official LGU Portal'}
           </span>
-          <span className="text-[11px] text-slate-500">
+          <span className="text-[11px] text-slate-400 dark:text-slate-500">
             {language === 'tl' ? 'Republika ng Pilipinas' : 'Republic of the Philippines'}
           </span>
         </div>
@@ -591,7 +595,16 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               </button>
             ) : <div />}
 
-            <div className="flex items-center space-x-2.5 ml-auto">
+            <div className="flex items-center space-x-2 ml-auto">
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="p-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                title={theme === 'dark' ? t('theme_light', 'Switch to Light Mode') : t('theme_dark', 'Switch to Dark Mode')}
+                aria-label="Toggle Theme"
+              >
+                {theme === 'dark' ? <Sun size={15} className="text-amber-400" /> : <Moon size={15} />}
+              </button>
               <LanguageToggle />
               {authMode !== 'signin' && (
                 <button
@@ -611,9 +624,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
           {/* MAIN AUTH CARD */}
           <div className="border border-slate-200 rounded-2xl p-6 sm:p-7 shadow-xl relative overflow-hidden bg-white text-slate-900">
-            
-            {/* Top Accent Line */}
-            <div className="absolute top-0 inset-x-0 h-1 bg-white" />
 
             {/* Error / Success Toast Banner */}
             {errorMessage && (

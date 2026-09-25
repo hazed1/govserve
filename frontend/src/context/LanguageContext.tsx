@@ -303,8 +303,8 @@ const translations: Record<string, { en: string; tl: string }> = {
     tl: 'Mag-upload ng malinaw na litrato o larawan ng DTI/SEC rehistro, Barangay Clearance, Cedula (CTC), at Valid ID na may mabilis na AI OCR extraction.'
   },
   'card_business_btn_primary': {
-    en: 'Apply for Business Permit →',
-    tl: 'Mag-apply para sa Business Permit →'
+    en: 'Apply for Business Permit',
+    tl: 'Mag-apply para sa Business Permit'
   },
   'card_business_btn_secondary': {
     en: 'Renew Permit',
@@ -345,8 +345,8 @@ const translations: Record<string, { en: string; tl: string }> = {
     tl: 'Integrasyon ng Fire Safety Clearance (FSEC)'
   },
   'card_building_btn_primary': {
-    en: 'Apply for Building Permit →',
-    tl: 'Mag-apply para sa Building Permit →'
+    en: 'Apply for Building Permit',
+    tl: 'Mag-apply para sa Building Permit'
   },
   'card_building_btn_secondary': {
     en: 'Upload Plans',
@@ -383,8 +383,8 @@ const translations: Record<string, { en: string; tl: string }> = {
     tl: 'Opisyal na QR Decal sa Harapang Salamin'
   },
   'card_transport_btn_primary': {
-    en: 'Apply for MTOP Franchise →',
-    tl: 'Mag-apply para sa MTOP Franchise →'
+    en: 'Apply for MTOP Franchise',
+    tl: 'Mag-apply para sa MTOP Franchise'
   },
   'card_transport_btn_secondary': {
     en: 'Fleet Status',
@@ -421,8 +421,8 @@ const translations: Record<string, { en: string; tl: string }> = {
     tl: 'Opisyal na selyo at lagda ng Punong Barangay'
   },
   'card_barangay_btn_primary': {
-    en: 'Request Barangay Clearance →',
-    tl: 'Humiling ng Barangay Clearance →'
+    en: 'Request Barangay Clearance',
+    tl: 'Humiling ng Barangay Clearance'
   },
   'card_barangay_btn_secondary': {
     en: 'Cedula CTC Filing',
@@ -459,8 +459,8 @@ const translations: Record<string, { en: string; tl: string }> = {
     tl: 'Digital na autentisidad at opisyal na beripikasyon ng QR code'
   },
   'card_tracking_btn_primary': {
-    en: 'Track Permit Application →',
-    tl: 'Subaybayan ang Permit Application →'
+    en: 'Track Permit Application',
+    tl: 'Subaybayan ang Permit Application'
   },
   'card_tracking_btn_secondary': {
     en: 'Verify QR Authenticity',

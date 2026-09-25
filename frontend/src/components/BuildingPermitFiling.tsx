@@ -82,6 +82,10 @@ import { QCFencingPermitApplication } from './QCFencingPermitApplication';
 import { QCSidewalkPermitApplication } from './QCSidewalkPermitApplication';
 import { QCRepairPermitApplication } from './QCRepairPermitApplication';
 import { QCExcavationGroundPermitApplication } from './QCExcavationGroundPermitApplication';
+import { QCAccelerographPermitApplication } from './QCAccelerographPermitApplication';
+import { QCCertificateCompletionElectronicsApplication } from './QCCertificateCompletionElectronicsApplication';
+import { QCCertificateUseMechanicalApplication } from './QCCertificateUseMechanicalApplication';
+import { QCCertificateOperateAccelerographApplication } from './QCCertificateOperateAccelerographApplication';
 
 const QC_BARANGAYS_LIST = [
   'Batasan Hills', 'Commonwealth', 'Holy Spirit', 'Payatas', 'Bagong Silangan',
@@ -3288,7 +3292,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
           <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-4xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
               {/* Modal Header (Matching Exact Picture: Mint/Green Tint, Circular Info Icon, Bold Title, Clean X) */}
-              <div className="bg-[#ecf5ef] dark:bg-slate-800 border-b border-[#dcebe1] dark:border-slate-700 px-6 py-4 flex items-center justify-between">
+              <div className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-6 py-4 flex items-center justify-between">
                 <div className="flex items-center space-x-2.5">
                   <Info size={24} className="text-[#1976d2] shrink-0" strokeWidth={2.2} />
                   <h3 className="font-bold text-base sm:text-lg text-slate-800 dark:text-slate-100 tracking-tight">
@@ -3534,7 +3538,16 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                     )}
                   </div>
 
-
+                  {/* Bottom Action: Cancel Button */}
+                  <div className="flex justify-end pt-2">
+                    <button
+                      type="button"
+                      onClick={() => setProfModalView('landing')}
+                      className="w-full sm:w-auto px-6 py-2.5 bg-[#dc2626] hover:bg-[#b91c1c] text-white font-bold text-xs sm:text-sm rounded-lg flex items-center justify-center space-x-1.5 shadow cursor-pointer transition-colors"
+                    >
+                      <span>Cancel</span>
+                    </button>
+                  </div>
                 </div>
               ) : (
                 /* Sub-view: Building Professional Registration (Replicating User's Picture 1) */
@@ -3703,9 +3716,17 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                         </label>
                       </div>
 
-                      {/* Submit Button */}
-                      <div className="flex justify-end pt-2">
+                      {/* Submit & Cancel Buttons */}
+                      <div className="flex justify-end items-center space-x-3 pt-2">
                         <button
+                          type="button"
+                          onClick={() => setProfModalView('landing')}
+                          className="px-6 py-2 bg-[#dc2626] hover:bg-[#b91c1c] text-white font-bold rounded text-xs uppercase flex items-center space-x-1.5 shadow cursor-pointer transition-colors"
+                        >
+                          <span>CANCEL</span>
+                        </button>
+                        <button
+                          type="button"
                           onClick={() => {
                             const newEntry = {
                               id: `PROF-${Date.now()}`,
@@ -3745,19 +3766,19 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
           <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
             <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-3xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
               {/* Modal Header */}
-              <div className="bg-[#1c4b72] text-white p-5 flex items-center justify-between">
+              <div className="bg-white dark:bg-[#1c4b72] border-b border-slate-200 dark:border-slate-800 p-5 flex items-center justify-between transition-colors">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-white/10 flex items-center justify-center border border-emerald-100 dark:border-white/5">
                     <FileCheck size={22} className="text-emerald-600 dark:text-emerald-300" />
                   </div>
                   <div>
-                    <h3 className="font-black text-base tracking-tight">Quezon City DBO Master Checklist of Requirements</h3>
-                    <p className="text-xs text-blue-100">National Building Code of the Philippines (P.D. 1096) Citizen's Charter</p>
+                    <h3 className="font-black text-base tracking-tight text-slate-900 dark:text-white">Quezon City DBO Master Checklist of Requirements</h3>
+                    <p className="text-xs text-slate-500 dark:text-blue-100">National Building Code of the Philippines (P.D. 1096) Citizen's Charter</p>
                   </div>
                 </div>
                 <button
                   onClick={() => setChecklistModalOpen(false)}
-                  className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center cursor-pointer transition-colors"
+                  className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-white/10 dark:hover:bg-white/20 text-slate-600 dark:text-white flex items-center justify-center cursor-pointer transition-colors"
                 >
                   <X size={16} />
                 </button>
@@ -5160,7 +5181,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                   }}
                                   showToast={showToast}
                                 />
-                              ) : qcData.id === 'excavation_ground' ? (
+                              ) : (qcData.id === 'excavation_ground' || qcData.id === 'excavation_utilities') ? (
                                 /* EXACT REPLICA OF OFFICIAL QC DBO EXCAVATION GROUND PREPARATION PERMIT APPLICATION (PICTURE 4) */
                                 <QCExcavationGroundPermitApplication
                                   onCancel={() => {
@@ -5176,7 +5197,91 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                     handleLocalInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
                                     handleLocalInputChange('tctNo', data.tctNo);
                                     handleLocalInputChange('taxDecNo', data.taxDecNo);
-                                    handleLocalInputChange('projectTitle', `Deep 3-Basement Parking Excavation & Diaphragm Shoring`);
+                                    handleLocalInputChange('projectTitle', qcData.id === 'excavation_utilities' ? 'Water Distribution Main Pipeline Interconnection & Trenching' : 'Deep 3-Basement Parking Excavation & Diaphragm Shoring');
+                                    handleLocalSubmit();
+                                  }}
+                                  showToast={showToast}
+                                />
+                              ) : qcData.id === 'accelerograph' ? (
+                                /* EXACT REPLICA OF OFFICIAL QC DBO ACCELEROGRAPH PERMIT APPLICATION (PICTURE 4) */
+                                <QCAccelerographPermitApplication
+                                  onCancel={() => {
+                                    setSelectedPermitForModal(null);
+                                    setPermitModalActiveView('catalog');
+                                    document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+                                  }}
+                                  onSubmit={(data) => {
+                                    handleLocalInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                                    handleLocalInputChange('applicantContact', data.mobileNo);
+                                    handleLocalInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                                    handleLocalInputChange('barangay', data.barangay);
+                                    handleLocalInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                                    handleLocalInputChange('tctNo', data.tctNo);
+                                    handleLocalInputChange('taxDecNo', data.taxDecNo);
+                                    handleLocalInputChange('projectTitle', 'Vertex Heights 18-Storey Commercial Seismic Instrumentation');
+                                    handleLocalSubmit();
+                                  }}
+                                  showToast={showToast}
+                                />
+                              ) : qcData.id === 'cert_operate_electronics' ? (
+                                /* EXACT REPLICA OF OFFICIAL QC DBO CERTIFICATE OF COMPLETION FOR ELECTRONICS APPLICATION (PICTURE 2) */
+                                <QCCertificateCompletionElectronicsApplication
+                                  onCancel={() => {
+                                    setSelectedPermitForModal(null);
+                                    setPermitModalActiveView('catalog');
+                                    document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+                                  }}
+                                  onSubmit={(data) => {
+                                    handleLocalInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                                    handleLocalInputChange('applicantContact', data.mobileNo);
+                                    handleLocalInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                                    handleLocalInputChange('barangay', data.barangay);
+                                    handleLocalInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                                    handleLocalInputChange('tctNo', data.tctNo);
+                                    handleLocalInputChange('taxDecNo', data.taxDecNo);
+                                    handleLocalInputChange('projectTitle', 'Enterprise Commercial CCTV, Fire Alarm & Telecom System');
+                                    handleLocalSubmit();
+                                  }}
+                                  showToast={showToast}
+                                />
+                              ) : qcData.id === 'cert_use_mechanical' ? (
+                                /* EXACT REPLICA OF OFFICIAL QC DBO CERTIFICATE OF USE (MECHANICAL) APPLICATION (PICTURE 4) */
+                                <QCCertificateUseMechanicalApplication
+                                  onCancel={() => {
+                                    setSelectedPermitForModal(null);
+                                    setPermitModalActiveView('catalog');
+                                    document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+                                  }}
+                                  onSubmit={(data) => {
+                                    handleLocalInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                                    handleLocalInputChange('applicantContact', data.mobileNo);
+                                    handleLocalInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                                    handleLocalInputChange('barangay', data.barangay);
+                                    handleLocalInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                                    handleLocalInputChange('tctNo', data.tctNo);
+                                    handleLocalInputChange('taxDecNo', data.taxDecNo);
+                                    handleLocalInputChange('projectTitle', 'Commercial Mall Passenger Elevators & Central Chillers');
+                                    handleLocalSubmit();
+                                  }}
+                                  showToast={showToast}
+                                />
+                              ) : (qcData.id === 'cert_operate_accelerograph' || qcData.id === 'cert_accelerograph') ? (
+                                /* EXACT REPLICA OF OFFICIAL QC DBO CERTIFICATE TO OPERATE (ACCELEROGRAPH) PERMIT APPLICATION (PICTURE 1) */
+                                <QCCertificateOperateAccelerographApplication
+                                  onCancel={() => {
+                                    setSelectedPermitForModal(null);
+                                    setPermitModalActiveView('catalog');
+                                    document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+                                  }}
+                                  onSubmit={(data) => {
+                                    handleLocalInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                                    handleLocalInputChange('applicantContact', data.mobileNo);
+                                    handleLocalInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                                    handleLocalInputChange('barangay', data.barangay);
+                                    handleLocalInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                                    handleLocalInputChange('tctNo', data.tctNo);
+                                    handleLocalInputChange('taxDecNo', data.taxDecNo);
+                                    handleLocalInputChange('projectTitle', 'Vertex Heights 18-Storey Accelerograph Annual Certification');
                                     handleLocalSubmit();
                                   }}
                                   showToast={showToast}

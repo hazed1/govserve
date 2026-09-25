@@ -9,7 +9,7 @@ const QC_BARANGAYS_LIST = [
   'Project 4', 'Project 6', 'Project 7', 'Project 8', 'Damayan', 'Mariblo'
 ];
 
-export interface QCExcavationGroundPermitApplicationProps {
+export interface QCCertificateCompletionElectronicsApplicationProps {
   onCancel: () => void;
   onSubmit: (data: {
     typeOfOwnership: string;
@@ -26,36 +26,32 @@ export interface QCExcavationGroundPermitApplicationProps {
     barangay: string;
     district: string;
     cityMunicipality: string;
-    isLandOwner: string;
   }) => void;
   showToast?: (msg: string) => void;
 }
 
-export const QCExcavationGroundPermitApplication: React.FC<QCExcavationGroundPermitApplicationProps> = ({
+export const QCCertificateCompletionElectronicsApplication: React.FC<QCCertificateCompletionElectronicsApplicationProps> = ({
   onCancel,
   onSubmit,
   showToast
 }) => {
   // Panel 1: Ownership & Applicant Details
   const [typeOfOwnership, setTypeOfOwnership] = useState<string>('Corporation');
-  const [applicantLastName, setApplicantLastName] = useState<string>('Bautista');
-  const [applicantFirstName, setApplicantFirstName] = useState<string>('Enrique');
-  const [applicantMI, setApplicantMI] = useState<string>('L.');
-  const [mobileNo, setMobileNo] = useState<string>('0918 555 4321');
-  const [applicantAddress, setApplicantAddress] = useState<string>('E. Rodriguez Sr. Avenue, Quezon City');
+  const [applicantLastName, setApplicantLastName] = useState<string>('Gutierrez');
+  const [applicantFirstName, setApplicantFirstName] = useState<string>('Melissa');
+  const [applicantMI, setApplicantMI] = useState<string>('S.');
+  const [mobileNo, setMobileNo] = useState<string>('0920 111 8833');
+  const [applicantAddress, setApplicantAddress] = useState<string>('Quezon Avenue, Diliman, Quezon City');
 
   // Panel 2: Lot Location
-  const [lotNo, setLotNo] = useState<string>('12');
-  const [blkNo, setBlkNo] = useState<string>('5');
-  const [tctNo, setTctNo] = useState<string>('TCT-004-2023008819');
-  const [taxDecNo, setTaxDecNo] = useState<string>('TD-E-008-88121-QC');
-  const [street, setStreet] = useState<string>('E. Rodriguez Sr. Avenue');
-  const [barangay, setBarangay] = useState<string>('Damayan');
+  const [lotNo, setLotNo] = useState<string>('3');
+  const [blkNo, setBlkNo] = useState<string>('7');
+  const [tctNo, setTctNo] = useState<string>('TCT-004-2022003819');
+  const [taxDecNo, setTaxDecNo] = useState<string>('TD-E-014-99214-QC');
+  const [street, setStreet] = useState<string>('Quezon Avenue');
+  const [barangay, setBarangay] = useState<string>('Diliman');
   const [district, setDistrict] = useState<string>('District 4');
   const [cityMunicipality] = useState<string>('QUEZON CITY');
-
-  // Panel 3: Land Owner question
-  const [isLandOwner, setIsLandOwner] = useState<string>('Yes');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,11 +69,10 @@ export const QCExcavationGroundPermitApplication: React.FC<QCExcavationGroundPer
       street,
       barangay,
       district,
-      cityMunicipality,
-      isLandOwner
+      cityMunicipality
     });
     if (showToast) {
-      showToast('Excavation Permit application submitted successfully!');
+      showToast('Certificate of Completion for Electronics application saved successfully!');
     }
   };
 
@@ -86,7 +81,7 @@ export const QCExcavationGroundPermitApplication: React.FC<QCExcavationGroundPer
       <div className="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0c1629] shadow-xs">
         {/* Top Header bar matching Picture 1 */}
         <div className="bg-[#0c4366] text-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider">
-          Excavation Permit Application
+          Certificate of Completion for Electronics Application
         </div>
 
         <div className="p-4 sm:p-5">
@@ -298,46 +293,13 @@ export const QCExcavationGroundPermitApplication: React.FC<QCExcavationGroundPer
               </div>
             </div>
 
-            {/* PANEL 3: LAND OWNER QUESTION */}
-            <div className="p-4 sm:p-5 rounded-lg border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-[#0b1322] shadow-2xs">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <span className="text-[11px] sm:text-xs text-slate-700 dark:text-slate-300 font-normal">
-                  Are you the land owner? <span className="text-red-500 font-bold">*</span>
-                </span>
-                <div className="flex items-center space-x-6 text-xs text-slate-700 dark:text-slate-300">
-                  <label className="inline-flex items-center space-x-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="excavation_isLandOwner"
-                      value="Yes"
-                      checked={isLandOwner === 'Yes'}
-                      onChange={() => setIsLandOwner('Yes')}
-                      className="text-[#004280] focus:ring-[#004280]"
-                    />
-                    <span>Yes</span>
-                  </label>
-                  <label className="inline-flex items-center space-x-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="excavation_isLandOwner"
-                      value="No"
-                      checked={isLandOwner === 'No'}
-                      onChange={() => setIsLandOwner('No')}
-                      className="text-[#004280] focus:ring-[#004280]"
-                    />
-                    <span>No</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
+            {/* Action Buttons: Save and Cancel */}
             <div className="space-y-2 pt-2">
               <button
                 type="submit"
                 className="w-full py-2.5 rounded-lg bg-[#004280] hover:bg-[#003366] active:bg-[#00284d] text-white font-semibold text-xs sm:text-sm tracking-wide transition-colors cursor-pointer shadow-md"
               >
-                Submit
+                Save
               </button>
               <button
                 type="button"
@@ -353,5 +315,3 @@ export const QCExcavationGroundPermitApplication: React.FC<QCExcavationGroundPer
     </div>
   );
 };
-
-export const QCExcavationPermitApplication = QCExcavationGroundPermitApplication;

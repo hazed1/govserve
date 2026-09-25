@@ -22,16 +22,16 @@ interface AppSidebarProps {
 
 export const Sidebar: React.FC<AppSidebarProps> = ({ activeTab = 'Home', onNavigate }) => {
   return (
-    <aside className="w-64 bg-[#0B192C] text-slate-300 flex flex-col justify-between min-h-screen border-r border-slate-800">
+    <aside className="w-64 bg-white dark:bg-[#0B192C] text-slate-700 dark:text-slate-300 flex flex-col justify-between min-h-screen border-r border-slate-200 dark:border-slate-800 transition-colors">
       <div>
         {/* Branding Header */}
-        <div className="p-5 flex items-center space-x-3 border-b border-slate-800">
-          <div className="w-9 h-9 bg-white rounded-xl p-0.5 shadow-md flex items-center justify-center overflow-hidden flex-shrink-0 border border-white/20">
+        <div className="p-5 flex items-center space-x-3 border-b border-slate-200 dark:border-slate-800">
+          <div className="w-9 h-9 bg-slate-100 dark:bg-white rounded-xl p-0.5 shadow-md flex items-center justify-center overflow-hidden flex-shrink-0 border border-slate-200 dark:border-white/20">
             <img src="/government-logo.png" alt="Government Logo" className="w-full h-full object-contain rounded-lg" />
           </div>
           <div>
-            <h1 className="font-bold text-white text-sm tracking-wide">GovServe</h1>
-            <p className="text-[10px] text-blue-400 font-semibold">Citizen Portal</p>
+            <h1 className="font-bold text-slate-900 dark:text-white text-sm tracking-wide">GovServe</h1>
+            <p className="text-[10px] text-blue-600 dark:text-blue-400 font-semibold">Citizen Portal</p>
           </div>
         </div>
 

@@ -50,6 +50,10 @@ import { QCFencingPermitApplication } from './QCFencingPermitApplication';
 import { QCSidewalkPermitApplication } from './QCSidewalkPermitApplication';
 import { QCRepairPermitApplication } from './QCRepairPermitApplication';
 import { QCExcavationGroundPermitApplication } from './QCExcavationGroundPermitApplication';
+import { QCAccelerographPermitApplication } from './QCAccelerographPermitApplication';
+import { QCCertificateCompletionElectronicsApplication } from './QCCertificateCompletionElectronicsApplication';
+import { QCCertificateUseMechanicalApplication } from './QCCertificateUseMechanicalApplication';
+import { QCCertificateOperateAccelerographApplication } from './QCCertificateOperateAccelerographApplication';
 
 const QC_BARANGAYS_LIST = [
   'Batasan Hills', 'Commonwealth', 'Holy Spirit', 'Payatas', 'Bagong Silangan',
@@ -2493,8 +2497,8 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                       }}
                       showToast={showToast}
                     />
-                  ) : permitData.id === 'excavation_ground' ? (
-                    /* EXACT REPLICA OF OFFICIAL QC DBO EXCAVATION GROUND PREPARATION PERMIT APPLICATION (PICTURE 4) */
+                  ) : (permitData.id === 'excavation_ground' || permitData.id === 'excavation_utilities') ? (
+                    /* EXACT REPLICA OF OFFICIAL QC DBO EXCAVATION PERMIT APPLICATION (PICTURE 2) */
                     <QCExcavationGroundPermitApplication
                       onCancel={onClose}
                       onSubmit={(data) => {
@@ -2505,7 +2509,75 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                         handleInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
                         handleInputChange('tctNo', data.tctNo);
                         handleInputChange('taxDecNo', data.taxDecNo);
-                        handleInputChange('projectTitle', `Deep 3-Basement Parking Excavation & Diaphragm Shoring`);
+                        handleInputChange('projectTitle', permitData.id === 'excavation_utilities' ? 'Water Distribution Main Pipeline Interconnection & Trenching' : 'Deep 3-Basement Parking Excavation & Diaphragm Shoring');
+                        handleSubmitApplication();
+                      }}
+                      showToast={showToast}
+                    />
+                  ) : permitData.id === 'accelerograph' ? (
+                    /* EXACT REPLICA OF OFFICIAL QC DBO ACCELEROGRAPH PERMIT APPLICATION (PICTURE 4) */
+                    <QCAccelerographPermitApplication
+                      onCancel={onClose}
+                      onSubmit={(data) => {
+                        handleInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                        handleInputChange('applicantContact', data.mobileNo);
+                        handleInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                        handleInputChange('barangay', data.barangay);
+                        handleInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                        handleInputChange('tctNo', data.tctNo);
+                        handleInputChange('taxDecNo', data.taxDecNo);
+                        handleInputChange('projectTitle', 'Vertex Heights 18-Storey Commercial Seismic Instrumentation');
+                        handleSubmitApplication();
+                      }}
+                      showToast={showToast}
+                    />
+                  ) : permitData.id === 'cert_operate_electronics' ? (
+                    /* EXACT REPLICA OF OFFICIAL QC DBO CERTIFICATE OF COMPLETION FOR ELECTRONICS APPLICATION (PICTURE 2) */
+                    <QCCertificateCompletionElectronicsApplication
+                      onCancel={onClose}
+                      onSubmit={(data) => {
+                        handleInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                        handleInputChange('applicantContact', data.mobileNo);
+                        handleInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                        handleInputChange('barangay', data.barangay);
+                        handleInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                        handleInputChange('tctNo', data.tctNo);
+                        handleInputChange('taxDecNo', data.taxDecNo);
+                        handleInputChange('projectTitle', 'Enterprise Commercial CCTV, Fire Alarm & Telecom System');
+                        handleSubmitApplication();
+                      }}
+                      showToast={showToast}
+                    />
+                  ) : permitData.id === 'cert_use_mechanical' ? (
+                    /* EXACT REPLICA OF OFFICIAL QC DBO CERTIFICATE OF USE (MECHANICAL) APPLICATION (PICTURE 4) */
+                    <QCCertificateUseMechanicalApplication
+                      onCancel={onClose}
+                      onSubmit={(data) => {
+                        handleInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                        handleInputChange('applicantContact', data.mobileNo);
+                        handleInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                        handleInputChange('barangay', data.barangay);
+                        handleInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                        handleInputChange('tctNo', data.tctNo);
+                        handleInputChange('taxDecNo', data.taxDecNo);
+                        handleInputChange('projectTitle', 'Commercial Mall Passenger Elevators & Central Chillers');
+                        handleSubmitApplication();
+                      }}
+                      showToast={showToast}
+                    />
+                  ) : (permitData.id === 'cert_operate_accelerograph' || permitData.id === 'cert_accelerograph') ? (
+                    /* EXACT REPLICA OF OFFICIAL QC DBO CERTIFICATE TO OPERATE (ACCELEROGRAPH) PERMIT APPLICATION (PICTURE 1) */
+                    <QCCertificateOperateAccelerographApplication
+                      onCancel={onClose}
+                      onSubmit={(data) => {
+                        handleInputChange('applicantName', `${data.applicantFirstName} ${data.applicantMI} ${data.applicantLastName}`);
+                        handleInputChange('applicantContact', data.mobileNo);
+                        handleInputChange('streetAddress', `${data.street}, ${data.barangay}, ${data.cityMunicipality}`);
+                        handleInputChange('barangay', data.barangay);
+                        handleInputChange('lotBlock', `Lot ${data.lotNo}, Blk ${data.blkNo}`);
+                        handleInputChange('tctNo', data.tctNo);
+                        handleInputChange('taxDecNo', data.taxDecNo);
+                        handleInputChange('projectTitle', 'Vertex Heights 18-Storey Accelerograph Annual Certification');
                         handleSubmitApplication();
                       }}
                       showToast={showToast}

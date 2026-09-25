@@ -669,9 +669,10 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
       </section>
 
       {/* ========================================================================= */}
+      {/* ========================================================================= */}
       {/* 7. FOOTER */}
       {/* ========================================================================= */}
-      <footer className="bg-slate-900 dark:bg-slate-950 text-slate-400 py-16 text-xs transition-colors">
+      <footer className="bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 py-16 text-xs border-t border-slate-200 dark:border-slate-800 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -679,17 +680,17 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
             {/* Col 1: Branding */}
             <div className="space-y-3">
               <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 rounded-lg bg-white p-0.5 flex items-center justify-center overflow-hidden flex-shrink-0">
+                <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-white p-0.5 flex items-center justify-center overflow-hidden flex-shrink-0 border border-slate-200 dark:border-transparent">
                   <img src="/government-logo.png" alt="Official Seal Logo" className="w-full h-full object-contain rounded" />
                 </div>
-                <span className="text-lg font-black text-white">GovServe</span>
+                <span className="text-lg font-black text-slate-900 dark:text-white">GovServe</span>
               </div>
-              <p className="text-[11px] leading-relaxed text-slate-400">
+              <p className="text-[11px] leading-relaxed text-slate-600 dark:text-slate-400">
                 {language === 'tl'
                   ? 'Pinag-isang Sistema ng Permit sa Negosyo, Gusali, Transportasyon at Barangay para sa Pamahalaang Lungsod Quezon.'
                   : 'Unified Business, Building, Transport & Barangay Permitting System for Quezon City Local Government.'}
               </p>
-              <p className="text-[10px] text-slate-500 font-mono">
+              <p className="text-[10px] text-slate-500 dark:text-slate-500 font-mono">
                 {language === 'tl'
                   ? 'Sertipikadong Protektado sa Peke sa ilalim ng RA 8792.'
                   : 'Certified Tamper-Proof under RA 8792.'}
@@ -698,22 +699,22 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
 
             {/* Col 2: Quick Navigation */}
             <div className="space-y-2.5">
-              <h4 className="font-bold text-white uppercase tracking-wider text-[11px]">
+              <h4 className="font-bold text-slate-900 dark:text-white uppercase tracking-wider text-[11px]">
                 {language === 'tl' ? 'Mabilisang Pag-navigate' : 'Quick Navigation'}
               </h4>
               <ul className="space-y-1.5">
                 <li>
-                  <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white cursor-pointer">
+                  <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-blue-600 dark:hover:text-white cursor-pointer transition-colors">
                     {language === 'tl' ? 'Portal ng Serbisyong Pampubliko' : 'Public Services Portal'}
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => handleOpenAuthWithRole('user')} className="hover:text-white cursor-pointer">
+                  <button onClick={() => handleOpenAuthWithRole('user')} className="hover:text-blue-600 dark:hover:text-white cursor-pointer transition-colors">
                     {language === 'tl' ? 'Login ng Mamamayan at Negosyo' : 'Citizen & Business Login'}
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => handleOpenAuthWithRole('admin')} className="hover:text-white cursor-pointer">
+                  <button onClick={() => handleOpenAuthWithRole('admin')} className="hover:text-blue-600 dark:hover:text-white cursor-pointer transition-colors">
                     {language === 'tl' ? 'Portal ng Kawani at Opisyal' : 'Staff & Officer Portal'}
                   </button>
                 </li>
@@ -722,22 +723,22 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
 
             {/* Col 3: Public Services */}
             <div className="space-y-2.5">
-              <h4 className="font-bold text-white uppercase tracking-wider text-[11px]">
+              <h4 className="font-bold text-slate-900 dark:text-white uppercase tracking-wider text-[11px]">
                 {language === 'tl' ? 'Mga Serbisyong Pampubliko' : 'Public Services'}
               </h4>
               <ul className="space-y-1.5">
                 <li>
-                  <button onClick={() => handleOpenAuthWithRole('user')} className="hover:text-white cursor-pointer">
+                  <button onClick={() => handleOpenAuthWithRole('user')} className="hover:text-blue-600 dark:hover:text-white cursor-pointer transition-colors">
                     {language === 'tl' ? 'AI Zoning at Pagsusuri ng Buwis' : 'AI Zoning & Tax Pre-Checker'}
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => handleOpenAuthWithRole('user')} className="hover:text-white cursor-pointer">
+                  <button onClick={() => handleOpenAuthWithRole('user')} className="hover:text-blue-600 dark:hover:text-white cursor-pointer transition-colors">
                     {language === 'tl' ? 'Mag-iskedyul ng Inspeksyon sa Lugar' : 'Schedule Site Inspection'}
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => handleOpenAuthWithRole('user')} className="hover:text-white cursor-pointer">
+                  <button onClick={() => handleOpenAuthWithRole('user')} className="hover:text-blue-600 dark:hover:text-white cursor-pointer transition-colors">
                     {language === 'tl' ? 'Audit sa Quota ng Prangkisa' : 'Franchise Corridor Quota Audit'}
                   </button>
                 </li>
@@ -746,27 +747,27 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
 
             {/* Col 4: Contact & Office */}
             <div className="space-y-2.5">
-              <h4 className="font-bold text-white uppercase tracking-wider text-[11px]">
+              <h4 className="font-bold text-slate-900 dark:text-white uppercase tracking-wider text-[11px]">
                 {language === 'tl' ? 'Pakikipag-ugnayan at Tanggapan' : 'Contact & Office'}
               </h4>
-              <div className="space-y-1.5 text-slate-400">
-                <p className="flex items-center space-x-1.5"><MapPin size={13} /> <span>Quezon City Hall Complex, Elliptical Road, QC</span></p>
-                <p className="flex items-center space-x-1.5"><Clock size={13} /> <span>{language === 'tl' ? 'Lunes-Biyernes 8:00 AM – 5:00 PM' : 'Mon-Fri 8:00 AM – 5:00 PM'}</span></p>
-                <p className="flex items-center space-x-1.5"><Phone size={13} /> <span>Hotline: (02) 8988-4242</span></p>
-                <p className="flex items-center space-x-1.5"><Mail size={13} /> <span>support@govserve.ph</span></p>
+              <div className="space-y-1.5 text-slate-600 dark:text-slate-400">
+                <p className="flex items-center space-x-1.5"><MapPin size={13} className="text-blue-600 dark:text-blue-400 flex-shrink-0" /> <span>Quezon City Hall Complex, Elliptical Road, QC</span></p>
+                <p className="flex items-center space-x-1.5"><Clock size={13} className="text-blue-600 dark:text-blue-400 flex-shrink-0" /> <span>{language === 'tl' ? 'Lunes-Biyernes 8:00 AM – 5:00 PM' : 'Mon-Fri 8:00 AM – 5:00 PM'}</span></p>
+                <p className="flex items-center space-x-1.5"><Phone size={13} className="text-blue-600 dark:text-blue-400 flex-shrink-0" /> <span>Hotline: (02) 8988-4242</span></p>
+                <p className="flex items-center space-x-1.5"><Mail size={13} className="text-blue-600 dark:text-blue-400 flex-shrink-0" /> <span>support@govserve.ph</span></p>
               </div>
             </div>
 
           </div>
 
-          <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
+          <div className="pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
             <p>© {new Date().getFullYear()} Republic of the Philippines • City Government Licensing Office. All rights reserved.</p>
             <div className="flex items-center space-x-4">
-              <span className="hover:text-slate-400 cursor-pointer">{language === 'tl' ? 'Patakaran sa Pagkapribado' : 'Privacy Policy'}</span>
+              <span className="hover:text-slate-900 dark:hover:text-slate-300 cursor-pointer transition-colors">{language === 'tl' ? 'Patakaran sa Pagkapribado' : 'Privacy Policy'}</span>
               <span>•</span>
-              <span className="hover:text-slate-400 cursor-pointer">{language === 'tl' ? 'Mga Tuntunin ng Serbisyo' : 'Terms of Service'}</span>
+              <span className="hover:text-slate-900 dark:hover:text-slate-300 cursor-pointer transition-colors">{language === 'tl' ? 'Mga Tuntunin ng Serbisyo' : 'Terms of Service'}</span>
               <span>•</span>
-              <span className="hover:text-slate-400 cursor-pointer">{language === 'tl' ? 'Katayuan ng Sistema (99.9% Uptime)' : 'System Status (99.9% Uptime)'}</span>
+              <span className="hover:text-slate-900 dark:hover:text-slate-300 cursor-pointer transition-colors">{language === 'tl' ? 'Katayuan ng Sistema (99.9% Uptime)' : 'System Status (99.9% Uptime)'}</span>
             </div>
           </div>
 
