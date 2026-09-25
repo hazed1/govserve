@@ -392,36 +392,33 @@ Security Timestamp            : ${new Date().toISOString()}
             {/* ========================================================================= */}
             {/* HERO SECTION: OFFICIAL PICTURE 3 REFERENCE DESIGN */}
             {/* ========================================================================= */}
-            <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#10243e] to-slate-950 border border-sky-500/30 text-white shadow-xl overflow-hidden group">
+            <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-white via-sky-50/70 to-blue-50/50 dark:from-slate-900 dark:via-[#10243e] dark:to-slate-950 border border-sky-200 dark:border-sky-500/30 text-slate-900 dark:text-white shadow-xl shadow-sky-900/5 dark:shadow-sky-950/40 overflow-hidden group">
               <div className="absolute top-0 right-0 w-96 h-96 bg-sky-500/15 rounded-full blur-3xl pointer-events-none group-hover:bg-sky-500/25 transition-all duration-700" />
               <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-blue-500/10 rounded-full blur-2xl pointer-events-none" />
 
               <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
                 <div className="space-y-4 max-w-2xl">
                   <div className="flex items-center space-x-3">
-                    <span className="px-3.5 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-sky-500/20 text-sky-300 border border-sky-400/30">
+                    <span className="px-3.5 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-sky-100 dark:bg-sky-500/20 text-sky-800 dark:text-sky-300 border border-sky-300 dark:border-sky-400/30">
                       Digital Services & Tracking
                     </span>
                   </div>
 
                   <div>
-                    <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+                    <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white">
                       E-Permit tracker
                     </h2>
-                    <p className="text-sm font-semibold text-sky-300 mt-1">
-                      Online Application & Status Tracking
-                    </p>
                   </div>
 
                   {/* 5 Feature Rows with Circular Badges matching Picture 3 */}
-                  <div className="space-y-2.5 pt-2 border-t border-white/10">
+                  <div className="space-y-2.5 pt-2 border-t border-slate-200 dark:border-white/10">
                     <div className="flex items-start space-x-3">
                       <div className="w-8 h-8 rounded-full bg-sky-100 text-[#0288d1] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
                         <Users size={16} />
                       </div>
                       <div className="text-xs">
-                        <span className="font-bold text-white block">Target Users</span>
-                        <span className="text-slate-300">All citizens and applicants tracking pending or approved LGU permits</span>
+                        <span className="font-bold text-slate-900 dark:text-white block">Target Users</span>
+                        <span className="text-slate-600 dark:text-slate-300 font-medium">All citizens and applicants tracking pending or approved LGU permits</span>
                       </div>
                     </div>
 
@@ -430,8 +427,8 @@ Security Timestamp            : ${new Date().toISOString()}
                         <QrCode size={16} />
                       </div>
                       <div className="text-xs">
-                        <span className="font-bold text-white block">Service Method</span>
-                        <span className="text-slate-300">Online tracking through GovServe</span>
+                        <span className="font-bold text-slate-900 dark:text-white block">Service Method</span>
+                        <span className="text-slate-600 dark:text-slate-300 font-medium">Online tracking through GovServe</span>
                       </div>
                     </div>
 
@@ -440,8 +437,8 @@ Security Timestamp            : ${new Date().toISOString()}
                         <Clock size={16} />
                       </div>
                       <div className="text-xs">
-                        <span className="font-bold text-white block">Time Period</span>
-                        <span className="text-slate-300">Instant 24/7 digital status lookup with milestone audit history</span>
+                        <span className="font-bold text-slate-900 dark:text-white block">Time Period</span>
+                        <span className="text-slate-600 dark:text-slate-300 font-medium">Instant 24/7 digital status lookup with milestone audit history</span>
                       </div>
                     </div>
 
@@ -450,8 +447,8 @@ Security Timestamp            : ${new Date().toISOString()}
                         <Banknote size={16} />
                       </div>
                       <div className="text-xs">
-                        <span className="font-bold text-white block">Charges & Payment</span>
-                        <span className="text-slate-300">Free Public LGU Service (₱0.00 Tariff)</span>
+                        <span className="font-bold text-slate-900 dark:text-white block">Charges & Payment</span>
+                        <span className="text-slate-600 dark:text-slate-300 font-medium">Free Public LGU Service (₱0.00 Tariff)</span>
                       </div>
                     </div>
 
@@ -460,33 +457,33 @@ Security Timestamp            : ${new Date().toISOString()}
                         <CreditCard size={16} />
                       </div>
                       <div className="text-xs">
-                        <span className="font-bold text-white block">Payment Method</span>
-                        <span className="text-slate-300">Via GovServe online portal</span>
+                        <span className="font-bold text-slate-900 dark:text-white block">Payment Method</span>
+                        <span className="text-slate-600 dark:text-slate-300 font-medium">Via GovServe online portal</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Document Photo Upload Callout */}
-                  <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
-                    <div className="flex items-center space-x-2 text-sky-300 text-xs font-bold">
+                  <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/15 space-y-2 shadow-xs dark:shadow-none">
+                    <div className="flex items-center space-x-2 text-sky-700 dark:text-sky-300 text-xs font-bold">
                       <Camera size={15} className="text-sky-400" />
                       <span>QR Decal & Reference Scanner Active</span>
                     </div>
-                    <p className="text-[11px] text-slate-300">
+                    <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
                       Scan or upload clear photos of your Permit QR Decal, Official Receipt QR, or enter reference code for instant validation.
                     </p>
                     <div className="flex flex-wrap gap-1.5 pt-0.5">
-                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                        <FileText size={10} className="text-sky-300" /> Permit QR Decal
+                      <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-600 dark:text-sky-300" /> Permit QR Decal
                       </span>
-                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                        <FileText size={10} className="text-sky-300" /> Official Receipt QR
+                      <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-600 dark:text-sky-300" /> Official Receipt QR
                       </span>
-                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                        <FileText size={10} className="text-sky-300" /> Reference Code
+                      <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-600 dark:text-sky-300" /> Reference Code
                       </span>
-                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                        <FileText size={10} className="text-sky-300" /> Digital Seal
+                      <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-600 dark:text-sky-300" /> Digital Seal
                       </span>
                     </div>
                   </div>
@@ -510,7 +507,7 @@ Security Timestamp            : ${new Date().toISOString()}
                         setIsScanning(true);
                         setCurrentView('scan_camera');
                       }}
-                      className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 hover:text-slate-950 border border-slate-300/80 dark:bg-white/10 dark:hover:bg-white/15 dark:text-slate-200 dark:hover:text-white dark:border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs dark:shadow-none"
                     >
                       <QrCode size={13} />
                       <span>Verify QR Decal</span>
@@ -520,7 +517,7 @@ Security Timestamp            : ${new Date().toISOString()}
                       onClick={() => {
                         setCurrentView('verification');
                       }}
-                      className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 hover:text-slate-950 border border-slate-300/80 dark:bg-white/10 dark:hover:bg-white/15 dark:text-slate-200 dark:hover:text-white dark:border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs dark:shadow-none"
                     >
                       <ShieldCheck size={13} />
                       <span>Security Audit</span>
@@ -534,37 +531,34 @@ Security Timestamp            : ${new Date().toISOString()}
             <div className="space-y-6">
               
               {/* Card 1: Track Live Milestones */}
-              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#0a1f3d] to-slate-950 border border-blue-500/30 text-white shadow-xl overflow-hidden group">
+              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-white via-blue-50/70 to-indigo-50/50 dark:from-slate-900 dark:via-[#0a1f3d] dark:to-slate-950 border border-blue-200 dark:border-blue-500/30 text-slate-900 dark:text-white shadow-xl shadow-blue-900/5 dark:shadow-blue-950/40 overflow-hidden group">
                 <div className="absolute -right-16 -top-16 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-blue-500/15 transition-all"></div>
                 <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
                   <div className="space-y-4 max-w-3xl">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="px-3 py-1 rounded-full bg-blue-500/20 border border-blue-400/30 text-blue-300 text-[11px] font-black uppercase tracking-wider">
+                      <span className="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-500/20 border border-blue-300 dark:border-blue-400/30 text-blue-800 dark:text-blue-300 text-[11px] font-black uppercase tracking-wider">
                         Real-Time Workflow Tracker
                       </span>
-                      <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-slate-300 text-[10px] font-bold">
+                      <span className="px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-transparent text-[10px] font-bold">
                         ● Live LGU Audit
                       </span>
                     </div>
 
                     <div>
-                      <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                      <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
                         Live Application Milestone Tracker
                       </h2>
-                      <p className="text-xs sm:text-sm text-slate-300 mt-1 font-medium">
-                        Step-by-Step Progress Tracking from Filing to City Mayor Digital Approval
-                      </p>
                     </div>
 
                     {/* 5 Feature Rows with Circular Badges */}
-                    <div className="space-y-2.5 pt-2 border-t border-white/10">
+                    <div className="space-y-2.5 pt-2 border-t border-slate-200 dark:border-white/10">
                       <div className="flex items-start space-x-3">
                         <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
                           <Users size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Target Users</span>
-                          <span className="text-slate-300">All registered applicants, business owners, engineers, and authorized liaisons</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Target Users</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">All registered applicants, business owners, engineers, and authorized liaisons</span>
                         </div>
                       </div>
 
@@ -573,8 +567,8 @@ Security Timestamp            : ${new Date().toISOString()}
                           <Activity size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Service Method</span>
-                          <span className="text-slate-300">Online tracking through GovServe</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Service Method</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Online tracking through GovServe</span>
                         </div>
                       </div>
 
@@ -583,8 +577,8 @@ Security Timestamp            : ${new Date().toISOString()}
                           <Clock size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Time Period</span>
-                          <span className="text-slate-300">Instant real-time updates synchronized across all municipal departments</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Time Period</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Instant real-time updates synchronized across all municipal departments</span>
                         </div>
                       </div>
 
@@ -593,8 +587,8 @@ Security Timestamp            : ${new Date().toISOString()}
                           <Banknote size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Charges & Payment</span>
-                          <span className="text-slate-300">Free Public LGU Service (₱0.00 Tariff)</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Charges & Payment</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Free Public LGU Service (₱0.00 Tariff)</span>
                         </div>
                       </div>
 
@@ -603,33 +597,33 @@ Security Timestamp            : ${new Date().toISOString()}
                           <CreditCard size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Payment Method</span>
-                          <span className="text-slate-300">Via GovServe online portal</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Payment Method</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Via GovServe online portal</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Document Photo Upload Callout */}
-                    <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
-                      <div className="flex items-center space-x-2 text-blue-300 text-xs font-bold">
+                    <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/15 space-y-2 shadow-xs dark:shadow-none">
+                      <div className="flex items-center space-x-2 text-blue-700 dark:text-blue-300 text-xs font-bold">
                         <Camera size={15} className="text-blue-400" />
                         <span>Reference Code & Barcode Lookup Active</span>
                       </div>
-                      <p className="text-[11px] text-slate-300">
+                      <p className="text-[11px] text-slate-600 dark:text-slate-300">
                         Enter tracking reference code or barcode to inspect department milestones, pending endorsements, and timestamps.
                       </p>
                       <div className="flex flex-wrap gap-1.5 pt-0.5">
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-blue-300" /> Reference Code
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-blue-600 dark:text-blue-300" /> Reference Code
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-blue-300" /> Department Milestones
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-blue-600 dark:text-blue-300" /> Department Milestones
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-blue-300" /> Officer Logs
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-blue-600 dark:text-blue-300" /> Officer Logs
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-blue-300" /> Estimated Clearance
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-blue-600 dark:text-blue-300" /> Estimated Clearance
                         </span>
                       </div>
                     </div>
@@ -645,14 +639,14 @@ Security Timestamp            : ${new Date().toISOString()}
                     </button>
 
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="py-2.5 px-3 rounded-xl bg-white/10 border border-white/10 text-xs font-bold text-center flex flex-col justify-center">
-                        <span className="text-[10px] uppercase text-blue-300">Cost</span>
-                        <span className="text-white font-black font-mono">₱0.00 Free</span>
+                      <div className="py-2.5 px-3 rounded-xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/10 text-xs font-bold text-center flex flex-col justify-center shadow-xs dark:shadow-none">
+                        <span className="text-[10px] uppercase text-blue-700 dark:text-blue-300 font-extrabold">Cost</span>
+                        <span className="text-slate-900 dark:text-white font-black font-mono">₱0.00 Free</span>
                       </div>
 
                       <button
                         onClick={() => setCurrentView('track_timeline')}
-                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                        className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 hover:text-slate-950 border border-slate-300/80 dark:bg-white/10 dark:hover:bg-white/15 dark:text-slate-200 dark:hover:text-white dark:border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs dark:shadow-none"
                       >
                         <Activity size={13} />
                         <span>View Timeline</span>
@@ -663,37 +657,34 @@ Security Timestamp            : ${new Date().toISOString()}
               </div>
 
               {/* Card 2: Cryptographic Verification */}
-              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#06241a] to-slate-950 border border-emerald-500/30 text-white shadow-xl overflow-hidden group">
+              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-white via-emerald-50/70 to-teal-50/50 dark:from-slate-900 dark:via-[#06241a] dark:to-slate-950 border border-emerald-200 dark:border-emerald-500/30 text-slate-900 dark:text-white shadow-xl shadow-emerald-900/5 dark:shadow-emerald-950/40 overflow-hidden group">
                 <div className="absolute -right-16 -top-16 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-emerald-500/15 transition-all"></div>
                 <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
                   <div className="space-y-4 max-w-3xl">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[11px] font-black uppercase tracking-wider">
+                      <span className="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/30 text-emerald-800 dark:text-emerald-300 text-[11px] font-black uppercase tracking-wider">
                         SHA-256 Ledger Audit
                       </span>
-                      <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-slate-300 text-[10px] font-bold">
+                      <span className="px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-transparent text-[10px] font-bold">
                         ● 2048-Bit RSA Encryption
                       </span>
                     </div>
 
                     <div>
-                      <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                      <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
                         Cryptographic Hash & Seal Verification
                       </h2>
-                      <p className="text-xs sm:text-sm text-slate-300 mt-1 font-medium">
-                        Validate 2048-bit RSA Digital Signature Against the Official Municipal Master Ledger
-                      </p>
                     </div>
 
                     {/* 5 Feature Rows with Circular Badges */}
-                    <div className="space-y-2.5 pt-2 border-t border-white/10">
+                    <div className="space-y-2.5 pt-2 border-t border-slate-200 dark:border-white/10">
                       <div className="flex items-start space-x-3">
                         <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
                           <Users size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Target Users</span>
-                          <span className="text-slate-300">Enforcement officers, banking institutions, government agencies, and general public</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Target Users</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Enforcement officers, banking institutions, government agencies, and general public</span>
                         </div>
                       </div>
 
@@ -702,8 +693,8 @@ Security Timestamp            : ${new Date().toISOString()}
                           <ShieldCheck size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Service Method</span>
-                          <span className="text-slate-300">Online application through GovServe</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Service Method</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Online application through GovServe</span>
                         </div>
                       </div>
 
@@ -712,8 +703,8 @@ Security Timestamp            : ${new Date().toISOString()}
                           <Clock size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Time Period</span>
-                          <span className="text-slate-300">Instant cryptographic validation under 1.5 seconds</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Time Period</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Instant cryptographic validation under 1.5 seconds</span>
                         </div>
                       </div>
 
@@ -722,8 +713,8 @@ Security Timestamp            : ${new Date().toISOString()}
                           <Banknote size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Charges & Payment</span>
-                          <span className="text-slate-300">Free Public LGU Service (₱0.00 Tariff)</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Charges & Payment</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Free Public LGU Service (₱0.00 Tariff)</span>
                         </div>
                       </div>
 
@@ -732,33 +723,33 @@ Security Timestamp            : ${new Date().toISOString()}
                           <CreditCard size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Payment Method</span>
-                          <span className="text-slate-300">Via GovServe online portal</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Payment Method</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Via GovServe online portal</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Document Photo Upload Callout */}
-                    <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
-                      <div className="flex items-center space-x-2 text-emerald-300 text-xs font-bold">
+                    <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/15 space-y-2 shadow-xs dark:shadow-none">
+                      <div className="flex items-center space-x-2 text-emerald-700 dark:text-emerald-300 text-xs font-bold">
                         <Camera size={15} className="text-emerald-400" />
                         <span>Cryptographic Audit Trail Active</span>
                       </div>
-                      <p className="text-[11px] text-slate-300">
+                      <p className="text-[11px] text-slate-600 dark:text-slate-300">
                         Verify digital permits with SHA-256 tamper-evident hash validation, issuer credentials, and cryptographic certificates.
                       </p>
                       <div className="flex flex-wrap gap-1.5 pt-0.5">
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-emerald-300" /> SHA-256 Hash
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-600 dark:text-emerald-300" /> SHA-256 Hash
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-emerald-300" /> Master Ledger
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-600 dark:text-emerald-300" /> Master Ledger
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-emerald-300" /> RSA Signature
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-600 dark:text-emerald-300" /> RSA Signature
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-emerald-300" /> Digital Stamp
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-600 dark:text-emerald-300" /> Digital Stamp
                         </span>
                       </div>
                     </div>
@@ -777,16 +768,16 @@ Security Timestamp            : ${new Date().toISOString()}
                     </button>
 
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="py-2.5 px-3 rounded-xl bg-white/10 border border-white/10 text-xs font-bold text-center flex flex-col justify-center">
-                        <span className="text-[10px] uppercase text-emerald-300">Security</span>
-                        <span className="text-white font-black font-mono">SHA-256</span>
+                      <div className="py-2.5 px-3 rounded-xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/10 text-xs font-bold text-center flex flex-col justify-center shadow-xs dark:shadow-none">
+                        <span className="text-[10px] uppercase text-emerald-700 dark:text-emerald-300 font-extrabold">Security</span>
+                        <span className="text-slate-900 dark:text-white font-black font-mono">SHA-256</span>
                       </div>
 
                       <button
                         onClick={() => {
                           setCurrentView('verification');
                         }}
-                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                        className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 hover:text-slate-950 border border-slate-300/80 dark:bg-white/10 dark:hover:bg-white/15 dark:text-slate-200 dark:hover:text-white dark:border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs dark:shadow-none"
                       >
                         <ShieldCheck size={13} />
                         <span>Audit Records</span>
@@ -797,37 +788,34 @@ Security Timestamp            : ${new Date().toISOString()}
               </div>
 
               {/* Card 3: Report Tampered Permit */}
-              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#2a0b16] to-slate-950 border border-rose-500/30 text-white shadow-xl overflow-hidden group">
+              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-white via-rose-50/70 to-pink-50/50 dark:from-slate-900 dark:via-[#2a0b16] dark:to-slate-950 border border-rose-200 dark:border-rose-500/30 text-slate-900 dark:text-white shadow-xl shadow-rose-900/5 dark:shadow-rose-950/40 overflow-hidden group">
                 <div className="absolute -right-16 -top-16 w-64 h-64 bg-rose-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-rose-500/15 transition-all"></div>
                 <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
                   <div className="space-y-4 max-w-3xl">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="px-3 py-1 rounded-full bg-rose-500/20 border border-rose-400/30 text-rose-300 text-[11px] font-black uppercase tracking-wider">
+                      <span className="px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-500/20 border border-rose-300 dark:border-rose-400/30 text-rose-800 dark:text-rose-300 text-[11px] font-black uppercase tracking-wider">
                         Anti-Red Tape & Integrity
                       </span>
-                      <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-slate-300 text-[10px] font-bold">
+                      <span className="px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-transparent text-[10px] font-bold">
                         ● Confidential Reporting
                       </span>
                     </div>
 
                     <div>
-                      <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                      <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
                         Report Fraudulent or Tampered Permit
                       </h2>
-                      <p className="text-xs sm:text-sm text-slate-300 mt-1 font-medium">
-                        Confidential Whistleblower Incident Reporting to LGU Anti-Red Tape and Fraud Unit
-                      </p>
                     </div>
 
                     {/* 5 Feature Rows with Circular Badges */}
-                    <div className="space-y-2.5 pt-2 border-t border-white/10">
+                    <div className="space-y-2.5 pt-2 border-t border-slate-200 dark:border-white/10">
                       <div className="flex items-start space-x-3">
                         <div className="w-8 h-8 rounded-full bg-rose-100 text-rose-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
                           <Users size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Target Users</span>
-                          <span className="text-slate-300">Concerned citizens, establishments, field inspectors, and victimized applicants</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Target Users</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Concerned citizens, establishments, field inspectors, and victimized applicants</span>
                         </div>
                       </div>
 
@@ -836,8 +824,8 @@ Security Timestamp            : ${new Date().toISOString()}
                           <AlertTriangle size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Service Method</span>
-                          <span className="text-slate-300">Online application through GovServe</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Service Method</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Online application through GovServe</span>
                         </div>
                       </div>
 
@@ -846,8 +834,8 @@ Security Timestamp            : ${new Date().toISOString()}
                           <Clock size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Time Period</span>
-                          <span className="text-slate-300">Priority investigation initiated within 24 hours</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Time Period</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Priority investigation initiated within 24 hours</span>
                         </div>
                       </div>
 
@@ -856,8 +844,8 @@ Security Timestamp            : ${new Date().toISOString()}
                           <Banknote size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Charges & Payment</span>
-                          <span className="text-slate-300">Free Citizen Reporting Service (₱0.00 Tariff)</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Charges & Payment</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Free Citizen Reporting Service (₱0.00 Tariff)</span>
                         </div>
                       </div>
 
@@ -866,33 +854,33 @@ Security Timestamp            : ${new Date().toISOString()}
                           <CreditCard size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Payment Method</span>
-                          <span className="text-slate-300">Via GovServe online portal</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Payment Method</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Via GovServe online portal</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Document Photo Upload Callout */}
-                    <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
-                      <div className="flex items-center space-x-2 text-rose-300 text-xs font-bold">
+                    <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/15 space-y-2 shadow-xs dark:shadow-none">
+                      <div className="flex items-center space-x-2 text-rose-700 dark:text-rose-300 text-xs font-bold">
                         <Camera size={15} className="text-rose-400" />
                         <span>Confidential Evidence & Photo Upload Active</span>
                       </div>
-                      <p className="text-[11px] text-slate-300">
+                      <p className="text-[11px] text-slate-600 dark:text-slate-300">
                         Upload photos or scans of suspected fake permits, counterfeit QR codes, fixers' receipts, or altered documents.
                       </p>
                       <div className="flex flex-wrap gap-1.5 pt-0.5">
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-rose-300" /> Fake Decal Photo
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-rose-600 dark:text-rose-300" /> Fake Decal Photo
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-rose-300" /> Tampered Permit
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-rose-600 dark:text-rose-300" /> Tampered Permit
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-rose-300" /> Fixer Receipt
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-rose-600 dark:text-rose-300" /> Fixer Receipt
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-rose-300" /> Incident Report
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-rose-600 dark:text-rose-300" /> Incident Report
                         </span>
                       </div>
                     </div>
@@ -911,16 +899,16 @@ Security Timestamp            : ${new Date().toISOString()}
                     </button>
 
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="py-2.5 px-3 rounded-xl bg-white/10 border border-white/10 text-xs font-bold text-center flex flex-col justify-center">
-                        <span className="text-[10px] uppercase text-rose-300">Desk</span>
-                        <span className="text-white font-black font-mono">Anti-Fraud</span>
+                      <div className="py-2.5 px-3 rounded-xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/10 text-xs font-bold text-center flex flex-col justify-center shadow-xs dark:shadow-none">
+                        <span className="text-[10px] uppercase text-rose-700 dark:text-rose-300 font-extrabold">Desk</span>
+                        <span className="text-slate-900 dark:text-white font-black font-mono">Anti-Fraud</span>
                       </div>
 
                       <button
                         onClick={() => {
                           setCurrentView('report_fraud');
                         }}
-                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                        className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 hover:text-slate-950 border border-slate-300/80 dark:bg-white/10 dark:hover:bg-white/15 dark:text-slate-200 dark:hover:text-white dark:border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs dark:shadow-none"
                       >
                         <AlertTriangle size={13} />
                         <span>Incident Desk</span>

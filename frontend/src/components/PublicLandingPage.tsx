@@ -82,6 +82,28 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
+  // Active Navigation State (Home, Features, How It Works)
+  const [activeNav, setActiveNav] = useState<'home' | 'features' | 'how-it-works'>('home');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPos = window.scrollY + 180;
+      const processEl = document.getElementById('process-section');
+      const featuresEl = document.getElementById('features-section');
+
+      if (processEl && scrollPos >= processEl.offsetTop) {
+        setActiveNav('how-it-works');
+      } else if (featuresEl && scrollPos >= featuresEl.offsetTop) {
+        setActiveNav('features');
+      } else {
+        setActiveNav('home');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
 
   // Hero Animated Typing Effect
   const taglinesEn = ['Fast, Digital & Transparent.', '100% Online & AI-Assisted.', 'Tamper-Proof & QR Certified.'];
@@ -199,32 +221,58 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
           </div>
 
           {/* Desktop Nav Links */}
-          <nav className="hidden md:flex items-center space-x-8 text-xs font-bold text-slate-600 dark:text-slate-300">
+          <nav className="hidden md:flex items-center space-x-8 text-xs font-bold">
             <button 
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="text-blue-600 dark:text-blue-400 flex items-center space-x-1.5 cursor-pointer"
+              onClick={() => {
+                setActiveNav('home');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className={`relative py-1 transition-all duration-200 flex items-center space-x-1.5 cursor-pointer ${
+                activeNav === 'home'
+                  ? 'text-blue-600 dark:text-blue-400 font-extrabold'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-bold'
+              }`}
             >
               <span>{t('home', 'Home')}</span>
+              {activeNav === 'home' && (
+                <span className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400 rounded-full" />
+              )}
             </button>
 
             <button 
               onClick={() => {
+                setActiveNav('features');
                 const el = document.getElementById('features-section');
                 el?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer"
+              className={`relative py-1 transition-all duration-200 cursor-pointer ${
+                activeNav === 'features'
+                  ? 'text-blue-600 dark:text-blue-400 font-extrabold'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-bold'
+              }`}
             >
-              {language === 'tl' ? 'Mga Tampok' : 'Features'}
+              <span>{language === 'tl' ? 'Mga Tampok' : 'Features'}</span>
+              {activeNav === 'features' && (
+                <span className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400 rounded-full" />
+              )}
             </button>
 
             <button 
               onClick={() => {
+                setActiveNav('how-it-works');
                 const el = document.getElementById('process-section');
                 el?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer"
+              className={`relative py-1 transition-all duration-200 cursor-pointer ${
+                activeNav === 'how-it-works'
+                  ? 'text-blue-600 dark:text-blue-400 font-extrabold'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 font-bold'
+              }`}
             >
-              {t('how_it_works', 'How It Works')}
+              <span>{t('how_it_works', 'How It Works')}</span>
+              {activeNav === 'how-it-works' && (
+                <span className="absolute -bottom-1.5 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400 rounded-full" />
+              )}
             </button>
           </nav>
 

@@ -1401,8 +1401,8 @@ export const AIDocumentVerification: React.FC = () => {
                     onClick={(e) => handleInitiateUpload(selectedDoc.id, e)}
                     className="py-2 px-3 bg-white dark:bg-slate-800 border border-emerald-300 dark:border-emerald-800 hover:bg-emerald-100 text-emerald-900 dark:text-emerald-200 rounded-xl text-[11px] font-bold transition-colors flex items-center justify-center space-x-1 cursor-pointer"
                   >
-                    <RefreshCw size={12} />
-                    <span>Replace File</span>
+                    <Upload size={12} />
+                    <span>Upload File</span>
                   </button>
                 </div>
               </div>

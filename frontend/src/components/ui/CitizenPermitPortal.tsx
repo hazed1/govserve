@@ -628,90 +628,123 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                         <h3 className={`text-xl font-black text-slate-900 dark:text-white ${service.accent.titleHover} tracking-tight transition-colors`}>
                           {service.title}
                         </h3>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold mt-0.5">
-                          {service.subtitle}
-                        </p>
                       </div>
 
-                      {/* Picture 2 Style 5 Feature Rows with Circular Badges */}
-                      <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800">
-                        {/* Row 1: Target Users */}
-                        <div className="flex items-start space-x-3.5 group/item">
-                          <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                            <Users size={18} />
+                      {service.id === 'business' ? (
+                        /* 4 Core Business Permitting Services (Styled exactly like Picture 2: Circular Icon + Title, Static & Non-Clickable) */
+                        <div className="space-y-3.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                          {/* 1. APPLY FOR MAYOR'S PERMIT (BUSINESS) */}
+                          <div className="flex items-center space-x-3.5">
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50">
+                              <Building2 size={18} />
+                            </div>
+                            <div className="select-text">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                                APPLY FOR MAYOR'S PERMIT (BUSINESS)
+                              </h4>
+                            </div>
                           </div>
-                          <div className="space-y-0.5">
-                            <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
-                              {service.targetUsersTitle}
-                            </h4>
-                            <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 leading-snug">
-                              {service.targetUsers}
-                            </p>
+
+                          {/* 2. APPLY FOR OCCUPATIONAL / WORK PERMIT */}
+                          <div className="flex items-center space-x-3.5">
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50">
+                              <Users size={18} />
+                            </div>
+                            <div className="select-text">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                                APPLY FOR OCCUPATIONAL / WORK PERMIT
+                              </h4>
+                            </div>
+                          </div>
+
+                          {/* 3. BUSINESS INFORMATION SYSTEM */}
+                          <div className="flex items-center space-x-3.5">
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50">
+                              <FileText size={18} />
+                            </div>
+                            <div className="select-text">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                                BUSINESS INFORMATION SYSTEM
+                              </h4>
+                            </div>
+                          </div>
+
+                          {/* 4. MAYOR'S PERMIT VERIFICATION */}
+                          <div className="flex items-center space-x-3.5">
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50">
+                              <ShieldCheck size={18} />
+                            </div>
+                            <div className="select-text">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                                MAYOR'S PERMIT VERIFICATION
+                              </h4>
+                            </div>
                           </div>
                         </div>
-
-                        {/* Row 2: Service Method */}
-                        <div className="flex items-start space-x-3.5 group/item">
-                          <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                            <IconComponent size={18} />
+                      ) : (
+                        /* 5 Feature Rows for other services (Building, Transport, Barangay) */
+                        <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800">
+                          {/* Row 1: Target Users */}
+                          <div className="flex items-center space-x-3.5 group/item">
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <Users size={18} />
+                            </div>
+                            <div>
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                                {service.targetUsersTitle}
+                              </h4>
+                            </div>
                           </div>
-                          <div className="space-y-0.5">
-                            <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
-                              {service.serviceMethodTitle}
-                            </h4>
-                            <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 leading-snug">
-                              {service.serviceMethod}
-                            </p>
+
+                          {/* Row 2: Service Method */}
+                          <div className="flex items-center space-x-3.5 group/item">
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <IconComponent size={18} />
+                            </div>
+                            <div>
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                                {service.serviceMethodTitle}
+                              </h4>
+                            </div>
+                          </div>
+
+                          {/* Row 3: Time Period */}
+                          <div className="flex items-center space-x-3.5 group/item">
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <Clock size={18} />
+                            </div>
+                            <div>
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                                {service.timePeriodTitle}
+                              </h4>
+                            </div>
+                          </div>
+
+                          {/* Row 4: Charges & Payment */}
+                          <div className="flex items-center space-x-3.5 group/item">
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <Banknote size={18} />
+                            </div>
+                            <div>
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                                {service.chargesTitle}
+                              </h4>
+                            </div>
+                          </div>
+
+                          {/* Row 5: Payment Method */}
+                          <div className="flex items-center space-x-3.5 group/item">
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <CreditCard size={18} />
+                            </div>
+                            <div>
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                                {service.paymentMethodTitle}
+                              </h4>
+                            </div>
                           </div>
                         </div>
-
-                        {/* Row 3: Time Period */}
-                        <div className="flex items-start space-x-3.5 group/item">
-                          <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                            <Clock size={18} />
-                          </div>
-                          <div className="space-y-0.5">
-                            <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
-                              {service.timePeriodTitle}
-                            </h4>
-                            <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 leading-snug">
-                              {service.timePeriod}
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Row 4: Charges & Payment */}
-                        <div className="flex items-start space-x-3.5 group/item">
-                          <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                            <Banknote size={18} />
-                          </div>
-                          <div className="space-y-0.5">
-                            <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
-                              {service.chargesTitle}
-                            </h4>
-                            <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 leading-snug">
-                              {service.chargesPayment}
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Row 5: Payment Method */}
-                        <div className="flex items-start space-x-3.5 group/item">
-                          <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                            <CreditCard size={18} />
-                          </div>
-                          <div className="space-y-0.5">
-                            <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
-                              {service.paymentMethodTitle}
-                            </h4>
-                            <p className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 leading-snug">
-                              {service.paymentMethod}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-
+                      )}
                     </div>
 
                     {/* Actions */}
@@ -724,21 +757,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                         <ArrowRight size={15} className="group-hover/btn:translate-x-1 transition-transform" />
                       </button>
 
-                      <div className="flex items-center justify-between text-xs font-semibold px-1">
-                        <button
-                          onClick={() => onNavigateToTab(service.secondaryTab)}
-                          className={`${service.accent.secondaryBtn} hover:underline cursor-pointer`}
-                        >
-                          {service.secondaryBtnText}
-                        </button>
-                        <button
-                          onClick={() => setSelectedReqCategory(service.reqCategory)}
-                          className="text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 flex items-center space-x-1 cursor-pointer"
-                        >
-                          <Info size={13} />
-                          <span>{service.id === 'business' ? t('card_business_btn_requirements', 'View Requirements') : t('view_requirements', 'Requirements')}</span>
-                        </button>
-                      </div>
+
                     </div>
                   </div>
                 );
@@ -773,104 +792,11 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
           )}
         </div>
 
-        {/* ========================================================================= */}
-        {/* 4-STEP PERMITTING WORKFLOW GUIDE */}
-        {/* ========================================================================= */}
-        <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-7 shadow-sm space-y-6">
-          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
-            <div>
-              <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
-                {language === 'tl' ? 'Paano Gumagana ang Online Permitting (4-Hakbang na Proseso)' : 'How Online Permitting Works (4-Step Digital Pipeline)'}
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                {language === 'tl' ? 'Mula online na pagsumite hanggang sa tamper-proof na QR permit' : 'From online submission to instant tamper-proof QR permit release'}
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            
-            <div className="p-4 rounded-2xl bg-blue-50/50 dark:bg-slate-800/50 border border-blue-100 dark:border-slate-700/80 space-y-2">
-              <div className="flex items-center space-x-2">
-                <span className="w-6 h-6 rounded-full bg-blue-600 text-white font-bold text-xs flex items-center justify-center">1</span>
-                <h4 className="text-xs font-bold text-slate-900 dark:text-white">
-                  {language === 'tl' ? 'Pumili at Mag-file Online' : 'Select & File Online'}
-                </h4>
-              </div>
-              <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                {language === 'tl' 
-                  ? 'Pumili ng uri ng permit, punan ang detalye ng negosyo o proyekto, at maglakip ng mga digital na dokumento.' 
-                  : 'Choose your permit type, fill in your business or project details, and attach digital documents.'}
-              </p>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-amber-50/50 dark:bg-slate-800/50 border border-amber-100 dark:border-slate-700/80 space-y-2">
-              <div className="flex items-center space-x-2">
-                <span className="w-6 h-6 rounded-full bg-amber-600 text-white font-bold text-xs flex items-center justify-center">2</span>
-                <h4 className="text-xs font-bold text-slate-900 dark:text-white">
-                  {language === 'tl' ? 'Beripikasyon ng AI at Kawani' : 'AI & Officer Verification'}
-                </h4>
-              </div>
-              <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                {language === 'tl'
-                  ? 'Sinusuri ng awtomatikong OCR ang bisa ng dokumento habang sinusuri ng mga opisyal ng LGU ang pagsunod.'
-                  : 'Automated OCR checks document validity while LGU officers evaluate compliance parameters.'}
-              </p>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-rose-50/50 dark:bg-slate-800/50 border border-rose-100 dark:border-slate-700/80 space-y-2">
-              <div className="flex items-center space-x-2">
-                <span className="w-6 h-6 rounded-full bg-rose-600 text-white font-bold text-xs flex items-center justify-center">3</span>
-                <h4 className="text-xs font-bold text-slate-900 dark:text-white">
-                  {language === 'tl' ? 'Pagtatasa at Pagbabayad' : 'Assessment & Payment'}
-                </h4>
-              </div>
-              <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                {language === 'tl'
-                  ? 'Suriin ang malinaw na kompyutasyon ng buwis at bayaran ito nang ligtas gamit ang online payment, GCash, o Maya.'
-                  : 'Review your transparent municipal fee computation and settle securely via Eprovider, GCash, or Maya.'}
-              </p>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-emerald-50/50 dark:bg-slate-800/50 border border-emerald-100 dark:border-slate-700/80 space-y-2">
-              <div className="flex items-center space-x-2">
-                <span className="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold text-xs flex items-center justify-center">4</span>
-                <h4 className="text-xs font-bold text-slate-900 dark:text-white">
-                  {language === 'tl' ? 'Paglabas ng QR Permit' : 'QR Permit Release'}
-                </h4>
-              </div>
-              <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                {language === 'tl'
-                  ? 'Agad na i-download ang iyong tamper-proof QR-certified permit na may cryptographic verification.'
-                  : 'Instantly download your tamper-proof QR-certified permit with cryptographic verification.'}
-              </p>
-            </div>
-
-          </div>
-        </div>
+        
 
       </main>
 
-      {/* ========================================================================= */}
-      {/* 3. PORTAL FOOTER */}
-      {/* ========================================================================= */}
-      <footer className="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-8 px-4 sm:px-8 mt-auto">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500 dark:text-slate-400">
-          <div className="flex items-center space-x-3">
-            <Landmark size={18} className="text-blue-600" />
-            <span>Republic of the Philippines • Local Government Unit Online Licensing Services</span>
-          </div>
-          <div className="flex items-center space-x-6">
-            <span className="hover:text-slate-800 dark:hover:text-white cursor-pointer" onClick={() => onNavigateToTab('Home')}>
-              {t('home', 'Dashboard & Tracker')}
-            </span>
-            <span className="hover:text-slate-800 dark:hover:text-white cursor-pointer" onClick={() => onNavigateToTab('E-Permit Tracker')}>
-              {t('verify_qr_permit', 'Permit Verification')}
-            </span>
-            <span>Hotline: (02) 8888-GOV</span>
-          </div>
-        </div>
-      </footer>
+      
 
       {/* ========================================================================= */}
       {/* MODAL: REQUIREMENTS CHECKLIST */}

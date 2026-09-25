@@ -1446,36 +1446,33 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
             {/* ========================================================================= */}
             {/* HERO SECTION: OFFICIAL PICTURE 3 REFERENCE DESIGN */}
             {/* ========================================================================= */}
-            <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#10243e] to-slate-950 border border-sky-500/30 text-white shadow-xl overflow-hidden group">
+            <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-white via-sky-50/70 to-blue-50/50 dark:from-slate-900 dark:via-[#10243e] dark:to-slate-950 border border-sky-200 dark:border-sky-500/30 text-slate-900 dark:text-white shadow-xl shadow-sky-900/5 dark:shadow-sky-950/40 overflow-hidden group">
               <div className="absolute top-0 right-0 w-96 h-96 bg-sky-500/15 rounded-full blur-3xl pointer-events-none group-hover:bg-sky-500/25 transition-all duration-700" />
               <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-blue-500/10 rounded-full blur-2xl pointer-events-none" />
 
               <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
                 <div className="space-y-4 max-w-2xl">
                   <div className="flex items-center space-x-3">
-                    <span className="px-3.5 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-sky-500/20 text-sky-300 border border-sky-400/30">
+                    <span className="px-3.5 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-sky-100 dark:bg-sky-500/20 text-sky-800 dark:text-sky-300 border border-sky-300 dark:border-sky-400/30">
                       Public Transport & Fleet
                     </span>
                   </div>
 
                   <div>
-                    <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+                    <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white">
                       Franchise & Transport Permit
                     </h2>
-                    <p className="text-sm font-semibold text-sky-300 mt-1">
-                      Tricycle (MTOP) & PUV Licensing
-                    </p>
                   </div>
 
                   {/* 5 Feature Rows with Circular Badges matching Picture 3 */}
-                  <div className="space-y-2.5 pt-2 border-t border-white/10">
+                  <div className="space-y-2.5 pt-2 border-t border-slate-200 dark:border-white/10">
                     <div className="flex items-start space-x-3">
                       <div className="w-8 h-8 rounded-full bg-sky-100 text-[#0288d1] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
                         <Users size={16} />
                       </div>
                       <div className="text-xs">
-                        <span className="font-bold text-white block">Target Users</span>
-                        <span className="text-slate-300">Tricycle MTOP operators, TODA cooperative members, and PUV drivers</span>
+                        <span className="font-bold text-slate-900 dark:text-white block">Target Users</span>
+                        <span className="text-slate-600 dark:text-slate-300 font-medium">Tricycle MTOP operators, TODA cooperative members, and PUV drivers</span>
                       </div>
                     </div>
 
@@ -1484,8 +1481,8 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                         <Bus size={16} />
                       </div>
                       <div className="text-xs">
-                        <span className="font-bold text-white block">Service Method</span>
-                        <span className="text-slate-300">Online application through GovServe</span>
+                        <span className="font-bold text-slate-900 dark:text-white block">Service Method</span>
+                        <span className="text-slate-600 dark:text-slate-300 font-medium">Online application through GovServe</span>
                       </div>
                     </div>
 
@@ -1494,8 +1491,8 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                         <Clock size={16} />
                       </div>
                       <div className="text-xs">
-                        <span className="font-bold text-white block">Time Period</span>
-                        <span className="text-slate-300">2 to 3 days upon TODA route verification & roadworthiness audit</span>
+                        <span className="font-bold text-slate-900 dark:text-white block">Time Period</span>
+                        <span className="text-slate-600 dark:text-slate-300 font-medium">2 to 3 days upon TODA route verification & roadworthiness audit</span>
                       </div>
                     </div>
 
@@ -1504,8 +1501,8 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                         <Banknote size={16} />
                       </div>
                       <div className="text-xs">
-                        <span className="font-bold text-white block">Charges & Payment</span>
-                        <span className="text-slate-300">₱1,350.00 Base Franchise Regulatory Tariff + TODA clearance</span>
+                        <span className="font-bold text-slate-900 dark:text-white block">Charges & Payment</span>
+                        <span className="text-slate-600 dark:text-slate-300 font-medium">₱1,350.00 Base Franchise Regulatory Tariff + TODA clearance</span>
                       </div>
                     </div>
 
@@ -1514,33 +1511,33 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                         <CreditCard size={16} />
                       </div>
                       <div className="text-xs">
-                        <span className="font-bold text-white block">Payment Method</span>
-                        <span className="text-slate-300">Via GovServe online portal</span>
+                        <span className="font-bold text-slate-900 dark:text-white block">Payment Method</span>
+                        <span className="text-slate-600 dark:text-slate-300 font-medium">Via GovServe online portal</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Document Photo Upload Callout */}
-                  <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
-                    <div className="flex items-center space-x-2 text-sky-300 text-xs font-bold">
+                  <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/15 space-y-2 shadow-xs dark:shadow-none">
+                    <div className="flex items-center space-x-2 text-sky-700 dark:text-sky-300 text-xs font-bold">
                       <Camera size={15} className="text-sky-400" />
                       <span>LTO Documents & Vehicle Photo Upload Active</span>
                     </div>
-                    <p className="text-[11px] text-slate-300">
+                    <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
                       Upload clear photos or scans of your LTO OR/CR, Professional Driver's License, TODA endorsement, and unit inspection pictures.
                     </p>
                     <div className="flex flex-wrap gap-1.5 pt-0.5">
-                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                        <FileText size={10} className="text-sky-300" /> LTO OR / CR
+                      <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-600 dark:text-sky-300" /> LTO OR / CR
                       </span>
-                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                        <FileText size={10} className="text-sky-300" /> Driver's License
+                      <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-600 dark:text-sky-300" /> Driver's License
                       </span>
-                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                        <FileText size={10} className="text-sky-300" /> TODA Endorsement
+                      <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-600 dark:text-sky-300" /> TODA Endorsement
                       </span>
-                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                        <FileText size={10} className="text-sky-300" /> Unit Vehicle Photo
+                      <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-600 dark:text-sky-300" /> Unit Vehicle Photo
                       </span>
                     </div>
                   </div>
@@ -1566,7 +1563,7 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                         setRenewalSubmitted(false);
                         setCurrentView('renewal');
                       }}
-                      className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 hover:text-slate-950 border border-slate-300/80 dark:bg-white/10 dark:hover:bg-white/15 dark:text-slate-200 dark:hover:text-white dark:border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs dark:shadow-none"
                     >
                       <RefreshCw size={13} />
                       <span>Annual Renewal</span>
@@ -1576,7 +1573,7 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                       onClick={() => {
                         showToast('Viewing Franchise Requirements & TODA Regulations');
                       }}
-                      className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 hover:text-slate-950 border border-slate-300/80 dark:bg-white/10 dark:hover:bg-white/15 dark:text-slate-200 dark:hover:text-white dark:border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs dark:shadow-none"
                     >
                       <FileCheck size={13} />
                       <span>View Requirements</span>
@@ -1590,37 +1587,34 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
             <div className="space-y-6">
               
               {/* Card 1: Annual Franchise Renewal */}
-              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#06241a] to-slate-950 border border-emerald-500/30 text-white shadow-xl overflow-hidden group">
+              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-white via-emerald-50/70 to-teal-50/50 dark:from-slate-900 dark:via-[#06241a] dark:to-slate-950 border border-emerald-200 dark:border-emerald-500/30 text-slate-900 dark:text-white shadow-xl shadow-emerald-900/5 dark:shadow-emerald-950/40 overflow-hidden group">
                 <div className="absolute -right-16 -top-16 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-emerald-500/15 transition-all"></div>
                 <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
                   <div className="space-y-4 max-w-3xl">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[11px] font-black uppercase tracking-wider">
+                      <span className="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/30 text-emerald-800 dark:text-emerald-300 text-[11px] font-black uppercase tracking-wider">
                         Fast-Track Franchise Renewal
                       </span>
-                      <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-slate-300 text-[10px] font-bold">
+                      <span className="px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-transparent text-[10px] font-bold">
                         ● Annual Compliance
                       </span>
                     </div>
 
                     <div>
-                      <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                      <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
                         Annual Franchise Renewal
                       </h2>
-                      <p className="text-xs sm:text-sm text-slate-300 mt-1 font-medium">
-                        MTOP Fast-Track Verification, Franchise ID Re-validation & Route Decal Clearance
-                      </p>
                     </div>
 
                     {/* 5 Feature Rows with Circular Badges */}
-                    <div className="space-y-2.5 pt-2 border-t border-white/10">
+                    <div className="space-y-2.5 pt-2 border-t border-slate-200 dark:border-white/10">
                       <div className="flex items-start space-x-3">
                         <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
                           <Users size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Target Users</span>
-                          <span className="text-slate-300">Registered tricycle operators, TODA member franchises with active MTOP numbers</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Target Users</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Registered tricycle operators, TODA member franchises with active MTOP numbers</span>
                         </div>
                       </div>
 
@@ -1629,8 +1623,8 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                           <RefreshCw size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Service Method</span>
-                          <span className="text-slate-300">Online application through GovServe</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Service Method</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Online application through GovServe</span>
                         </div>
                       </div>
 
@@ -1639,8 +1633,8 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                           <Clock size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Time Period</span>
-                          <span className="text-slate-300">1 to 2 business days upon TODA validation & record audit</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Time Period</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">1 to 2 business days upon TODA validation & record audit</span>
                         </div>
                       </div>
 
@@ -1649,8 +1643,8 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                           <Banknote size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Charges & Payment</span>
-                          <span className="text-slate-300">₱1,250.00 Annual MTOP Renewal Regulatory Tariff</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Charges & Payment</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">₱1,250.00 Annual MTOP Renewal Regulatory Tariff</span>
                         </div>
                       </div>
 
@@ -1659,33 +1653,33 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                           <CreditCard size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Payment Method</span>
-                          <span className="text-slate-300">Via GovServe online portal</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Payment Method</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Via GovServe online portal</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Document Photo Upload Callout */}
-                    <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
-                      <div className="flex items-center space-x-2 text-emerald-300 text-xs font-bold">
+                    <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/15 space-y-2 shadow-xs dark:shadow-none">
+                      <div className="flex items-center space-x-2 text-emerald-700 dark:text-emerald-300 text-xs font-bold">
                         <Camera size={15} className="text-emerald-400" />
                         <span>Renewal Documents & QR Sticker Verification Active</span>
                       </div>
-                      <p className="text-[11px] text-slate-300">
+                      <p className="text-[11px] text-slate-600 dark:text-slate-300">
                         Upload updated LTO OR/CR, updated Barangay Clearance, TODA validation receipt, and previous MTOP certificate.
                       </p>
                       <div className="flex flex-wrap gap-1.5 pt-0.5">
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-emerald-300" /> LTO OR / CR
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-600 dark:text-emerald-300" /> LTO OR / CR
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-emerald-300" /> TODA Receipt
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-600 dark:text-emerald-300" /> TODA Receipt
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-emerald-300" /> Barangay Clearance
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-600 dark:text-emerald-300" /> Barangay Clearance
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-emerald-300" /> Old MTOP Decal
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-600 dark:text-emerald-300" /> Old MTOP Decal
                         </span>
                       </div>
                     </div>
@@ -1704,16 +1698,16 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                     </button>
 
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="py-2.5 px-3 rounded-xl bg-white/10 border border-white/10 text-xs font-bold text-center flex flex-col justify-center">
-                        <span className="text-[10px] uppercase text-emerald-300">Total Assessment</span>
-                        <span className="text-white font-black font-mono">₱1,250.00</span>
+                      <div className="py-2.5 px-3 rounded-xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/10 text-xs font-bold text-center flex flex-col justify-center shadow-xs dark:shadow-none">
+                        <span className="text-[10px] uppercase text-emerald-700 dark:text-emerald-300 font-extrabold">Total Assessment</span>
+                        <span className="text-slate-900 dark:text-white font-black font-mono">₱1,250.00</span>
                       </div>
 
                       <button
                         onClick={() => {
                           showToast('Viewing MTOP Renewal Requirements');
                         }}
-                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                        className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 hover:text-slate-950 border border-slate-300/80 dark:bg-white/10 dark:hover:bg-white/15 dark:text-slate-200 dark:hover:text-white dark:border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs dark:shadow-none"
                       >
                         <FileCheck size={13} />
                         <span>View Requirements</span>
@@ -1724,37 +1718,34 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
               </div>
 
               {/* Card 2: Amendment & Substitution */}
-              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#1e0a2e] to-slate-950 border border-purple-500/30 text-white shadow-xl overflow-hidden group">
+              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-white via-purple-50/70 to-fuchsia-50/50 dark:from-slate-900 dark:via-[#1e0a2e] dark:to-slate-950 border border-purple-200 dark:border-purple-500/30 text-slate-900 dark:text-white shadow-xl shadow-purple-900/5 dark:shadow-purple-950/40 overflow-hidden group">
                 <div className="absolute -right-16 -top-16 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-purple-500/15 transition-all"></div>
                 <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
                   <div className="space-y-4 max-w-3xl">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="px-3 py-1 rounded-full bg-purple-500/20 border border-purple-400/30 text-purple-300 text-[11px] font-black uppercase tracking-wider">
+                      <span className="px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/30 text-purple-800 dark:text-purple-300 text-[11px] font-black uppercase tracking-wider">
                         Unit & Route Modification
                       </span>
-                      <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-slate-300 text-[10px] font-bold">
+                      <span className="px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-transparent text-[10px] font-bold">
                         ● Legal Amendment
                       </span>
                     </div>
 
                     <div>
-                      <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                      <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
                         Amendment & Substitution
                       </h2>
-                      <p className="text-xs sm:text-sm text-slate-300 mt-1 font-medium">
-                        Vehicle Unit Replacement, Driver Reassignment & Route Transfer Filing
-                      </p>
                     </div>
 
                     {/* 5 Feature Rows with Circular Badges */}
-                    <div className="space-y-2.5 pt-2 border-t border-white/10">
+                    <div className="space-y-2.5 pt-2 border-t border-slate-200 dark:border-white/10">
                       <div className="flex items-start space-x-3">
                         <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
                           <Users size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Target Users</span>
-                          <span className="text-slate-300">Franchise holders changing motor unit, engine, plate number, or transfer of ownership</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Target Users</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Franchise holders changing motor unit, engine, plate number, or transfer of ownership</span>
                         </div>
                       </div>
 
@@ -1763,8 +1754,8 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                           <FileText size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Service Method</span>
-                          <span className="text-slate-300">Online application through GovServe</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Service Method</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Online application through GovServe</span>
                         </div>
                       </div>
 
@@ -1773,8 +1764,8 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                           <Clock size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Time Period</span>
-                          <span className="text-slate-300">2 to 3 days upon Legal Office & Traffic Board review</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Time Period</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">2 to 3 days upon Legal Office & Traffic Board review</span>
                         </div>
                       </div>
 
@@ -1783,8 +1774,8 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                           <Banknote size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Charges & Payment</span>
-                          <span className="text-slate-300">₱900.00 Legal Tariff & Motorized Substitution Fee</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Charges & Payment</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">₱900.00 Legal Tariff & Motorized Substitution Fee</span>
                         </div>
                       </div>
 
@@ -1793,33 +1784,33 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                           <CreditCard size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Payment Method</span>
-                          <span className="text-slate-300">Via GovServe online portal</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Payment Method</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Via GovServe online portal</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Document Photo Upload Callout */}
-                    <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
-                      <div className="flex items-center space-x-2 text-purple-300 text-xs font-bold">
+                    <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/15 space-y-2 shadow-xs dark:shadow-none">
+                      <div className="flex items-center space-x-2 text-purple-700 dark:text-purple-300 text-xs font-bold">
                         <Camera size={15} className="text-purple-400" />
                         <span>Legal Deeds & Vehicle Inspection Documents Active</span>
                       </div>
-                      <p className="text-[11px] text-slate-300">
+                      <p className="text-[11px] text-slate-600 dark:text-slate-300">
                         Upload notarized Deed of Sale, new engine LTO certificate, physical motor inspection photos, and TODA concurrence.
                       </p>
                       <div className="flex flex-wrap gap-1.5 pt-0.5">
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-purple-300" /> Deed of Sale
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-600 dark:text-purple-300" /> Deed of Sale
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-purple-300" /> New Engine LTO
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-600 dark:text-purple-300" /> New Engine LTO
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-purple-300" /> Motor Inspection
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-600 dark:text-purple-300" /> Motor Inspection
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-purple-300" /> TODA Endorsement
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-600 dark:text-purple-300" /> TODA Endorsement
                         </span>
                       </div>
                     </div>
@@ -1838,16 +1829,16 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                     </button>
 
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="py-2.5 px-3 rounded-xl bg-white/10 border border-white/10 text-xs font-bold text-center flex flex-col justify-center">
-                        <span className="text-[10px] uppercase text-purple-300">Legal Tariff</span>
-                        <span className="text-white font-black font-mono">₱900.00</span>
+                      <div className="py-2.5 px-3 rounded-xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/10 text-xs font-bold text-center flex flex-col justify-center shadow-xs dark:shadow-none">
+                        <span className="text-[10px] uppercase text-purple-700 dark:text-purple-300 font-extrabold">Legal Tariff</span>
+                        <span className="text-slate-900 dark:text-white font-black font-mono">₱900.00</span>
                       </div>
 
                       <button
                         onClick={() => {
                           showToast('Viewing Amendment & Substitution Requirements');
                         }}
-                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                        className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 hover:text-slate-950 border border-slate-300/80 dark:bg-white/10 dark:hover:bg-white/15 dark:text-slate-200 dark:hover:text-white dark:border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs dark:shadow-none"
                       >
                         <FileCheck size={13} />
                         <span>View Requirements</span>
@@ -1858,37 +1849,34 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
               </div>
 
               {/* Card 3: Special Trip Clearance */}
-              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#1c1303] to-slate-950 border border-amber-500/30 text-white shadow-xl overflow-hidden group">
+              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-white via-amber-50/70 to-orange-50/50 dark:from-slate-900 dark:via-[#1c1303] dark:to-slate-950 border border-amber-200 dark:border-amber-500/30 text-slate-900 dark:text-white shadow-xl shadow-amber-900/5 dark:shadow-amber-950/40 overflow-hidden group">
                 <div className="absolute -right-16 -top-16 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-amber-500/15 transition-all"></div>
                 <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
                   <div className="space-y-4 max-w-3xl">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 text-[11px] font-black uppercase tracking-wider">
+                      <span className="px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/30 text-amber-800 dark:text-amber-300 text-[11px] font-black uppercase tracking-wider">
                         Temporary Route Pass
                       </span>
-                      <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-slate-300 text-[10px] font-bold">
+                      <span className="px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-transparent text-[10px] font-bold">
                         ● Special Clearance
                       </span>
                     </div>
 
                     <div>
-                      <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                      <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
                         Special Trip Clearance
                       </h2>
-                      <p className="text-xs sm:text-sm text-slate-300 mt-1 font-medium">
-                        Out-of-Line Exemption, Event Charter & Funeral Escort Pass
-                      </p>
                     </div>
 
                     {/* 5 Feature Rows with Circular Badges */}
-                    <div className="space-y-2.5 pt-2 border-t border-white/10">
+                    <div className="space-y-2.5 pt-2 border-t border-slate-200 dark:border-white/10">
                       <div className="flex items-start space-x-3">
                         <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
                           <Users size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Target Users</span>
-                          <span className="text-slate-300">Operators and groups requesting temporary out-of-zone transit clearance</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Target Users</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Operators and groups requesting temporary out-of-zone transit clearance</span>
                         </div>
                       </div>
 
@@ -1897,8 +1885,8 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                           <MapPin size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Service Method</span>
-                          <span className="text-slate-300">Online application through GovServe</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Service Method</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Online application through GovServe</span>
                         </div>
                       </div>
 
@@ -1907,8 +1895,8 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                           <Clock size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Time Period</span>
-                          <span className="text-slate-300">Same-day or within 24 hours approval</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Time Period</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Same-day or within 24 hours approval</span>
                         </div>
                       </div>
 
@@ -1917,8 +1905,8 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                           <Banknote size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Charges & Payment</span>
-                          <span className="text-slate-300">₱350.00 Standard Pass Fee</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Charges & Payment</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">₱350.00 Standard Pass Fee</span>
                         </div>
                       </div>
 
@@ -1927,33 +1915,33 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                           <CreditCard size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Payment Method</span>
-                          <span className="text-slate-300">Via GovServe online portal</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Payment Method</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Via GovServe online portal</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Document Photo Upload Callout */}
-                    <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
-                      <div className="flex items-center space-x-2 text-amber-300 text-xs font-bold">
+                    <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/15 space-y-2 shadow-xs dark:shadow-none">
+                      <div className="flex items-center space-x-2 text-amber-700 dark:text-amber-300 text-xs font-bold">
                         <Camera size={15} className="text-amber-400" />
                         <span>Route Itinerary & Special Transit Pass Active</span>
                       </div>
-                      <p className="text-[11px] text-slate-300">
+                      <p className="text-[11px] text-slate-600 dark:text-slate-300">
                         Upload special trip destination itinerary, driver identification, passenger manifest, and dispatch clearance.
                       </p>
                       <div className="flex flex-wrap gap-1.5 pt-0.5">
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-amber-300" /> Trip Itinerary
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-600 dark:text-amber-300" /> Trip Itinerary
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-amber-300" /> Passenger Manifest
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-600 dark:text-amber-300" /> Passenger Manifest
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-amber-300" /> Driver ID
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-600 dark:text-amber-300" /> Driver ID
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-amber-300" /> Dispatch Slip
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-600 dark:text-amber-300" /> Dispatch Slip
                         </span>
                       </div>
                     </div>
@@ -1972,16 +1960,16 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                     </button>
 
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="py-2.5 px-3 rounded-xl bg-white/10 border border-white/10 text-xs font-bold text-center flex flex-col justify-center">
-                        <span className="text-[10px] uppercase text-amber-300">Standard Pass</span>
-                        <span className="text-white font-black font-mono">₱350.00</span>
+                      <div className="py-2.5 px-3 rounded-xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/10 text-xs font-bold text-center flex flex-col justify-center shadow-xs dark:shadow-none">
+                        <span className="text-[10px] uppercase text-amber-700 dark:text-amber-300 font-extrabold">Standard Pass</span>
+                        <span className="text-slate-900 dark:text-white font-black font-mono">₱350.00</span>
                       </div>
 
                       <button
                         onClick={() => {
                           showToast('Viewing Special Trip Guidelines');
                         }}
-                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                        className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 hover:text-slate-950 border border-slate-300/80 dark:bg-white/10 dark:hover:bg-white/15 dark:text-slate-200 dark:hover:text-white dark:border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs dark:shadow-none"
                       >
                         <FileCheck size={13} />
                         <span>View Guidelines</span>
@@ -3799,7 +3787,7 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
                           {activeReviewItem.mtopNo}
                         </span>
                         <p className="font-bold text-xs text-white">{activeReviewItem.operatorName}</p>
-                        <p className="text-[11px] text-slate-300">{activeReviewItem.todaOrganization} • Body {activeReviewItem.bodyNo}</p>
+                        <p className="text-[11px] text-slate-600 dark:text-slate-300">{activeReviewItem.todaOrganization} • Body {activeReviewItem.bodyNo}</p>
                       </div>
 
                       <div className="pt-2 border-t border-slate-700 text-[10px] text-slate-400 font-mono">

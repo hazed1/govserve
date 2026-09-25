@@ -34,7 +34,6 @@ import { TabType, UserRole, NotificationItem, ApplicationItem } from '../../type
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { useLanguage } from '../../context/LanguageContext';
-import { LanguageToggle } from './LanguageToggle';
 import { fetchAIStatus, AIStatusResponse } from '../../services/aiApi';
 import { AISettingsModal } from './AISettingsModal';
 
@@ -267,10 +266,6 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
 
         <div className="flex items-center space-x-2 sm:space-x-3">
-
-          {/* Language Switcher TL | EN Toggle */}
-          <LanguageToggle />
-
           {/* Dark Mode / Light Mode Toggle Button */}
           <button
             onClick={toggleTheme}

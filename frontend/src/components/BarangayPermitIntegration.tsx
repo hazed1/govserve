@@ -545,7 +545,7 @@ Digital Security Hash   : ${item.qrHash}
               {/* Card 1: Total Processed */}
               <div 
                 onClick={() => setStatusFilter('All')}
-                className="p-5 rounded-3xl bg-gradient-to-br from-slate-900 via-purple-950 to-slate-900 border border-purple-500/30 text-white shadow-lg space-y-2 cursor-pointer hover:border-purple-400 transition-all group"
+                className="p-5 rounded-3xl bg-white dark:bg-gradient-to-br dark:from-slate-900 dark:via-purple-950 dark:to-slate-900 border border-purple-200 dark:border-purple-500/30 text-slate-900 dark:text-white shadow-md space-y-2 cursor-pointer hover:border-purple-400 transition-all group"
               >
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-purple-300">Total Clearances (24 Brgys)</span>
@@ -557,7 +557,7 @@ Digital Security Hash   : ${item.qrHash}
                   <span className="text-3xl font-black">4,850</span>
                   <span className="text-xs text-purple-300 font-semibold">99.1% Compliance</span>
                 </div>
-                <p className="text-[11px] text-slate-300">Across all 24 Quezon City Local Units • +28 today</p>
+                <p className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">Across all 24 Quezon City Local Units • +28 today</p>
               </div>
 
               {/* Card 2: Pending Validation */}
@@ -638,7 +638,7 @@ Digital Security Hash   : ${item.qrHash}
             </div>
 
             {/* 2. 24-Barangay Network Cluster Health Strip */}
-            <div className="p-5 rounded-3xl bg-gradient-to-r from-slate-900 via-slate-850 to-indigo-950 border border-purple-500/30 text-white space-y-3 shadow-md">
+            <div className="p-5 rounded-3xl bg-white dark:bg-gradient-to-r dark:from-slate-900 dark:via-slate-850 dark:to-indigo-950 border border-purple-200 dark:border-purple-500/30 text-slate-900 dark:text-white space-y-3 shadow-md">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex items-center space-x-2.5">
                   <div className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse" />
@@ -1015,7 +1015,7 @@ Digital Security Hash   : ${item.qrHash}
           <div className="space-y-8 animate-in fade-in pb-10">
             
             {/* Top Telemetry Summary Header */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-purple-950 to-slate-900 border border-purple-500/30 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-gradient-to-r dark:from-slate-900 dark:via-purple-950 dark:to-slate-900 border border-purple-200 dark:border-purple-500/30 text-slate-900 dark:text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="space-y-2">
                 <h2 className="text-xl sm:text-2xl font-black text-white">
                   24-Barangay Automated Interconnection Grid
@@ -1165,36 +1165,33 @@ Digital Security Hash   : ${item.qrHash}
             {/* ========================================================================= */}
             {/* HERO SECTION: OFFICIAL PICTURE 3 REFERENCE DESIGN */}
             {/* ========================================================================= */}
-            <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#10243e] to-slate-950 border border-sky-500/30 text-white shadow-xl overflow-hidden group">
+            <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-white via-sky-50/70 to-blue-50/50 dark:from-slate-900 dark:via-[#10243e] dark:to-slate-950 border border-sky-200 dark:border-sky-500/30 text-slate-900 dark:text-white shadow-xl shadow-sky-900/5 dark:shadow-sky-950/40 overflow-hidden group">
               <div className="absolute top-0 right-0 w-96 h-96 bg-sky-500/15 rounded-full blur-3xl pointer-events-none group-hover:bg-sky-500/25 transition-all duration-700" />
               <div className="absolute bottom-0 left-1/3 w-64 h-64 bg-blue-500/10 rounded-full blur-2xl pointer-events-none" />
 
               <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
                 <div className="space-y-4 max-w-2xl">
                   <div className="flex items-center space-x-3">
-                    <span className="px-3.5 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-sky-500/20 text-sky-300 border border-sky-400/30">
+                    <span className="px-3.5 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-sky-100 dark:bg-sky-500/20 text-sky-800 dark:text-sky-300 border border-sky-300 dark:border-sky-400/30">
                       24-Barangay Network
                     </span>
                   </div>
 
                   <div>
-                    <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+                    <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white">
                       Barangay Permit Integration
                     </h2>
-                    <p className="text-sm font-semibold text-sky-300 mt-1">
-                      Barangay Endorsement & Cedula (CTC)
-                    </p>
                   </div>
 
                   {/* 5 Feature Rows with Circular Badges matching Picture 3 */}
-                  <div className="space-y-2.5 pt-2 border-t border-white/10">
+                  <div className="space-y-2.5 pt-2 border-t border-slate-200 dark:border-white/10">
                     <div className="flex items-start space-x-3">
                       <div className="w-8 h-8 rounded-full bg-sky-100 text-[#0288d1] flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
                         <Users size={16} />
                       </div>
                       <div className="text-xs">
-                        <span className="font-bold text-white block">Target Users</span>
-                        <span className="text-slate-300">Residents, business locators, and applicants across the 24 LGU Barangays</span>
+                        <span className="font-bold text-slate-900 dark:text-white block">Target Users</span>
+                        <span className="text-slate-600 dark:text-slate-300 font-medium">Residents, business locators, and applicants across the 24 LGU Barangays</span>
                       </div>
                     </div>
 
@@ -1203,8 +1200,8 @@ Digital Security Hash   : ${item.qrHash}
                         <ShieldCheck size={16} />
                       </div>
                       <div className="text-xs">
-                        <span className="font-bold text-white block">Service Method</span>
-                        <span className="text-slate-300">Online application through GovServe</span>
+                        <span className="font-bold text-slate-900 dark:text-white block">Service Method</span>
+                        <span className="text-slate-600 dark:text-slate-300 font-medium">Online application through GovServe</span>
                       </div>
                     </div>
 
@@ -1213,8 +1210,8 @@ Digital Security Hash   : ${item.qrHash}
                         <Clock size={16} />
                       </div>
                       <div className="text-xs">
-                        <span className="font-bold text-white block">Time Period</span>
-                        <span className="text-slate-300">Instant digital endorsement & 24 to 48 hours for Punong Barangay seal</span>
+                        <span className="font-bold text-slate-900 dark:text-white block">Time Period</span>
+                        <span className="text-slate-600 dark:text-slate-300 font-medium">Instant digital endorsement & 24 to 48 hours for Punong Barangay seal</span>
                       </div>
                     </div>
 
@@ -1223,8 +1220,8 @@ Digital Security Hash   : ${item.qrHash}
                         <Banknote size={16} />
                       </div>
                       <div className="text-xs">
-                        <span className="font-bold text-white block">Charges & Payment</span>
-                        <span className="text-slate-300">₱150.00 - ₱500.00 standard barangay clearance tariff + Cedula CTC</span>
+                        <span className="font-bold text-slate-900 dark:text-white block">Charges & Payment</span>
+                        <span className="text-slate-600 dark:text-slate-300 font-medium">₱150.00 - ₱500.00 standard barangay clearance tariff + Cedula CTC</span>
                       </div>
                     </div>
 
@@ -1233,33 +1230,33 @@ Digital Security Hash   : ${item.qrHash}
                         <CreditCard size={16} />
                       </div>
                       <div className="text-xs">
-                        <span className="font-bold text-white block">Payment Method</span>
-                        <span className="text-slate-300">Via GovServe online portal</span>
+                        <span className="font-bold text-slate-900 dark:text-white block">Payment Method</span>
+                        <span className="text-slate-600 dark:text-slate-300 font-medium">Via GovServe online portal</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Document Photo Upload Callout */}
-                  <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
-                    <div className="flex items-center space-x-2 text-sky-300 text-xs font-bold">
+                  <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/15 space-y-2 shadow-xs dark:shadow-none">
+                    <div className="flex items-center space-x-2 text-sky-700 dark:text-sky-300 text-xs font-bold">
                       <Camera size={15} className="text-sky-400" />
                       <span>Residency Proof & Cedula Upload Active</span>
                     </div>
-                    <p className="text-[11px] text-slate-300">
+                    <p className="text-[11px] text-slate-600 dark:text-slate-300">
                       Upload clear photos or pictures of your Valid Government ID, Proof of Residency, Cedula (CTC), and Barangay endorsement.
                     </p>
                     <div className="flex flex-wrap gap-1.5 pt-0.5">
-                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                        <FileText size={10} className="text-sky-300" /> Valid Gov ID
+                      <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-600 dark:text-sky-300" /> Valid Gov ID
                       </span>
-                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                        <FileText size={10} className="text-sky-300" /> Proof of Residency
+                      <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-600 dark:text-sky-300" /> Proof of Residency
                       </span>
-                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                        <FileText size={10} className="text-sky-300" /> Cedula / CTC
+                      <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-600 dark:text-sky-300" /> Cedula / CTC
                       </span>
-                      <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                        <FileText size={10} className="text-sky-300" /> Barangay Endorsement
+                      <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                        <FileText size={10} className="text-sky-600 dark:text-sky-300" /> Barangay Endorsement
                       </span>
                     </div>
                   </div>
@@ -1284,7 +1281,7 @@ Digital Security Hash   : ${item.qrHash}
                         setCedulaSubmitted(false);
                         setCurrentView('cedula');
                       }}
-                      className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 hover:text-slate-950 border border-slate-300/80 dark:bg-white/10 dark:hover:bg-white/15 dark:text-slate-200 dark:hover:text-white dark:border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs dark:shadow-none"
                     >
                       <FileText size={13} />
                       <span>Cedula CTC Filing</span>
@@ -1294,7 +1291,7 @@ Digital Security Hash   : ${item.qrHash}
                       onClick={() => {
                         showToast('Viewing 24-Barangay Clearance Prerequisites & Schedules');
                       }}
-                      className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                      className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 hover:text-slate-950 border border-slate-300/80 dark:bg-white/10 dark:hover:bg-white/15 dark:text-slate-200 dark:hover:text-white dark:border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs dark:shadow-none"
                     >
                       <FileCheck size={13} />
                       <span>View Requirements</span>
@@ -1308,37 +1305,34 @@ Digital Security Hash   : ${item.qrHash}
             <div className="space-y-6">
               
               {/* Card 1: Construction Endorsement */}
-              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#1c1303] to-slate-950 border border-amber-500/30 text-white shadow-xl overflow-hidden group">
+              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-white via-amber-50/70 to-orange-50/50 dark:from-slate-900 dark:via-[#1c1303] dark:to-slate-950 border border-amber-200 dark:border-amber-500/30 text-slate-900 dark:text-white shadow-xl shadow-amber-900/5 dark:shadow-amber-950/40 overflow-hidden group">
                 <div className="absolute -right-16 -top-16 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-amber-500/15 transition-all"></div>
                 <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
                   <div className="space-y-4 max-w-3xl">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 text-[11px] font-black uppercase tracking-wider">
+                      <span className="px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/30 text-amber-800 dark:text-amber-300 text-[11px] font-black uppercase tracking-wider">
                         Construction & Excavation
                       </span>
-                      <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-slate-300 text-[10px] font-bold">
+                      <span className="px-2.5 py-0.5 rounded-full bg-amber-50 dark:bg-white/10 text-amber-800 dark:text-slate-300 border border-amber-200 dark:border-transparent text-[10px] font-bold">
                         ● Site Endorsement
                       </span>
                     </div>
 
                     <div>
-                      <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                      <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
                         Barangay Construction Endorsement
                       </h2>
-                      <p className="text-xs sm:text-sm text-slate-300 mt-1 font-medium">
-                        Structural Location Clearance, Neighbor Consent & Excavation Permit
-                      </p>
                     </div>
 
                     {/* 5 Feature Rows with Circular Badges */}
-                    <div className="space-y-2.5 pt-2 border-t border-white/10">
+                    <div className="space-y-2.5 pt-2 border-t border-slate-200 dark:border-white/10">
                       <div className="flex items-start space-x-3">
                         <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
                           <Users size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Target Users</span>
-                          <span className="text-slate-300">Property owners, building contractors, structural developers, and engineers</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Target Users</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Property owners, building contractors, structural developers, and engineers</span>
                         </div>
                       </div>
 
@@ -1347,8 +1341,8 @@ Digital Security Hash   : ${item.qrHash}
                           <Building size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Service Method</span>
-                          <span className="text-slate-300">Online application through GovServe</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Service Method</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Online application through GovServe</span>
                         </div>
                       </div>
 
@@ -1357,8 +1351,8 @@ Digital Security Hash   : ${item.qrHash}
                           <Clock size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Time Period</span>
-                          <span className="text-slate-300">1 to 2 days upon Barangay Lupon & Kagawad site inspection</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Time Period</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">1 to 2 days upon Barangay Lupon & Kagawad site inspection</span>
                         </div>
                       </div>
 
@@ -1367,8 +1361,8 @@ Digital Security Hash   : ${item.qrHash}
                           <Banknote size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Charges & Payment</span>
-                          <span className="text-slate-300">₱800.00 Barangay Construction Regulatory Fee</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Charges & Payment</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">₱800.00 Barangay Construction Regulatory Fee</span>
                         </div>
                       </div>
 
@@ -1377,33 +1371,33 @@ Digital Security Hash   : ${item.qrHash}
                           <CreditCard size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Payment Method</span>
-                          <span className="text-slate-300">Via GovServe online portal</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Payment Method</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Via GovServe online portal</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Document Photo Upload Callout */}
-                    <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
-                      <div className="flex items-center space-x-2 text-amber-300 text-xs font-bold">
+                    <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/15 space-y-2 shadow-xs dark:shadow-none">
+                      <div className="flex items-center space-x-2 text-amber-700 dark:text-amber-300 text-xs font-bold">
                         <Camera size={15} className="text-amber-400" />
                         <span>Site Plans & Neighbor Concurrence Active</span>
                       </div>
-                      <p className="text-[11px] text-slate-300">
+                      <p className="text-[11px] text-slate-600 dark:text-slate-300">
                         Upload sketch plan of construction site, lot title / tax declaration, neighbor consent forms, and contractor ID.
                       </p>
                       <div className="flex flex-wrap gap-1.5 pt-0.5">
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-amber-300" /> Site Sketch Plan
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-600 dark:text-amber-300" /> Site Sketch Plan
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-amber-300" /> Lot Title / TCT
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-600 dark:text-amber-300" /> Lot Title / TCT
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-amber-300" /> Neighbor Consent
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-600 dark:text-amber-300" /> Neighbor Consent
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-amber-300" /> Contractor ID
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-amber-600 dark:text-amber-300" /> Contractor ID
                         </span>
                       </div>
                     </div>
@@ -1423,16 +1417,16 @@ Digital Security Hash   : ${item.qrHash}
                     </button>
 
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="py-2.5 px-3 rounded-xl bg-white/10 border border-white/10 text-xs font-bold text-center flex flex-col justify-center">
-                        <span className="text-[10px] uppercase text-amber-300">Assessment Fee</span>
-                        <span className="text-white font-black font-mono">₱800.00</span>
+                      <div className="py-2.5 px-3 rounded-xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/10 text-xs font-bold text-center flex flex-col justify-center shadow-xs dark:shadow-none">
+                        <span className="text-[10px] uppercase text-amber-700 dark:text-amber-300 font-extrabold">Assessment Fee</span>
+                        <span className="text-slate-900 dark:text-white font-black font-mono">₱800.00</span>
                       </div>
 
                       <button
                         onClick={() => {
                           showToast('Viewing Construction Endorsement Requirements');
                         }}
-                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                        className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 hover:text-slate-950 border border-slate-300/80 dark:bg-white/10 dark:hover:bg-white/15 dark:text-slate-200 dark:hover:text-white dark:border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs dark:shadow-none"
                       >
                         <FileCheck size={13} />
                         <span>View Requirements</span>
@@ -1443,37 +1437,34 @@ Digital Security Hash   : ${item.qrHash}
               </div>
 
               {/* Card 2: Community Tax Certificate (Cedula) */}
-              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#06241a] to-slate-950 border border-emerald-500/30 text-white shadow-xl overflow-hidden group">
+              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-white via-emerald-50/70 to-teal-50/50 dark:from-slate-900 dark:via-[#06241a] dark:to-slate-950 border border-emerald-200 dark:border-emerald-500/30 text-slate-900 dark:text-white shadow-xl shadow-emerald-900/5 dark:shadow-emerald-950/40 overflow-hidden group">
                 <div className="absolute -right-16 -top-16 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-emerald-500/15 transition-all"></div>
                 <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
                   <div className="space-y-4 max-w-3xl">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[11px] font-black uppercase tracking-wider">
+                      <span className="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/30 text-emerald-800 dark:text-emerald-300 text-[11px] font-black uppercase tracking-wider">
                         Instant Tax Clearance
                       </span>
-                      <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-slate-300 text-[10px] font-bold">
+                      <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 dark:bg-white/10 text-emerald-800 dark:text-slate-300 border border-emerald-200 dark:border-transparent text-[10px] font-bold">
                         ● Digital CTC Number
                       </span>
                     </div>
 
                     <div>
-                      <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                      <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
                         Community Tax Certificate (Cedula CTC)
                       </h2>
-                      <p className="text-xs sm:text-sm text-slate-300 mt-1 font-medium">
-                        Fast Digital Assessment, Gross Income Computation & Official Receipt
-                      </p>
                     </div>
 
                     {/* 5 Feature Rows with Circular Badges */}
-                    <div className="space-y-2.5 pt-2 border-t border-white/10">
+                    <div className="space-y-2.5 pt-2 border-t border-slate-200 dark:border-white/10">
                       <div className="flex items-start space-x-3">
                         <div className="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
                           <Users size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Target Users</span>
-                          <span className="text-slate-300">Employed individuals, business proprietors, real property owners, and professionals</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Target Users</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Employed individuals, business proprietors, real property owners, and professionals</span>
                         </div>
                       </div>
 
@@ -1482,8 +1473,8 @@ Digital Security Hash   : ${item.qrHash}
                           <FileText size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Service Method</span>
-                          <span className="text-slate-300">Online application through GovServe</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Service Method</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Online application through GovServe</span>
                         </div>
                       </div>
 
@@ -1492,8 +1483,8 @@ Digital Security Hash   : ${item.qrHash}
                           <Clock size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Time Period</span>
-                          <span className="text-slate-300">Instant computation & immediate digital receipt issuance</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Time Period</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Instant computation & immediate digital receipt issuance</span>
                         </div>
                       </div>
 
@@ -1502,8 +1493,8 @@ Digital Security Hash   : ${item.qrHash}
                           <Banknote size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Charges & Payment</span>
-                          <span className="text-slate-300">₱55.00 Basic + ₱1.00 per ₱1,000 Gross Income Assessment</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Charges & Payment</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">₱55.00 Basic + ₱1.00 per ₱1,000 Gross Income Assessment</span>
                         </div>
                       </div>
 
@@ -1512,33 +1503,33 @@ Digital Security Hash   : ${item.qrHash}
                           <CreditCard size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Payment Method</span>
-                          <span className="text-slate-300">Via GovServe online portal</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Payment Method</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Via GovServe online portal</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Document Photo Upload Callout */}
-                    <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
-                      <div className="flex items-center space-x-2 text-emerald-300 text-xs font-bold">
+                    <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/15 space-y-2 shadow-xs dark:shadow-none">
+                      <div className="flex items-center space-x-2 text-emerald-700 dark:text-emerald-300 text-xs font-bold">
                         <Camera size={15} className="text-emerald-400" />
                         <span>Income Declaration & Tax Proof Upload Active</span>
                       </div>
-                      <p className="text-[11px] text-slate-300">
+                      <p className="text-[11px] text-slate-600 dark:text-slate-300">
                         Upload valid government ID, proof of gross earnings or payslip, or previous year Cedula receipt.
                       </p>
                       <div className="flex flex-wrap gap-1.5 pt-0.5">
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-emerald-300" /> Valid Govt ID
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-600 dark:text-emerald-300" /> Valid Govt ID
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-emerald-300" /> Proof of Income
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-600 dark:text-emerald-300" /> Proof of Income
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-emerald-300" /> Prior Cedula CTC
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-600 dark:text-emerald-300" /> Prior Cedula CTC
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-emerald-300" /> BIR Form 2316
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-emerald-600 dark:text-emerald-300" /> BIR Form 2316
                         </span>
                       </div>
                     </div>
@@ -1557,16 +1548,16 @@ Digital Security Hash   : ${item.qrHash}
                     </button>
 
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="py-2.5 px-3 rounded-xl bg-white/10 border border-white/10 text-xs font-bold text-center flex flex-col justify-center">
-                        <span className="text-[10px] uppercase text-emerald-300">Basic Rate</span>
-                        <span className="text-white font-black font-mono">₱55.00+</span>
+                      <div className="py-2.5 px-3 rounded-xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/10 text-xs font-bold text-center flex flex-col justify-center shadow-xs dark:shadow-none">
+                        <span className="text-[10px] uppercase text-emerald-700 dark:text-emerald-300 font-extrabold">Basic Rate</span>
+                        <span className="text-slate-900 dark:text-white font-black font-mono">₱55.00+</span>
                       </div>
 
                       <button
                         onClick={() => {
                           showToast('Viewing Cedula Computation Rules');
                         }}
-                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                        className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 hover:text-slate-950 border border-slate-300/80 dark:bg-white/10 dark:hover:bg-white/15 dark:text-slate-200 dark:hover:text-white dark:border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs dark:shadow-none"
                       >
                         <FileCheck size={13} />
                         <span>View Rates</span>
@@ -1577,37 +1568,34 @@ Digital Security Hash   : ${item.qrHash}
               </div>
 
               {/* Card 3: Barangay Residency & Special Event */}
-              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-slate-900 via-[#1e0a2e] to-slate-950 border border-purple-500/30 text-white shadow-xl overflow-hidden group">
+              <div className="relative rounded-3xl p-7 sm:p-9 bg-gradient-to-br from-white via-purple-50/70 to-fuchsia-50/50 dark:from-slate-900 dark:via-[#1e0a2e] dark:to-slate-950 border border-purple-200 dark:border-purple-500/30 text-slate-900 dark:text-white shadow-xl shadow-purple-900/5 dark:shadow-purple-950/40 overflow-hidden group">
                 <div className="absolute -right-16 -top-16 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-purple-500/15 transition-all"></div>
                 <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
                   <div className="space-y-4 max-w-3xl">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="px-3 py-1 rounded-full bg-purple-500/20 border border-purple-400/30 text-purple-300 text-[11px] font-black uppercase tracking-wider">
+                      <span className="px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/30 text-purple-800 dark:text-purple-300 text-[11px] font-black uppercase tracking-wider">
                         Civil Status & Special Pass
                       </span>
-                      <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-slate-300 text-[10px] font-bold">
+                      <span className="px-2.5 py-0.5 rounded-full bg-purple-50 dark:bg-white/10 text-purple-800 dark:text-slate-300 border border-purple-200 dark:border-transparent text-[10px] font-bold">
                         ● Official Seal
                       </span>
                     </div>
 
                     <div>
-                      <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                      <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
                         Barangay Residency & Event Clearance
                       </h2>
-                      <p className="text-xs sm:text-sm text-slate-300 mt-1 font-medium">
-                        Proof of Residency, Good Moral Character, Indigency & Public Activity Pass
-                      </p>
                     </div>
 
                     {/* 5 Feature Rows with Circular Badges */}
-                    <div className="space-y-2.5 pt-2 border-t border-white/10">
+                    <div className="space-y-2.5 pt-2 border-t border-slate-200 dark:border-white/10">
                       <div className="flex items-start space-x-3">
                         <div className="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-xs">
                           <Users size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Target Users</span>
-                          <span className="text-slate-300">Barangay residents, event organizers, scholarship applicants, and jobseekers</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Target Users</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Barangay residents, event organizers, scholarship applicants, and jobseekers</span>
                         </div>
                       </div>
 
@@ -1616,8 +1604,8 @@ Digital Security Hash   : ${item.qrHash}
                           <Award size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Service Method</span>
-                          <span className="text-slate-300">Online application through GovServe</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Service Method</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Online application through GovServe</span>
                         </div>
                       </div>
 
@@ -1626,8 +1614,8 @@ Digital Security Hash   : ${item.qrHash}
                           <Clock size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Time Period</span>
-                          <span className="text-slate-300">Same-day release upon Lupon records & voter check</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Time Period</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Same-day release upon Lupon records & voter check</span>
                         </div>
                       </div>
 
@@ -1636,8 +1624,8 @@ Digital Security Hash   : ${item.qrHash}
                           <Banknote size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Charges & Payment</span>
-                          <span className="text-slate-300">₱150.00 Standard Barangay Certification Fee (Free for Indigents)</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Charges & Payment</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">₱150.00 Standard Barangay Certification Fee (Free for Indigents)</span>
                         </div>
                       </div>
 
@@ -1646,33 +1634,33 @@ Digital Security Hash   : ${item.qrHash}
                           <CreditCard size={16} />
                         </div>
                         <div className="text-xs">
-                          <span className="font-bold text-white block">Payment Method</span>
-                          <span className="text-slate-300">Via GovServe online portal</span>
+                          <span className="font-bold text-slate-900 dark:text-white block">Payment Method</span>
+                          <span className="text-slate-600 dark:text-slate-300 font-medium">Via GovServe online portal</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Document Photo Upload Callout */}
-                    <div className="p-3.5 rounded-2xl bg-white/10 border border-white/15 space-y-2">
-                      <div className="flex items-center space-x-2 text-purple-300 text-xs font-bold">
+                    <div className="p-3.5 rounded-2xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/15 space-y-2 shadow-xs dark:shadow-none">
+                      <div className="flex items-center space-x-2 text-purple-700 dark:text-purple-300 text-xs font-bold">
                         <Camera size={15} className="text-purple-400" />
                         <span>Proof of Address & Lupon Verification Active</span>
                       </div>
-                      <p className="text-[11px] text-slate-300">
+                      <p className="text-[11px] text-slate-600 dark:text-slate-300">
                         Upload proof of address (utility bill / lease), valid government ID, and 6-month residency affirmation.
                       </p>
                       <div className="flex flex-wrap gap-1.5 pt-0.5">
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-purple-300" /> Utility Bill Proof
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-600 dark:text-purple-300" /> Utility Bill Proof
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-purple-300" /> Valid ID
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-600 dark:text-purple-300" /> Valid ID
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-purple-300" /> Residency Proof
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-600 dark:text-purple-300" /> Residency Proof
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-[10px] font-medium text-slate-200 border border-white/10 flex items-center gap-1">
-                          <FileText size={10} className="text-purple-300" /> Event Itinerary
+                        <span className="px-2 py-0.5 rounded-md bg-slate-50 dark:bg-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-white/10 flex items-center gap-1">
+                          <FileText size={10} className="text-purple-600 dark:text-purple-300" /> Event Itinerary
                         </span>
                       </div>
                     </div>
@@ -1691,16 +1679,16 @@ Digital Security Hash   : ${item.qrHash}
                     </button>
 
                     <div className="grid grid-cols-2 gap-2">
-                      <div className="py-2.5 px-3 rounded-xl bg-white/10 border border-white/10 text-xs font-bold text-center flex flex-col justify-center">
-                        <span className="text-[10px] uppercase text-purple-300">Standard Pass</span>
-                        <span className="text-white font-black font-mono">₱150.00</span>
+                      <div className="py-2.5 px-3 rounded-xl bg-white/90 dark:bg-white/10 border border-slate-200 dark:border-white/10 text-xs font-bold text-center flex flex-col justify-center shadow-xs dark:shadow-none">
+                        <span className="text-[10px] uppercase text-purple-700 dark:text-purple-300 font-extrabold">Standard Pass</span>
+                        <span className="text-slate-900 dark:text-white font-black font-mono">₱150.00</span>
                       </div>
 
                       <button
                         onClick={() => {
                           showToast('Viewing Residency & Event Guidelines');
                         }}
-                        className="py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/15 text-slate-200 hover:text-white border border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer"
+                        className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 hover:text-slate-950 border border-slate-300/80 dark:bg-white/10 dark:hover:bg-white/15 dark:text-slate-200 dark:hover:text-white dark:border-white/10 text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs dark:shadow-none"
                       >
                         <FileCheck size={13} />
                         <span>View Guidelines</span>
@@ -2493,7 +2481,7 @@ Digital Security Hash   : ${item.qrHash}
                         </span>
                         <p className="font-bold text-sm text-white mt-1">{activeReviewItem.applicantName}</p>
                         <p className="text-xs text-purple-200">{activeReviewItem.businessName}</p>
-                        <p className="text-[11px] text-slate-300 mt-1">{activeReviewItem.barangay} • QC</p>
+                        <p className="text-[11px] text-slate-600 dark:text-slate-300 mt-1">{activeReviewItem.barangay} • QC</p>
                       </div>
 
                       <div className="pt-2 border-t border-slate-700 text-[10px] text-slate-400 font-mono">
