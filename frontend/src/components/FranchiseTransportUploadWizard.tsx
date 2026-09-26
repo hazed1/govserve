@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import { 
-  Bus, 
+  Bus,
   Upload, 
   CheckCircle2, 
   ArrowRight, 
   ArrowLeft, 
   Check, 
   Sparkles, 
-  QrCode, 
   FileCheck, 
   User, 
-  DollarSign,
-  Car,
+  Car, 
   FileText
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -67,7 +65,6 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
     matchScore: 100
   });
 
-  const [generatedRef, setGeneratedRef] = useState<string>('');
   const [swornAgreed, setSwornAgreed] = useState<boolean>(true);
 
   // Sample Presets
@@ -193,48 +190,30 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
   };
 
   const handleSubmit = () => {
-    const ref = `FT-2026-${Math.floor(100000 + Math.random() * 900000)}`;
-    setGeneratedRef(ref);
-    setWizardStep(6);
     if (onAddNewApplication) {
       onAddNewApplication(transportData.operatorName, 'Franchise & Transport Permit');
+    }
+    if (onNavigateToDashboard) {
+      onNavigateToDashboard();
+    } else {
+      onBack();
     }
   };
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto animate-in fade-in pb-12">
-      {/* Wizard Header Bar */}
-      <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950/70 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold">
-            <Bus size={26} />
-          </div>
-          <div>
-            <div className="flex items-center space-x-2">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
-                UPLOAD-FIRST FRANCHISE WORKFLOW
-              </span>
-              <span className="text-xs text-slate-400 font-medium">MTOP & PUV Licensing</span>
-            </div>
-            <h2 className="text-xl font-black text-slate-900 dark:text-white mt-0.5">
-              Franchise & Transport Permit Application
-            </h2>
-          </div>
-        </div>
-
-        {/* Step Indicator */}
-        <div className="flex items-center space-x-1 sm:space-x-2">
+      {/* Wizard Step Indicator Bar */}
+      <div className="bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-center">
+        <div className="flex items-center justify-center space-x-1.5 sm:space-x-3 flex-wrap gap-y-2">
           {[
             { step: 1, label: 'LTO OR/CR' },
-            { step: 2, label: 'TODA Route' },
+            { step: 2, label: 'Route & Fleet' },
             { step: 3, label: 'Operator ID' },
-            { step: 4, label: 'Fees' },
-            { step: 5, label: 'Review' },
-            { step: 6, label: 'Tracking' }
+            { step: 4, label: 'Review' }
           ].map((s) => (
             <div 
               key={s.step} 
-              className={`flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+              className={`flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all ${
                 wizardStep === s.step 
                   ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30' 
                   : wizardStep > s.step 
@@ -242,8 +221,8 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
               }`}
             >
-              <span>{s.step}</span>
-              <span className="hidden md:inline">{s.label}</span>
+              <span className="text-[11px] font-black">{s.step}</span>
+              <span className="hidden sm:inline">{s.label}</span>
             </div>
           ))}
         </div>
@@ -252,37 +231,6 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
       {/* STEP 1: LTO OR/CR UPLOAD & AUTO-EXTRACTION */}
       {wizardStep === 1 && (
         <div className="space-y-6 animate-in fade-in">
-          {/* Preset Test Documents Bar */}
-          <div className="p-4 bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/60 rounded-2xl flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center space-x-2 text-xs text-emerald-800 dark:text-emerald-300">
-              <Sparkles size={16} className="text-emerald-600 animate-pulse" />
-              <span className="font-bold">Test Presets (Click to Auto-Load Sample LTO Documents):</span>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <button
-                type="button"
-                onClick={() => applyPreset('tricycle')}
-                className="px-3 py-1 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-emerald-500 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold transition-all shadow-sm"
-              >
-                🛺 Tricycle (MTOP Fairview)
-              </button>
-              <button
-                type="button"
-                onClick={() => applyPreset('jeepney')}
-                className="px-3 py-1 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-emerald-500 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold transition-all shadow-sm"
-              >
-                🚌 Modern PUJ (Commonwealth)
-              </button>
-              <button
-                type="button"
-                onClick={() => applyPreset('uv')}
-                className="px-3 py-1 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-emerald-500 border border-slate-200 dark:border-slate-700 rounded-lg text-xs font-bold transition-all shadow-sm"
-              >
-                🚐 UV Express (SM Fairview)
-              </button>
-            </div>
-          </div>
-
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
             {/* Upload Box */}
             <div className="lg:col-span-5 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
@@ -313,37 +261,14 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                   />
                 </label>
               </div>
-
-              {detectedDocType && (
-                <div className="p-3.5 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-xl space-y-1 text-xs">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-emerald-800 dark:text-emerald-300">Detected Document:</span>
-                    <span className="px-2 py-0.5 rounded-md font-bold bg-emerald-600 text-white text-[10px]">
-                      {confidence}% Confidence
-                    </span>
-                  </div>
-                  <p className="text-emerald-700 dark:text-emerald-400 font-medium">{detectedDocType}</p>
-                </div>
-              )}
             </div>
 
-            {/* Extracted Review Card */}
+            {/* Vehicle Information Review Card */}
             <div className="lg:col-span-7 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
-              <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-                <div>
-                  <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center space-x-2">
-                    <Sparkles size={16} className="text-emerald-600" />
-                    <span>Auto-Extracted Vehicle Information</span>
-                  </h3>
-                  <p className="text-xs text-slate-400">Review and verify extracted vehicle registration fields</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setIsEditing(!isEditing)}
-                  className="px-3 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold rounded-xl transition-all"
-                >
-                  {isEditing ? 'Save Changes' : 'Edit Fields'}
-                </button>
+              <div className="pb-3 border-b border-slate-100 dark:border-slate-800">
+                <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">
+                  Vehicle Information
+                </h3>
               </div>
 
               {isExtracting && extractTarget === 'orcr' ? (
@@ -354,60 +279,111 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
                   <div className="sm:col-span-2 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
-                    <span className="text-[11px] font-bold text-slate-400 uppercase">Registered Operator / Owner</span>
-                    {isEditing ? (
-                      <input 
-                        type="text" 
-                        value={transportData.operatorName} 
-                        onChange={(e) => setTransportData({...transportData, operatorName: e.target.value})}
-                        className="w-full mt-1 p-2 bg-white dark:bg-slate-800 border rounded-lg"
-                      />
-                    ) : (
-                      <p className="font-bold text-slate-900 dark:text-white text-sm">{transportData.operatorName}</p>
-                    )}
+                    <label className="text-[11px] font-bold text-slate-400 uppercase block">Registered Operator / Owner</label>
+                    <input 
+                      type="text" 
+                      value={transportData.operatorName} 
+                      onChange={(e) => setTransportData({...transportData, operatorName: e.target.value})}
+                      placeholder="Enter registered operator/owner name"
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                    />
                   </div>
 
                   <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
-                    <span className="text-[11px] font-bold text-slate-400 uppercase">Plate Number</span>
-                    {isEditing ? (
-                      <input 
-                        type="text" 
-                        value={transportData.plateNumber} 
-                        onChange={(e) => setTransportData({...transportData, plateNumber: e.target.value})}
-                        className="w-full mt-1 p-2 bg-white dark:bg-slate-800 border rounded-lg font-mono"
-                      />
-                    ) : (
-                      <p className="font-bold text-emerald-600 dark:text-emerald-400 text-base font-mono">{transportData.plateNumber}</p>
-                    )}
+                    <label className="text-[11px] font-bold text-slate-400 uppercase block">Plate Number</label>
+                    <input 
+                      type="text" 
+                      value={transportData.plateNumber} 
+                      onChange={(e) => setTransportData({...transportData, plateNumber: e.target.value})}
+                      placeholder="e.g. 4829-QC"
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-emerald-600 dark:text-emerald-400 font-mono font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                    />
                   </div>
 
                   <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
-                    <span className="text-[11px] font-bold text-slate-400 uppercase">Vehicle Classification</span>
-                    {isEditing ? (
-                      <input 
-                        type="text" 
-                        value={transportData.vehicleCategory} 
-                        onChange={(e) => setTransportData({...transportData, vehicleCategory: e.target.value})}
-                        className="w-full mt-1 p-2 bg-white dark:bg-slate-800 border rounded-lg"
-                      />
-                    ) : (
-                      <p className="font-bold text-slate-800 dark:text-slate-200">{transportData.vehicleCategory}</p>
-                    )}
+                    <label className="text-[11px] font-bold text-slate-400 uppercase block">Vehicle Classification</label>
+                    <select 
+                      value={transportData.vehicleCategory} 
+                      onChange={(e) => setTransportData({...transportData, vehicleCategory: e.target.value})}
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs cursor-pointer"
+                    >
+                      <optgroup label="Tricycles & Light Vehicles">
+                        <option value="Motorized Tricycle-for-Hire (MTOP)">🛺 Motorized Tricycle-for-Hire (MTOP)</option>
+                        <option value="Electric Tricycle (E-Trike / Modern MTOP)">⚡ Electric Tricycle (E-Trike / Modern MTOP)</option>
+                        <option value="Filcab / Multicab-for-Hire">🛺 Filcab / Multicab-for-Hire</option>
+                      </optgroup>
+                      <optgroup label="Public Utility Vehicles (PUV / Jeepney / Bus / UV)">
+                        <option value="Public Utility Jeepney (Traditional PUJ)">🚌 Traditional Public Utility Jeepney (PUJ)</option>
+                        <option value="Modern PUV / Minibus (Class 1 / Class 2 / Class 3)">🚐 Modern PUV / Minibus (Class 1 / 2 / 3)</option>
+                        <option value="UV Express / Shuttle Van Service">🚐 UV Express / Shuttle Van Service</option>
+                        <option value="Public Utility Bus (City / Provincial PUB)">🚍 Public Utility Bus (PUB / City / Provincial)</option>
+                      </optgroup>
+                      <optgroup label="Taxi, Car & Passenger Services">
+                        <option value="Taxi / TNVS (Sedan / MPV / Hatchback)">🚕 Taxi / TNVS (Grab / Transport Network Vehicle)</option>
+                        <option value="School Transport Service (Van / Coaster / Bus)">🚌 School Transport Service</option>
+                        <option value="Tourist Transport Service / Rent-a-Car">🚘 Tourist Transport / Rent-a-Car</option>
+                      </optgroup>
+                      <optgroup label="Trucks, Freight & Delivery Services">
+                        <option value="Cargo Truck / Logistics / Hauler (TH Freight)">🚚 Cargo Truck / Logistics / Hauler (TH Freight)</option>
+                        <option value="Delivery Van / Closed Van / Pick-up (Commercial)">🚐 Delivery Van / Closed Van (Commercial)</option>
+                        <option value="Motorcycle Taxi / Delivery Service (MC Taxi)">🛵 Motorcycle Taxi / Courier Delivery</option>
+                        <option value="Specialized Commercial / Heavy Vehicle">🚜 Specialized Commercial / Heavy Vehicle</option>
+                      </optgroup>
+                    </select>
                   </div>
 
                   <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
-                    <span className="text-[11px] font-bold text-slate-400 uppercase">Engine / Motor No.</span>
-                    <p className="font-bold text-slate-800 dark:text-slate-200 font-mono">{transportData.engineNumber}</p>
+                    <label className="text-[11px] font-bold text-slate-400 uppercase block">Engine / Motor No.</label>
+                    <input 
+                      type="text" 
+                      value={transportData.engineNumber} 
+                      onChange={(e) => setTransportData({...transportData, engineNumber: e.target.value})}
+                      placeholder="e.g. KB4-992140 or 4JB1-884920"
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-mono font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                    />
                   </div>
 
                   <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
-                    <span className="text-[11px] font-bold text-slate-400 uppercase">Chassis / Frame No.</span>
-                    <p className="font-bold text-slate-800 dark:text-slate-200 font-mono">{transportData.chassisNumber}</p>
+                    <label className="text-[11px] font-bold text-slate-400 uppercase block">Chassis / Frame No.</label>
+                    <input 
+                      type="text" 
+                      value={transportData.chassisNumber} 
+                      onChange={(e) => setTransportData({...transportData, chassisNumber: e.target.value})}
+                      placeholder="e.g. CH-2023-QC-88192"
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-mono font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                    />
                   </div>
 
                   <div className="sm:col-span-2 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
-                    <span className="text-[11px] font-bold text-slate-400 uppercase">Make, Model & Year</span>
-                    <p className="font-bold text-slate-800 dark:text-slate-200">{transportData.makeModel} ({transportData.yearModel}) • {transportData.fuelType}</p>
+                    <label className="text-[11px] font-bold text-slate-400 uppercase block">Make, Model &amp; Year</label>
+                    <input 
+                      type="text" 
+                      list="vehicle-models-list"
+                      value={transportData.makeModel} 
+                      onChange={(e) => setTransportData({...transportData, makeModel: e.target.value})}
+                      placeholder="e.g. Toyota Vios, Isuzu Modern PUJ, or Kawasaki Barako II"
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                    />
+                    <datalist id="vehicle-models-list">
+                      <option value="Toyota Vios 1.3 XLE (Taxi / TNVS)" />
+                      <option value="Toyota Innova 2.8E Diesel (Taxi / TNVS / Tourist)" />
+                      <option value="Toyota HiAce Commuter Van 2.8L (UV Express / Shuttle)" />
+                      <option value="Nissan NV350 Urvan Shuttle (UV Express / Shuttle)" />
+                      <option value="Isuzu QKR Modern PUJ Class 2 (Modern PUV)" />
+                      <option value="Hino Poncho Modern PUV Class 3 (Modern PUV)" />
+                      <option value="Sarao Traditional PUJ Isuzu 4JB1 (Jeepney)" />
+                      <option value="Isuzu Elf Closed Van / Aluminum Box (Delivery / Commercial)" />
+                      <option value="Isuzu Giga 10-Wheeler Wing Van (Cargo Truck / Logistics)" />
+                      <option value="Mitsubishi Fuso Canter 4-Wheeler Drop-side (Logistics)" />
+                      <option value="Yutong 45-Seater Aircon City Bus (PUB)" />
+                      <option value="Hino RK8J 60-Seater Commuter Bus (PUB)" />
+                      <option value="Kawasaki Barako II 175cc with Sidecar (2023)" />
+                      <option value="Honda TMX 125 Alpha with Sidecar (2024)" />
+                      <option value="Bajaj RE 4S 198cc Compact Trike (2023)" />
+                      <option value="TailG Commercial E-Trike 1500W (2024)" />
+                      <option value="Yamaha Sight 115 / Honda Beat (MC Delivery / Courier)" />
+                      <option value="Suzuki Carry Multicab FB Body (2023)" />
+                    </datalist>
                   </div>
                 </div>
               )}
@@ -427,7 +403,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
               onClick={() => setWizardStep(2)}
               className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center space-x-2 shadow-lg shadow-emerald-600/30"
             >
-              <span>Next: TODA & Route Endorsement</span>
+              <span>Next: Route &amp; Fleet Endorsement</span>
               <ArrowRight size={14} />
             </button>
           </div>
@@ -442,7 +418,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center space-x-2">
                   <FileCheck size={16} className="text-emerald-600" />
-                  <span>Upload TODA / Route Clearance</span>
+                  <span>Route / Transport Endorsement</span>
                 </h3>
                 <span className="text-[11px] font-bold text-rose-500 bg-rose-50 dark:bg-rose-950 px-2 py-0.5 rounded-full">Required</span>
               </div>
@@ -452,7 +428,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                   <Bus size={22} />
                 </div>
                 <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                  {todaFile ? todaFile : 'Upload TODA Certificate or Route Terminal Endorsement'}
+                  {todaFile ? todaFile : 'Upload Transport Cooperative, TODA, or Fleet Route Endorsement'}
                 </p>
                 <p className="text-[11px] text-slate-400 mt-1">Accepts PDF, JPG, PNG</p>
                 <label className="mt-4 inline-block px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold cursor-pointer transition-all">
@@ -469,42 +445,61 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
               <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 text-xs space-y-2">
                 <p className="font-bold text-slate-900 dark:text-white">Validation Standards:</p>
                 <ul className="text-slate-500 space-y-1 list-disc pl-4 text-[11px]">
-                  <li>Current Year TODA Association Seal & President Signature</li>
-                  <li>Barangay Council Transport Committee Resolution</li>
-                  <li>Assigned Terminal Bay & Line Route Designation</li>
+                  <li>Valid Transport Cooperative, Federation, or Association Seal &amp; Officer Signature</li>
+                  <li>Terminal Concurrence, LTFRB CPC, or LGU Route Regulatory Resolution</li>
+                  <li>Assigned Terminal Bay / Authorized Route Line Designation</li>
                 </ul>
               </div>
             </div>
 
             <div className="lg:col-span-7 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
-              <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center space-x-2">
-                <Sparkles size={16} className="text-emerald-600" />
-                <span>Extracted Route & TODA Details</span>
-              </h3>
+              <div className="pb-3 border-b border-slate-100 dark:border-slate-800">
+                <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">
+                  Route, Fleet &amp; Terminal Details
+                </h3>
+              </div>
 
               <div className="space-y-3 text-xs">
                 <div className="p-3.5 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
-                  <span className="text-[11px] font-bold text-slate-400 uppercase">Transport Federation / TODA</span>
-                  <p className="font-bold text-slate-900 dark:text-white text-sm">{transportData.todaAssociation}</p>
+                  <label className="text-[11px] font-bold text-slate-400 uppercase block">Transport Cooperative / Federation / Association / Operator</label>
+                  <input
+                    type="text"
+                    value={transportData.todaAssociation}
+                    onChange={(e) => setTransportData({...transportData, todaAssociation: e.target.value})}
+                    placeholder="Enter Transport Cooperative, TODA, or Fleet Operator name"
+                    className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                  />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
-                    <span className="text-[11px] font-bold text-slate-400 uppercase">Body Number</span>
-                    <p className="font-bold text-emerald-600 dark:text-emerald-400 font-mono text-sm">{transportData.todaBodyNumber}</p>
+                    <label className="text-[11px] font-bold text-slate-400 uppercase block">Body / Unit / Fleet Number</label>
+                    <input
+                      type="text"
+                      value={transportData.todaBodyNumber}
+                      onChange={(e) => setTransportData({...transportData, todaBodyNumber: e.target.value})}
+                      placeholder="e.g. BODY-FRV-042 or FLEET-088"
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-emerald-600 dark:text-emerald-400 font-mono font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                    />
                   </div>
                   <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
-                    <span className="text-[11px] font-bold text-slate-400 uppercase">Operating Status</span>
-                    <p className="font-bold text-emerald-600 flex items-center space-x-1">
+                    <span className="text-[11px] font-bold text-slate-400 uppercase block">Operating Status</span>
+                    <div className="mt-2.5 font-bold text-emerald-600 flex items-center space-x-1">
                       <CheckCircle2 size={13} />
-                      <span>Certified Active Member</span>
-                    </p>
+                      <span>Certified Active Unit</span>
+                    </div>
                   </div>
                 </div>
 
                 <div className="p-3.5 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
-                  <span className="text-[11px] font-bold text-slate-400 uppercase">Official Route Corridor</span>
-                  <p className="font-semibold text-slate-800 dark:text-slate-200 mt-0.5">{transportData.routeDesignation}</p>
+                  <label className="text-[11px] font-bold text-slate-400 uppercase block">Official Route Corridor / Area of Operation</label>
+                  <input
+                    type="text"
+                    value={transportData.routeDesignation}
+                    onChange={(e) => setTransportData({...transportData, routeDesignation: e.target.value})}
+                    placeholder="Enter designated route corridor, terminal line, or area of operation"
+                    className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                  />
                 </div>
               </div>
             </div>
@@ -576,42 +571,77 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
             </div>
 
             <div className="lg:col-span-7 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
-              <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center space-x-2">
-                <Sparkles size={16} className="text-emerald-600" />
-                <span>Extracted License & Identity Data</span>
-              </h3>
+              <div className="pb-3 border-b border-slate-100 dark:border-slate-800">
+                <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider">
+                  License &amp; Identity Data
+                </h3>
+              </div>
 
               <div className="space-y-3 text-xs">
                 <div className="p-3.5 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
-                  <span className="text-[11px] font-bold text-slate-400 uppercase">Full Legal Name</span>
-                  <p className="font-bold text-slate-900 dark:text-white text-sm">{idData.fullName}</p>
+                  <label className="text-[11px] font-bold text-slate-400 uppercase block">Full Legal Name</label>
+                  <input
+                    type="text"
+                    value={idData.fullName}
+                    onChange={(e) => setIdData({...idData, fullName: e.target.value})}
+                    placeholder="Enter full legal name"
+                    className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                  />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
-                    <span className="text-[11px] font-bold text-slate-400 uppercase">ID / License Type</span>
-                    <p className="font-bold text-slate-800 dark:text-slate-200">{idData.idType}</p>
+                    <label className="text-[11px] font-bold text-slate-400 uppercase block">ID / License Type</label>
+                    <input
+                      type="text"
+                      value={idData.idType}
+                      onChange={(e) => setIdData({...idData, idType: e.target.value})}
+                      placeholder="e.g. Professional Driver's License"
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                    />
                   </div>
                   <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
-                    <span className="text-[11px] font-bold text-slate-400 uppercase">License / ID Number</span>
-                    <p className="font-bold text-emerald-600 dark:text-emerald-400 font-mono">{idData.idNumber}</p>
+                    <label className="text-[11px] font-bold text-slate-400 uppercase block">License / ID Number</label>
+                    <input
+                      type="text"
+                      value={idData.idNumber}
+                      onChange={(e) => setIdData({...idData, idNumber: e.target.value})}
+                      placeholder="e.g. N02-14-884920"
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-emerald-600 dark:text-emerald-400 font-mono font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                    />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
-                    <span className="text-[11px] font-bold text-slate-400 uppercase">Date of Birth</span>
-                    <p className="font-bold text-slate-800 dark:text-slate-200">{idData.dateOfBirth}</p>
+                    <label className="text-[11px] font-bold text-slate-400 uppercase block">Date of Birth</label>
+                    <input
+                      type="date"
+                      value={idData.dateOfBirth}
+                      onChange={(e) => setIdData({...idData, dateOfBirth: e.target.value})}
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                    />
                   </div>
                   <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
-                    <span className="text-[11px] font-bold text-slate-400 uppercase">License Expiry</span>
-                    <p className="font-bold text-slate-800 dark:text-slate-200">{transportData.driverLicenseExpiry}</p>
+                    <label className="text-[11px] font-bold text-slate-400 uppercase block">License Expiry</label>
+                    <input
+                      type="date"
+                      value={transportData.driverLicenseExpiry}
+                      onChange={(e) => setTransportData({...transportData, driverLicenseExpiry: e.target.value})}
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                    />
                   </div>
                 </div>
 
                 <div className="p-3.5 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
-                  <span className="text-[11px] font-bold text-slate-400 uppercase">Verified Residential Address</span>
-                  <p className="font-semibold text-slate-800 dark:text-slate-200 mt-0.5">{idData.address}</p>
+                  <label className="text-[11px] font-bold text-slate-400 uppercase block">Verified Residential Address</label>
+                  <input
+                    type="text"
+                    value={idData.address}
+                    onChange={(e) => setIdData({...idData, address: e.target.value})}
+                    placeholder="Enter complete residential address"
+                    className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                  />
                 </div>
               </div>
             </div>
@@ -631,97 +661,15 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
               onClick={() => setWizardStep(4)}
               className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center space-x-2 shadow-lg shadow-emerald-600/30"
             >
-              <span>Next: Fee Assessment</span>
+              <span>Next: Final Review</span>
               <ArrowRight size={14} />
             </button>
           </div>
         </div>
       )}
 
-      {/* STEP 4: FEE ASSESSMENT */}
+      {/* STEP 4: FINAL REVIEW & DECLARATION */}
       {wizardStep === 4 && (
-        <div className="space-y-6 animate-in fade-in">
-          <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
-            <div className="flex items-center space-x-3 pb-4 border-b border-slate-100 dark:border-slate-800">
-              <div className="w-10 h-10 rounded-2xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center font-bold">
-                <DollarSign size={20} />
-              </div>
-              <div>
-                <h3 className="text-base font-black text-slate-900 dark:text-white">
-                  Regulatory Fee Schedule (Itemized Computation)
-                </h3>
-                <p className="text-xs text-slate-500">Municipal Ordinance No. SP-2980 • Transport Regulatory Division</p>
-              </div>
-            </div>
-
-            <div className="divide-y divide-slate-100 dark:divide-slate-800 text-xs">
-              <div className="py-3 flex justify-between items-center">
-                <div>
-                  <p className="font-bold text-slate-800 dark:text-slate-200">MTOP Franchise Filing & Legal Research Fee</p>
-                  <p className="text-[11px] text-slate-400">Board docketing & regulatory verification</p>
-                </div>
-                <span className="font-mono font-bold text-slate-800 dark:text-slate-200">₱ 500.00</span>
-              </div>
-
-              <div className="py-3 flex justify-between items-center">
-                <div>
-                  <p className="font-bold text-slate-800 dark:text-slate-200">Roadworthiness & Emission Testing Fee</p>
-                  <p className="text-[11px] text-slate-400">Municipal Motor Vehicle Inspection System (MVIS)</p>
-                </div>
-                <span className="font-mono font-bold text-slate-800 dark:text-slate-200">₱ 350.00</span>
-              </div>
-
-              <div className="py-3 flex justify-between items-center">
-                <div>
-                  <p className="font-bold text-slate-800 dark:text-slate-200">TODA Terminal Supervision & Zone Route Fee</p>
-                  <p className="text-[11px] text-slate-400">Barangay corridor access & traffic management</p>
-                </div>
-                <span className="font-mono font-bold text-slate-800 dark:text-slate-200">₱ 250.00</span>
-              </div>
-
-              <div className="py-3 flex justify-between items-center">
-                <div>
-                  <p className="font-bold text-slate-800 dark:text-slate-200">Tamper-Proof QR Plate Sticker & RFID Tag</p>
-                  <p className="text-[11px] text-slate-400">Official Municipal Tricycle/PUV Security Decal</p>
-                </div>
-                <span className="font-mono font-bold text-slate-800 dark:text-slate-200">₱ 150.00</span>
-              </div>
-
-              <div className="py-4 flex justify-between items-center bg-emerald-50/50 dark:bg-emerald-950/20 px-4 rounded-2xl">
-                <div>
-                  <p className="text-sm font-black text-emerald-900 dark:text-emerald-200 uppercase">Total Regulatory Assessment</p>
-                  <p className="text-[11px] text-emerald-600">Payable online via GCash, Maya, or City Treasury Cashier</p>
-                </div>
-                <span className="text-xl font-black text-emerald-600 dark:text-emerald-400 font-mono">
-                  ₱ 1,250.00
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex justify-between items-center pt-2">
-            <button
-              type="button"
-              onClick={() => setWizardStep(3)}
-              className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold flex items-center space-x-1"
-            >
-              <ArrowLeft size={14} />
-              <span>Back</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => setWizardStep(5)}
-              className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center space-x-2 shadow-lg shadow-emerald-600/30"
-            >
-              <span>Next: Final Review & Sworn Declaration</span>
-              <ArrowRight size={14} />
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* STEP 5: FINAL REVIEW & DECLARATION */}
-      {wizardStep === 5 && (
         <div className="space-y-6 animate-in fade-in">
           <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
             <div className="flex items-center space-x-3 pb-4 border-b border-slate-100 dark:border-slate-800">
@@ -761,7 +709,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                   className="mt-0.5 rounded text-emerald-600 focus:ring-emerald-500 w-4 h-4" 
                 />
                 <span className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                  I hereby solemnly swear under penalty of perjury that the attached LTO OR/CR and TODA documents are genuine and that the registered vehicle complies with safety, emission, and municipal franchise standards under the Local Government Code of 1991.
+                  I hereby solemnly swear under penalty of perjury that the attached LTO OR/CR and transport cooperative/route endorsement documents are genuine and that the registered vehicle complies with safety, emission, and municipal franchise standards under the Local Government Code of 1991 and national transportation laws.
                 </span>
               </label>
             </div>
@@ -770,7 +718,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
           <div className="flex justify-between items-center pt-2">
             <button
               type="button"
-              onClick={() => setWizardStep(4)}
+              onClick={() => setWizardStep(3)}
               className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold flex items-center space-x-1"
             >
               <ArrowLeft size={14} />
@@ -785,86 +733,6 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
               <CheckCircle2 size={16} />
               <span>Confirm & Submit Application</span>
             </button>
-          </div>
-        </div>
-      )}
-
-      {/* STEP 6: DIGITAL PERMIT TRACKING */}
-      {wizardStep === 6 && (
-        <div className="space-y-6 animate-in zoom-in-95">
-          <div className="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm text-center space-y-6">
-            <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-950 text-emerald-600 mx-auto rounded-full flex items-center justify-center">
-              <CheckCircle2 size={36} />
-            </div>
-
-            <div className="space-y-2">
-              <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
-                APPLICATION OFFICIALLY DOCKETED
-              </span>
-              <h2 className="text-2xl font-black text-slate-900 dark:text-white">
-                Franchise Application Submitted!
-              </h2>
-              <p className="text-xs text-slate-500 max-w-md mx-auto">
-                Your transport franchise application is now in the pipeline for physical roadworthiness check and Board confirmation.
-              </p>
-            </div>
-
-            <div className="p-6 bg-slate-50 dark:bg-slate-800/40 rounded-3xl border border-slate-200 dark:border-slate-700 max-w-md mx-auto space-y-4">
-              <div className="w-32 h-32 bg-white p-2 rounded-2xl mx-auto border border-slate-200 shadow-sm flex items-center justify-center">
-                <QrCode size={110} className="text-slate-900" />
-              </div>
-
-              <div>
-                <p className="text-[11px] text-slate-400 uppercase font-bold">Official Application Reference No.</p>
-                <p className="text-xl font-black text-emerald-600 font-mono tracking-wider">{generatedRef}</p>
-                <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 font-semibold">{transportData.operatorName} • {transportData.plateNumber}</p>
-              </div>
-            </div>
-
-            {/* 4 Milestones */}
-            <div className="max-w-2xl mx-auto pt-2">
-              <div className="grid grid-cols-4 gap-2 text-center text-xs">
-                <div className="space-y-1">
-                  <div className="w-8 h-8 rounded-full bg-emerald-600 text-white mx-auto flex items-center justify-center font-bold text-xs">1</div>
-                  <p className="font-bold text-emerald-600 text-[11px]">Submitted</p>
-                  <p className="text-[10px] text-slate-400">Docs Extracted</p>
-                </div>
-                <div className="space-y-1">
-                  <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 mx-auto flex items-center justify-center font-bold text-xs">2</div>
-                  <p className="font-bold text-slate-700 dark:text-slate-300 text-[11px]">Route Audit</p>
-                  <p className="text-[10px] text-slate-400">TODA Verification</p>
-                </div>
-                <div className="space-y-1">
-                  <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 mx-auto flex items-center justify-center font-bold text-xs">3</div>
-                  <p className="font-bold text-slate-700 dark:text-slate-300 text-[11px]">MVIS Inspection</p>
-                  <p className="text-[10px] text-slate-400">Roadworthiness</p>
-                </div>
-                <div className="space-y-1">
-                  <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 mx-auto flex items-center justify-center font-bold text-xs">4</div>
-                  <p className="font-bold text-slate-700 dark:text-slate-300 text-[11px]">Franchise Issuance</p>
-                  <p className="text-[10px] text-slate-400">Plate & Decal</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="pt-4 flex justify-center space-x-3">
-              <button
-                type="button"
-                onClick={onBack}
-                className="px-6 py-2.5 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold"
-              >
-                Return to Hub
-              </button>
-              {onNavigateToDashboard && (
-                <button
-                  type="button"
-                  onClick={onNavigateToDashboard}
-                  className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold"
-                >
-                  View in Dashboard
-                </button>
-              )}
-            </div>
           </div>
         </div>
       )}

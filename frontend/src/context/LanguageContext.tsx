@@ -359,32 +359,32 @@ const translations: Record<string, { en: string; tl: string }> = {
     tl: 'Franchise & Transport Permit'
   },
   'card_transport_subtitle': {
-    en: 'Tricycle (MTOP) & PUV Licensing',
-    tl: 'Lisensya sa Traysikel (MTOP) at PUV'
+    en: 'Public & Commercial Vehicle Licensing',
+    tl: 'Lisensya sa Pampubliko at Pangkalakihang Sasakyan'
   },
   'card_transport_category': {
     en: 'Public Transport & Fleet',
     tl: 'Pampublikong Transportasyon at Fleet'
   },
   'card_transport_desc': {
-    en: 'A transport franchise and permit legally authorizes you to operate public utility or for-hire vehicles (such as tricle, jeepneys, buses, taxis, UV Express, or trucks-for-hire) on Philippine roads.',
-    tl: 'Ang transport franchise at permit ay legal na nagbibigay-pahintulot sa iyo na magpatakbo ng pampublikong sasakyan (tulad ng traysikel, dyip, bus, taxi, UV Express, o mga truck-for-hire) sa mga kalsada ng Pilipinas.'
+    en: 'A transport franchise and permit legally authorizes you to operate public utility or for-hire vehicles (such as tricycles, jeepneys, buses, taxis, UV Express, delivery vans, or cargo trucks) on Philippine roads.',
+    tl: 'Ang transport franchise at permit ay legal na nagbibigay-pahintulot sa iyo na magpatakbo ng pampublikong sasakyan (tulad ng traysikel, dyip, bus, taxi, UV Express, delivery van, o cargo trucks) sa mga kalsada ng Pilipinas.'
   },
   'card_transport_tag1': {
-    en: 'Tricycle MTOP operator & fleet registry',
-    tl: 'Rehistro ng operator at fleet ng MTOP traysikel'
+    en: 'Public utility & commercial fleet registry',
+    tl: 'Rehistro ng pampubliko at pangkalakihang sasakyan'
   },
   'card_transport_tag2': {
-    en: 'Route conflict checking & TODA validation',
-    tl: 'Pagsusuri sa ruta at pagpapatunay sa TODA'
+    en: 'Route conflict checking & cooperative validation',
+    tl: 'Pagsusuri sa ruta at pagpapatunay sa kooperatiba'
   },
   'card_transport_tag3': {
     en: 'Official Windshield QR Verification Decal',
     tl: 'Opisyal na QR Decal sa Harapang Salamin'
   },
   'card_transport_btn_primary': {
-    en: 'Apply for MTOP Franchise',
-    tl: 'Mag-apply para sa MTOP Franchise'
+    en: 'Apply for Transport Franchise',
+    tl: 'Mag-apply para sa Transport Franchise'
   },
   'card_transport_btn_secondary': {
     en: 'Fleet Status',
