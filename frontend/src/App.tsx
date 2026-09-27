@@ -750,6 +750,7 @@ function GovServePortal() {
       case 'Franchise & Transport Permits':
       case 'Franchise Permit Filing':
       case 'Franchise Permit Review':
+      case 'Franchise Annual Renewal':
       case 'Franchise Fee Computation':
       case 'Fleet Progress Monitoring':
         return (

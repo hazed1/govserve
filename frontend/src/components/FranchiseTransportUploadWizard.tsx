@@ -261,6 +261,15 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                   />
                 </label>
               </div>
+
+              <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 text-xs space-y-2">
+                <p className="font-bold text-slate-900 dark:text-white">Validation Standards:</p>
+                <ul className="text-slate-500 dark:text-slate-400 space-y-1 list-disc pl-4 text-[11px]">
+                  <li>Valid &amp; Updated LTO Official Receipt (OR) &amp; Certificate of Registration (CR)</li>
+                  <li>Clear and Matching Plate / MV File No., Engine No., &amp; Chassis No.</li>
+                  <li>Registered Owner matches Applicant or with Notarized Deed of Sale / SPA</li>
+                </ul>
+              </div>
             </div>
 
             {/* Vehicle Information Review Card */}
@@ -358,32 +367,11 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                     <label className="text-[11px] font-bold text-slate-400 uppercase block">Make, Model &amp; Year</label>
                     <input 
                       type="text" 
-                      list="vehicle-models-list"
                       value={transportData.makeModel} 
                       onChange={(e) => setTransportData({...transportData, makeModel: e.target.value})}
                       placeholder="e.g. Toyota Vios, Isuzu Modern PUJ, or Kawasaki Barako II"
                       className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
                     />
-                    <datalist id="vehicle-models-list">
-                      <option value="Toyota Vios 1.3 XLE (Taxi / TNVS)" />
-                      <option value="Toyota Innova 2.8E Diesel (Taxi / TNVS / Tourist)" />
-                      <option value="Toyota HiAce Commuter Van 2.8L (UV Express / Shuttle)" />
-                      <option value="Nissan NV350 Urvan Shuttle (UV Express / Shuttle)" />
-                      <option value="Isuzu QKR Modern PUJ Class 2 (Modern PUV)" />
-                      <option value="Hino Poncho Modern PUV Class 3 (Modern PUV)" />
-                      <option value="Sarao Traditional PUJ Isuzu 4JB1 (Jeepney)" />
-                      <option value="Isuzu Elf Closed Van / Aluminum Box (Delivery / Commercial)" />
-                      <option value="Isuzu Giga 10-Wheeler Wing Van (Cargo Truck / Logistics)" />
-                      <option value="Mitsubishi Fuso Canter 4-Wheeler Drop-side (Logistics)" />
-                      <option value="Yutong 45-Seater Aircon City Bus (PUB)" />
-                      <option value="Hino RK8J 60-Seater Commuter Bus (PUB)" />
-                      <option value="Kawasaki Barako II 175cc with Sidecar (2023)" />
-                      <option value="Honda TMX 125 Alpha with Sidecar (2024)" />
-                      <option value="Bajaj RE 4S 198cc Compact Trike (2023)" />
-                      <option value="TailG Commercial E-Trike 1500W (2024)" />
-                      <option value="Yamaha Sight 115 / Honda Beat (MC Delivery / Courier)" />
-                      <option value="Suzuki Carry Multicab FB Body (2023)" />
-                    </datalist>
                   </div>
                 </div>
               )}
@@ -558,15 +546,13 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                 </label>
               </div>
 
-              <div className="p-4 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-2xl flex items-center justify-between">
-                <div>
-                  <p className="text-xs font-bold text-emerald-900 dark:text-emerald-200">Identity Cross-Match Score</p>
-                  <p className="text-[11px] text-emerald-700 dark:text-emerald-400">Owner Name matches LTO OR/CR</p>
-                </div>
-                <div className="text-right">
-                  <span className="text-xl font-black text-emerald-600">{idData.matchScore}%</span>
-                  <p className="text-[10px] font-bold text-emerald-600 uppercase">Verified</p>
-                </div>
+              <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 text-xs space-y-2">
+                <p className="font-bold text-slate-900 dark:text-white">Validation Standards:</p>
+                <ul className="text-slate-500 dark:text-slate-400 space-y-1 list-disc pl-4 text-[11px]">
+                  <li>Valid Professional Driver's License or Government-Issued Photo ID</li>
+                  <li>Full Name &amp; Signature matching Registered Operator / LTO OR/CR</li>
+                  <li>Unexpired Validity Date &amp; Legible Official Agency Seal</li>
+                </ul>
               </div>
             </div>
 

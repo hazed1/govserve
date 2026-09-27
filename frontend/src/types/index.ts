@@ -32,6 +32,7 @@ export type TabType =
   | 'Franchise & Transport Permits'
   | 'Franchise Permit Filing'
   | 'Franchise Permit Review'
+  | 'Franchise Annual Renewal'
   | 'Route & Unit Inspection'
   | 'Route & Unit Inspection Audit'
   | 'Route & Unit Verification'

@@ -330,6 +330,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <div className="pl-6 space-y-0.5 border-l border-slate-200 dark:border-slate-800 ml-3 my-1">
                     {[
                       { name: 'Franchise Permit Review', tab: 'Franchise Permit Review' },
+                      { name: 'Franchise Annual Renewal', tab: 'Franchise Annual Renewal' },
                       { name: 'Route & Unit Inspection Audit', tab: 'Route & Unit Inspection' },
                     ].map((sub) => {
                       const isActive = activeTab === sub.tab;
