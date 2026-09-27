@@ -13,6 +13,7 @@ import {
   Eye,
   Trash2,
   ArrowLeft,
+  ArrowRight,
   User,
   Printer,
   QrCode,
@@ -906,43 +907,39 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
 
             {/* Submit Action */}
             <div className="pt-2 space-y-3">
-              <button
-                type="button"
-                disabled={!allRequiredUploaded || !safetyConfirmed || isSubmitting}
-                onClick={handleSubmit}
-                className={`w-full py-4 rounded-2xl font-black text-xs sm:text-sm shadow-xl transition-all flex items-center justify-center gap-2 cursor-pointer ${
-                  allRequiredUploaded && safetyConfirmed && !isSubmitting
-                    ? 'bg-amber-600 hover:bg-amber-500 text-white shadow-amber-600/30 hover:scale-[1.01] active:scale-[0.99]'
-                    : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed'
-                }`}
-              >
-                {isSubmitting ? (
-                  <span className="flex items-center gap-2">
-                    <RotateCw size={16} className="animate-spin" />
-                    <span>Verifying Documents &amp; Issuing Clearance...</span>
-                  </span>
-                ) : (
-                  <>
-                    <MapPin size={16} />
-                    <span>SUBMIT &amp; GET SPECIAL TRIP PERMIT →</span>
-                  </>
-                )}
-              </button>
+              <div className="flex items-center justify-between gap-3">
+                <button
+                  type="button"
+                  onClick={onBackToPortal}
+                  className="px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 dark:hover:bg-slate-800 transition-all flex items-center gap-2 cursor-pointer"
+                >
+                  <ArrowLeft size={16} />
+                  <span>Back to Portal</span>
+                </button>
 
-              <button
-                type="button"
-                onClick={onBackToPortal}
-                className="w-full py-3.5 rounded-2xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <ArrowLeft size={16} />
-                <span>Back to Portal</span>
-              </button>
-
-              {!allRequiredUploaded && (
-                <p className="text-[11px] text-amber-700 dark:text-amber-400 text-center mt-2 font-medium">
-                  ★ Please upload all 4 required document photos above to enable clearance submission.
-                </p>
-              )}
+                <button
+                  type="button"
+                  disabled={!allRequiredUploaded || !safetyConfirmed || isSubmitting}
+                  onClick={handleSubmit}
+                  className={`px-6 py-3.5 rounded-xl font-black text-xs sm:text-sm shadow-lg transition-all flex items-center gap-2 ${
+                    allRequiredUploaded && safetyConfirmed && !isSubmitting
+                      ? 'bg-amber-600 hover:bg-amber-500 text-white shadow-amber-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
+                      : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed'
+                  }`}
+                >
+                  {isSubmitting ? (
+                    <span className="flex items-center gap-2">
+                      <RotateCw size={16} className="animate-spin" />
+                      <span>Verifying...</span>
+                    </span>
+                  ) : (
+                    <>
+                      <span>Submit Application</span>
+                      <ArrowRight size={16} />
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
         ) : (
@@ -1084,7 +1081,7 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
                 onClick={onBackToPortal}
                 className="px-5 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold cursor-pointer transition-all"
               >
-                Return to Overview
+                Back to Portal
               </button>
             </div>
           </div>

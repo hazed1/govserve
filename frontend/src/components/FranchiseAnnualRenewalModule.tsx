@@ -1265,13 +1265,17 @@ DIGITAL AUDIT SIGNATURE : QC-MTFRB-RENEWAL-${app.applicationNo}-VALIDATED
                             {item.subtitle}
                           </p>
                         </div>
-                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold shrink-0 ${
-                          item.required
-                            ? 'bg-rose-50 dark:bg-rose-950/80 text-rose-600 dark:text-rose-400'
-                            : 'bg-slate-100 dark:bg-slate-800 text-slate-500'
-                        }`}>
-                          {item.required ? 'Required' : 'Optional'}
-                        </span>
+                        {!hasFile ? (
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+                            <span className="w-2 h-2 rounded-full bg-slate-400"></span>
+                            ○ Not uploaded
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                            <CheckCircle2 size={13} />
+                            ✓ Uploaded
+                          </span>
+                        )}
                       </div>
 
                       {/* File State: Already Uploaded with Preview */}
@@ -1411,17 +1415,18 @@ DIGITAL AUDIT SIGNATURE : QC-MTFRB-RENEWAL-${app.applicationNo}-VALIDATED
 
                 <button
                   type="button"
-                  onClick={() => {
-                    // Check required uploads (1 to 4)
+                  disabled={(() => {
                     const requiredKeys = ['franchisePermit', 'govId', 'paymentProof', 'vehicleDoc'];
-                    const missing = requiredKeys.filter(k => !uploadedDocs[k]?.previewUrl);
-                    if (missing.length > 0) {
-                      alert('Please upload all required documents (1 to 4) before proceeding.');
-                      return;
-                    }
+                    return requiredKeys.some(k => !uploadedDocs[k]?.previewUrl);
+                  })()}
+                  onClick={() => {
                     setWizardStep(4);
                   }}
-                  className="px-7 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-emerald-600/30 transition-all flex items-center space-x-2 cursor-pointer"
+                  className={`px-7 py-3 rounded-xl text-xs sm:text-sm font-black shadow-lg transition-all flex items-center space-x-2 ${
+                    ['franchisePermit', 'govId', 'paymentProof', 'vehicleDoc'].every(k => uploadedDocs[k]?.previewUrl)
+                      ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
+                      : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed'
+                  }`}
                 >
                   <span>Review Application</span>
                   <ArrowRight size={16} />

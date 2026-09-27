@@ -66,6 +66,12 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
   });
 
   const [swornAgreed, setSwornAgreed] = useState<boolean>(true);
+  const [submittedApp, setSubmittedApp] = useState<{
+    applicationNo: string;
+    franchiseNo: string;
+    dateSubmitted: string;
+    status: string;
+  } | null>(null);
 
   // Sample Presets
   const applyPreset = (type: 'tricycle' | 'jeepney' | 'uv') => {
@@ -190,20 +196,30 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
   };
 
   const handleSubmit = () => {
+    const today = new Date().toISOString().split('T')[0];
+    const randomSuffix = Math.floor(10000 + Math.random() * 90000);
+    const appNo = `AR-2025-${randomSuffix}`;
+    const franchiseNo = 'MTOP-2025-0412';
+
+    setSubmittedApp({
+      applicationNo: appNo,
+      franchiseNo: franchiseNo,
+      dateSubmitted: today,
+      status: 'Pending Review'
+    });
+
     if (onAddNewApplication) {
       onAddNewApplication(transportData.operatorName, 'Franchise & Transport Permit');
     }
-    if (onNavigateToDashboard) {
-      onNavigateToDashboard();
-    } else {
-      onBack();
-    }
+
+    setWizardStep(5);
   };
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto animate-in fade-in pb-12">
       {/* Wizard Step Indicator Bar */}
-      <div className="bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-center">
+      {wizardStep < 5 && (
+        <div className="bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-center">
         <div className="flex items-center justify-center space-x-1.5 sm:space-x-3 flex-wrap gap-y-2">
           {[
             { step: 1, label: 'LTO OR/CR' },
@@ -227,6 +243,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
           ))}
         </div>
       </div>
+      )}
 
       {/* STEP 1: LTO OR/CR UPLOAD & AUTO-EXTRACTION */}
       {wizardStep === 1 && (
@@ -382,17 +399,18 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
             <button
               type="button"
               onClick={onBack}
-              className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold"
+              className="px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 dark:hover:bg-slate-800 transition-all flex items-center gap-2 cursor-pointer"
             >
-              Cancel
+              <ArrowLeft size={16} />
+              <span>Back to Portal</span>
             </button>
             <button
               type="button"
               onClick={() => setWizardStep(2)}
-              className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center space-x-2 shadow-lg shadow-emerald-600/30"
+              className="px-6 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-black text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-emerald-600/30 hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer"
             >
               <span>Next: Route &amp; Fleet Endorsement</span>
-              <ArrowRight size={14} />
+              <ArrowRight size={16} />
             </button>
           </div>
         </div>
@@ -719,6 +737,65 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
               <CheckCircle2 size={16} />
               <span>Confirm & Submit Application</span>
             </button>
+          </div>
+        </div>
+      )}
+
+      {/* STEP 5: SUBMISSION SUCCESS (Kagaya sa unang picture) */}
+      {wizardStep === 5 && submittedApp && (
+        <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm max-w-2xl mx-auto animate-in fade-in duration-200">
+          <div className="space-y-8 max-w-xl mx-auto text-center py-4">
+            <div className="w-20 h-20 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center shadow-xl shadow-emerald-600/20">
+              <CheckCircle2 size={44} className="stroke-[2.5]" />
+            </div>
+
+            <div className="space-y-2">
+              <span className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white block">
+                🎉 Application Submitted!
+              </span>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-medium">
+                "Your Franchise application has been successfully submitted."
+              </p>
+            </div>
+
+            {/* Receipt Details Card */}
+            <div className="bg-slate-50 dark:bg-slate-800/60 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 text-left space-y-3.5 text-xs">
+              <div className="flex justify-between items-center pb-2 border-b border-slate-200 dark:border-slate-700">
+                <span className="text-slate-500">Application Number</span>
+                <span className="font-mono font-black text-emerald-600 dark:text-emerald-400 text-sm">
+                  {submittedApp.applicationNo}
+                </span>
+              </div>
+              <div className="flex justify-between items-center pb-2 border-b border-slate-200 dark:border-slate-700">
+                <span className="text-slate-500">Franchise Number</span>
+                <span className="font-mono font-bold text-slate-900 dark:text-white">
+                  {submittedApp.franchiseNo}
+                </span>
+              </div>
+              <div className="flex justify-between items-center pb-2 border-b border-slate-200 dark:border-slate-700">
+                <span className="text-slate-500">Date Submitted</span>
+                <span className="font-bold text-slate-900 dark:text-white">
+                  {submittedApp.dateSubmitted}
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-slate-500">Application Status</span>
+                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-300">
+                  Pending Review
+                </span>
+              </div>
+            </div>
+
+            {/* Action Button: BACK TO PORTAL */}
+            <div className="flex items-center justify-center pt-4">
+              <button
+                type="button"
+                onClick={() => onBack()}
+                className="w-full sm:w-auto px-8 py-3.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 hover:dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-xs"
+              >
+                BACK TO PORTAL
+              </button>
+            </div>
           </div>
         </div>
       )}
