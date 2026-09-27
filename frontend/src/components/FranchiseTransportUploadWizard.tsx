@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { 
   Bus,
   Upload, 
+  Camera,
   CheckCircle2, 
   ArrowRight, 
   ArrowLeft, 
@@ -278,15 +279,30 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                 </p>
                 <p className="text-[11px] text-slate-400 mt-1">Accepts .jpg, .png, .pdf up to 25MB</p>
                 
-                <label className="mt-4 inline-block px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold cursor-pointer transition-all shadow-md shadow-emerald-600/20">
-                  <span>Browse Document File</span>
-                  <input 
-                    type="file" 
-                    accept=".jpg,.jpeg,.png,.pdf" 
-                    className="hidden" 
-                    onChange={(e) => handleFileUpload(e, 'orcr')} 
-                  />
-                </label>
+                <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
+                  <label className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/30 flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]">
+                    <Camera size={15} />
+                    <span>📷 TAKE PHOTO</span>
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      capture="environment" 
+                      className="hidden" 
+                      onChange={(e) => handleFileUpload(e, 'orcr')} 
+                    />
+                  </label>
+
+                  <label className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 font-bold text-xs shadow-xs flex items-center gap-2 cursor-pointer transition-all">
+                    <Upload size={15} />
+                    <span>⬆ UPLOAD PHOTO</span>
+                    <input 
+                      type="file" 
+                      accept=".jpg,.jpeg,.png,.pdf" 
+                      className="hidden" 
+                      onChange={(e) => handleFileUpload(e, 'orcr')} 
+                    />
+                  </label>
+                </div>
               </div>
 
               <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 text-xs space-y-2">
@@ -464,15 +480,30 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                   {todaFile ? todaFile : 'Upload Transport Cooperative, TODA, or Fleet Route Endorsement'}
                 </p>
                 <p className="text-[11px] text-slate-400 mt-1">Accepts PDF, JPG, PNG</p>
-                <label className="mt-4 inline-block px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold cursor-pointer transition-all">
-                  <span>Browse File</span>
-                  <input 
-                    type="file" 
-                    accept=".jpg,.jpeg,.png,.pdf" 
-                    className="hidden" 
-                    onChange={(e) => handleFileUpload(e, 'toda')} 
-                  />
-                </label>
+                <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
+                  <label className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/30 flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]">
+                    <Camera size={15} />
+                    <span>📷 TAKE PHOTO</span>
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      capture="environment" 
+                      className="hidden" 
+                      onChange={(e) => handleFileUpload(e, 'toda')} 
+                    />
+                  </label>
+
+                  <label className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 font-bold text-xs shadow-xs flex items-center gap-2 cursor-pointer transition-all">
+                    <Upload size={15} />
+                    <span>⬆ UPLOAD PHOTO</span>
+                    <input 
+                      type="file" 
+                      accept=".jpg,.jpeg,.png,.pdf" 
+                      className="hidden" 
+                      onChange={(e) => handleFileUpload(e, 'toda')} 
+                    />
+                  </label>
+                </div>
               </div>
 
               <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 text-xs space-y-2">
@@ -597,15 +628,30 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                   {operatorIdFile ? operatorIdFile : 'Upload Driver’s License, PhilSys ID, or Passport'}
                 </p>
                 <p className="text-[11px] text-slate-400 mt-1">Accepts JPG, PNG, PDF</p>
-                <label className="mt-4 inline-block px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold cursor-pointer transition-all">
-                  <span>Browse ID</span>
-                  <input 
-                    type="file" 
-                    accept=".jpg,.jpeg,.png,.pdf" 
-                    className="hidden" 
-                    onChange={(e) => handleFileUpload(e, 'operatorId')} 
-                  />
-                </label>
+                <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
+                  <label className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/30 flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]">
+                    <Camera size={15} />
+                    <span>📷 TAKE PHOTO</span>
+                    <input 
+                      type="file" 
+                      accept="image/*" 
+                      capture="environment" 
+                      className="hidden" 
+                      onChange={(e) => handleFileUpload(e, 'operatorId')} 
+                    />
+                  </label>
+
+                  <label className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 font-bold text-xs shadow-xs flex items-center gap-2 cursor-pointer transition-all">
+                    <Upload size={15} />
+                    <span>⬆ UPLOAD PHOTO</span>
+                    <input 
+                      type="file" 
+                      accept=".jpg,.jpeg,.png,.pdf" 
+                      className="hidden" 
+                      onChange={(e) => handleFileUpload(e, 'operatorId')} 
+                    />
+                  </label>
+                </div>
               </div>
 
               <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-700 text-xs space-y-2">

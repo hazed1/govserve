@@ -856,20 +856,20 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
                             Snap live photo or upload from your device
                           </div>
 
-                          {/* Action Buttons: Take Photo & Upload File */}
-                          <div className="flex items-center justify-center gap-2 pt-1">
+                          {/* Action Buttons: Take Photo & Upload Photo */}
+                          <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
                             <button
                               type="button"
                               onClick={() => startCamera(doc.key)}
-                              className="px-3 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-xs flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all"
+                              className="px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-md shadow-amber-600/30 flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]"
                             >
-                              <Camera size={13} />
-                              <span>Take Photo</span>
+                              <Camera size={15} />
+                              <span>📷 TAKE PHOTO</span>
                             </button>
 
-                            <label className="px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 cursor-pointer active:scale-95 transition-all">
-                              <Upload size={13} />
-                              <span>Upload File</span>
+                            <label className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-amber-50 dark:hover:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-700 font-bold text-xs shadow-xs flex items-center gap-2 cursor-pointer transition-all">
+                              <Upload size={15} />
+                              <span>⬆ UPLOAD PHOTO</span>
                               <input
                                 type="file"
                                 accept="image/jpeg,image/png,image/webp,application/pdf"

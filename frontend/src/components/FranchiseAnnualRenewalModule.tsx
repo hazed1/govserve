@@ -1374,20 +1374,20 @@ DIGITAL AUDIT SIGNATURE : QC-MTFRB-RENEWAL-${app.applicationNo}-VALIDATED
                             </p>
                           </div>
 
-                          {/* Dual Action: Take Photo (Camera) OR Upload from Device */}
-                          <div className="flex flex-col sm:flex-row items-center justify-center gap-2 pt-2">
+                          {/* Dual Action: Take Photo (Camera) OR Upload Photo */}
+                          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
                             <button
                               type="button"
                               onClick={() => startCamera(key)}
-                              className="w-full sm:w-auto px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center space-x-1.5 shadow-md shadow-emerald-600/20 cursor-pointer"
+                              className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/30 flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]"
                             >
-                              <Camera size={14} />
-                              <span>Take Photo</span>
+                              <Camera size={15} />
+                              <span>📷 TAKE PHOTO</span>
                             </button>
 
-                            <label className="w-full sm:w-auto px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold transition-all flex items-center justify-center space-x-1.5 cursor-pointer">
-                              <Upload size={14} />
-                              <span>Upload from Device</span>
+                            <label className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 font-bold text-xs shadow-xs flex items-center gap-2 cursor-pointer transition-all">
+                              <Upload size={15} />
+                              <span>⬆ UPLOAD PHOTO</span>
                               <input
                                 type="file"
                                 accept=".jpg,.jpeg,.png,.pdf"
