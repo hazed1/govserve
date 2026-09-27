@@ -1055,9 +1055,10 @@ DIGITAL AUDIT SIGNATURE : QC-MTFRB-RENEWAL-${app.applicationNo}-VALIDATED
                   <button
                     type="button"
                     onClick={onBackToPortal}
-                    className="px-6 py-2 text-xs font-bold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 transition-all cursor-pointer rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800"
+                    className="px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 dark:hover:bg-slate-800 transition-all flex items-center gap-2 cursor-pointer"
                   >
-                    Cancel
+                    <ArrowLeft size={16} />
+                    <span>Back to Portal</span>
                   </button>
                 )}
               </div>
