@@ -28,12 +28,12 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
   const { user } = useAuth();
 
   const [wizardStep, setWizardStep] = useState<number>(1);
-  const [orcrFile, setOrcrFile] = useState<string | null>('LTO_ORCR_Official_Registration_Plate_4829QC.pdf');
+  const [orcrFile, setOrcrFile] = useState<string | null>(null);
   const [todaFile, setTodaFile] = useState<string | null>(null);
   const [operatorIdFile, setOperatorIdFile] = useState<string | null>(null);
   const [isExtracting, setIsExtracting] = useState<boolean>(false);
   const [extractTarget, setExtractTarget] = useState<string | null>(null);
-  const [detectedDocType, setDetectedDocType] = useState<string | null>('LTO Certificate of Registration & Official Receipt');
+  const [detectedDocType, setDetectedDocType] = useState<string | null>(null);
   const [confidence, setConfidence] = useState<number>(99.4);
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
@@ -256,7 +256,17 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                   <FileText size={16} className="text-emerald-600" />
                   <span>Upload LTO OR / CR</span>
                 </h3>
-                <span className="text-[11px] font-bold text-rose-500 bg-rose-50 dark:bg-rose-950 px-2 py-0.5 rounded-full">Required</span>
+                {!orcrFile ? (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+                    <span className="w-2 h-2 rounded-full bg-slate-400"></span>
+                    ○ Not uploaded
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                    <CheckCircle2 size={13} />
+                    ✓ Uploaded
+                  </span>
+                )}
               </div>
 
               <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-emerald-500 dark:hover:border-emerald-500 rounded-2xl p-6 text-center transition-all bg-slate-50/50 dark:bg-slate-800/30">
@@ -406,8 +416,15 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
             </button>
             <button
               type="button"
-              onClick={() => setWizardStep(2)}
-              className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center space-x-2 shadow-lg shadow-emerald-600/30 transition-all cursor-pointer"
+              disabled={!orcrFile}
+              onClick={() => {
+                if (orcrFile) setWizardStep(2);
+              }}
+              className={`px-6 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition-all ${
+                orcrFile
+                  ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
+                  : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed shadow-none'
+              }`}
             >
               <span>Next: Route &amp; Fleet Endorsement</span>
               <ArrowRight size={14} />
@@ -426,7 +443,17 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                   <FileCheck size={16} className="text-emerald-600" />
                   <span>Route / Transport Endorsement</span>
                 </h3>
-                <span className="text-[11px] font-bold text-rose-500 bg-rose-50 dark:bg-rose-950 px-2 py-0.5 rounded-full">Required</span>
+                {!todaFile ? (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+                    <span className="w-2 h-2 rounded-full bg-slate-400"></span>
+                    ○ Not uploaded
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                    <CheckCircle2 size={13} />
+                    ✓ Uploaded
+                  </span>
+                )}
               </div>
 
               <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-emerald-500 rounded-2xl p-6 text-center transition-all bg-slate-50/50 dark:bg-slate-800/30">
@@ -522,8 +549,15 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
             </button>
             <button
               type="button"
-              onClick={() => setWizardStep(3)}
-              className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center space-x-2 shadow-lg shadow-emerald-600/30"
+              disabled={!todaFile}
+              onClick={() => {
+                if (todaFile) setWizardStep(3);
+              }}
+              className={`px-6 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition-all ${
+                todaFile
+                  ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
+                  : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed shadow-none'
+              }`}
             >
               <span>Next: Operator ID & Cross-Match</span>
               <ArrowRight size={14} />
@@ -542,7 +576,17 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                   <User size={16} className="text-emerald-600" />
                   <span>Upload Operator ID / License</span>
                 </h3>
-                <span className="text-[11px] font-bold text-rose-500 bg-rose-50 dark:bg-rose-950 px-2 py-0.5 rounded-full">Required</span>
+                {!operatorIdFile ? (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+                    <span className="w-2 h-2 rounded-full bg-slate-400"></span>
+                    ○ Not uploaded
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                    <CheckCircle2 size={13} />
+                    ✓ Uploaded
+                  </span>
+                )}
               </div>
 
               <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-emerald-500 rounded-2xl p-6 text-center transition-all bg-slate-50/50 dark:bg-slate-800/30">
@@ -662,8 +706,15 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
             </button>
             <button
               type="button"
-              onClick={() => setWizardStep(4)}
-              className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center space-x-2 shadow-lg shadow-emerald-600/30"
+              disabled={!operatorIdFile}
+              onClick={() => {
+                if (operatorIdFile) setWizardStep(4);
+              }}
+              className={`px-6 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition-all ${
+                operatorIdFile
+                  ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
+                  : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed shadow-none'
+              }`}
             >
               <span>Next: Final Review</span>
               <ArrowRight size={14} />
