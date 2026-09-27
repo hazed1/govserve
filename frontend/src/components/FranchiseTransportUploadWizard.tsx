@@ -232,9 +232,9 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
               key={s.step} 
               className={`flex items-center space-x-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all ${
                 wizardStep === s.step 
-                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30' 
+                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30' 
                   : wizardStep > s.step 
-                    ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300' 
+                    ? 'bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300' 
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
               }`}
             >
@@ -254,7 +254,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
             <div className="lg:col-span-5 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center space-x-2">
-                  <FileText size={16} className="text-emerald-600" />
+                  <FileText size={16} className="text-blue-600" />
                   <span>Upload LTO OR / CR</span>
                 </h3>
                 {!orcrFile ? (
@@ -263,15 +263,15 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                     ○ Not uploaded
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
                     <CheckCircle2 size={13} />
                     ✓ Uploaded
                   </span>
                 )}
               </div>
 
-              <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-emerald-500 dark:hover:border-emerald-500 rounded-2xl p-6 text-center transition-all bg-slate-50/50 dark:bg-slate-800/30">
-                <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center mb-3">
+              <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 rounded-2xl p-6 text-center transition-all bg-slate-50/50 dark:bg-slate-800/30">
+                <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 mx-auto flex items-center justify-center mb-3">
                   <Upload size={22} />
                 </div>
                 <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
@@ -280,7 +280,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                 <p className="text-[11px] text-slate-400 mt-1">Accepts .jpg, .png, .pdf up to 25MB</p>
                 
                 <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
-                  <label className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/30 flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]">
+                  <label className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md shadow-blue-600/30 flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]">
                     <Camera size={15} />
                     <span>📷 TAKE PHOTO</span>
                     <input 
@@ -292,7 +292,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                     />
                   </label>
 
-                  <label className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 font-bold text-xs shadow-xs flex items-center gap-2 cursor-pointer transition-all">
+                  <label className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/40 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-700 font-bold text-xs shadow-xs flex items-center gap-2 cursor-pointer transition-all">
                     <Upload size={15} />
                     <span>⬆ UPLOAD PHOTO</span>
                     <input 
@@ -325,8 +325,8 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
 
               {isExtracting && extractTarget === 'orcr' ? (
                 <div className="py-12 text-center space-y-3">
-                  <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto" />
-                  <p className="text-xs font-bold text-emerald-600">Extracting vehicle registration and engine numbers...</p>
+                  <div className="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto" />
+                  <p className="text-xs font-bold text-blue-600">Extracting vehicle registration and engine numbers...</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
@@ -337,7 +337,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                       value={transportData.operatorName} 
                       onChange={(e) => setTransportData({...transportData, operatorName: e.target.value})}
                       placeholder="Enter registered operator/owner name"
-                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
                     />
                   </div>
 
@@ -348,7 +348,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                       value={transportData.plateNumber} 
                       onChange={(e) => setTransportData({...transportData, plateNumber: e.target.value})}
                       placeholder="e.g. 4829-QC"
-                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-emerald-600 dark:text-emerald-400 font-mono font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-blue-600 dark:text-blue-400 font-mono font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
                     />
                   </div>
 
@@ -357,7 +357,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                     <select 
                       value={transportData.vehicleCategory} 
                       onChange={(e) => setTransportData({...transportData, vehicleCategory: e.target.value})}
-                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs cursor-pointer"
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs cursor-pointer"
                     >
                       <optgroup label="Tricycles & Light Vehicles">
                         <option value="Motorized Tricycle-for-Hire (MTOP)">🛺 Motorized Tricycle-for-Hire (MTOP)</option>
@@ -391,7 +391,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                       value={transportData.engineNumber} 
                       onChange={(e) => setTransportData({...transportData, engineNumber: e.target.value})}
                       placeholder="e.g. KB4-992140 or 4JB1-884920"
-                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-mono font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-mono font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
                     />
                   </div>
 
@@ -402,7 +402,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                       value={transportData.chassisNumber} 
                       onChange={(e) => setTransportData({...transportData, chassisNumber: e.target.value})}
                       placeholder="e.g. CH-2023-QC-88192"
-                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-mono font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-mono font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
                     />
                   </div>
 
@@ -413,7 +413,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                       value={transportData.makeModel} 
                       onChange={(e) => setTransportData({...transportData, makeModel: e.target.value})}
                       placeholder="e.g. Toyota Vios, Isuzu Modern PUJ, or Kawasaki Barako II"
-                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
                     />
                   </div>
                 </div>
@@ -438,7 +438,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
               }}
               className={`px-6 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition-all ${
                 orcrFile
-                  ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
+                  ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
                   : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed shadow-none'
               }`}
             >
@@ -456,7 +456,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
             <div className="lg:col-span-5 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center space-x-2">
-                  <FileCheck size={16} className="text-emerald-600" />
+                  <FileCheck size={16} className="text-blue-600" />
                   <span>Route / Transport Endorsement</span>
                 </h3>
                 {!todaFile ? (
@@ -465,15 +465,15 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                     ○ Not uploaded
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
                     <CheckCircle2 size={13} />
                     ✓ Uploaded
                   </span>
                 )}
               </div>
 
-              <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-emerald-500 rounded-2xl p-6 text-center transition-all bg-slate-50/50 dark:bg-slate-800/30">
-                <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center mb-3">
+              <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-blue-500 rounded-2xl p-6 text-center transition-all bg-slate-50/50 dark:bg-slate-800/30">
+                <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 mx-auto flex items-center justify-center mb-3">
                   <Bus size={22} />
                 </div>
                 <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
@@ -481,7 +481,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                 </p>
                 <p className="text-[11px] text-slate-400 mt-1">Accepts PDF, JPG, PNG</p>
                 <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
-                  <label className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/30 flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]">
+                  <label className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md shadow-blue-600/30 flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]">
                     <Camera size={15} />
                     <span>📷 TAKE PHOTO</span>
                     <input 
@@ -493,7 +493,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                     />
                   </label>
 
-                  <label className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 font-bold text-xs shadow-xs flex items-center gap-2 cursor-pointer transition-all">
+                  <label className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/40 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-700 font-bold text-xs shadow-xs flex items-center gap-2 cursor-pointer transition-all">
                     <Upload size={15} />
                     <span>⬆ UPLOAD PHOTO</span>
                     <input 
@@ -531,7 +531,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                     value={transportData.todaAssociation}
                     onChange={(e) => setTransportData({...transportData, todaAssociation: e.target.value})}
                     placeholder="Enter Transport Cooperative, TODA, or Fleet Operator name"
-                    className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                    className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
                   />
                 </div>
 
@@ -543,12 +543,12 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                       value={transportData.todaBodyNumber}
                       onChange={(e) => setTransportData({...transportData, todaBodyNumber: e.target.value})}
                       placeholder="e.g. BODY-FRV-042 or FLEET-088"
-                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-emerald-600 dark:text-emerald-400 font-mono font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-blue-600 dark:text-blue-400 font-mono font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
                     />
                   </div>
                   <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
                     <span className="text-[11px] font-bold text-slate-400 uppercase block">Operating Status</span>
-                    <div className="mt-2.5 font-bold text-emerald-600 flex items-center space-x-1">
+                    <div className="mt-2.5 font-bold text-blue-600 flex items-center space-x-1">
                       <CheckCircle2 size={13} />
                       <span>Certified Active Unit</span>
                     </div>
@@ -562,7 +562,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                     value={transportData.routeDesignation}
                     onChange={(e) => setTransportData({...transportData, routeDesignation: e.target.value})}
                     placeholder="Enter designated route corridor, terminal line, or area of operation"
-                    className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                    className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
                   />
                 </div>
               </div>
@@ -586,7 +586,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
               }}
               className={`px-6 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition-all ${
                 todaFile
-                  ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
+                  ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
                   : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed shadow-none'
               }`}
             >
@@ -604,7 +604,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
             <div className="lg:col-span-5 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center space-x-2">
-                  <User size={16} className="text-emerald-600" />
+                  <User size={16} className="text-blue-600" />
                   <span>Upload Operator ID / License</span>
                 </h3>
                 {!operatorIdFile ? (
@@ -613,15 +613,15 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                     ○ Not uploaded
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
                     <CheckCircle2 size={13} />
                     ✓ Uploaded
                   </span>
                 )}
               </div>
 
-              <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-emerald-500 rounded-2xl p-6 text-center transition-all bg-slate-50/50 dark:bg-slate-800/30">
-                <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center mb-3">
+              <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-blue-500 rounded-2xl p-6 text-center transition-all bg-slate-50/50 dark:bg-slate-800/30">
+                <div className="w-12 h-12 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 mx-auto flex items-center justify-center mb-3">
                   <User size={22} />
                 </div>
                 <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
@@ -629,7 +629,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                 </p>
                 <p className="text-[11px] text-slate-400 mt-1">Accepts JPG, PNG, PDF</p>
                 <div className="flex flex-wrap items-center justify-center gap-3 mt-4">
-                  <label className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/30 flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]">
+                  <label className="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md shadow-blue-600/30 flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]">
                     <Camera size={15} />
                     <span>📷 TAKE PHOTO</span>
                     <input 
@@ -641,7 +641,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                     />
                   </label>
 
-                  <label className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 font-bold text-xs shadow-xs flex items-center gap-2 cursor-pointer transition-all">
+                  <label className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/40 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-700 font-bold text-xs shadow-xs flex items-center gap-2 cursor-pointer transition-all">
                     <Upload size={15} />
                     <span>⬆ UPLOAD PHOTO</span>
                     <input 
@@ -679,7 +679,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                     value={idData.fullName}
                     onChange={(e) => setIdData({...idData, fullName: e.target.value})}
                     placeholder="Enter full legal name"
-                    className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                    className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
                   />
                 </div>
 
@@ -691,7 +691,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                       value={idData.idType}
                       onChange={(e) => setIdData({...idData, idType: e.target.value})}
                       placeholder="e.g. Professional Driver's License"
-                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
                     />
                   </div>
                   <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
@@ -701,7 +701,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                       value={idData.idNumber}
                       onChange={(e) => setIdData({...idData, idNumber: e.target.value})}
                       placeholder="e.g. N02-14-884920"
-                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-emerald-600 dark:text-emerald-400 font-mono font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-blue-600 dark:text-blue-400 font-mono font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
                     />
                   </div>
                 </div>
@@ -713,7 +713,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                       type="date"
                       value={idData.dateOfBirth}
                       onChange={(e) => setIdData({...idData, dateOfBirth: e.target.value})}
-                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
                     />
                   </div>
                   <div className="p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-800">
@@ -722,7 +722,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                       type="date"
                       value={transportData.driverLicenseExpiry}
                       onChange={(e) => setTransportData({...transportData, driverLicenseExpiry: e.target.value})}
-                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                      className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-bold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
                     />
                   </div>
                 </div>
@@ -734,7 +734,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                     value={idData.address}
                     onChange={(e) => setIdData({...idData, address: e.target.value})}
                     placeholder="Enter complete residential address"
-                    className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all shadow-xs"
+                    className="w-full mt-1.5 px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-200 font-semibold text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
                   />
                 </div>
               </div>
@@ -758,7 +758,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
               }}
               className={`px-6 py-2.5 rounded-xl text-xs font-bold flex items-center space-x-2 transition-all ${
                 operatorIdFile
-                  ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
+                  ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
                   : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed shadow-none'
               }`}
             >
@@ -774,7 +774,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
         <div className="space-y-6 animate-in fade-in">
           <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
             <div className="flex items-center space-x-3 pb-4 border-b border-slate-100 dark:border-slate-800">
-              <div className="w-10 h-10 rounded-2xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center font-bold">
+              <div className="w-10 h-10 rounded-2xl bg-blue-100 dark:bg-blue-950 text-blue-600 flex items-center justify-center font-bold">
                 <FileCheck size={20} />
               </div>
               <div>
@@ -795,7 +795,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
 
               <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 space-y-2">
                 <span className="font-bold text-slate-400 uppercase text-[10px]">Vehicle & Franchise Info</span>
-                <p className="font-black text-emerald-600 text-sm font-mono">{transportData.plateNumber} • {transportData.todaBodyNumber}</p>
+                <p className="font-black text-blue-600 text-sm font-mono">{transportData.plateNumber} • {transportData.todaBodyNumber}</p>
                 <p className="text-slate-600 dark:text-slate-400">{transportData.makeModel}</p>
                 <p className="text-slate-600 dark:text-slate-400">{transportData.routeDesignation}</p>
               </div>
@@ -807,7 +807,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
                   type="checkbox" 
                   checked={swornAgreed} 
                   onChange={(e) => setSwornAgreed(e.target.checked)}
-                  className="mt-0.5 rounded text-emerald-600 focus:ring-emerald-500 w-4 h-4" 
+                  className="mt-0.5 rounded text-blue-600 focus:ring-blue-500 w-4 h-4" 
                 />
                 <span className="text-slate-600 dark:text-slate-300 leading-relaxed">
                   I hereby solemnly swear under penalty of perjury that the attached LTO OR/CR and transport cooperative/route endorsement documents are genuine and that the registered vehicle complies with safety, emission, and municipal franchise standards under the Local Government Code of 1991 and national transportation laws.
@@ -829,7 +829,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
               type="button"
               disabled={!swornAgreed}
               onClick={handleSubmit}
-              className="px-8 py-3 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white rounded-xl text-xs font-bold flex items-center space-x-2 shadow-lg shadow-emerald-600/30 cursor-pointer"
+              className="px-8 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white rounded-xl text-xs font-bold flex items-center space-x-2 shadow-lg shadow-blue-600/30 cursor-pointer"
             >
               <CheckCircle2 size={16} />
               <span>Confirm & Submit Application</span>
@@ -842,7 +842,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
       {wizardStep === 5 && submittedApp && (
         <div className="bg-white dark:bg-slate-900 p-8 sm:p-12 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm max-w-2xl mx-auto animate-in fade-in duration-200">
           <div className="space-y-8 max-w-xl mx-auto text-center py-4">
-            <div className="w-20 h-20 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center shadow-xl shadow-emerald-600/20">
+            <div className="w-20 h-20 rounded-full bg-blue-100 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 mx-auto flex items-center justify-center shadow-xl shadow-blue-600/20">
               <CheckCircle2 size={44} className="stroke-[2.5]" />
             </div>
 
@@ -859,7 +859,7 @@ export const FranchiseTransportUploadWizard: React.FC<FranchiseTransportUploadWi
             <div className="bg-slate-50 dark:bg-slate-800/60 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 text-left space-y-3.5 text-xs">
               <div className="flex justify-between items-center pb-2 border-b border-slate-200 dark:border-slate-700">
                 <span className="text-slate-500">Application Number</span>
-                <span className="font-mono font-black text-emerald-600 dark:text-emerald-400 text-sm">
+                <span className="font-mono font-black text-blue-600 dark:text-blue-400 text-sm">
                   {submittedApp.applicationNo}
                 </span>
               </div>
