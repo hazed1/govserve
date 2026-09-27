@@ -783,10 +783,15 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
                           <span className="text-[10px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-400">
                             {doc.required ? '★ Required Photo' : 'Optional Document'}
                           </span>
-                          {isUploaded && (
-                            <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                              <CheckCircle2 size={12} />
-                              <span>Ready</span>
+                          {!isUploaded ? (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+                              <span className="w-2 h-2 rounded-full bg-slate-400"></span>
+                              ○ Not uploaded
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                              <CheckCircle2 size={13} />
+                              ✓ Uploaded
                             </span>
                           )}
                         </div>
