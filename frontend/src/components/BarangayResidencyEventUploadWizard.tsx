@@ -239,7 +239,7 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
                 <span className="text-xs text-slate-400 font-bold">100% Picture-Upload Filing</span>
               </div>
               <h2 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white mt-1">
-                Barangay Residency &amp; Event Clearance
+                Barangay Residency Clearance
               </h2>
             </div>
           </div>
@@ -496,7 +496,7 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
                 Official Certification Issued
               </span>
               <h3 className="text-2xl font-black text-slate-900 dark:text-white mt-2">
-                Barangay Residency &amp; Event Clearance Ready!
+                Barangay Residency Clearance Ready!
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto mt-1">
                 Your clearance has been registered in the Barangay Registry with Lupon Tagapamayapa certification.

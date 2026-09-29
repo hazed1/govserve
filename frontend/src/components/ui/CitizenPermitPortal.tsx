@@ -854,7 +854,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                             </div>
                           </div>
 
-                          {/* 4. BARANGAY RESIDENCY & EVENT CLEARANCE */}
+                          {/* 4. BARANGAY RESIDENCY CLEARANCE */}
                           <div 
                             onClick={() => onNavigateToTab('Barangay Permit Integration')}
                             className="flex items-center space-x-3.5 cursor-pointer group/item"
@@ -864,7 +864,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                             </div>
                             <div className="select-text">
                               <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
-                                BARANGAY RESIDENCY &amp; EVENT CLEARANCE
+                                BARANGAY RESIDENCY CLEARANCE
                               </h4>
                             </div>
                           </div>

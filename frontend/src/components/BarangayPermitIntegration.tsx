@@ -1148,13 +1148,6 @@ Digital Security Hash   : ${item.qrHash}
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
                   {/* Left Column: Info & Details */}
                   <div className="flex-1 space-y-4">
-                    {/* Badge */}
-                    <div className="flex items-center gap-2">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-sky-50 dark:bg-sky-950/80 text-sky-600 dark:text-sky-300 border border-sky-200 dark:border-sky-800">
-                        24-BARANGAY NETWORK
-                      </span>
-                    </div>
-
                     {/* Title */}
                     <div>
                       <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
@@ -1279,16 +1272,6 @@ Digital Security Hash   : ${item.qrHash}
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
                   {/* Left Column: Info & Details */}
                   <div className="flex-1 space-y-4">
-                    {/* Badges */}
-                    <div className="flex items-center gap-2">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-amber-100/80 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 border border-amber-300/80 dark:border-amber-700/80">
-                        CONSTRUCTION &amp; EXCAVATION
-                      </span>
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-amber-800 dark:text-amber-300 bg-amber-50/60 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/80">
-                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Site Endorsement
-                      </span>
-                    </div>
-
                     {/* Title */}
                     <div>
                       <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
@@ -1411,16 +1394,6 @@ Digital Security Hash   : ${item.qrHash}
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
                   {/* Left Column: Info & Details */}
                   <div className="flex-1 space-y-4">
-                    {/* Badges */}
-                    <div className="flex items-center gap-2">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-emerald-100/80 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300/80 dark:border-emerald-700/80">
-                        INSTANT TAX CLEARANCE
-                      </span>
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50/60 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/80">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Digital CTC Number
-                      </span>
-                    </div>
-
                     {/* Title */}
                     <div>
                       <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
@@ -1543,20 +1516,10 @@ Digital Security Hash   : ${item.qrHash}
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
                   {/* Left Column: Info & Details */}
                   <div className="flex-1 space-y-4">
-                    {/* Badges */}
-                    <div className="flex items-center gap-2">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-purple-100/80 dark:bg-purple-950/80 text-purple-800 dark:text-purple-300 border border-purple-300/80 dark:border-purple-700/80">
-                        CIVIL STATUS &amp; SPECIAL PASS
-                      </span>
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-purple-800 dark:text-purple-300 bg-purple-50/60 dark:bg-purple-950/40 border border-purple-200/80 dark:border-purple-800/80">
-                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500"></span>Official Seal
-                      </span>
-                    </div>
-
                     {/* Title */}
                     <div>
                       <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
-                        Barangay Residency &amp; Event Clearance
+                        Barangay Residency Clearance
                       </h3>
                     </div>
 
@@ -1569,7 +1532,7 @@ Digital Security Hash   : ${item.qrHash}
                         </div>
                         <div>
                           <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TARGET USERS</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Barangay residents, event organizers, scholarship applicants, and jobseekers</p>
+                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Barangay residents, scholarship applicants, and jobseekers</p>
                         </div>
                       </div>
 
@@ -1629,7 +1592,7 @@ Digital Security Hash   : ${item.qrHash}
                         }}
                         className="w-full py-3.5 px-5 bg-[#8b00e8] hover:bg-[#7b00cc] active:bg-[#6800ad] text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-purple-600/30 hover:shadow-purple-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
                       >
-                        <span>Request Residency &amp; Event Pass →</span>
+                        <span>Request Residency Clearance →</span>
                       </button>
 
 
@@ -1652,9 +1615,6 @@ Digital Security Hash   : ${item.qrHash}
                         </span>
                         <span className="px-2.5 py-1 rounded-md bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
                           <span className="w-1.5 h-1.5 rounded-full bg-purple-500 dark:bg-purple-400"></span>Residency Proof
-                        </span>
-                        <span className="px-2.5 py-1 rounded-md bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-purple-500 dark:bg-purple-400"></span>Event Itinerary
                         </span>
                       </div>
                     </div>
