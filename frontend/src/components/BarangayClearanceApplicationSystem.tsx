@@ -248,14 +248,14 @@ interface BarangayClearanceApplicationSystemProps {
   onBack?: () => void;
   onNavigateToTab?: (tab: TabType | string) => void;
   onAddNewApplication?: (applicantName: string, permitType: string) => void;
-  initialMode?: 'landing' | 'apply' | 'track' | 'admin';
+  initialMode?: 'apply' | 'track' | 'admin';
 }
 
 export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceApplicationSystemProps> = ({
   onBack,
   onNavigateToTab,
   onAddNewApplication,
-  initialMode = 'landing'
+  initialMode = 'apply'
 }) => {
   const { user } = useAuth();
   const { theme } = useTheme();
@@ -263,7 +263,7 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
   const isAdmin = user?.role === 'admin';
 
   // Navigation mode
-  const [activeView, setActiveView] = useState<'landing' | 'apply' | 'track' | 'admin' | 'confirmation'>(
+  const [activeView, setActiveView] = useState<'apply' | 'track' | 'admin' | 'confirmation'>(
     isAdmin ? 'admin' : initialMode
   );
 
@@ -847,356 +847,6 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8">
         
         {/* ========================================================================= */}
-        {/* 1. LANDING / APPLICATION PAGE (REFERENCE IMAGE DESIGN LANGUAGE)            */}
-        {/* ========================================================================= */}
-        {activeView === 'landing' && (
-          <div className="space-y-8 animate-in fade-in duration-300">
-            
-            {/* Top Government Banner inspired by reference */}
-            <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm text-center relative overflow-hidden">
-              <div className="absolute -top-12 -right-12 w-48 h-48 bg-blue-500/10 rounded-full blur-2xl pointer-events-none" />
-              <div className="w-16 h-16 mx-auto mb-3 rounded-2xl bg-white p-1 shadow-md border border-slate-200 dark:border-slate-700 flex items-center justify-center">
-                <img src="/government-logo.png" alt="QC Seal" className="w-full h-full object-contain" />
-              </div>
-              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
-                SYSTEM INSTRUCTIONS
-              </h1>
-              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-medium max-w-xl mx-auto mt-1">
-                A quick and easy guide to help you successfully complete your Barangay Clearance application.
-              </p>
-              <div className="flex items-center justify-center space-x-2 text-amber-500 mt-2 text-sm">
-                <span>★</span>
-                <span>★</span>
-                <span>★</span>
-              </div>
-            </div>
-
-            {/* MAIN REFERENCE CARD: APPLY FOR BARANGAY CLEARANCE */}
-            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-white via-sky-50/70 to-blue-50/50 dark:from-[#0a192f] dark:via-[#0c2444] dark:to-[#061224] border border-sky-200 dark:border-sky-500/40 p-6 sm:p-8 shadow-xl shadow-sky-900/5 dark:shadow-2xl dark:shadow-sky-950/40">
-              
-              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
-                
-                {/* Left Column: 5 Information Rows with Circular Icons */}
-                <div className="flex-1 space-y-4">
-                  <div>
-                    <span className="px-3 py-1 rounded-full text-[10px] font-black tracking-wider uppercase bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-300 border border-blue-200 dark:border-blue-800/80">
-                      OFFICIAL LOCAL GOVERNMENT CLEARANCE
-                    </span>
-                    <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight mt-1.5 uppercase">
-                      APPLY FOR BARANGAY CLEARANCE
-                    </h2>
-                  </div>
-
-                  {/* 5 Rows Matching the Reference Image Format */}
-                  <div className="space-y-3 pt-1">
-                    {/* Row 1: Target Users */}
-                    <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                        <Users size={15} />
-                      </div>
-                      <div>
-                        <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">
-                          TARGET USERS
-                        </span>
-                        <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">
-                          Residents, business locators, jobseekers, students, and applicants applying for a Barangay Clearance.
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Row 2: Service Method */}
-                    <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                        <FileText size={15} />
-                      </div>
-                      <div>
-                        <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">
-                          SERVICE METHOD
-                        </span>
-                        <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">
-                          100% Online application, document photo upload &amp; instant digital clearance issuance.
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Row 3: Time Period */}
-                    <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                        <Clock size={15} />
-                      </div>
-                      <div>
-                        <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">
-                          TIME PERIOD
-                        </span>
-                        <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">
-                          Same-day to 1 working day upon review of uploaded documents and Lupon verification.
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Row 4: Charges & Payment */}
-                    <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                        <Banknote size={15} />
-                      </div>
-                      <div>
-                        <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">
-                          CHARGES &amp; PAYMENT
-                        </span>
-                        <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">
-                          ₱50.00 - ₱100.00 standard barangay clearance tariff{' '}
-                          <span className="text-emerald-600 dark:text-emerald-400 font-bold">
-                            (₱0.00 Free for First-Time Jobseekers under RA 11261)
-                          </span>
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Row 5: Payment Method */}
-                    <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                        <CreditCard size={15} />
-                      </div>
-                      <div>
-                        <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">
-                          PAYMENT METHOD
-                        </span>
-                        <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">
-                          Online payment (GCash, Maya, Landbank Link.Biz, Debit/Credit Card) or Barangay Cashier.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Right Column: Large Blue Button & Upload Requirements Card */}
-                <div className="w-full lg:w-[420px] shrink-0 flex flex-col justify-between space-y-4">
-                  
-                  {/* Large Blue CTA Button */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setActiveView('apply');
-                      setCurrentStep(1);
-                    }}
-                    className="w-full py-4 px-6 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-2xl text-base font-black shadow-lg shadow-blue-600/35 hover:shadow-blue-500/45 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    <span>Apply for Barangay Clearance →</span>
-                  </button>
-
-                  {/* Upload Requirements Card */}
-                  <div className="p-4 sm:p-5 rounded-2xl bg-white/90 dark:bg-slate-900/90 border border-sky-200 dark:border-sky-500/30 backdrop-blur-xs space-y-2.5 shadow-sm">
-                    <div className="flex items-center gap-2 text-xs font-bold text-sky-700 dark:text-sky-400">
-                      <Camera size={16} />
-                      <span>Upload Requirements (Upload-Based Filing)</span>
-                    </div>
-                    <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                      Take a clear photo or upload a scan of your documents. Minimal manual typing required:
-                    </p>
-                    <div className="grid grid-cols-2 gap-2 pt-1 text-[11px]">
-                      <div className="px-2.5 py-1.5 rounded-lg bg-sky-50/80 dark:bg-slate-800/80 border border-sky-200 dark:border-slate-700 font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
-                        <CheckCircle2 size={13} className="text-sky-600" />
-                        <span>Valid Gov ID</span>
-                      </div>
-                      <div className="px-2.5 py-1.5 rounded-lg bg-sky-50/80 dark:bg-slate-800/80 border border-sky-200 dark:border-slate-700 font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
-                        <CheckCircle2 size={13} className="text-sky-600" />
-                        <span>Proof of Residency</span>
-                      </div>
-                      <div className="px-2.5 py-1.5 rounded-lg bg-sky-50/80 dark:bg-slate-800/80 border border-sky-200 dark:border-slate-700 font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
-                        <CheckCircle2 size={13} className="text-sky-600" />
-                        <span>Cedula / CTC</span>
-                      </div>
-                      <div className="px-2.5 py-1.5 rounded-lg bg-sky-50/80 dark:bg-slate-800/80 border border-sky-200 dark:border-slate-700 font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-2">
-                        <CheckCircle2 size={13} className="text-sky-600" />
-                        <span>Endorsement</span>
-                      </div>
-                    </div>
-                    <div className="pt-1 flex items-center justify-between text-[11px] text-slate-500">
-                      <span>Accepted: JPG, JPEG, PNG, PDF</span>
-                      <span>Max 10MB</span>
-                    </div>
-                  </div>
-
-                  {/* Secondary Quick Track Link */}
-                  <div className="flex items-center justify-between text-xs px-2">
-                    <span className="text-slate-500">Already applied?</span>
-                    <button
-                      onClick={() => setActiveView('track')}
-                      className="text-blue-600 dark:text-blue-400 font-bold hover:underline flex items-center gap-1"
-                    >
-                      <span>Track Application Status</span>
-                      <ChevronRight size={14} />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* TWO-COLUMN INSTRUCTIONS GRID (Matching Reference Image Layout) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              
-              {/* Left Column: General Instructions & Authorization Form */}
-              <div className="space-y-6">
-                
-                {/* General Instructions Card */}
-                <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
-                  <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-xl bg-blue-900 text-white text-xs font-bold uppercase tracking-wider">
-                    <FileText size={15} />
-                    <span>GENERAL INSTRUCTIONS</span>
-                  </div>
-                  <p className="text-xs text-slate-600 dark:text-slate-400">
-                    Before proceeding with your online Barangay Clearance application, please prepare the following requirements:
-                  </p>
-                  
-                  <div className="space-y-3">
-                    {[
-                      { num: 1, title: 'Valid Government Issued ID', sub: 'PhilSys National ID, Passport, Driver’s License, UMID, Postal ID (Required)', required: true },
-                      { num: 2, title: 'Proof of Residency Document', sub: 'Utility Bill (Meralco / Maynilad), Notarized Lease Contract, or Certificate from HOA (Required)', required: true },
-                      { num: 3, title: 'Cedula / Community Tax Certificate (CTC)', sub: 'Current year CTC issued by City/Municipal Treasury or Barangay Cashier', required: true },
-                      { num: 4, title: 'Barangay Endorsement / Kagawad Referral', sub: 'Applicable for commercial establishments or building construction (When applicable)', required: false },
-                    ].map((item) => (
-                      <div key={item.num} className="flex items-start gap-3 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
-                        <div className="w-7 h-7 rounded-full bg-blue-900 text-white flex items-center justify-center text-xs font-black shrink-0">
-                          {item.num}
-                        </div>
-                        <div>
-                          <h4 className="text-xs font-bold text-slate-900 dark:text-white">
-                            {item.title} {item.required && <span className="text-rose-500 font-bold">(Required)</span>}
-                          </h4>
-                          <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{item.sub}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Authorization Form Card */}
-                <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
-                  <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-xl bg-blue-900 text-white text-xs font-bold uppercase tracking-wider">
-                    <Users size={15} />
-                    <span>AUTHORIZATION FOR REPRESENTATIVES</span>
-                  </div>
-                  <p className="text-xs text-slate-600 dark:text-slate-400">
-                    If applying on behalf of a relative, tenant, or employer, please follow these steps:
-                  </p>
-                  
-                  <div className="space-y-2.5 text-xs text-slate-700 dark:text-slate-300">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center font-bold text-[11px]">1</div>
-                      <span>Prepare an Authorization Letter signed by the applicant.</span>
-                    </div>
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center font-bold text-[11px]">2</div>
-                      <span>Upload photos of both the Applicant's and Representative's Valid IDs.</span>
-                    </div>
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center font-bold text-[11px]">3</div>
-                      <span>Proceed to submit documents through the upload wizard.</span>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Right Column: Important Notes & Reminders + Computer Preview */}
-              <div className="space-y-6">
-                
-                {/* Important Notes / Reminders */}
-                <div className="bg-amber-50/80 dark:bg-amber-950/20 rounded-3xl p-6 border border-amber-200 dark:border-amber-800/60 shadow-sm space-y-4">
-                  <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-xl bg-amber-500 text-white text-xs font-bold uppercase tracking-wider">
-                    <AlertTriangle size={15} />
-                    <span>IMPORTANT NOTES / REMINDERS</span>
-                  </div>
-
-                  <div className="space-y-3">
-                    {[
-                      { num: 1, text: 'Ensure uploaded photo text is sharp and readable to avoid rejection or delay.' },
-                      { num: 2, text: 'Subject to Lupon Tagapamayapa dispute records check for zero pending local complaints.' },
-                      { num: 3, text: 'First-Time Jobseekers may present their Oath of Undertaking for 100% fee exemption.' },
-                      { num: 4, text: 'Approved clearances come with a digital cryptographic QR verification seal.' },
-                    ].map((note) => (
-                      <div key={note.num} className="flex items-start gap-3">
-                        <div className="w-6 h-6 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
-                          {note.num}
-                        </div>
-                        <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
-                          {note.text}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Instant Application Action Card */}
-                <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm text-center space-y-4">
-                  <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-xl bg-blue-900 text-white text-xs font-bold uppercase tracking-wider">
-                    <FileCheck size={15} />
-                    <span>NEW CLEARANCE FORM</span>
-                  </div>
-                  
-                  {/* Computer Preview Illustration */}
-                  <div className="w-full max-w-[280px] mx-auto p-4 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 space-y-2">
-                    <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center mx-auto">
-                      <User size={16} />
-                    </div>
-                    <div className="space-y-1">
-                      <div className="h-2 w-3/4 bg-slate-300 dark:bg-slate-600 rounded-full mx-auto" />
-                      <div className="h-2 w-1/2 bg-slate-200 dark:bg-slate-700 rounded-full mx-auto" />
-                    </div>
-                    <div className="flex items-center justify-center gap-1.5 text-[11px] text-emerald-600 font-bold pt-1">
-                      <CheckCircle2 size={13} />
-                      <span>Ready for Instant Upload</span>
-                    </div>
-                  </div>
-
-                  <p className="text-xs text-slate-600 dark:text-slate-400">
-                    Click <strong>PROCEED</strong> to start the upload-based application. Average completion time: <strong>under 2 minutes</strong>.
-                  </p>
-
-                  <button
-                    onClick={() => {
-                      setActiveView('apply');
-                      setCurrentStep(1);
-                    }}
-                    className="w-full py-3.5 px-6 bg-emerald-600 hover:bg-emerald-500 text-white rounded-2xl font-black text-sm shadow-lg shadow-emerald-600/30 transition-all flex items-center justify-center gap-2 cursor-pointer"
-                  >
-                    <span>PROCEED WITH APPLICATION →</span>
-                  </button>
-                </div>
-
-              </div>
-            </div>
-
-            {/* Need Help Footer Banner (Matching Reference Image) */}
-            <div className="bg-blue-900 text-white rounded-3xl p-6 sm:p-7 shadow-lg flex flex-col md:flex-row items-center justify-between gap-4">
-              <div className="flex items-center space-x-3.5 text-center md:text-left">
-                <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-amber-300 shrink-0">
-                  <Sparkles size={24} />
-                </div>
-                <div>
-                  <h4 className="text-base font-black tracking-wide">NEED HELP?</h4>
-                  <p className="text-xs text-blue-200 font-normal">
-                    For technical support or inquiries, please contact your local barangay licensing office or system administrator.
-                  </p>
-                </div>
-              </div>
-              
-              <div className="flex flex-wrap items-center gap-4 text-xs font-semibold">
-                <div className="flex items-center space-x-2 bg-white/10 px-3.5 py-2 rounded-xl border border-white/15">
-                  <Phone size={14} className="text-amber-300" />
-                  <span>#122 (Citizen Hotline)</span>
-                </div>
-                <div className="flex items-center space-x-2 bg-white/10 px-3.5 py-2 rounded-xl border border-white/15">
-                  <Mail size={14} className="text-amber-300" />
-                  <span>barangay.helpdesk@quezoncity.gov.ph</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        )}
-
-        {/* ========================================================================= */}
         {/* 2. APPLICATION FORM (UPLOAD-BASED, STEP-BY-STEP WIZARD)                   */}
         {/* ========================================================================= */}
         {activeView === 'apply' && (
@@ -1495,10 +1145,14 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
                 <div className="pt-4 flex items-center justify-between">
                   <button
                     type="button"
-                    onClick={() => setActiveView('landing')}
-                    className="px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-200"
+                    onClick={() => {
+                      if (onBack) onBack();
+                      else if (onNavigateToTab) onNavigateToTab('Home');
+                    }}
+                    className="px-5 py-2.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 dark:hover:bg-slate-700 transition-all flex items-center space-x-1.5 cursor-pointer shadow-xs"
                   >
-                    Cancel
+                    <ArrowLeft size={14} />
+                    <span>Back to Portal</span>
                   </button>
                   <button
                     type="button"
@@ -1509,7 +1163,7 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
                       }
                       setCurrentStep(2);
                     }}
-                    className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-lg shadow-blue-600/30 flex items-center gap-2"
+                    className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-lg shadow-blue-600/30 flex items-center gap-2 cursor-pointer"
                   >
                     <span>Next: Proof of Residency →</span>
                   </button>
@@ -2235,11 +1889,14 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
 
                 <button
                   type="button"
-                  onClick={() => setActiveView('landing')}
-                  className="py-3 px-4 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-black hover:bg-slate-200 flex items-center justify-center gap-1.5"
+                  onClick={() => {
+                    if (onBack) onBack();
+                    else if (onNavigateToTab) onNavigateToTab('Home');
+                  }}
+                  className="py-3 px-4 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-black hover:bg-slate-200 flex items-center justify-center gap-1.5 cursor-pointer"
                 >
-                  <Home size={14} />
-                  <span>Back to Home</span>
+                  <ArrowLeft size={14} />
+                  <span>Back to Portal</span>
                 </button>
               </div>
 

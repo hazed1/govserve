@@ -499,18 +499,7 @@ Digital Security Hash   : ${item.qrHash}
         <div className="hidden dark:block absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-indigo-600/15 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-7xl mx-auto relative z-10 space-y-3">
-          {currentView !== 'preview' && (
-            <div className="flex justify-end">
-              <button
-                type="button"
-                onClick={() => setCurrentView('preview')}
-                className="px-4 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shadow-md"
-              >
-                <ArrowLeft size={13} />
-                <span>Return to Barangay Overview</span>
-              </button>
-            </div>
-          )}
+
 
           <div className="space-y-2 max-w-4xl">
             <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
@@ -1639,7 +1628,7 @@ Digital Security Hash   : ${item.qrHash}
         {/* ========================================================================= */}
         {currentView === 'new_clearance' && (
           <BarangayClearanceApplicationSystem
-            onBack={() => setCurrentView('preview')}
+            onBack={() => onNavigateToTab ? onNavigateToTab('Home') : setCurrentView('preview')}
             onNavigateToTab={onNavigateToTab}
             onAddNewApplication={onAddNewApplication}
             initialMode="apply"

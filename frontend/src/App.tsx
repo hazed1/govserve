@@ -768,7 +768,7 @@ function GovServePortal() {
       case 'Barangay Clearance Filing':
         return (
           <BarangayClearanceApplicationSystem
-            onBack={() => setActiveTab('Barangay Permit Integration')}
+            onBack={() => setActiveTab('Home')}
             onNavigateToTab={(tab) => setActiveTab(tab as TabType)}
             onAddNewApplication={handleAddNewApplication}
             initialMode="apply"
