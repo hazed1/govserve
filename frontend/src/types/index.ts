@@ -46,6 +46,8 @@ export type TabType =
   | '24-Barangay Clearance Network'
   | 'Barangay Integration Review'
   | 'Barangay Clearance Filing'
+  | 'Apply for Barangay Clearance'
+  | 'Barangay Clearance Application'
   | 'Community Clearance Validation'
   | 'Community Clearance Verification'
   | 'Inspection & Local Validation'

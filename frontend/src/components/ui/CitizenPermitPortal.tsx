@@ -349,10 +349,10 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
         t('card_barangay_tag3', 'Official Punong Barangay QR signature seal')
       ],
       keywords: ['barangay', 'clearance', 'cedula', 'sedula', 'ctc', 'community', 'tax', 'buwis', 'lupon', 'endorsement', 'endoso'],
-      primaryBtnText: t('card_barangay_btn_primary', 'Request Barangay Clearance'),
-      primaryTab: 'Barangay Permit Integration' as TabType,
-      secondaryBtnText: t('card_barangay_btn_secondary', 'Cedula CTC Filing'),
-      secondaryTab: 'Barangay Clearance Filing' as TabType,
+      primaryBtnText: 'Apply for Barangay Clearance →',
+      primaryTab: 'Barangay Clearance Filing' as TabType,
+      secondaryBtnText: 'View Barangay Portal',
+      secondaryTab: 'Barangay Permit Integration' as TabType,
       reqCategory: 'barangay' as const,
       icon: ShieldCheck,
       accent: {

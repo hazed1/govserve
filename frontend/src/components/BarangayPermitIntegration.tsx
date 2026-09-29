@@ -41,6 +41,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { LanguageToggle } from './ui/LanguageToggle';
 import { TabType } from '../types';
 import { BarangayPermitUploadWizard } from './BarangayPermitUploadWizard';
+import { BarangayClearanceApplicationSystem } from './BarangayClearanceApplicationSystem';
 
 
 export interface BarangayClearanceItem {
@@ -243,6 +244,8 @@ export const BarangayPermitIntegration: React.FC<BarangayPermitIntegrationProps>
       ? (isBrgyGridTab ? 'admin_grid' : 'admin_registry')
       : (currentTab === '24-Barangay Network Grid' || currentTab === '24-Barangay Clearance Network')
       ? 'grid_network'
+      : (currentTab === 'Barangay Clearance Filing' || currentTab === 'Apply for Barangay Clearance' || currentTab === 'Barangay Clearance Application')
+      ? 'new_clearance'
       : 'preview'
   );
 
@@ -1635,10 +1638,11 @@ Digital Security Hash   : ${item.qrHash}
         {/* SUBVIEW 1: NEW CLEARANCE (UPLOAD-FIRST WIZARD) */}
         {/* ========================================================================= */}
         {currentView === 'new_clearance' && (
-          <BarangayPermitUploadWizard
+          <BarangayClearanceApplicationSystem
             onBack={() => setCurrentView('preview')}
+            onNavigateToTab={onNavigateToTab}
             onAddNewApplication={onAddNewApplication}
-            onNavigateToDashboard={onNavigateToDashboard}
+            initialMode="apply"
           />
         )}
 

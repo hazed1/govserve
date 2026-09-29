@@ -29,6 +29,7 @@ import { AIChatWidget } from './components/ui/AIChatWidget';
 import { FranchiseTransportPermitModule } from './components/FranchiseTransportPermitModule';
 import { RouteUnitInspectionModule } from './components/RouteUnitInspectionModule';
 import { BarangayPermitIntegration } from './components/BarangayPermitIntegration';
+import { BarangayClearanceApplicationSystem } from './components/BarangayClearanceApplicationSystem';
 import { EPermitTrackerModule } from './components/EPermitTrackerModule';
 import { AIComplianceChecking } from './components/AIComplianceChecking';
 import { PublicLandingPage } from './components/PublicLandingPage';
@@ -762,12 +763,23 @@ function GovServePortal() {
           />
         );
 
+      case 'Apply for Barangay Clearance':
+      case 'Barangay Clearance Application':
+      case 'Barangay Clearance Filing':
+        return (
+          <BarangayClearanceApplicationSystem
+            onBack={() => setActiveTab('Barangay Permit Integration')}
+            onNavigateToTab={(tab) => setActiveTab(tab as TabType)}
+            onAddNewApplication={handleAddNewApplication}
+            initialMode="apply"
+          />
+        );
+
       case 'Barangay Permit Integration':
       case 'Barangay Clearance Registry':
       case '24-Barangay Network Grid':
       case '24-Barangay Clearance Network':
       case 'Barangay Integration Review':
-      case 'Barangay Clearance Filing':
       case 'Community Clearance Validation':
       case 'Community Clearance Verification':
       case 'Inspection & Local Validation':

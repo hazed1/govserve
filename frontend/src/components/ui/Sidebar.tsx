@@ -193,17 +193,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     <span className="truncate">{t('card_transport_title', 'Franchise & Transport Permit')}</span>
                   </button>
 
-                  {/* Module 4: Barangay Permit Integration */}
+                  {/* Module 4: Barangay Clearance Application & Integration */}
                   <button
-                    onClick={() => handleSubItemClick('Barangay Permit Integration')}
+                    onClick={() => handleSubItemClick('Barangay Clearance Filing')}
                     className={`w-full flex items-center space-x-3 px-3 py-2.5 rounded-xl text-left transition-all text-xs font-medium cursor-pointer ${
-                      activeTab === 'Barangay Permit Integration'
+                      activeTab === 'Barangay Clearance Filing' || activeTab === 'Apply for Barangay Clearance' || activeTab === 'Barangay Permit Integration'
                         ? 'bg-blue-600 text-white font-bold shadow-md shadow-blue-600/25'
                         : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-white'
                     }`}
                   >
                     <ShieldCheck size={17} className="text-purple-500 dark:text-purple-400 flex-shrink-0" />
-                    <span className="truncate">{t('card_barangay_title', 'Barangay Permit Integration')}</span>
+                    <span className="truncate">{t('Apply for Barangay Clearance', 'Barangay Clearance Application')}</span>
                   </button>
 
                   {/* Module 5: E-Permit tracker */}
@@ -368,6 +368,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 {m4Open && (
                   <div className="pl-6 space-y-0.5 border-l border-slate-200 dark:border-slate-800 ml-3 my-1">
                     {[
+                      { name: 'Barangay Clearance Filing', tab: 'Barangay Clearance Filing' },
                       { name: 'Barangay Clearance Registry', tab: 'Barangay Clearance Registry' },
                       { name: '24-Barangay Network Grid', tab: '24-Barangay Network Grid' },
                     ].map((sub) => {
