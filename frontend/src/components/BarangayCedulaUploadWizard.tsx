@@ -244,17 +244,6 @@ export const BarangayCedulaUploadWizard: React.FC<BarangayCedulaUploadWizardProp
             </div>
           </div>
 
-          {!isSubmitted && (
-            <button
-              type="button"
-              onClick={handleLoadSamplePhotos}
-              className="self-start sm:self-auto px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/60 dark:hover:bg-emerald-900 text-emerald-800 dark:text-emerald-300 text-xs font-bold border border-emerald-200 dark:border-emerald-800 transition-all flex items-center gap-1.5 cursor-pointer shadow-xs"
-              title="Preload sample photos for fast testing"
-            >
-              <Sparkles size={14} />
-              <span>Load Sample Photos</span>
-            </button>
-          )}
         </div>
 
         {/* Step Progress Bar */}
@@ -359,26 +348,19 @@ export const BarangayCedulaUploadWizard: React.FC<BarangayCedulaUploadWizardProp
             {/* Bottom Actions Bar */}
             <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
+                {currentStep === 1 && (
                 <button
                   type="button"
                   onClick={onBackToPortal}
                   className="px-4 py-2.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 dark:hover:bg-slate-700 transition-all flex items-center space-x-1.5 cursor-pointer shadow-xs"
                 >
                   <ArrowLeft size={14} />
-                  <span>Back to Portal</span>
+                  <span>Back</span>
                 </button>
+                )}
               </div>
 
               <div className="flex items-center gap-2">
-                {currentStep > 1 && (
-                  <button
-                    type="button"
-                    onClick={() => setCurrentStep(prev => prev - 1)}
-                    className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-100"
-                  >
-                    Previous
-                  </button>
-                )}
 
                 {currentStep < 3 ? (
                   (() => {
