@@ -41,7 +41,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { LanguageToggle } from './ui/LanguageToggle';
 import { TabType } from '../types';
 import { BarangayPermitUploadWizard } from './BarangayPermitUploadWizard';
-import { BarangayClearanceApplicationSystem } from './BarangayClearanceApplicationSystem';
+import { BarangayClearanceApplicationSystem, BarangayServiceKey } from './BarangayClearanceApplicationSystem';
 
 
 export interface BarangayClearanceItem {
@@ -333,6 +333,7 @@ export const BarangayPermitIntegration: React.FC<BarangayPermitIntegrationProps>
   // Safety Seal State
   const [sealBrgyNo, setSealBrgyNo] = useState<string>('BC-2025-0418');
   const [sealSubmitted, setSealSubmitted] = useState<boolean>(false);
+  const [selectedServiceCategory, setSelectedServiceCategory] = useState<BarangayServiceKey>('clearance');
 
   const handleDownloadClearance = (item: BarangayClearanceItem) => {
     const text = `========================================================================================
@@ -1215,13 +1216,14 @@ Digital Security Hash   : ${item.qrHash}
                       <button
                         type="button"
                         onClick={() => {
+                          setSelectedServiceCategory('clearance');
                           setPurpose('New Business Permit');
                           setNewSubmitted(false);
                           setCurrentView('new_clearance');
                         }}
                         className="w-full py-3.5 px-5 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-blue-600/40 hover:shadow-blue-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
                       >
-                        <span>Apply for Barangay Clearance →</span>
+                        <span>Request Barangay Clearance →</span>
                       </button>
                     </div>
 
@@ -1337,6 +1339,7 @@ Digital Security Hash   : ${item.qrHash}
                       <button
                         type="button"
                         onClick={() => {
+                          setSelectedServiceCategory('construction');
                           setPurpose('Building Construction Endorsement');
                           setNewSubmitted(false);
                           setCurrentView('new_clearance');
@@ -1459,8 +1462,9 @@ Digital Security Hash   : ${item.qrHash}
                       <button
                         type="button"
                         onClick={() => {
+                          setSelectedServiceCategory('cedula');
                           setCedulaSubmitted(false);
-                          setCurrentView('cedula');
+                          setCurrentView('new_clearance');
                         }}
                         className="w-full py-3.5 px-5 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-emerald-600/40 hover:shadow-emerald-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
                       >
@@ -1580,8 +1584,9 @@ Digital Security Hash   : ${item.qrHash}
                       <button
                         type="button"
                         onClick={() => {
+                          setSelectedServiceCategory('residency_event');
                           setSpecialSubmitted(false);
-                          setCurrentView('special_clearance');
+                          setCurrentView('new_clearance');
                         }}
                         className="w-full py-3.5 px-5 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-purple-600/40 hover:shadow-purple-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
                       >
@@ -1632,6 +1637,7 @@ Digital Security Hash   : ${item.qrHash}
             onNavigateToTab={onNavigateToTab}
             onAddNewApplication={onAddNewApplication}
             initialMode="apply"
+            initialServiceCategory={selectedServiceCategory}
           />
         )}
 
