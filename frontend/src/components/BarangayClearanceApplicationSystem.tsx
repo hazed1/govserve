@@ -307,7 +307,7 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
   const [ocrSuccess, setOcrSuccess] = useState<boolean>(false);
   const [fullName, setFullName] = useState<string>('');
   const [address, setAddress] = useState<string>('');
-  const [contactNumber, setContactNumber] = useState<string>('+63 917 000 0000');
+  const [contactNumber, setContactNumber] = useState<string>('09175559988');
   const [emailAddress, setEmailAddress] = useState<string>(user?.email || '');
 
   // Step 2: Proof of Residency
@@ -378,7 +378,7 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
     setTimeout(() => {
       setFullName(personName);
       setAddress(homeAddress);
-      setContactNumber(phone);
+      setContactNumber(phone.replace(/\D/g, '').slice(0, 11));
       setEmailAddress(email);
       setOcrScanning(false);
       setOcrSuccess(true);
@@ -843,94 +843,6 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
         </div>
       )}
 
-      {/* Top Header / Mode Switcher */}
-      <header className="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800/80 shadow-xs px-4 sm:px-8 py-3.5">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
-          
-          {/* Logo & Title */}
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-white p-0.5 shadow-md flex items-center justify-center overflow-hidden border border-slate-200 dark:border-slate-700 flex-shrink-0">
-              <img src="/government-logo.png" alt="QC Government Seal" className="w-full h-full object-contain rounded-lg" />
-            </div>
-            <div>
-              <div className="flex items-center space-x-2">
-                <span className="font-black text-sm sm:text-base tracking-tight text-slate-900 dark:text-white">
-                  GOVSERVE
-                </span>
-                <span className="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wider bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
-                  BARANGAY CLEARANCE
-                </span>
-              </div>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium hidden sm:block">
-                Online Residency, Business &amp; Employment Clearance Application
-              </p>
-            </div>
-          </div>
-
-          {/* Quick Navigation Tabs (Apply, Track, Admin) */}
-          <div className="flex items-center space-x-1.5 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-2xl border border-slate-200 dark:border-slate-700/60 text-xs font-semibold">
-            <button
-              onClick={() => setActiveView('landing')}
-              className={`px-3 py-1.5 rounded-xl transition-all ${
-                activeView === 'landing'
-                  ? 'bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-xs font-bold'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-              }`}
-            >
-              Overview
-            </button>
-            <button
-              onClick={() => {
-                setActiveView('apply');
-                setCurrentStep(1);
-              }}
-              className={`px-3 py-1.5 rounded-xl transition-all ${
-                activeView === 'apply'
-                  ? 'bg-blue-600 text-white shadow-xs font-bold'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-              }`}
-            >
-              Apply Now
-            </button>
-            <button
-              onClick={() => setActiveView('track')}
-              className={`px-3 py-1.5 rounded-xl transition-all ${
-                activeView === 'track'
-                  ? 'bg-blue-600 text-white shadow-xs font-bold'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-              }`}
-            >
-              Track Status
-            </button>
-            <button
-              onClick={() => setActiveView('admin')}
-              className={`px-3 py-1.5 rounded-xl transition-all flex items-center space-x-1 ${
-                activeView === 'admin'
-                  ? 'bg-indigo-600 text-white shadow-xs font-bold'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-              }`}
-            >
-              <Shield size={13} />
-              <span>Admin Portal</span>
-            </button>
-          </div>
-
-          {/* Right Action: Language / Back */}
-          <div className="flex items-center space-x-2">
-            <LanguageToggle />
-            {onBack && (
-              <button
-                onClick={onBack}
-                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-              >
-                <ArrowLeft size={14} />
-                <span className="hidden sm:inline">Back</span>
-              </button>
-            )}
-          </div>
-        </div>
-      </header>
-
       {/* Main Container */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8">
         
@@ -1305,19 +1217,6 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
                     Apply for Barangay Clearance
                   </h2>
                 </div>
-
-                {/* Quick 1-Click Sample Pre-load button for fast testing */}
-                <div className="flex items-center space-x-2">
-                  <span className="text-[11px] font-bold text-slate-400">Quick Test:</span>
-                  <button
-                    type="button"
-                    onClick={() => handleLoadSamplePreset('juan')}
-                    className="px-2.5 py-1 rounded-xl bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-700 text-xs font-bold hover:bg-blue-100 transition-colors"
-                    title="Load Juan Dela Cruz sample data"
-                  >
-                    Load Sample ID
-                  </button>
-                </div>
               </div>
 
               {/* Visual Step Progress Bar */}
@@ -1477,56 +1376,117 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Full Name */}
                     <div>
                       <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
                         Full Name
                       </label>
-                      <input
-                        type="text"
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                        placeholder="e.g. Juan Miguel Dela Cruz"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
-                      />
+                      <div className="relative flex items-center">
+                        <input
+                          type="text"
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
+                          placeholder="e.g. Juan Miguel Dela Cruz"
+                          className="w-full pl-3.5 pr-8 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                        />
+                        {fullName && (
+                          <button
+                            type="button"
+                            onClick={() => setFullName('')}
+                            className="absolute right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-colors cursor-pointer"
+                            title="Clear Full Name"
+                          >
+                            <X size={12} />
+                          </button>
+                        )}
+                      </div>
                     </div>
 
+                    {/* Contact Number (Strictly 11 digits, numbers only, no letters) */}
                     <div>
-                      <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
-                        Contact Number
-                      </label>
-                      <input
-                        type="text"
-                        value={contactNumber}
-                        onChange={(e) => setContactNumber(e.target.value)}
-                        placeholder="+63 917 000 0000"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
-                      />
+                      <div className="flex items-center justify-between mb-1.5">
+                        <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
+                          Contact Number
+                        </label>
+                        <span className="text-[10px] text-slate-400 font-medium">11 digits (numbers only)</span>
+                      </div>
+                      <div className="relative flex items-center">
+                        <input
+                          type="tel"
+                          inputMode="numeric"
+                          pattern="[0-9]*"
+                          maxLength={11}
+                          value={contactNumber}
+                          onChange={(e) => {
+                            const digitsOnly = e.target.value.replace(/\D/g, '').slice(0, 11);
+                            setContactNumber(digitsOnly);
+                          }}
+                          placeholder="09171234567"
+                          className="w-full pl-3.5 pr-8 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                        />
+                        {contactNumber && (
+                          <button
+                            type="button"
+                            onClick={() => setContactNumber('')}
+                            className="absolute right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-colors cursor-pointer"
+                            title="Clear Contact Number"
+                          >
+                            <X size={12} />
+                          </button>
+                        )}
+                      </div>
                     </div>
 
+                    {/* Residential Address */}
                     <div className="sm:col-span-2">
                       <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
                         Residential Address
                       </label>
-                      <input
-                        type="text"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                        placeholder="House / Unit No., Street, Barangay, City"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
-                      />
+                      <div className="relative flex items-center">
+                        <input
+                          type="text"
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
+                          placeholder="House / Unit No., Street, Barangay, City"
+                          className="w-full pl-3.5 pr-8 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                        />
+                        {address && (
+                          <button
+                            type="button"
+                            onClick={() => setAddress('')}
+                            className="absolute right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-colors cursor-pointer"
+                            title="Clear Residential Address"
+                          >
+                            <X size={12} />
+                          </button>
+                        )}
+                      </div>
                     </div>
 
+                    {/* Email Address */}
                     <div className="sm:col-span-2">
                       <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
                         Email Address
                       </label>
-                      <input
-                        type="email"
-                        value={emailAddress}
-                        onChange={(e) => setEmailAddress(e.target.value)}
-                        placeholder="applicant@example.com"
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
-                      />
+                      <div className="relative flex items-center">
+                        <input
+                          type="email"
+                          value={emailAddress}
+                          onChange={(e) => setEmailAddress(e.target.value)}
+                          placeholder="applicant@example.com"
+                          className="w-full pl-3.5 pr-8 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                        />
+                        {emailAddress && (
+                          <button
+                            type="button"
+                            onClick={() => setEmailAddress('')}
+                            className="absolute right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-colors cursor-pointer"
+                            title="Clear Email Address"
+                          >
+                            <X size={12} />
+                          </button>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2839,12 +2799,6 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
                   <p className="text-[11px] text-slate-400">{previewDoc.doc.name} • {previewDoc.doc.size}</p>
                 </div>
               </div>
-              <button
-                onClick={() => setPreviewDoc(null)}
-                className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 flex items-center justify-center"
-              >
-                <X size={16} />
-              </button>
             </div>
 
             {/* Document Render Canvas */}
