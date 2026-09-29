@@ -1635,7 +1635,7 @@ Digital Security Hash   : ${item.qrHash}
         {/* ========================================================================= */}
         {currentView === 'new_clearance' && (
           <BarangayClearanceApplicationSystem
-            onBack={() => onNavigateToTab ? onNavigateToTab('Home') : setCurrentView('preview')}
+            onBack={() => setCurrentView('preview')}
             onNavigateToTab={onNavigateToTab}
             onAddNewApplication={onAddNewApplication}
             initialMode="apply"
@@ -1647,7 +1647,7 @@ Digital Security Hash   : ${item.qrHash}
         {/* ========================================================================= */}
         {currentView === 'construction' && (
           <BarangayConstructionUploadWizard
-            onBackToPortal={() => onNavigateToTab ? onNavigateToTab('Home') : setCurrentView('preview')}
+            onBackToPortal={() => setCurrentView('preview')}
             onReturnToOverview={() => setCurrentView('preview')}
             onAddNewApplication={onAddNewApplication}
           />
@@ -1658,18 +1658,18 @@ Digital Security Hash   : ${item.qrHash}
         {/* ========================================================================= */}
         {currentView === 'cedula' && (
           <BarangayCedulaUploadWizard
-            onBackToPortal={() => onNavigateToTab ? onNavigateToTab('Home') : setCurrentView('preview')}
+            onBackToPortal={() => setCurrentView('preview')}
             onReturnToOverview={() => setCurrentView('preview')}
             onAddNewApplication={onAddNewApplication}
           />
         )}
 
         {/* ========================================================================= */}
-        {/* SUBVIEW: BARANGAY RESIDENCY & EVENT CLEARANCE (100% PHOTO-UPLOAD) */}
+        {/* SUBVIEW: BARANGAY RESIDENCY (100% PHOTO-UPLOAD) */}
         {/* ========================================================================= */}
         {(currentView === 'residency_event' || currentView === 'special_clearance') && (
           <BarangayResidencyEventUploadWizard
-            onBackToPortal={() => onNavigateToTab ? onNavigateToTab('Home') : setCurrentView('preview')}
+            onBackToPortal={() => setCurrentView('preview')}
             onReturnToOverview={() => setCurrentView('preview')}
             onAddNewApplication={onAddNewApplication}
           />

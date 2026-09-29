@@ -359,13 +359,6 @@ export const BarangayCedulaUploadWizard: React.FC<BarangayCedulaUploadWizardProp
                   <ArrowLeft size={14} />
                   <span>Back to Portal</span>
                 </button>
-                <button
-                  type="button"
-                  onClick={onReturnToOverview}
-                  className="hidden sm:inline-flex px-3.5 py-2.5 rounded-xl text-slate-500 hover:text-slate-800 dark:hover:text-white text-xs font-bold transition-all cursor-pointer"
-                >
-                  Return to Overview
-                </button>
               </div>
 
               <div className="flex items-center gap-2">
