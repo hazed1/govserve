@@ -905,13 +905,26 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
             {currentStep === 1 && (
               <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 animate-in fade-in">
                 
-                <div className="space-y-1">
-                  <h3 className="text-lg font-black text-slate-900 dark:text-white">
-                    Step 1 — Upload your Valid Government ID
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Take a clear photo or upload a scan of your ID. Our system will automatically read your Name and Address so you don’t have to type it manually.
-                  </p>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="space-y-1">
+                    <h3 className="text-lg font-black text-slate-900 dark:text-white">
+                      Step 1 — Upload your Valid Government ID
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      Take a clear photo or upload a scan of your ID. Our system will automatically read your Name and Address so you don’t have to type it manually.
+                    </p>
+                  </div>
+                  {!idDoc ? (
+                    <span className="self-start sm:self-auto inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 shrink-0">
+                      <span className="w-2 h-2 rounded-full bg-slate-400"></span>
+                      ○ Not uploaded
+                    </span>
+                  ) : (
+                    <span className="self-start sm:self-auto inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 shrink-0">
+                      <CheckCircle2 size={13} />
+                      ✓ Uploaded
+                    </span>
+                  )}
                 </div>
 
                 {/* Upload Card / Dropzone */}
@@ -1176,13 +1189,26 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
             {currentStep === 2 && (
               <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 animate-in fade-in">
                 
-                <div className="space-y-1">
-                  <h3 className="text-lg font-black text-slate-900 dark:text-white">
-                    Step 2 — Upload Proof of Residency
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    “Take a clear photo of your document. Make sure all text is readable.”
-                  </p>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="space-y-1">
+                    <h3 className="text-lg font-black text-slate-900 dark:text-white">
+                      Step 2 — Upload Proof of Residency
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      “Take a clear photo of your document. Make sure all text is readable.”
+                    </p>
+                  </div>
+                  {!residencyDoc ? (
+                    <span className="self-start sm:self-auto inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 shrink-0">
+                      <span className="w-2 h-2 rounded-full bg-slate-400"></span>
+                      ○ Not uploaded
+                    </span>
+                  ) : (
+                    <span className="self-start sm:self-auto inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 shrink-0">
+                      <CheckCircle2 size={13} />
+                      ✓ Uploaded
+                    </span>
+                  )}
                 </div>
 
                 {/* Upload Card / Dropzone */}
@@ -1294,13 +1320,26 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
             {currentStep === 3 && (
               <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 animate-in fade-in">
                 
-                <div className="space-y-1">
-                  <h3 className="text-lg font-black text-slate-900 dark:text-white">
-                    Step 3 — Upload Cedula / Community Tax Certificate (CTC)
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Upload your current year Community Tax Certificate (Cedula Form No. 0016).
-                  </p>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="space-y-1">
+                    <h3 className="text-lg font-black text-slate-900 dark:text-white">
+                      Step 3 — Upload Cedula / Community Tax Certificate (CTC)
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      Upload your current year Community Tax Certificate (Cedula Form No. 0016).
+                    </p>
+                  </div>
+                  {!cedulaDoc ? (
+                    <span className="self-start sm:self-auto inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 shrink-0">
+                      <span className="w-2 h-2 rounded-full bg-slate-400"></span>
+                      ○ Not uploaded
+                    </span>
+                  ) : (
+                    <span className="self-start sm:self-auto inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 shrink-0">
+                      <CheckCircle2 size={13} />
+                      ✓ Uploaded
+                    </span>
+                  )}
                 </div>
 
                 {!cedulaDoc ? (
@@ -1411,13 +1450,30 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
             {currentStep === 4 && (
               <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 animate-in fade-in">
                 
-                <div className="space-y-1">
-                  <h3 className="text-lg font-black text-slate-900 dark:text-white">
-                    Step 4 — Upload Barangay Endorsement
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Upload your Barangay Kagawad / HOA Endorsement if applicable. If not required for your clearance, simply check "Not Applicable".
-                  </p>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="space-y-1">
+                    <h3 className="text-lg font-black text-slate-900 dark:text-white">
+                      Step 4 — Upload Barangay Endorsement
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      Upload your Barangay Kagawad / HOA Endorsement if applicable. If not required for your clearance, simply check "Not Applicable".
+                    </p>
+                  </div>
+                  {endorsementNotApplicable ? (
+                    <span className="self-start sm:self-auto inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800 shrink-0">
+                      Waived (N/A)
+                    </span>
+                  ) : !endorsementDoc ? (
+                    <span className="self-start sm:self-auto inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 shrink-0">
+                      <span className="w-2 h-2 rounded-full bg-slate-400"></span>
+                      ○ Not uploaded
+                    </span>
+                  ) : (
+                    <span className="self-start sm:self-auto inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 shrink-0">
+                      <CheckCircle2 size={13} />
+                      ✓ Uploaded
+                    </span>
+                  )}
                 </div>
 
                 {/* Checkbox: Not Applicable */}
