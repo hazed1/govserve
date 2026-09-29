@@ -41,16 +41,14 @@ import {
   ChevronRight,
   Sliders,
   File,
-  Info,
-  HardHat,
-  Image as ImageIcon
+  Info
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../context/LanguageContext';
-import { TabType } from '../types';
-
-export type BarangayServiceKey = 'clearance' | 'residency_event' | 'cedula' | 'construction';
+import { LanguageToggle } from './ui/LanguageToggle';
+import { TabType, ApplicationItem } from '../types';
+import { createApplication, updateApplicationStatus } from '../lib/api';
 
 export interface UploadedDoc {
   id: string;
@@ -63,227 +61,15 @@ export interface UploadedDoc {
   status: 'uploaded' | 'verified' | 'needs_replacement';
 }
 
-export interface ServiceDocDef {
-  key: string;
-  title: string;
-  subtitle: string;
-  iconType: 'id' | 'home' | 'map' | 'file' | 'building' | 'users' | 'wallet' | 'calendar' | 'hardhat';
-  required: boolean;
-  acceptedFormats: string;
-  hint: string;
-}
-
-export interface ServiceDef {
-  key: BarangayServiceKey;
-  title: string;
-  badge: string;
-  themeColor: 'blue' | 'purple' | 'emerald' | 'amber';
-  buttonLabel: string;
-  documents: ServiceDocDef[];
-}
-
-export const BARANGAY_SERVICES: Record<BarangayServiceKey, ServiceDef> = {
-  clearance: {
-    key: 'clearance',
-    title: 'Barangay Permit Integration',
-    badge: 'Official Barangay Clearance',
-    themeColor: 'blue',
-    buttonLabel: 'Request Barangay Clearance →',
-    documents: [
-      {
-        key: 'validId',
-        title: 'Valid Government ID',
-        subtitle: 'PhilSys National ID, Passport, Driver\'s License, UMID, or Postal ID',
-        iconType: 'id',
-        required: true,
-        acceptedFormats: 'JPG, PNG, PDF',
-        hint: 'Take a clear photo of your government-issued ID. Name and picture must be clear.'
-      },
-      {
-        key: 'proofOfResidency',
-        title: 'Proof of Residency',
-        subtitle: 'Utility Bill (Meralco / Maynilad), Notarized Lease, or Certificate from HOA',
-        iconType: 'home',
-        required: true,
-        acceptedFormats: 'JPG, PNG, PDF',
-        hint: 'Upload your latest utility bill or lease contract with your barangay address.'
-      },
-      {
-        key: 'cedula',
-        title: 'Cedula / CTC',
-        subtitle: 'Current year Community Tax Certificate Form 0016',
-        iconType: 'file',
-        required: true,
-        acceptedFormats: 'JPG, PNG, PDF',
-        hint: 'Upload your current year Cedula issued by City/Municipal Treasury or Barangay.'
-      },
-      {
-        key: 'endorsement',
-        title: 'Barangay Endorsement',
-        subtitle: 'Lupon clearance, HOA endorsement, or Kagawad referral',
-        iconType: 'building',
-        required: true,
-        acceptedFormats: 'JPG, PNG, PDF',
-        hint: 'Upload endorsement letter from your homeowner association or local Purok / Kagawad.'
-      }
-    ]
-  },
-  residency_event: {
-    key: 'residency_event',
-    title: 'Barangay Residency & Event Clearance',
-    badge: 'Community Pass & Event Permit',
-    themeColor: 'purple',
-    buttonLabel: 'Request Residency & Event Pass →',
-    documents: [
-      {
-        key: 'validId',
-        title: 'Valid Government ID',
-        subtitle: 'Government ID of applicant, resident, or event organizer',
-        iconType: 'id',
-        required: true,
-        acceptedFormats: 'JPG, PNG, PDF',
-        hint: 'Take a clear photo of your government-issued ID. Make sure text is readable.'
-      },
-      {
-        key: 'proofOfAddress',
-        title: 'Proof of Address',
-        subtitle: 'Recent billing statement, barangay address record, or utility receipt',
-        iconType: 'map',
-        required: true,
-        acceptedFormats: 'JPG, PNG, PDF',
-        hint: 'Upload proof of address establishing your residence in this barangay.'
-      },
-      {
-        key: 'proofOfResidency',
-        title: 'Residency Proof',
-        subtitle: '6-Month Certificate of Residency or Notarized Tenancy Agreement',
-        iconType: 'home',
-        required: true,
-        acceptedFormats: 'JPG, PNG, PDF',
-        hint: 'Upload proof of at least 6 months continuous residency in the barangay.'
-      },
-      {
-        key: 'eventDoc',
-        title: 'Event Itinerary / Event Document',
-        subtitle: 'Activity program, street pass request, or tournament schedule',
-        iconType: 'calendar',
-        required: true,
-        acceptedFormats: 'JPG, PNG, PDF',
-        hint: 'Upload event itinerary, safety protocol, or program outline for the activity.'
-      }
-    ]
-  },
-  cedula: {
-    key: 'cedula',
-    title: 'Community Tax Certificate (Cedula CTC)',
-    badge: 'Instant Municipal Tax Assessment',
-    themeColor: 'emerald',
-    buttonLabel: 'File Instant Cedula (CTC) →',
-    documents: [
-      {
-        key: 'validId',
-        title: 'Valid Government ID',
-        subtitle: 'PhilSys National ID, Driver\'s License, Passport, or UMID',
-        iconType: 'id',
-        required: true,
-        acceptedFormats: 'JPG, PNG, PDF',
-        hint: 'Take a clear photo of your primary government ID for identity & age validation.'
-      },
-      {
-        key: 'incomeProof',
-        title: 'Proof of Income',
-        subtitle: 'Recent payslip, Certificate of Compensation, or Income Declaration',
-        iconType: 'wallet',
-        required: true,
-        acceptedFormats: 'JPG, PNG, PDF',
-        hint: 'Upload payslip, ITR, or income declaration for accurate automated tax assessment.'
-      },
-      {
-        key: 'prevCedula',
-        title: 'Previous Cedula CTC',
-        subtitle: 'Prior year Community Tax Certificate receipt (if applicable)',
-        iconType: 'file',
-        required: false, // OPTIONAL
-        acceptedFormats: 'JPG, PNG, PDF',
-        hint: 'Optional: Upload last year\'s Cedula to expedite prior year record matching.'
-      },
-      {
-        key: 'bir2316',
-        title: 'BIR Form 2316',
-        subtitle: 'Certificate of Compensation Payment / Tax Withheld (if employed)',
-        iconType: 'file',
-        required: false, // OPTIONAL
-        acceptedFormats: 'JPG, PNG, PDF',
-        hint: 'Optional: Upload BIR Form 2316 for automated compensation verification.'
-      }
-    ]
-  },
-  construction: {
-    key: 'construction',
-    title: 'Barangay Construction Endorsement',
-    badge: 'Local Building & Renovation Concurrence',
-    themeColor: 'amber',
-    buttonLabel: 'Apply for Construction Endorsement →',
-    documents: [
-      {
-        key: 'siteSketch',
-        title: 'Site Sketch Plan',
-        subtitle: 'Architectural / structural location map and boundary sketch',
-        iconType: 'map',
-        required: true,
-        acceptedFormats: 'JPG, PNG, PDF',
-        hint: 'Upload readable sketch or blueprint plan highlighting property bounds and street access.'
-      },
-      {
-        key: 'lotTitle',
-        title: 'Lot Title / TCT',
-        subtitle: 'Transfer Certificate of Title (TCT) or Tax Declaration of Real Property',
-        iconType: 'home',
-        required: true,
-        acceptedFormats: 'JPG, PNG, PDF',
-        hint: 'Upload the registered lot title or certified true copy of property tax declaration.'
-      },
-      {
-        key: 'neighborConsent',
-        title: 'Neighbor Consent',
-        subtitle: 'Signed consent agreement from adjacent lot and homeowner neighbors',
-        iconType: 'users',
-        required: true,
-        acceptedFormats: 'JPG, PNG, PDF',
-        hint: 'Upload signed concurrence statements from immediate left, right, and rear lot neighbors.'
-      },
-      {
-        key: 'contractorId',
-        title: 'Contractor ID',
-        subtitle: 'PCAB license or professional PRC ID of lead contractor / engineer',
-        iconType: 'hardhat',
-        required: true,
-        acceptedFormats: 'JPG, PNG, PDF',
-        hint: 'Upload photo of PRC engineer license or PCAB contractor accreditation card.'
-      },
-      {
-        key: 'constructionDocs',
-        title: 'Construction-Related Documents',
-        subtitle: 'Scope of work, excavation clearance, or road access plan',
-        iconType: 'building',
-        required: false, // OPTIONAL
-        acceptedFormats: 'JPG, PNG, PDF',
-        hint: 'Optional: Upload project timeline, safety hazard plan, or debris disposal permit.'
-      }
-    ]
-  }
-};
-
 export interface BarangayApplicationRecord {
   id: string;
   refNumber: string;
-  serviceCategory: BarangayServiceKey;
-  serviceTitle: string;
   applicantName: string;
   address: string;
   contactNumber: string;
   email: string;
   purpose: string;
+  customPurpose?: string;
   status:
     | 'SUBMITTED'
     | 'DOCUMENT REVIEW'
@@ -295,25 +81,30 @@ export interface BarangayApplicationRecord {
     | 'REJECTED';
   dateSubmitted: string;
   estimatedTime: string;
-  documents: Record<string, UploadedDoc | null>;
+  documents: {
+    validId?: UploadedDoc | null;
+    proofOfResidency?: UploadedDoc | null;
+    cedula?: UploadedDoc | null;
+    endorsement?: UploadedDoc | null;
+    endorsementNotApplicable?: boolean;
+  };
   remarks?: string;
-  correctionRequestedDoc?: string | null;
+  correctionRequestedDoc?: 'proofOfResidency' | 'validId' | 'cedula' | 'endorsement' | null;
   reviewedBy?: string;
 }
 
-const STORAGE_KEY = 'govserve_barangay_clearance_applications_v2';
+const STORAGE_KEY = 'govserve_barangay_clearance_applications_v1';
 
+// Seed Initial Mock Applications for rich Admin and Tracking Experience
 const INITIAL_APPLICATIONS: BarangayApplicationRecord[] = [
   {
     id: 'brgy-app-1',
     refNumber: 'BC-QC-2026-08129',
-    serviceCategory: 'clearance',
-    serviceTitle: 'Barangay Permit Integration',
     applicantName: 'Juan Miguel Dela Cruz',
     address: 'Block 12 Lot 4, Dahlia St., Brgy. Fairview, Quezon City',
-    contactNumber: '09175551234',
+    contactNumber: '+63 917 555 1234',
     email: 'juan.delacruz@example.com',
-    purpose: 'Employment & Business Filing',
+    purpose: 'Employment',
     status: 'READY FOR RELEASE',
     dateSubmitted: 'Sep 28, 2026',
     estimatedTime: 'Ready for Release',
@@ -345,88 +136,78 @@ const INITIAL_APPLICATIONS: BarangayApplicationRecord[] = [
         uploadDate: 'Sep 28, 2026',
         status: 'verified'
       },
-      endorsement: {
-        id: 'doc-end-1',
-        name: 'HOA_Clearance_Endorsement.pdf',
-        size: '1.1 MB',
-        type: 'application/pdf',
-        previewUrl: '/Amendment.jpg',
-        uploadDate: 'Sep 28, 2026',
-        status: 'verified'
-      }
+      endorsement: null,
+      endorsementNotApplicable: true
     },
-    remarks: 'Verified clean Lupon blotter record. Clearance generated with digital seal.',
-    reviewedBy: 'Hon. Danilo Morales'
+    remarks: 'All documents verified with clean Lupon record. Official Barangay Clearance ready.',
+    reviewedBy: 'Hon. Corazon C. Dizon'
   },
   {
     id: 'brgy-app-2',
-    refNumber: 'BR-QC-2026-04910',
-    serviceCategory: 'residency_event',
-    serviceTitle: 'Barangay Residency & Event Clearance',
-    applicantName: 'Maria Clara Santos',
-    address: 'Unit 3B, Sunshine Residences, Brgy. Batasan Hills, Quezon City',
-    contactNumber: '09187774433',
+    refNumber: 'BC-QC-2026-08130',
+    applicantName: 'Maria Theresa Santos',
+    address: 'Unit 301, San Antonio Residences, Brgy. Batasan Hills, Quezon City',
+    contactNumber: '+63 918 888 4321',
     email: 'maria.santos@example.com',
-    purpose: 'Community Outreach & Street Bazaar',
+    purpose: 'Business',
     status: 'NEEDS CORRECTION',
     dateSubmitted: 'Sep 29, 2026',
-    estimatedTime: 'Action Required',
+    estimatedTime: 'Pending Applicant Action',
     documents: {
       validId: {
         id: 'doc-id-2',
-        name: 'UMID_Card_Santos.jpg',
+        name: 'UMID_Card_MariaSantos.jpg',
         size: '2.1 MB',
         type: 'image/jpeg',
         previewUrl: '/Amendment.jpg',
         uploadDate: 'Sep 29, 2026',
         status: 'verified'
       },
-      proofOfAddress: {
-        id: 'doc-addr-2',
-        name: 'Water_Bill_Blury_August.jpg',
-        size: '1.9 MB',
+      proofOfResidency: {
+        id: 'doc-res-2',
+        name: 'Water_Bill_Maynilad_Blurry.jpg',
+        size: '1.1 MB',
         type: 'image/jpeg',
         previewUrl: '/New Application.jpg',
         uploadDate: 'Sep 29, 2026',
         isBlurry: true,
         status: 'needs_replacement'
       },
-      proofOfResidency: {
-        id: 'doc-res-2',
-        name: 'Certificate_Residency_HOA.pdf',
-        size: '1.4 MB',
+      cedula: {
+        id: 'doc-ctc-2',
+        name: 'Cedula_CTC_2026_CC20249912.pdf',
+        size: '1.5 MB',
         type: 'application/pdf',
         previewUrl: '/Renewal.jpg',
         uploadDate: 'Sep 29, 2026',
         status: 'verified'
       },
-      eventDoc: {
-        id: 'doc-eve-2',
-        name: 'Event_Itinerary_Bazaar_Program.pdf',
-        size: '2.2 MB',
+      endorsement: {
+        id: 'doc-end-2',
+        name: 'HOA_Commercial_Endorsement.pdf',
+        size: '1.9 MB',
         type: 'application/pdf',
         previewUrl: '/Special Permit.jpg',
         uploadDate: 'Sep 29, 2026',
         status: 'verified'
-      }
+      },
+      endorsementNotApplicable: false
     },
-    remarks: 'Action Required: Please replace Proof of Address. The uploaded water bill is blurry and address is unreadable.',
-    correctionRequestedDoc: 'proofOfAddress',
+    remarks: 'Action Required: Please replace Proof of Residency. The uploaded water bill is blurry and address is unreadable.',
+    correctionRequestedDoc: 'proofOfResidency',
     reviewedBy: 'Barangay Officer Roberto'
   },
   {
     id: 'brgy-app-3',
-    refNumber: 'CT-QC-2026-01582',
-    serviceCategory: 'cedula',
-    serviceTitle: 'Community Tax Certificate (Cedula CTC)',
+    refNumber: 'BC-QC-2026-08131',
     applicantName: 'Ferdinand Gomez Ramos',
     address: '45 Commonwealth Ave, Brgy. Commonwealth, Quezon City',
-    contactNumber: '09201237890',
+    contactNumber: '+63 920 123 7890',
     email: 'ferdinand.ramos@example.com',
-    purpose: 'Cedula CTC Instant Filing',
+    purpose: 'School Requirement',
     status: 'FOR VERIFICATION',
     dateSubmitted: 'Sep 30, 2026',
-    estimatedTime: '1 - 2 hours',
+    estimatedTime: '2 - 4 hours',
     documents: {
       validId: {
         id: 'doc-id-3',
@@ -437,75 +218,29 @@ const INITIAL_APPLICATIONS: BarangayApplicationRecord[] = [
         uploadDate: 'Sep 30, 2026',
         status: 'verified'
       },
-      incomeProof: {
-        id: 'doc-inc-3',
-        name: 'Payslip_September2026.pdf',
-        size: '1.7 MB',
+      proofOfResidency: {
+        id: 'doc-res-3',
+        name: 'Lease_Contract_Notarized_2026.pdf',
+        size: '3.1 MB',
         type: 'application/pdf',
         previewUrl: '/Renewal.jpg',
         uploadDate: 'Sep 30, 2026',
         status: 'verified'
       },
-      prevCedula: null,
-      bir2316: null
-    },
-    remarks: 'Under gross salary and business tax assessment audit.',
-    reviewedBy: 'Treasurer Assistant Maria'
-  },
-  {
-    id: 'brgy-app-4',
-    refNumber: 'CE-QC-2026-09241',
-    serviceCategory: 'construction',
-    serviceTitle: 'Barangay Construction Endorsement',
-    applicantName: 'Engr. Arnold Bautista',
-    address: '77 Quirino Highway, Brgy. Novaliches, Quezon City',
-    contactNumber: '09198882211',
-    email: 'arnold.bautista@example.com',
-    purpose: 'Residential 2-Storey Renovation',
-    status: 'APPROVED',
-    dateSubmitted: 'Sep 29, 2026',
-    estimatedTime: 'Approved',
-    documents: {
-      siteSketch: {
-        id: 'doc-ssk-4',
-        name: 'Site_Sketch_Blueprint_Plan.pdf',
-        size: '4.2 MB',
+      cedula: {
+        id: 'doc-ctc-3',
+        name: 'Cedula_CTC_2026_CC20251122.pdf',
+        size: '1.4 MB',
         type: 'application/pdf',
         previewUrl: '/Special Permit.jpg',
-        uploadDate: 'Sep 29, 2026',
+        uploadDate: 'Sep 30, 2026',
         status: 'verified'
       },
-      lotTitle: {
-        id: 'doc-lot-4',
-        name: 'TCT_Title_No_991823.pdf',
-        size: '3.1 MB',
-        type: 'application/pdf',
-        previewUrl: '/New Application.jpg',
-        uploadDate: 'Sep 29, 2026',
-        status: 'verified'
-      },
-      neighborConsent: {
-        id: 'doc-nc-4',
-        name: 'Signed_Neighbor_Concurrence.pdf',
-        size: '1.8 MB',
-        type: 'application/pdf',
-        previewUrl: '/Renewal.jpg',
-        uploadDate: 'Sep 29, 2026',
-        status: 'verified'
-      },
-      contractorId: {
-        id: 'doc-prc-4',
-        name: 'PCAB_License_PRC_Engineer.jpg',
-        size: '1.9 MB',
-        type: 'image/jpeg',
-        previewUrl: '/Amendment.jpg',
-        uploadDate: 'Sep 29, 2026',
-        status: 'verified'
-      },
-      constructionDocs: null
+      endorsement: null,
+      endorsementNotApplicable: true
     },
-    remarks: 'Site inspection completed by Barangay Kagawad on Infrastructure. Cleared for release.',
-    reviewedBy: 'Engr. Dante Villanueva'
+    remarks: 'Under Lupon Tagapamayapa dispute record check and address verification.',
+    reviewedBy: 'Hon. Danilo Morales'
   }
 ];
 
@@ -514,27 +249,21 @@ interface BarangayClearanceApplicationSystemProps {
   onNavigateToTab?: (tab: TabType | string) => void;
   onAddNewApplication?: (applicantName: string, permitType: string) => void;
   initialMode?: 'apply' | 'track' | 'admin';
-  initialServiceCategory?: BarangayServiceKey;
 }
 
 export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceApplicationSystemProps> = ({
   onBack,
   onNavigateToTab,
   onAddNewApplication,
-  initialMode = 'apply',
-  initialServiceCategory = 'clearance'
+  initialMode = 'apply'
 }) => {
   const { user } = useAuth();
   const { theme } = useTheme();
   const { t } = useLanguage();
   const isAdmin = user?.role === 'admin';
 
-  // Active service selection (clearance | residency_event | cedula | construction)
-  const [selectedService, setSelectedService] = useState<BarangayServiceKey>(initialServiceCategory);
-  const activeServiceDef = BARANGAY_SERVICES[selectedService];
-
-  // Navigation mode: 'apply' | 'review' | 'track' | 'admin' | 'confirmation'
-  const [activeView, setActiveView] = useState<'apply' | 'review' | 'track' | 'admin' | 'confirmation'>(
+  // Navigation mode
+  const [activeView, setActiveView] = useState<'apply' | 'track' | 'admin' | 'confirmation'>(
     isAdmin ? 'admin' : initialMode
   );
 
@@ -566,1011 +295,1596 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
   const [previewDoc, setPreviewDoc] = useState<{ title: string; doc: UploadedDoc } | null>(null);
 
   // -------------------------------------------------------------
-  // DYNAMIC UPLOAD STATE FOR THE SELECTED SERVICE
+  // APPLICATION WIZARD STATE (STEPS 1 - 6)
   // -------------------------------------------------------------
-  const [uploadedDocs, setUploadedDocs] = useState<Record<string, UploadedDoc | null>>({});
-  const [docValidation, setDocValidation] = useState<Record<string, { readable: boolean; blurry: boolean; message: string }>>({});
+  const [currentStep, setCurrentStep] = useState<number>(1);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [lastSubmittedApp, setLastSubmittedApp] = useState<BarangayApplicationRecord | null>(null);
 
-  // Auto-populated applicant details from Valid ID (OCR Simulation)
+  // Step 1: Valid Government ID
+  const [idDoc, setIdDoc] = useState<UploadedDoc | null>(null);
+  const [ocrScanning, setOcrScanning] = useState<boolean>(false);
+  const [ocrSuccess, setOcrSuccess] = useState<boolean>(false);
   const [fullName, setFullName] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [contactNumber, setContactNumber] = useState<string>('09175559988');
   const [emailAddress, setEmailAddress] = useState<string>(user?.email || '');
-  const [ocrScanning, setOcrScanning] = useState<boolean>(false);
-  const [ocrSuccess, setOcrSuccess] = useState<boolean>(false);
 
-  // Tracker State
+  // Step 2: Proof of Residency
+  const [residencyDoc, setResidencyDoc] = useState<UploadedDoc | null>(null);
+
+  // Step 3: Cedula / CTC
+  const [cedulaDoc, setCedulaDoc] = useState<UploadedDoc | null>(null);
+
+  // Step 4: Barangay Endorsement
+  const [endorsementDoc, setEndorsementDoc] = useState<UploadedDoc | null>(null);
+  const [endorsementNotApplicable, setEndorsementNotApplicable] = useState<boolean>(false);
+
+  // Step 5: Purpose of Application
+  const [selectedPurpose, setSelectedPurpose] = useState<string>('Employment');
+  const [customPurpose, setCustomPurpose] = useState<string>('');
+
+  // -------------------------------------------------------------
+  // TRACKER STATE
+  // -------------------------------------------------------------
   const [trackQuery, setTrackQuery] = useState<string>('BC-QC-2026-08129');
   const [trackedRecord, setTrackedRecord] = useState<BarangayApplicationRecord | null>(applications[0]);
   const [replacementDocTarget, setReplacementDocTarget] = useState<string | null>(null);
+  const [isUploadingReplacement, setIsUploadingReplacement] = useState<boolean>(false);
 
-  // Admin Dashboard State
+  // -------------------------------------------------------------
+  // ADMIN DASHBOARD STATE
+  // -------------------------------------------------------------
   const [adminSearch, setAdminSearch] = useState<string>('');
   const [adminStatusFilter, setAdminStatusFilter] = useState<string>('All');
-  const [adminServiceFilter, setAdminServiceFilter] = useState<string>('All');
+  const [adminPurposeFilter, setAdminPurposeFilter] = useState<string>('All');
   const [correctionModalApp, setCorrectionModalApp] = useState<BarangayApplicationRecord | null>(null);
-  const [correctionTargetDoc, setCorrectionTargetDoc] = useState<string>('');
+  const [correctionTargetDoc, setCorrectionTargetDoc] = useState<'proofOfResidency' | 'validId' | 'cedula' | 'endorsement'>('proofOfResidency');
   const [correctionMessage, setCorrectionMessage] = useState<string>('The document is blurry or text is difficult to read. Please upload a clear photo or PDF.');
   const [viewApplicationModal, setViewApplicationModal] = useState<BarangayApplicationRecord | null>(null);
+
+  // Receipt Modal State
   const [showReceiptModal, setShowReceiptModal] = useState<boolean>(false);
 
-  // File Inputs Refs
-  const fileInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
-  const cameraInputRefs = useRef<Record<string, HTMLInputElement | null>>({});
-
-  // Reset uploads when changing services
-  useEffect(() => {
-    setUploadedDocs({});
-    setDocValidation({});
-    setOcrSuccess(false);
-  }, [selectedService]);
-
-  // Helper: Get Icon Component
-  const renderDocIcon = (iconType: ServiceDocDef['iconType']) => {
-    switch (iconType) {
-      case 'id':
-        return <Camera size={22} className="text-blue-500" />;
-      case 'home':
-        return <Home size={22} className="text-emerald-500" />;
-      case 'map':
-        return <MapPin size={22} className="text-purple-500" />;
-      case 'file':
-        return <FileText size={22} className="text-sky-500" />;
-      case 'building':
-        return <Building size={22} className="text-amber-500" />;
-      case 'users':
-        return <Users size={22} className="text-indigo-500" />;
-      case 'wallet':
-        return <Banknote size={22} className="text-emerald-500" />;
-      case 'calendar':
-        return <Calendar size={22} className="text-rose-500" />;
-      case 'hardhat':
-        return <HardHat size={22} className="text-amber-500" />;
-      default:
-        return <FileText size={22} className="text-blue-500" />;
-    }
-  };
-
   // -------------------------------------------------------------
-  // SMART DOCUMENT UPLOAD & VALIDATION HANDLER
+  // FILE VALIDATION HELPER
   // -------------------------------------------------------------
-  const handleFileUpload = (docKey: string, file: File) => {
+  const validateFile = (file: File): { valid: boolean; error?: string } => {
     const maxSizeBytes = 10 * 1024 * 1024; // 10MB
     const acceptedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
 
     if (!acceptedTypes.includes(file.type)) {
-      showToast('Oops! This file cannot be uploaded. Please use JPG, PNG, or PDF.', 'error');
-      return;
+      return {
+        valid: false,
+        error: "Oops! We couldn't use this file. Please upload a JPG, PNG, or PDF."
+      };
     }
 
     if (file.size > maxSizeBytes) {
-      showToast('File too large! Please upload a document smaller than 10MB.', 'error');
+      return {
+        valid: false,
+        error: 'File size exceeds 10MB. Please choose a smaller file or compress the document.'
+      };
+    }
+
+    return { valid: true };
+  };
+
+  // -------------------------------------------------------------
+  // OCR SIMULATION & AUTOMATIC POPULATION (Step 1)
+  // -------------------------------------------------------------
+  const runOCR = (personName: string, homeAddress: string, phone: string, email: string) => {
+    setOcrScanning(true);
+    setTimeout(() => {
+      setFullName(personName);
+      setAddress(homeAddress);
+      setContactNumber(phone.replace(/\D/g, '').slice(0, 11));
+      setEmailAddress(email);
+      setOcrScanning(false);
+      setOcrSuccess(true);
+      showToast('✨ OCR Auto-Extracted Name & Address from your Valid ID!', 'success');
+    }, 1100);
+  };
+
+  // -------------------------------------------------------------
+  // QUICK SAMPLE PRESET APPLICANT (1-Click Test)
+  // -------------------------------------------------------------
+  const handleLoadSamplePreset = (preset: 'juan' | 'elena' | 'carlo') => {
+    if (preset === 'juan') {
+      const mockId: UploadedDoc = {
+        id: `doc-id-${Date.now()}`,
+        name: 'Philippine_National_ID_JuanDelaCruz.jpg',
+        size: '2.1 MB',
+        type: 'image/jpeg',
+        previewUrl: '/New Application.jpg',
+        uploadDate: 'Today',
+        status: 'verified'
+      };
+      setIdDoc(mockId);
+      runOCR(
+        'Juan Miguel Dela Cruz',
+        'Block 14 Lot 8, Jasmine Street, Brgy. Fairview, Quezon City',
+        '+63 917 555 1234',
+        'juan.delacruz@example.com'
+      );
+      setResidencyDoc({
+        id: `doc-res-${Date.now()}`,
+        name: 'Meralco_Electric_Bill_Current.pdf',
+        size: '1.8 MB',
+        type: 'application/pdf',
+        previewUrl: '/Renewal.jpg',
+        uploadDate: 'Today',
+        status: 'verified'
+      });
+      setCedulaDoc({
+        id: `doc-ctc-${Date.now()}`,
+        name: 'Community_Tax_Certificate_Cedula_2026.pdf',
+        size: '1.3 MB',
+        type: 'application/pdf',
+        previewUrl: '/Special Permit.jpg',
+        uploadDate: 'Today',
+        status: 'verified'
+      });
+      setEndorsementNotApplicable(true);
+      setSelectedPurpose('Employment');
+    } else if (preset === 'elena') {
+      const mockId: UploadedDoc = {
+        id: `doc-id-${Date.now()}`,
+        name: 'UMID_Card_ElenaSantos.jpg',
+        size: '1.9 MB',
+        type: 'image/jpeg',
+        previewUrl: '/Amendment.jpg',
+        uploadDate: 'Today',
+        status: 'verified'
+      };
+      setIdDoc(mockId);
+      runOCR(
+        'Elena Morales Santos',
+        'Unit 204, CyberTower Residence, Brgy. Batasan Hills, Quezon City',
+        '+63 918 444 8899',
+        'elena.santos@example.com'
+      );
+      setResidencyDoc({
+        id: `doc-res-${Date.now()}`,
+        name: 'Notarized_Lease_Contract_Batasan.pdf',
+        size: '3.4 MB',
+        type: 'application/pdf',
+        previewUrl: '/Renewal.jpg',
+        uploadDate: 'Today',
+        status: 'verified'
+      });
+      setCedulaDoc({
+        id: `doc-ctc-${Date.now()}`,
+        name: 'Cedula_CTC_Form_0016_2026.pdf',
+        size: '1.5 MB',
+        type: 'application/pdf',
+        previewUrl: '/Special Permit.jpg',
+        uploadDate: 'Today',
+        status: 'verified'
+      });
+      setEndorsementDoc({
+        id: `doc-end-${Date.now()}`,
+        name: 'Barangay_Batasan_Business_Referral.pdf',
+        size: '2.0 MB',
+        type: 'application/pdf',
+        previewUrl: '/New Application.jpg',
+        uploadDate: 'Today',
+        status: 'verified'
+      });
+      setEndorsementNotApplicable(false);
+      setSelectedPurpose('Business');
+    } else {
+      const mockId: UploadedDoc = {
+        id: `doc-id-${Date.now()}`,
+        name: 'Philippine_Passport_CarloAquino.jpg',
+        size: '2.6 MB',
+        type: 'image/jpeg',
+        previewUrl: '/New Application.jpg',
+        uploadDate: 'Today',
+        status: 'verified'
+      };
+      setIdDoc(mockId);
+      runOCR(
+        'Carlo Rafael Aquino',
+        '18 Katipunan Avenue, Brgy. Central, Quezon City',
+        '+63 920 777 5511',
+        'carlo.aquino@student.edu.ph'
+      );
+      setResidencyDoc({
+        id: `doc-res-${Date.now()}`,
+        name: 'Certificate_Of_Residency_HOA.pdf',
+        size: '1.4 MB',
+        type: 'application/pdf',
+        previewUrl: '/Renewal.jpg',
+        uploadDate: 'Today',
+        status: 'verified'
+      });
+      setCedulaDoc({
+        id: `doc-ctc-${Date.now()}`,
+        name: 'Cedula_Student_CTC_2026.pdf',
+        size: '1.1 MB',
+        type: 'application/pdf',
+        previewUrl: '/Special Permit.jpg',
+        uploadDate: 'Today',
+        status: 'verified'
+      });
+      setEndorsementNotApplicable(true);
+      setSelectedPurpose('School Requirement');
+    }
+  };
+
+  // -------------------------------------------------------------
+  // DOCUMENT UPLOAD HANDLERS WITH DRAG & DROP & VALIDATION
+  // -------------------------------------------------------------
+  const handleGenericFileUpload = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    type: 'validId' | 'residency' | 'cedula' | 'endorsement'
+  ) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const validation = validateFile(file);
+    if (!validation.valid) {
+      showToast(validation.error || 'Invalid file', 'error');
+      if (e.target) e.target.value = '';
       return;
     }
 
-    // Size formatting
-    const sizeStr = file.size < 1024 * 1024 
-      ? `${(file.size / 1024).toFixed(1)} KB` 
-      : `${(file.size / (1024 * 1024)).toFixed(1)} MB`;
-
-    // Preview URL
-    const isImage = file.type.startsWith('image/');
-    const previewUrl = isImage ? URL.createObjectURL(file) : '/Renewal.jpg';
-
-    // Smart Image Quality Checking Simulation
-    const isPotentiallyBlurry = file.name.toLowerCase().includes('blurry') || file.size < 15 * 1024;
-
-    const newDoc: UploadedDoc = {
-      id: `doc-${docKey}-${Date.now()}`,
+    const previewUrl = URL.createObjectURL(file);
+    const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+    const docObj: UploadedDoc = {
+      id: `doc-${Date.now()}`,
       name: file.name,
-      size: sizeStr,
+      size: `${sizeMb} MB`,
       type: file.type,
       previewUrl,
-      uploadDate: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-      isBlurry: isPotentiallyBlurry,
-      status: isPotentiallyBlurry ? 'needs_replacement' : 'uploaded'
+      uploadDate: 'Just now',
+      status: 'verified'
     };
 
-    setUploadedDocs(prev => ({ ...prev, [docKey]: newDoc }));
-
-    if (isPotentiallyBlurry) {
-      setDocValidation(prev => ({
-        ...prev,
-        [docKey]: {
-          readable: false,
-          blurry: true,
-          message: '⚠ Your photo looks a little blurry. Please take another photo with better lighting.'
-        }
-      }));
-      showToast('⚠ Your photo looks a little blurry. Please take another photo with better lighting.', 'warning');
-    } else {
-      setDocValidation(prev => ({
-        ...prev,
-        [docKey]: {
-          readable: true,
-          blurry: false,
-          message: '✓ Document looks good! You can continue to the next step.'
-        }
-      }));
-      showToast('✓ Document received! Looks sharp and readable.', 'success');
+    if (type === 'validId') {
+      setIdDoc(docObj);
+      runOCR(
+        user?.name || 'Applicant Resident',
+        'Quezon City, Metro Manila',
+        '+63 917 555 9988',
+        user?.email || 'applicant@example.com'
+      );
+    } else if (type === 'residency') {
+      setResidencyDoc(docObj);
+      showToast('✓ Proof of Residency uploaded successfully!', 'success');
+    } else if (type === 'cedula') {
+      setCedulaDoc(docObj);
+      showToast('✓ Cedula / CTC uploaded successfully!', 'success');
+    } else if (type === 'endorsement') {
+      setEndorsementDoc(docObj);
+      showToast('✓ Barangay Endorsement uploaded successfully!', 'success');
     }
 
-    // If uploading Valid ID, trigger Smart OCR Auto-Extraction
-    if (docKey === 'validId' && !isPotentiallyBlurry) {
-      setOcrScanning(true);
-      setTimeout(() => {
-        setOcrScanning(false);
-        setOcrSuccess(true);
-        if (!fullName) setFullName('Jason Taccad');
-        if (!address) setAddress('Quezon City, Metro Manila');
-        if (!contactNumber) setContactNumber('09175559988');
-        if (!emailAddress && user?.email) setEmailAddress(user.email);
-        showToast('✓ Auto-extracted applicant info from Valid ID! No manual typing needed.', 'success');
-      }, 1100);
+    if (e.target) e.target.value = '';
+  };
+
+  // -------------------------------------------------------------
+  // REPLACEMENT UPLOAD IN TRACKING ("Action Required")
+  // -------------------------------------------------------------
+  const handleReplacementUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !trackedRecord) return;
+
+    const validation = validateFile(file);
+    if (!validation.valid) {
+      showToast(validation.error || 'Invalid file', 'error');
+      return;
     }
+
+    setIsUploadingReplacement(true);
+    setTimeout(() => {
+      const previewUrl = URL.createObjectURL(file);
+      const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+      const newDoc: UploadedDoc = {
+        id: `doc-replaced-${Date.now()}`,
+        name: file.name,
+        size: `${sizeMb} MB`,
+        type: file.type,
+        previewUrl,
+        uploadDate: 'Just now',
+        status: 'verified'
+      };
+
+      const updatedDocs = { ...trackedRecord.documents };
+      if (trackedRecord.correctionRequestedDoc === 'proofOfResidency') {
+        updatedDocs.proofOfResidency = newDoc;
+      } else if (trackedRecord.correctionRequestedDoc === 'validId') {
+        updatedDocs.validId = newDoc;
+      } else if (trackedRecord.correctionRequestedDoc === 'cedula') {
+        updatedDocs.cedula = newDoc;
+      } else if (trackedRecord.correctionRequestedDoc === 'endorsement') {
+        updatedDocs.endorsement = newDoc;
+      }
+
+      const updatedRecord: BarangayApplicationRecord = {
+        ...trackedRecord,
+        status: 'DOCUMENT REVIEW',
+        documents: updatedDocs,
+        remarks: 'Replacement document uploaded by applicant. Pending administrative verification.',
+        correctionRequestedDoc: null
+      };
+
+      setApplications(prev => prev.map(a => (a.refNumber === updatedRecord.refNumber ? updatedRecord : a)));
+      setTrackedRecord(updatedRecord);
+      setIsUploadingReplacement(false);
+      showToast('✓ Replacement document submitted! Your application is now in Document Review.', 'success');
+    }, 1200);
+
+    if (e.target) e.target.value = '';
   };
 
-  // Replacement handler from Tracker Action Required
-  const handleReplacementUpload = (file: File) => {
-    if (!trackedRecord || !replacementDocTarget) return;
-
-    const sizeStr = file.size < 1024 * 1024 
-      ? `${(file.size / 1024).toFixed(1)} KB` 
-      : `${(file.size / (1024 * 1024)).toFixed(1)} MB`;
-
-    const newDoc: UploadedDoc = {
-      id: `doc-rep-${Date.now()}`,
-      name: file.name,
-      size: sizeStr,
-      type: file.type,
-      previewUrl: file.type.startsWith('image/') ? URL.createObjectURL(file) : '/Renewal.jpg',
-      uploadDate: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-      status: 'uploaded'
-    };
-
-    const updatedDocuments = {
-      ...trackedRecord.documents,
-      [replacementDocTarget]: newDoc
-    };
-
-    const updatedRecord: BarangayApplicationRecord = {
-      ...trackedRecord,
-      documents: updatedDocuments,
-      status: 'FOR VERIFICATION',
-      remarks: 'Updated document received. Queued for expedited barangay re-verification.',
-      correctionRequestedDoc: null
-    };
-
-    setTrackedRecord(updatedRecord);
-    setApplications(prev => prev.map(a => a.id === updatedRecord.id ? updatedRecord : a));
-    setReplacementDocTarget(null);
-    showToast('✓ Upload complete! Replacement document submitted for verification.', 'success');
-  };
-
-  // Check required documents completeness
-  const requiredDocs = activeServiceDef.documents.filter(d => d.required);
-  const missingRequiredDocs = requiredDocs.filter(d => !uploadedDocs[d.key]);
-  const isAllRequiredUploaded = missingRequiredDocs.length === 0;
-
-  // Final Submit Handler
-  const handleFinalSubmit = () => {
-    if (!isAllRequiredUploaded) {
-      showToast(`Please upload: ${missingRequiredDocs.map(d => d.title).join(', ')} to continue.`, 'error');
+  // -------------------------------------------------------------
+  // STEP SUBMIT & PERSISTENCE
+  // -------------------------------------------------------------
+  const handleFinalSubmit = async () => {
+    // Validate Required Documents
+    if (!idDoc) {
+      showToast('Please upload your Valid Government ID to continue.', 'error');
+      setCurrentStep(1);
+      return;
+    }
+    if (!residencyDoc) {
+      showToast('Please upload your Proof of Residency to continue.', 'error');
+      setCurrentStep(2);
+      return;
+    }
+    if (!cedulaDoc) {
+      showToast('Please upload your Cedula / CTC to continue.', 'error');
+      setCurrentStep(3);
+      return;
+    }
+    if (!endorsementDoc && !endorsementNotApplicable) {
+      showToast('Please upload your Barangay Endorsement or select "Not Applicable".', 'error');
+      setCurrentStep(4);
       return;
     }
 
     setIsSubmitting(true);
 
-    setTimeout(() => {
-      const generatedRef = `BRGY-2026-${Math.floor(100000 + Math.random() * 900000)}`;
-      const newApp: BarangayApplicationRecord = {
-        id: `brgy-app-${Date.now()}`,
-        refNumber: generatedRef,
-        serviceCategory: selectedService,
-        serviceTitle: activeServiceDef.title,
-        applicantName: fullName.trim() || 'Jason Taccad',
-        address: address.trim() || 'Quezon City, Metro Manila',
-        contactNumber: contactNumber.trim() || '09175559988',
-        email: emailAddress.trim() || user?.email || 'applicant@example.com',
-        purpose: activeServiceDef.title,
-        status: 'SUBMITTED',
-        dateSubmitted: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-        estimatedTime: 'Same-day to 1 working day',
-        documents: { ...uploadedDocs },
-        remarks: 'New upload-based application submitted. Under document review.',
-        reviewedBy: 'Barangay Verification Officer'
-      };
+    const refNum = `BC-QC-2026-${Math.floor(100000 + Math.random() * 900000)}`;
+    const newRecord: BarangayApplicationRecord = {
+      id: `brgy-${Date.now()}`,
+      refNumber: refNum,
+      applicantName: fullName.trim() || user?.name || 'Applicant Resident',
+      address: address.trim() || 'Quezon City, Metro Manila',
+      contactNumber: contactNumber.trim() || '+63 917 000 0000',
+      email: emailAddress.trim() || user?.email || 'resident@example.com',
+      purpose: selectedPurpose === 'Other' && customPurpose.trim() ? customPurpose.trim() : selectedPurpose,
+      customPurpose: selectedPurpose === 'Other' ? customPurpose : undefined,
+      status: 'SUBMITTED',
+      dateSubmitted: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+      estimatedTime: '2 to 4 hours',
+      documents: {
+        validId: idDoc,
+        proofOfResidency: residencyDoc,
+        cedula: cedulaDoc,
+        endorsement: endorsementDoc,
+        endorsementNotApplicable
+      },
+      remarks: 'Application received online. Queued for document completeness check.'
+    };
 
-      setApplications(prev => [newApp, ...prev]);
-      setLastSubmittedApp(newApp);
-      setTrackedRecord(newApp);
-      setTrackQuery(generatedRef);
+    // Save to Local Applications
+    setApplications(prev => [newRecord, ...prev]);
+    setLastSubmittedApp(newRecord);
+    setTrackedRecord(newRecord);
+    setTrackQuery(refNum);
+
+    // Sync to PostgreSQL backend / global registry
+    try {
+      await createApplication({
+        id: refNum,
+        applicant: newRecord.applicantName,
+        applicantName: newRecord.applicantName,
+        type: 'Barangay Clearance',
+        permitType: 'Barangay Clearance',
+        category: 'barangay',
+        status: 'Submitted',
+        assessmentFee: 150.0,
+        formData: {
+          address: newRecord.address,
+          contact: newRecord.contactNumber,
+          email: newRecord.email,
+          purpose: newRecord.purpose
+        },
+        requirements: [
+          { name: 'Valid Government ID', file: idDoc?.name, status: 'Uploaded' },
+          { name: 'Proof of Residency', file: residencyDoc?.name, status: 'Uploaded' },
+          { name: 'Cedula / CTC', file: cedulaDoc?.name, status: 'Uploaded' },
+          {
+            name: 'Barangay Endorsement',
+            file: endorsementNotApplicable ? 'Not Applicable' : endorsementDoc?.name,
+            status: endorsementNotApplicable ? 'Waived' : 'Uploaded'
+          }
+        ]
+      });
+    } catch (e) {
+      console.warn('Backend sync fallback to local storage:', e);
+    }
+
+    if (onAddNewApplication) {
+      onAddNewApplication(newRecord.applicantName, 'Barangay Clearance');
+    }
+
+    setTimeout(() => {
       setIsSubmitting(false);
       setActiveView('confirmation');
+      showToast('🎉 Application submitted successfully!', 'success');
+    }, 1000);
+  };
 
-      if (onAddNewApplication) {
-        onAddNewApplication(newApp.applicantName, activeServiceDef.title);
-      }
+  // -------------------------------------------------------------
+  // ADMIN ACTIONS
+  // -------------------------------------------------------------
+  const handleAdminVerify = (appId: string) => {
+    setApplications(prev =>
+      prev.map(app => (app.id === appId ? { ...app, status: 'FOR VERIFICATION', remarks: 'Documents verified by Barangay staff. Under Lupon record audit.' } : app))
+    );
+    showToast('Application status updated to FOR VERIFICATION', 'info');
+  };
 
-      showToast('✓ Application submitted successfully!', 'success');
-    }, 1200);
+  const handleAdminApprove = (appId: string) => {
+    setApplications(prev =>
+      prev.map(app =>
+        app.id === appId
+          ? {
+              ...app,
+              status: 'READY FOR RELEASE',
+              remarks: 'Approved by Punong Barangay. Official Digital Barangay Clearance ready for release.',
+              reviewedBy: user?.name || 'Hon. Barangay Chairman'
+            }
+          : app
+      )
+    );
+    showToast('✓ Barangay Clearance APPROVED & READY FOR RELEASE!', 'success');
+  };
+
+  const handleAdminReject = (appId: string) => {
+    const reason = prompt('Please provide reason for rejection:');
+    if (reason === null) return;
+    setApplications(prev =>
+      prev.map(app =>
+        app.id === appId
+          ? {
+              ...app,
+              status: 'REJECTED',
+              remarks: `Application rejected: ${reason || 'Incomplete or fraudulent documentation.'}`,
+              reviewedBy: user?.name || 'Barangay Officer'
+            }
+          : app
+      )
+    );
+    showToast('Application has been rejected.', 'warning');
+  };
+
+  const handleAdminSubmitCorrection = () => {
+    if (!correctionModalApp) return;
+
+    const docLabels: Record<string, string> = {
+      proofOfResidency: 'Proof of Residency',
+      validId: 'Valid Government ID',
+      cedula: 'Cedula / CTC',
+      endorsement: 'Barangay Endorsement'
+    };
+
+    const updated: BarangayApplicationRecord = {
+      ...correctionModalApp,
+      status: 'NEEDS CORRECTION',
+      correctionRequestedDoc: correctionTargetDoc,
+      remarks: `Action Required: Please replace ${docLabels[correctionTargetDoc]}. ${correctionMessage}`,
+      reviewedBy: user?.name || 'Barangay Officer'
+    };
+
+    setApplications(prev => prev.map(a => (a.id === updated.id ? updated : a)));
+    setCorrectionModalApp(null);
+    showToast(`Correction notice issued to applicant for ${docLabels[correctionTargetDoc]}.`, 'info');
+  };
+
+  // Stats Counters for Admin
+  const stats = {
+    total: applications.length,
+    pending: applications.filter(a => a.status === 'SUBMITTED' || a.status === 'DOCUMENT REVIEW').length,
+    verification: applications.filter(a => a.status === 'FOR VERIFICATION' || a.status === 'PROCESSING').length,
+    approved: applications.filter(a => a.status === 'APPROVED' || a.status === 'READY FOR RELEASE').length,
+    rejected: applications.filter(a => a.status === 'REJECTED').length,
+    ready: applications.filter(a => a.status === 'READY FOR RELEASE').length
+  };
+
+  // Status Badge Helper
+  const getStatusBadge = (status: BarangayApplicationRecord['status']) => {
+    switch (status) {
+      case 'READY FOR RELEASE':
+      case 'APPROVED':
+        return 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30';
+      case 'NEEDS CORRECTION':
+        return 'bg-amber-500/15 text-amber-700 dark:text-amber-400 border border-amber-500/40 animate-pulse';
+      case 'REJECTED':
+        return 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/30';
+      case 'FOR VERIFICATION':
+      case 'PROCESSING':
+        return 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/30';
+      case 'DOCUMENT REVIEW':
+        return 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30';
+      case 'SUBMITTED':
+      default:
+        return 'bg-slate-500/10 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700';
+    }
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white transition-colors duration-200">
+    <div className="min-h-screen bg-slate-50/60 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans selection:bg-blue-500 selection:text-white transition-colors duration-200 pb-16">
       
-      {/* Toast Notification */}
+      {/* Toast Alert Banner */}
       {toast && (
-        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-top-4 duration-300">
+        <div className="fixed top-5 right-5 z-50 animate-in fade-in slide-in-from-top-4 duration-300">
           <div
-            className={`px-5 py-3 rounded-2xl shadow-2xl border text-xs sm:text-sm font-bold flex items-center space-x-2.5 backdrop-blur-md ${
+            className={`flex items-center space-x-3 px-5 py-3.5 rounded-2xl shadow-xl border text-sm font-semibold backdrop-blur-md ${
               toast.type === 'success'
-                ? 'bg-emerald-900/90 text-white border-emerald-500 shadow-emerald-900/30'
+                ? 'bg-emerald-600 text-white border-emerald-500'
                 : toast.type === 'error'
-                ? 'bg-rose-900/90 text-white border-rose-500 shadow-rose-900/30'
+                ? 'bg-rose-600 text-white border-rose-500'
                 : toast.type === 'warning'
-                ? 'bg-amber-900/90 text-white border-amber-500 shadow-amber-900/30'
-                : 'bg-blue-900/90 text-white border-blue-500 shadow-blue-900/30'
+                ? 'bg-amber-600 text-white border-amber-500'
+                : 'bg-blue-600 text-white border-blue-500'
             }`}
           >
-            <Sparkles size={16} />
+            <Sparkles size={18} />
             <span>{toast.message}</span>
-            <button onClick={() => setToast(null)} className="ml-2 hover:opacity-75 cursor-pointer">
-              <X size={15} />
+            <button onClick={() => setToast(null)} className="ml-2 hover:opacity-75">
+              <X size={16} />
             </button>
           </div>
         </div>
       )}
 
       {/* Main Container */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 pb-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8">
         
         {/* ========================================================================= */}
-        {/* VIEW 1: UPLOAD DOCUMENTS (VERY USER-FRIENDLY, UPLOAD-BASED APPLICATION)   */}
+        {/* 2. APPLICATION FORM (UPLOAD-BASED, STEP-BY-STEP WIZARD)                   */}
         {/* ========================================================================= */}
         {activeView === 'apply' && (
           <div className="space-y-6 max-w-4xl mx-auto animate-in fade-in duration-300">
             
-            {/* Header & Step Progress Bar */}
-            <div className="bg-white dark:bg-slate-900 p-6 sm:p-7 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-5">
+            {/* Header with Title & Step Progress Tracker */}
+            <div className="bg-white dark:bg-slate-900 p-6 sm:p-7 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
               
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                   <div className="flex items-center space-x-2">
-                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
-                      STEP 1 OF 4: UPLOAD DOCUMENTS
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
+                      STEP {currentStep} OF 6
                     </span>
-                    <span className="text-xs text-slate-400 font-medium">Upload-Based Application</span>
+                    <span className="text-xs text-slate-400 font-medium">Upload-Based Clearance Filing</span>
                   </div>
                   <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-1">
-                    {activeServiceDef.title}
+                    Apply for Barangay Clearance
                   </h2>
                 </div>
-
-                {/* Service Selector Tabs if citizen wants to switch service */}
-                <div className="flex items-center space-x-1 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-2xl text-[11px] font-bold overflow-x-auto">
-                  {(['clearance', 'residency_event', 'cedula', 'construction'] as BarangayServiceKey[]).map(key => (
-                    <button
-                      key={key}
-                      type="button"
-                      onClick={() => setSelectedService(key)}
-                      className={`px-3 py-1.5 rounded-xl transition-all cursor-pointer whitespace-nowrap ${
-                        selectedService === key
-                          ? 'bg-blue-600 text-white shadow-sm'
-                          : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-                      }`}
-                    >
-                      {key === 'clearance' && 'Barangay Clearance'}
-                      {key === 'residency_event' && 'Residency & Event'}
-                      {key === 'cedula' && 'Cedula (CTC)'}
-                      {key === 'construction' && 'Construction'}
-                    </button>
-                  ))}
-                </div>
               </div>
 
-              {/* Progress Indicator: 1 Upload Documents -> 2 Review -> 3 Submit -> 4 Track */}
-              <div className="grid grid-cols-4 gap-2 pt-1">
+              {/* Visual Step Progress Bar */}
+              <div className="grid grid-cols-6 gap-2">
                 {[
-                  { num: 1, label: 'Upload Documents', active: true, done: false },
-                  { num: 2, label: 'Review', active: false, done: false },
-                  { num: 3, label: 'Submit', active: false, done: false },
-                  { num: 4, label: 'Track Application', active: false, done: false }
-                ].map(step => (
-                  <div
-                    key={step.num}
-                    className={`flex flex-col items-center justify-center p-2.5 rounded-2xl text-center border transition-all ${
-                      step.active
-                        ? 'bg-blue-600 text-white border-blue-500 shadow-md shadow-blue-600/30'
-                        : 'bg-slate-50 dark:bg-slate-800/50 text-slate-400 border-slate-200 dark:border-slate-800'
+                  { step: 1, label: 'Valid ID' },
+                  { step: 2, label: 'Residency' },
+                  { step: 3, label: 'Cedula CTC' },
+                  { step: 4, label: 'Endorsement' },
+                  { step: 5, label: 'Purpose' },
+                  { step: 6, label: 'Review' },
+                ].map((s) => (
+                  <button
+                    key={s.step}
+                    onClick={() => {
+                      if (s.step < currentStep || (s.step === 2 && idDoc) || (s.step === 3 && residencyDoc)) {
+                        setCurrentStep(s.step);
+                      }
+                    }}
+                    className={`flex flex-col items-center justify-center p-2 rounded-xl text-xs font-bold transition-all text-center ${
+                      currentStep === s.step
+                        ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
+                        : currentStep > s.step
+                        ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
                     }`}
                   >
-                    <span className="text-[10px] font-black uppercase tracking-wider">Step {step.num}</span>
-                    <span className="text-xs font-extrabold truncate w-full mt-0.5">{step.label}</span>
-                  </div>
+                    <span className="text-[10px] uppercase tracking-wider">Step {s.step}</span>
+                    <span className="truncate w-full text-[11px] font-extrabold mt-0.5">{s.label}</span>
+                  </button>
                 ))}
-              </div>
-
-              {/* Friendly Instruction Banner */}
-              <div className="p-3.5 sm:p-4 rounded-2xl bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800/70 flex items-start space-x-3 text-xs text-blue-900 dark:text-blue-200">
-                <Info size={18} className="text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
-                <div>
-                  <span className="font-black block">Take a clear photo of your document and upload it here.</span>
-                  <p className="text-[11px] text-blue-800/80 dark:text-blue-300/80 mt-0.5">
-                    No long forms required! Your details will be automatically read from your uploaded documents. Supported formats: JPG, PNG, PDF (Max 10MB).
-                  </p>
-                </div>
               </div>
             </div>
 
-            {/* Smart OCR Auto-Extraction Preview (Minimizes manual typing) */}
-            {ocrScanning && (
-              <div className="p-4 rounded-3xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 flex items-center space-x-3 text-xs text-blue-700 dark:text-blue-300 animate-pulse">
-                <RefreshCw size={16} className="animate-spin text-blue-600" />
-                <span>Reading document details from your uploaded Valid ID...</span>
-              </div>
-            )}
-
-            {ocrSuccess && (
-              <div className="p-4 sm:p-5 rounded-3xl bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 space-y-2">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2 text-xs font-black text-emerald-800 dark:text-emerald-300">
-                    <CheckCircle2 size={16} className="text-emerald-600" />
-                    <span>Auto-Extracted from ID (No typing needed)</span>
-                  </div>
-                  <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-bold bg-emerald-100 dark:bg-emerald-900/60 px-2 py-0.5 rounded-full">
-                    Verified
-                  </span>
+            {/* STEP 1: APPLICANT INFORMATION & VALID ID UPLOAD */}
+            {currentStep === 1 && (
+              <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 animate-in fade-in">
+                
+                <div className="space-y-1">
+                  <h3 className="text-lg font-black text-slate-900 dark:text-white">
+                    Step 1 — Upload your Valid Government ID
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Take a clear photo or upload a scan of your ID. Our system will automatically read your Name and Address so you don’t have to type it manually.
+                  </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1 text-xs">
-                  {/* Full Name */}
-                  <div className="relative">
-                    <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">Full Name</label>
-                    <div className="relative">
-                      <input
-                        type="text"
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                        placeholder="Applicant Name"
-                        className="w-full pl-3 pr-8 py-2 rounded-xl border border-emerald-300 dark:border-emerald-800/80 bg-white dark:bg-slate-800 font-bold text-slate-800 dark:text-white text-xs outline-none"
-                      />
-                      {fullName && (
-                        <button
-                          type="button"
-                          onClick={() => setFullName('')}
-                          className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 hover:text-slate-900 flex items-center justify-center cursor-pointer"
-                        >
-                          <X size={10} />
-                        </button>
-                      )}
+                {/* Upload Card / Dropzone */}
+                {!idDoc ? (
+                  <label className="border-2 border-dashed border-blue-300 dark:border-blue-700 hover:border-blue-500 rounded-3xl p-8 sm:p-10 flex flex-col items-center justify-center text-center cursor-pointer bg-blue-50/40 dark:bg-blue-950/20 hover:bg-blue-50/80 transition-all group">
+                    <input
+                      type="file"
+                      accept=".jpg,.jpeg,.png,.pdf"
+                      onChange={(e) => handleGenericFileUpload(e, 'validId')}
+                      className="hidden"
+                    />
+                    <div className="w-16 h-16 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-600/30 group-hover:scale-105 transition-transform mb-3">
+                      <Camera size={28} />
                     </div>
-                  </div>
-
-                  {/* Contact Number */}
-                  <div className="relative">
-                    <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">Contact Number (11 digits only)</label>
-                    <div className="relative">
-                      <input
-                        type="tel"
-                        inputMode="numeric"
-                        maxLength={11}
-                        value={contactNumber}
-                        onChange={(e) => setContactNumber(e.target.value.replace(/\D/g, '').slice(0, 11))}
-                        placeholder="09171234567"
-                        className="w-full pl-3 pr-8 py-2 rounded-xl border border-emerald-300 dark:border-emerald-800/80 bg-white dark:bg-slate-800 font-bold text-slate-800 dark:text-white text-xs outline-none"
-                      />
-                      {contactNumber && (
-                        <button
-                          type="button"
-                          onClick={() => setContactNumber('')}
-                          className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 hover:text-slate-900 flex items-center justify-center cursor-pointer"
-                        >
-                          <X size={10} />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Address */}
-                  <div className="sm:col-span-2 relative">
-                    <label className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">Residential Address</label>
-                    <div className="relative">
-                      <input
-                        type="text"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                        placeholder="Residential Address"
-                        className="w-full pl-3 pr-8 py-2 rounded-xl border border-emerald-300 dark:border-emerald-800/80 bg-white dark:bg-slate-800 font-bold text-slate-800 dark:text-white text-xs outline-none"
-                      />
-                      {address && (
-                        <button
-                          type="button"
-                          onClick={() => setAddress('')}
-                          className="absolute right-2.5 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-500 hover:text-slate-900 flex items-center justify-center cursor-pointer"
-                        >
-                          <X size={10} />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* List of Large Document Upload Areas */}
-            <div className="space-y-5">
-              {activeServiceDef.documents.map((docDef) => {
-                const uploaded = uploadedDocs[docDef.key];
-                const validation = docValidation[docDef.key];
-
-                return (
-                  <div
-                    key={docDef.key}
-                    className={`bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border transition-all ${
-                      uploaded 
-                        ? 'border-emerald-300 dark:border-emerald-800/80 shadow-sm' 
-                        : 'border-slate-200 dark:border-slate-800 shadow-xs'
-                    }`}
-                  >
-                    {/* Header of Document Card */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100 dark:border-slate-800">
-                      <div className="flex items-center space-x-3.5">
-                        <div className="w-11 h-11 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0 border border-slate-200 dark:border-slate-700">
-                          {renderDocIcon(docDef.iconType)}
+                    <span className="text-base font-black text-blue-900 dark:text-blue-300">
+                      + Upload ID Photo
+                    </span>
+                    <span className="text-xs text-slate-500 mt-1">
+                      Drag &amp; drop or click to browse (JPG, JPEG, PNG, PDF up to 10MB)
+                    </span>
+                    <span className="text-[11px] text-blue-600 dark:text-blue-400 font-semibold mt-2">
+                      Accepted: PhilSys National ID, Driver's License, Passport, UMID, Postal ID
+                    </span>
+                  </label>
+                ) : (
+                  <div className="space-y-4">
+                    {/* Uploaded File Preview Card */}
+                    <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-16 h-16 rounded-xl bg-slate-200 dark:bg-slate-700 overflow-hidden border flex items-center justify-center shrink-0">
+                          {idDoc.type.includes('image') ? (
+                            <img src={idDoc.previewUrl} alt="ID Preview" className="w-full h-full object-cover" />
+                          ) : (
+                            <FileText size={28} className="text-blue-600" />
+                          )}
                         </div>
                         <div>
                           <div className="flex items-center space-x-2">
-                            <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-white">
-                              {docDef.title}
-                            </h3>
-                            {docDef.required ? (
-                              <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300">
-                                Required
-                              </span>
-                            ) : (
-                              <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300">
-                                OPTIONAL
-                              </span>
-                            )}
+                            <span className="font-bold text-sm text-slate-900 dark:text-white truncate max-w-xs">
+                              {idDoc.name}
+                            </span>
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 flex items-center gap-1">
+                              <CheckCircle2 size={11} />
+                              <span>Uploaded</span>
+                            </span>
                           </div>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                            {docDef.subtitle}
-                          </p>
+                          <p className="text-xs text-slate-500 mt-0.5">Size: {idDoc.size}</p>
                         </div>
                       </div>
 
-                      {/* Status indicator */}
-                      {uploaded ? (
-                        <div className="flex items-center space-x-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 text-xs font-bold shrink-0 self-start sm:self-center">
-                          <CheckCircle2 size={14} className="text-emerald-600" />
-                          <span>✓ Uploaded</span>
-                        </div>
-                      ) : (
-                        <span className="text-[11px] text-slate-400 font-semibold self-start sm:self-center">
-                          {docDef.acceptedFormats}
-                        </span>
-                      )}
+                      {/* Replace / Remove Buttons */}
+                      <div className="flex items-center space-x-2">
+                        <button
+                          type="button"
+                          onClick={() => setPreviewDoc({ title: 'Valid Government ID', doc: idDoc })}
+                          className="px-3 py-1.5 rounded-xl bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 text-xs font-bold hover:bg-slate-100 flex items-center gap-1.5"
+                        >
+                          <Eye size={13} />
+                          <span>View</span>
+                        </button>
+                        <label className="px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300 border border-blue-200 dark:border-blue-700 text-xs font-bold hover:bg-blue-100 cursor-pointer flex items-center gap-1.5">
+                          <RefreshCw size={13} />
+                          <span>Replace</span>
+                          <input
+                            type="file"
+                            accept=".jpg,.jpeg,.png,.pdf"
+                            onChange={(e) => handleGenericFileUpload(e, 'validId')}
+                            className="hidden"
+                          />
+                        </label>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIdDoc(null);
+                            setOcrSuccess(false);
+                          }}
+                          className="px-3 py-1.5 rounded-xl bg-rose-50 dark:bg-rose-950/50 text-rose-600 border border-rose-200 dark:border-rose-800 text-xs font-bold hover:bg-rose-100 flex items-center gap-1.5"
+                        >
+                          <Trash2 size={13} />
+                          <span>Remove</span>
+                        </button>
+                      </div>
                     </div>
 
-                    {/* Card Body: Not uploaded yet */}
-                    {!uploaded ? (
-                      <div className="pt-5 space-y-4">
-                        <div
-                          onDragOver={(e) => e.preventDefault()}
-                          onDrop={(e) => {
-                            e.preventDefault();
-                            if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-                              handleFileUpload(docDef.key, e.dataTransfer.files[0]);
-                            }
-                          }}
-                          className="w-full border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 rounded-2xl p-6 sm:p-8 text-center transition-all group bg-slate-50/50 dark:bg-slate-950/40 cursor-pointer"
-                          onClick={() => fileInputRefs.current[docDef.key]?.click()}
-                        >
-                          <div className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center group-hover:scale-105 transition-transform shadow-xs">
-                            <Upload size={28} />
-                          </div>
-                          <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200">
-                            Drag and drop your file here, or click to browse
-                          </h4>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-sm mx-auto">
-                            {docDef.hint}
-                          </p>
-
-                          {/* Action Buttons: Upload Picture & Take Photo */}
-                          <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                fileInputRefs.current[docDef.key]?.click();
-                              }}
-                              className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-md shadow-blue-600/30 flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]"
-                            >
-                              <Upload size={14} />
-                              <span>+ Upload Picture</span>
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                cameraInputRefs.current[docDef.key]?.click();
-                              }}
-                              className="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-2 cursor-pointer transition-all border border-slate-200 dark:border-slate-700 active:scale-[0.98]"
-                            >
-                              <Camera size={14} />
-                              <span>Take Photo</span>
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Hidden Inputs */}
-                        <input
-                          type="file"
-                          ref={(el) => {
-                            fileInputRefs.current[docDef.key] = el;
-                          }}
-                          accept=".jpg,.jpeg,.png,.pdf"
-                          onChange={(e) => {
-                            if (e.target.files && e.target.files[0]) {
-                              handleFileUpload(docDef.key, e.target.files[0]);
-                            }
-                          }}
-                          className="hidden"
-                        />
-                        <input
-                          type="file"
-                          ref={(el) => {
-                            cameraInputRefs.current[docDef.key] = el;
-                          }}
-                          accept="image/*"
-                          capture="environment"
-                          onChange={(e) => {
-                            if (e.target.files && e.target.files[0]) {
-                              handleFileUpload(docDef.key, e.target.files[0]);
-                            }
-                          }}
-                          className="hidden"
-                        />
+                    {/* OCR Status Scanning animation / Banner */}
+                    {ocrScanning && (
+                      <div className="p-4 rounded-2xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 flex items-center space-x-3 text-xs text-blue-700 dark:text-blue-300 animate-pulse">
+                        <Sparkles size={18} className="animate-spin text-blue-600" />
+                        <span className="font-bold">Scanning ID Document... Reading full name and residential address.</span>
                       </div>
-                    ) : (
-                      /* Card Body: Already Uploaded */
-                      <div className="pt-4 space-y-4">
-                        <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                          
-                          {/* Thumbnail & File Details */}
-                          <div className="flex items-center space-x-3.5">
-                            <div 
-                              onClick={() => setPreviewDoc({ title: docDef.title, doc: uploaded })}
-                              className="w-16 h-16 rounded-xl bg-slate-200 dark:bg-slate-700 overflow-hidden shrink-0 border border-slate-300 dark:border-slate-600 relative group cursor-pointer"
-                            >
-                              {uploaded.type.startsWith('image/') ? (
-                                <img src={uploaded.previewUrl} alt={uploaded.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
-                              ) : (
-                                <div className="w-full h-full flex flex-col items-center justify-center text-slate-500">
-                                  <FileText size={24} />
-                                  <span className="text-[9px] font-bold mt-0.5">PDF</span>
-                                </div>
-                              )}
-                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white transition-opacity">
-                                <Eye size={16} />
-                              </div>
-                            </div>
+                    )}
 
-                            <div className="min-w-0">
-                              <span className="font-black text-xs sm:text-sm text-slate-900 dark:text-white truncate block max-w-xs sm:max-w-md">
-                                {uploaded.name}
-                              </span>
-                              <p className="text-[11px] text-slate-400 mt-0.5">
-                                {uploaded.size} • Uploaded on {uploaded.uploadDate}
-                              </p>
-                              
-                              {/* Smart Check Status Tag */}
-                              {validation && (
-                                <div className="mt-1.5 flex items-center gap-1.5 text-[11px] font-semibold">
-                                  {validation.blurry ? (
-                                    <span className="text-amber-600 dark:text-amber-400 font-bold flex items-center gap-1">
-                                      <AlertTriangle size={12} />
-                                      {validation.message}
-                                    </span>
-                                  ) : (
-                                    <span className="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
-                                      <CheckCircle2 size={12} />
-                                      {validation.message}
-                                    </span>
-                                  )}
-                                </div>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Action Buttons: Preview, Replace, Remove */}
-                          <div className="flex items-center space-x-2 shrink-0">
-                            <button
-                              type="button"
-                              onClick={() => setPreviewDoc({ title: docDef.title, doc: uploaded })}
-                              className="px-3.5 py-2 rounded-xl bg-slate-200/80 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-all"
-                            >
-                              <Eye size={13} />
-                              <span>View</span>
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={() => fileInputRefs.current[docDef.key]?.click()}
-                              className="px-3.5 py-2 rounded-xl bg-blue-50 hover:bg-blue-100 dark:bg-blue-950/60 dark:hover:bg-blue-900 text-blue-600 dark:text-blue-300 text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-all border border-blue-200 dark:border-blue-800"
-                            >
-                              <RefreshCw size={13} />
-                              <span>Replace</span>
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={() => {
-                                setUploadedDocs(prev => ({ ...prev, [docDef.key]: null }));
-                                setDocValidation(prev => {
-                                  const updated = { ...prev };
-                                  delete updated[docDef.key];
-                                  return updated;
-                                });
-                                showToast('Document removed.', 'info');
-                              }}
-                              className="px-3 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/60 dark:hover:bg-rose-900 text-rose-600 dark:text-rose-400 text-xs font-bold flex items-center gap-1 cursor-pointer transition-all border border-rose-200 dark:border-rose-800"
-                            >
-                              <Trash2 size={13} />
-                              <span>Remove</span>
-                            </button>
-                          </div>
+                    {ocrSuccess && (
+                      <div className="p-3.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 flex items-center justify-between text-xs text-emerald-800 dark:text-emerald-300">
+                        <div className="flex items-center space-x-2">
+                          <CheckCircle2 size={16} className="text-emerald-600" />
+                          <span className="font-bold">Information Extracted Successfully via ID Recognition</span>
                         </div>
-
-                        {/* Hidden Input for Replace */}
-                        <input
-                          type="file"
-                          ref={(el) => {
-                            fileInputRefs.current[docDef.key] = el;
-                          }}
-                          accept=".jpg,.jpeg,.png,.pdf"
-                          onChange={(e) => {
-                            if (e.target.files && e.target.files[0]) {
-                              handleFileUpload(docDef.key, e.target.files[0]);
-                            }
-                          }}
-                          className="hidden"
-                        />
+                        <span className="text-[11px] text-emerald-600">Auto-filled below</span>
                       </div>
                     )}
                   </div>
-                );
-              })}
-            </div>
+                )}
 
-            {/* Footer Navigation Bar */}
-            <div className="pt-4 flex items-center justify-between">
-              {/* Left: Back to Portal button */}
-              <button
-                type="button"
-                onClick={() => {
-                  if (onBack) onBack();
-                  else if (onNavigateToTab) onNavigateToTab('Home');
-                }}
-                className="px-5 py-2.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 dark:hover:bg-slate-700 transition-all flex items-center space-x-1.5 cursor-pointer shadow-xs"
-              >
-                <ArrowLeft size={14} />
-                <span>Back to Portal</span>
-              </button>
-
-              {/* Right: Review Uploaded Documents */}
-              <button
-                type="button"
-                onClick={() => {
-                  if (!isAllRequiredUploaded) {
-                    showToast(`Please upload: ${missingRequiredDocs.map(d => d.title).join(', ')} to continue.`, 'error');
-                    return;
-                  }
-                  setActiveView('review');
-                }}
-                className={`px-6 py-3 rounded-xl text-xs font-black shadow-lg transition-all flex items-center gap-2 cursor-pointer ${
-                  isAllRequiredUploaded
-                    ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/30 hover:scale-[1.01] active:scale-[0.99]'
-                    : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed shadow-none'
-                }`}
-              >
-                <span>Review Uploaded Documents →</span>
-              </button>
-            </div>
-
-          </div>
-        )}
-
-        {/* ========================================================================= */}
-        {/* VIEW 2: REVIEW PAGE (CLEAN SUMMARY BEFORE SUBMISSION)                     */}
-        {/* ========================================================================= */}
-        {activeView === 'review' && (
-          <div className="space-y-6 max-w-4xl mx-auto animate-in fade-in duration-300">
-            
-            {/* Header with Step Tracker */}
-            <div className="bg-white dark:bg-slate-900 p-6 sm:p-7 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-5">
-              <div className="flex items-center justify-between">
-                <div>
-                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                    STEP 2 OF 4: APPLICATION REVIEW
-                  </span>
-                  <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-1">
-                    Review Your Application
-                  </h2>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveView('apply')}
-                  className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-200 cursor-pointer"
-                >
-                  Edit Uploads
-                </button>
-              </div>
-
-              {/* Progress Indicator */}
-              <div className="grid grid-cols-4 gap-2 pt-1">
-                {[
-                  { num: 1, label: 'Upload Documents', active: false, done: true },
-                  { num: 2, label: 'Review', active: true, done: false },
-                  { num: 3, label: 'Submit', active: false, done: false },
-                  { num: 4, label: 'Track Application', active: false, done: false }
-                ].map(step => (
-                  <div
-                    key={step.num}
-                    className={`flex flex-col items-center justify-center p-2.5 rounded-2xl text-center border transition-all ${
-                      step.active
-                        ? 'bg-blue-600 text-white border-blue-500 shadow-md shadow-blue-600/30'
-                        : step.done
-                        ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800'
-                        : 'bg-slate-50 dark:bg-slate-800/50 text-slate-400 border-slate-200 dark:border-slate-800'
-                    }`}
-                  >
-                    <span className="text-[10px] font-black uppercase tracking-wider">Step {step.num}</span>
-                    <span className="text-xs font-extrabold truncate w-full mt-0.5">{step.label}</span>
+                {/* Basic Fields (Extracted by OCR, editable by user if desired) */}
+                <div className="pt-2 border-t border-slate-100 dark:border-slate-800 space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h4 className="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                      Applicant Information Details
+                    </h4>
+                    <span className="text-[11px] text-slate-400">Pre-filled from uploaded document</span>
                   </div>
-                ))}
-              </div>
-            </div>
 
-            {/* Completeness Banner */}
-            {isAllRequiredUploaded ? (
-              <div className="p-4 rounded-3xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800 flex items-center space-x-3 text-xs text-emerald-800 dark:text-emerald-200">
-                <CheckCircle2 size={20} className="text-emerald-600 shrink-0" />
-                <div>
-                  <span className="font-black block">✓ All required documents uploaded!</span>
-                  <p className="text-[11px] text-emerald-700 dark:text-emerald-300">
-                    Your uploads have been validated for readability. You may now submit your application.
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <div className="p-4 rounded-3xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800 flex items-center justify-between text-xs text-amber-800 dark:text-amber-200">
-                <div className="flex items-center space-x-3">
-                  <AlertTriangle size={20} className="text-amber-600 shrink-0" />
-                  <div>
-                    <span className="font-black block">⚠ Missing Required Document</span>
-                    <p className="text-[11px] text-amber-700 dark:text-amber-300">
-                      Please upload: {missingRequiredDocs.map(d => d.title).join(', ')}
-                    </p>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setActiveView('apply')}
-                  className="px-4 py-2 rounded-xl bg-amber-600 text-white font-bold text-xs shadow-sm hover:bg-amber-500 cursor-pointer"
-                >
-                  Upload Now
-                </button>
-              </div>
-            )}
-
-            {/* Applicant Summary */}
-            <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
-              <h3 className="font-black text-sm uppercase tracking-wider text-slate-800 dark:text-slate-200">
-                Applicant Information (Extracted)
-              </h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                <div>
-                  <span className="text-slate-400 block font-medium">Applicant Name</span>
-                  <span className="font-bold text-slate-900 dark:text-white text-sm">{fullName || 'Jason Taccad'}</span>
-                </div>
-                <div>
-                  <span className="text-slate-400 block font-medium">Contact Number</span>
-                  <span className="font-bold text-slate-900 dark:text-white font-mono">{contactNumber || '09175559988'}</span>
-                </div>
-                <div className="sm:col-span-2">
-                  <span className="text-slate-400 block font-medium">Residential Address</span>
-                  <span className="font-bold text-slate-900 dark:text-white">{address || 'Quezon City, Metro Manila'}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Uploaded Documents List */}
-            <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
-              <h3 className="font-black text-sm uppercase tracking-wider text-slate-800 dark:text-slate-200">
-                Uploaded Documents ({Object.values(uploadedDocs).filter(Boolean).length} Documents)
-              </h3>
-
-              <div className="divide-y divide-slate-100 dark:divide-slate-800">
-                {activeServiceDef.documents.map((docDef) => {
-                  const uploaded = uploadedDocs[docDef.key];
-
-                  return (
-                    <div key={docDef.key} className="py-3.5 flex items-center justify-between gap-3">
-                      <div className="flex items-center space-x-3 min-w-0">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
-                          uploaded 
-                            ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300' 
-                            : 'bg-slate-100 text-slate-400 dark:bg-slate-800'
-                        }`}>
-                          {uploaded ? <Check size={16} /> : <AlertCircle size={16} />}
-                        </div>
-                        <div className="min-w-0">
-                          <span className="font-black text-xs text-slate-900 dark:text-white block truncate">
-                            {docDef.title}
-                          </span>
-                          <span className="text-[11px] text-slate-400 block truncate">
-                            {uploaded ? `${uploaded.name} (${uploaded.size})` : docDef.required ? 'Missing Required' : 'Not uploaded (Optional)'}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center space-x-2 shrink-0">
-                        {uploaded ? (
-                          <>
-                            <button
-                              type="button"
-                              onClick={() => setPreviewDoc({ title: docDef.title, doc: uploaded })}
-                              className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold flex items-center gap-1 cursor-pointer"
-                            >
-                              <Eye size={12} />
-                              <span>Preview</span>
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => setActiveView('apply')}
-                              className="px-3 py-1.5 rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-300 text-xs font-bold hover:bg-blue-100 cursor-pointer"
-                            >
-                              Replace
-                            </button>
-                          </>
-                        ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Full Name */}
+                    <div>
+                      <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                        Full Name
+                      </label>
+                      <div className="relative flex items-center">
+                        <input
+                          type="text"
+                          value={fullName}
+                          onChange={(e) => setFullName(e.target.value)}
+                          placeholder="e.g. Juan Miguel Dela Cruz"
+                          className="w-full pl-3.5 pr-8 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                        />
+                        {fullName && (
                           <button
                             type="button"
-                            onClick={() => setActiveView('apply')}
-                            className="px-3 py-1.5 rounded-xl bg-blue-600 text-white text-xs font-bold hover:bg-blue-500 cursor-pointer"
+                            onClick={() => setFullName('')}
+                            className="absolute right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-colors cursor-pointer"
+                            title="Clear Full Name"
                           >
-                            Upload
+                            <X size={12} />
                           </button>
                         )}
                       </div>
                     </div>
-                  );
-                })}
+
+                    {/* Contact Number (Strictly 11 digits, numbers only, no letters) */}
+                    <div>
+                      <div className="flex items-center justify-between mb-1.5">
+                        <label className="text-xs font-bold text-slate-700 dark:text-slate-300">
+                          Contact Number
+                        </label>
+                        <span className="text-[10px] text-slate-400 font-medium">11 digits (numbers only)</span>
+                      </div>
+                      <div className="relative flex items-center">
+                        <input
+                          type="tel"
+                          inputMode="numeric"
+                          pattern="[0-9]*"
+                          maxLength={11}
+                          value={contactNumber}
+                          onChange={(e) => {
+                            const digitsOnly = e.target.value.replace(/\D/g, '').slice(0, 11);
+                            setContactNumber(digitsOnly);
+                          }}
+                          placeholder="09171234567"
+                          className="w-full pl-3.5 pr-8 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                        />
+                        {contactNumber && (
+                          <button
+                            type="button"
+                            onClick={() => setContactNumber('')}
+                            className="absolute right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-colors cursor-pointer"
+                            title="Clear Contact Number"
+                          >
+                            <X size={12} />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Residential Address */}
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                        Residential Address
+                      </label>
+                      <div className="relative flex items-center">
+                        <input
+                          type="text"
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
+                          placeholder="House / Unit No., Street, Barangay, City"
+                          className="w-full pl-3.5 pr-8 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                        />
+                        {address && (
+                          <button
+                            type="button"
+                            onClick={() => setAddress('')}
+                            className="absolute right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-colors cursor-pointer"
+                            title="Clear Residential Address"
+                          >
+                            <X size={12} />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Email Address */}
+                    <div className="sm:col-span-2">
+                      <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1.5">
+                        Email Address
+                      </label>
+                      <div className="relative flex items-center">
+                        <input
+                          type="email"
+                          value={emailAddress}
+                          onChange={(e) => setEmailAddress(e.target.value)}
+                          placeholder="applicant@example.com"
+                          className="w-full pl-3.5 pr-8 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none"
+                        />
+                        {emailAddress && (
+                          <button
+                            type="button"
+                            onClick={() => setEmailAddress('')}
+                            className="absolute right-2.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-colors cursor-pointer"
+                            title="Clear Email Address"
+                          >
+                            <X size={12} />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Footer Navigation Button */}
+                <div className="pt-4 flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (onBack) onBack();
+                      else if (onNavigateToTab) onNavigateToTab('Home');
+                    }}
+                    className="px-5 py-2.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 dark:hover:bg-slate-700 transition-all flex items-center space-x-1.5 cursor-pointer shadow-xs"
+                  >
+                    <ArrowLeft size={14} />
+                    <span>Back to Portal</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!idDoc) {
+                        showToast('Please upload this document to continue.', 'error');
+                        return;
+                      }
+                      setCurrentStep(2);
+                    }}
+                    className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-lg shadow-blue-600/30 flex items-center gap-2 cursor-pointer"
+                  >
+                    <span>Next: Proof of Residency →</span>
+                  </button>
+                </div>
+
               </div>
-            </div>
+            )}
 
-            {/* Footer Buttons */}
-            <div className="pt-2 flex items-center justify-between">
-              <button
-                type="button"
-                onClick={() => setActiveView('apply')}
-                className="px-5 py-2.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 cursor-pointer"
-              >
-                ← Back to Uploads
-              </button>
+            {/* STEP 2: PROOF OF RESIDENCY */}
+            {currentStep === 2 && (
+              <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 animate-in fade-in">
+                
+                <div className="space-y-1">
+                  <h3 className="text-lg font-black text-slate-900 dark:text-white">
+                    Step 2 — Upload Proof of Residency
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    “Take a clear photo of your document. Make sure all text is readable.”
+                  </p>
+                </div>
 
-              <button
-                type="button"
-                disabled={!isAllRequiredUploaded || isSubmitting}
-                onClick={handleFinalSubmit}
-                className={`px-7 py-3.5 rounded-xl font-black text-xs sm:text-sm shadow-lg transition-all flex items-center gap-2 ${
-                  isAllRequiredUploaded && !isSubmitting
-                    ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
-                    : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed'
-                }`}
-              >
-                {isSubmitting ? (
-                  <>
-                    <RefreshCw size={16} className="animate-spin" />
-                    <span>Submitting Application...</span>
-                  </>
+                {/* Upload Card / Dropzone */}
+                {!residencyDoc ? (
+                  <label className="border-2 border-dashed border-blue-300 dark:border-blue-700 hover:border-blue-500 rounded-3xl p-8 sm:p-10 flex flex-col items-center justify-center text-center cursor-pointer bg-blue-50/40 dark:bg-blue-950/20 hover:bg-blue-50/80 transition-all group">
+                    <input
+                      type="file"
+                      accept=".jpg,.jpeg,.png,.pdf"
+                      onChange={(e) => handleGenericFileUpload(e, 'residency')}
+                      className="hidden"
+                    />
+                    <div className="w-16 h-16 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-600/30 group-hover:scale-105 transition-transform mb-3">
+                      <Home size={28} />
+                    </div>
+                    <span className="text-base font-black text-blue-900 dark:text-blue-300">
+                      + Upload Proof of Residency
+                    </span>
+                    <span className="text-xs text-slate-500 mt-1">
+                      Accepted formats: JPG, JPEG, PNG, PDF (Up to 10MB)
+                    </span>
+                    <span className="text-[11px] text-blue-600 dark:text-blue-400 font-semibold mt-2">
+                      Examples: Meralco / Maynilad Electric / Water Bill, Notarized Lease Contract, Certificate of Residency from HOA
+                    </span>
+                  </label>
                 ) : (
+                  <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-16 h-16 rounded-xl bg-slate-200 dark:bg-slate-700 overflow-hidden border flex items-center justify-center shrink-0">
+                        {residencyDoc.type.includes('image') ? (
+                          <img src={residencyDoc.previewUrl} alt="Residency Preview" className="w-full h-full object-cover" />
+                        ) : (
+                          <FileText size={28} className="text-blue-600" />
+                        )}
+                      </div>
+                      <div>
+                        <div className="flex items-center space-x-2">
+                          <span className="font-bold text-sm text-slate-900 dark:text-white truncate max-w-xs">
+                            {residencyDoc.name}
+                          </span>
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 flex items-center gap-1">
+                            <CheckCircle2 size={11} />
+                            <span>Uploaded</span>
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-500 mt-0.5">Size: {residencyDoc.size} • Verified</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                      <button
+                        type="button"
+                        onClick={() => setPreviewDoc({ title: 'Proof of Residency', doc: residencyDoc })}
+                        className="px-3 py-1.5 rounded-xl bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 text-xs font-bold hover:bg-slate-100 flex items-center gap-1.5"
+                      >
+                        <Eye size={13} />
+                        <span>View</span>
+                      </button>
+                      <label className="px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300 border border-blue-200 dark:border-blue-700 text-xs font-bold hover:bg-blue-100 cursor-pointer flex items-center gap-1.5">
+                        <RefreshCw size={13} />
+                        <span>Replace</span>
+                        <input
+                          type="file"
+                          accept=".jpg,.jpeg,.png,.pdf"
+                          onChange={(e) => handleGenericFileUpload(e, 'residency')}
+                          className="hidden"
+                        />
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => setResidencyDoc(null)}
+                        className="px-3 py-1.5 rounded-xl bg-rose-50 dark:bg-rose-950/50 text-rose-600 border border-rose-200 dark:border-rose-800 text-xs font-bold hover:bg-rose-100 flex items-center gap-1.5"
+                      >
+                        <Trash2 size={13} />
+                        <span>Remove</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Footer Navigation Buttons */}
+                <div className="pt-4 flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={() => setCurrentStep(1)}
+                    className="px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-200 flex items-center gap-1.5"
+                  >
+                    <ArrowLeft size={14} />
+                    <span>Back</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!residencyDoc) {
+                        showToast('Please upload this document to continue.', 'error');
+                        return;
+                      }
+                      setCurrentStep(3);
+                    }}
+                    className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-lg shadow-blue-600/30 flex items-center gap-2"
+                  >
+                    <span>Next: Cedula / CTC →</span>
+                  </button>
+                </div>
+
+              </div>
+            )}
+
+            {/* STEP 3: CEDULA / COMMUNITY TAX CERTIFICATE */}
+            {currentStep === 3 && (
+              <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 animate-in fade-in">
+                
+                <div className="space-y-1">
+                  <h3 className="text-lg font-black text-slate-900 dark:text-white">
+                    Step 3 — Upload Cedula / Community Tax Certificate (CTC)
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Upload your current year Community Tax Certificate (Cedula Form No. 0016).
+                  </p>
+                </div>
+
+                {!cedulaDoc ? (
+                  <label className="border-2 border-dashed border-blue-300 dark:border-blue-700 hover:border-blue-500 rounded-3xl p-8 sm:p-10 flex flex-col items-center justify-center text-center cursor-pointer bg-blue-50/40 dark:bg-blue-950/20 hover:bg-blue-50/80 transition-all group">
+                    <input
+                      type="file"
+                      accept=".jpg,.jpeg,.png,.pdf"
+                      onChange={(e) => handleGenericFileUpload(e, 'cedula')}
+                      className="hidden"
+                    />
+                    <div className="w-16 h-16 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-600/30 group-hover:scale-105 transition-transform mb-3">
+                      <Banknote size={28} />
+                    </div>
+                    <span className="text-base font-black text-blue-900 dark:text-blue-300">
+                      + Upload Cedula
+                    </span>
+                    <span className="text-xs text-slate-500 mt-1">
+                      Accepted formats: JPG, JPEG, PNG, PDF (Up to 10MB)
+                    </span>
+                    <span className="text-[11px] text-blue-600 dark:text-blue-400 font-semibold mt-2">
+                      Make sure the CTC Number and Year are clearly visible.
+                    </span>
+                  </label>
+                ) : (
+                  <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-16 h-16 rounded-xl bg-slate-200 dark:bg-slate-700 overflow-hidden border flex items-center justify-center shrink-0">
+                        {cedulaDoc.type.includes('image') ? (
+                          <img src={cedulaDoc.previewUrl} alt="Cedula Preview" className="w-full h-full object-cover" />
+                        ) : (
+                          <FileText size={28} className="text-blue-600" />
+                        )}
+                      </div>
+                      <div>
+                        <div className="flex items-center space-x-2">
+                          <span className="font-bold text-sm text-slate-900 dark:text-white truncate max-w-xs">
+                            {cedulaDoc.name}
+                          </span>
+                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 flex items-center gap-1">
+                            <CheckCircle2 size={11} />
+                            <span>Uploaded</span>
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-500 mt-0.5">Size: {cedulaDoc.size} • Verified</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center space-x-2">
+                      <button
+                        type="button"
+                        onClick={() => setPreviewDoc({ title: 'Cedula / Community Tax Certificate', doc: cedulaDoc })}
+                        className="px-3 py-1.5 rounded-xl bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 text-xs font-bold hover:bg-slate-100 flex items-center gap-1.5"
+                      >
+                        <Eye size={13} />
+                        <span>View</span>
+                      </button>
+                      <label className="px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300 border border-blue-200 dark:border-blue-700 text-xs font-bold hover:bg-blue-100 cursor-pointer flex items-center gap-1.5">
+                        <RefreshCw size={13} />
+                        <span>Replace</span>
+                        <input
+                          type="file"
+                          accept=".jpg,.jpeg,.png,.pdf"
+                          onChange={(e) => handleGenericFileUpload(e, 'cedula')}
+                          className="hidden"
+                        />
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => setCedulaDoc(null)}
+                        className="px-3 py-1.5 rounded-xl bg-rose-50 dark:bg-rose-950/50 text-rose-600 border border-rose-200 dark:border-rose-800 text-xs font-bold hover:bg-rose-100 flex items-center gap-1.5"
+                      >
+                        <Trash2 size={13} />
+                        <span>Remove</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* Footer Navigation Buttons */}
+                <div className="pt-4 flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={() => setCurrentStep(2)}
+                    className="px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-200 flex items-center gap-1.5"
+                  >
+                    <ArrowLeft size={14} />
+                    <span>Back</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!cedulaDoc) {
+                        showToast('Please upload this document to continue.', 'error');
+                        return;
+                      }
+                      setCurrentStep(4);
+                    }}
+                    className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-lg shadow-blue-600/30 flex items-center gap-2"
+                  >
+                    <span>Next: Barangay Endorsement →</span>
+                  </button>
+                </div>
+
+              </div>
+            )}
+
+            {/* STEP 4: BARANGAY ENDORSEMENT */}
+            {currentStep === 4 && (
+              <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 animate-in fade-in">
+                
+                <div className="space-y-1">
+                  <h3 className="text-lg font-black text-slate-900 dark:text-white">
+                    Step 4 — Upload Barangay Endorsement
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Upload your Barangay Kagawad / HOA Endorsement if applicable. If not required for your clearance, simply check "Not Applicable".
+                  </p>
+                </div>
+
+                {/* Checkbox: Not Applicable */}
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex items-center space-x-3">
+                  <input
+                    type="checkbox"
+                    id="endorsementNa"
+                    checked={endorsementNotApplicable}
+                    onChange={(e) => {
+                      setEndorsementNotApplicable(e.target.checked);
+                      if (e.target.checked) {
+                        setEndorsementDoc(null);
+                      }
+                    }}
+                    className="w-5 h-5 rounded-md text-blue-600 border-slate-300 focus:ring-blue-500 cursor-pointer"
+                  />
+                  <label htmlFor="endorsementNa" className="text-xs font-bold text-slate-800 dark:text-slate-200 cursor-pointer">
+                    Not Applicable (My application does not require a prior endorsement)
+                  </label>
+                </div>
+
+                {!endorsementNotApplicable && (
                   <>
-                    <span>Submit Application →</span>
-                    <ArrowRight size={16} />
+                    {!endorsementDoc ? (
+                      <label className="border-2 border-dashed border-blue-300 dark:border-blue-700 hover:border-blue-500 rounded-3xl p-8 sm:p-10 flex flex-col items-center justify-center text-center cursor-pointer bg-blue-50/40 dark:bg-blue-950/20 hover:bg-blue-50/80 transition-all group">
+                        <input
+                          type="file"
+                          accept=".jpg,.jpeg,.png,.pdf"
+                          onChange={(e) => handleGenericFileUpload(e, 'endorsement')}
+                          className="hidden"
+                        />
+                        <div className="w-16 h-16 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-600/30 group-hover:scale-105 transition-transform mb-3">
+                          <Award size={28} />
+                        </div>
+                        <span className="text-base font-black text-blue-900 dark:text-blue-300">
+                          + Upload Endorsement
+                        </span>
+                        <span className="text-xs text-slate-500 mt-1">
+                          Photo or PDF upload (Up to 10MB)
+                        </span>
+                      </label>
+                    ) : (
+                      <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div className="flex items-center space-x-4">
+                          <div className="w-16 h-16 rounded-xl bg-slate-200 dark:bg-slate-700 overflow-hidden border flex items-center justify-center shrink-0">
+                            {endorsementDoc.type.includes('image') ? (
+                              <img src={endorsementDoc.previewUrl} alt="Endorsement Preview" className="w-full h-full object-cover" />
+                            ) : (
+                              <FileText size={28} className="text-blue-600" />
+                            )}
+                          </div>
+                          <div>
+                            <div className="flex items-center space-x-2">
+                              <span className="font-bold text-sm text-slate-900 dark:text-white truncate max-w-xs">
+                                {endorsementDoc.name}
+                              </span>
+                              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 flex items-center gap-1">
+                                <CheckCircle2 size={11} />
+                                <span>Uploaded</span>
+                              </span>
+                            </div>
+                            <p className="text-xs text-slate-500 mt-0.5">Size: {endorsementDoc.size}</p>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center space-x-2">
+                          <button
+                            type="button"
+                            onClick={() => setPreviewDoc({ title: 'Barangay Endorsement', doc: endorsementDoc })}
+                            className="px-3 py-1.5 rounded-xl bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 text-xs font-bold hover:bg-slate-100 flex items-center gap-1.5"
+                          >
+                            <Eye size={13} />
+                            <span>View</span>
+                          </button>
+                          <label className="px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-900/50 text-blue-600 dark:text-blue-300 border border-blue-200 dark:border-blue-700 text-xs font-bold hover:bg-blue-100 cursor-pointer flex items-center gap-1.5">
+                            <RefreshCw size={13} />
+                            <span>Replace</span>
+                            <input
+                              type="file"
+                              accept=".jpg,.jpeg,.png,.pdf"
+                              onChange={(e) => handleGenericFileUpload(e, 'endorsement')}
+                              className="hidden"
+                            />
+                          </label>
+                          <button
+                            type="button"
+                            onClick={() => setEndorsementDoc(null)}
+                            className="px-3 py-1.5 rounded-xl bg-rose-50 dark:bg-rose-950/50 text-rose-600 border border-rose-200 dark:border-rose-800 text-xs font-bold hover:bg-rose-100 flex items-center gap-1.5"
+                          >
+                            <Trash2 size={13} />
+                            <span>Remove</span>
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </>
                 )}
-              </button>
-            </div>
+
+                {/* Footer Navigation Buttons */}
+                <div className="pt-4 flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={() => setCurrentStep(3)}
+                    className="px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-200 flex items-center gap-1.5"
+                  >
+                    <ArrowLeft size={14} />
+                    <span>Back</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!endorsementDoc && !endorsementNotApplicable) {
+                        showToast('Please upload your endorsement or mark as Not Applicable.', 'error');
+                        return;
+                      }
+                      setCurrentStep(5);
+                    }}
+                    className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-lg shadow-blue-600/30 flex items-center gap-2"
+                  >
+                    <span>Next: Purpose of Application →</span>
+                  </button>
+                </div>
+
+              </div>
+            )}
+
+            {/* STEP 5: PURPOSE OF APPLICATION */}
+            {currentStep === 5 && (
+              <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 animate-in fade-in">
+                
+                <div className="space-y-1">
+                  <h3 className="text-lg font-black text-slate-900 dark:text-white">
+                    Step 5 — Select Purpose of Application
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    Select your reason for requesting this Barangay Clearance. No long manual typing required!
+                  </p>
+                </div>
+
+                {/* Selectable visual button cards */}
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {[
+                    { key: 'Employment', label: 'Employment', icon: '💼', desc: 'Job application & local hiring' },
+                    { key: 'Business', label: 'Business', icon: '🏢', desc: 'Permit filing & commercial renewal' },
+                    { key: 'School Requirement', label: 'School Requirement', icon: '🎓', desc: 'Enrollment & scholarships' },
+                    { key: 'Government Requirement', label: 'Government Requirement', icon: '🏛️', desc: 'NBI, Police, DFA Passport' },
+                    { key: 'Residency Verification', label: 'Residency Verification', icon: '🏡', desc: 'Proof of address / bank' },
+                    { key: 'Local Transaction', label: 'Local Transaction', icon: '🤝', desc: 'Barangay agreement or dispute' },
+                    { key: 'Other', label: 'Other', icon: '✍️', desc: 'Specify custom purpose below' },
+                  ].map((item) => (
+                    <button
+                      key={item.key}
+                      type="button"
+                      onClick={() => setSelectedPurpose(item.key)}
+                      className={`p-4 rounded-2xl text-left border transition-all ${
+                        selectedPurpose === item.key
+                          ? 'bg-blue-50 dark:bg-blue-950/60 border-blue-500 text-blue-900 dark:text-blue-200 shadow-md shadow-blue-500/10 ring-2 ring-blue-500/20'
+                          : 'bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-blue-300'
+                      }`}
+                    >
+                      <div className="text-2xl mb-1.5">{item.icon}</div>
+                      <div className="text-xs font-black">{item.label}</div>
+                      <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">{item.desc}</div>
+                    </button>
+                  ))}
+                </div>
+
+                {/* If Other is selected, show small text field */}
+                {selectedPurpose === 'Other' && (
+                  <div className="p-4 rounded-2xl bg-blue-50/50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800/60 space-y-2 animate-in fade-in">
+                    <label className="block text-xs font-bold text-blue-900 dark:text-blue-300">
+                      Please specify your purpose:
+                    </label>
+                    <input
+                      type="text"
+                      value={customPurpose}
+                      onChange={(e) => setCustomPurpose(e.target.value)}
+                      placeholder="e.g. Travel Abroad / Loan Application / Electricity Meter Application"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-blue-200 dark:border-blue-700 bg-white dark:bg-slate-800 text-xs font-medium text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                )}
+
+                {/* Footer Navigation Buttons */}
+                <div className="pt-4 flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={() => setCurrentStep(4)}
+                    className="px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-200 flex items-center gap-1.5"
+                  >
+                    <ArrowLeft size={14} />
+                    <span>Back</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (selectedPurpose === 'Other' && !customPurpose.trim()) {
+                        showToast('Please type your clearance purpose.', 'error');
+                        return;
+                      }
+                      setCurrentStep(6);
+                    }}
+                    className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-lg shadow-blue-600/30 flex items-center gap-2"
+                  >
+                    <span>Next: Review Application →</span>
+                  </button>
+                </div>
+
+              </div>
+            )}
+
+            {/* STEP 6: REVIEW APPLICATION */}
+            {currentStep === 6 && (
+              <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 animate-in fade-in">
+                
+                <div className="space-y-1">
+                  <h3 className="text-lg font-black text-slate-900 dark:text-white">
+                    Step 6 — Review Your Application
+                  </h3>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    “Please review your information and uploaded documents before submitting.”
+                  </p>
+                </div>
+
+                {/* Applicant Information Summary */}
+                <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-3">
+                  <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-2">
+                    <span className="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                      Applicant Information
+                    </span>
+                    <button
+                      onClick={() => setCurrentStep(1)}
+                      className="text-xs font-bold text-blue-600 hover:underline"
+                    >
+                      Edit Info
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div>
+                      <span className="text-slate-400 font-medium">Full Name:</span>
+                      <p className="font-bold text-slate-900 dark:text-white mt-0.5">{fullName || 'Not specified'}</p>
+                    </div>
+                    <div>
+                      <span className="text-slate-400 font-medium">Contact Number:</span>
+                      <p className="font-bold text-slate-900 dark:text-white mt-0.5">{contactNumber || 'Not specified'}</p>
+                    </div>
+                    <div>
+                      <span className="text-slate-400 font-medium">Residential Address:</span>
+                      <p className="font-bold text-slate-900 dark:text-white mt-0.5">{address || 'Not specified'}</p>
+                    </div>
+                    <div>
+                      <span className="text-slate-400 font-medium">Email Address:</span>
+                      <p className="font-bold text-slate-900 dark:text-white mt-0.5">{emailAddress || 'Not specified'}</p>
+                    </div>
+                    <div>
+                      <span className="text-slate-400 font-medium">Selected Purpose:</span>
+                      <p className="font-bold text-blue-600 dark:text-blue-400 mt-0.5">
+                        {selectedPurpose === 'Other' ? customPurpose : selectedPurpose}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Documents Checklist Summary */}
+                <div className="space-y-3">
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 block">
+                    Uploaded Documents Checklist
+                  </span>
+
+                  {[
+                    { title: 'Valid Government ID', doc: idDoc, step: 1, required: true },
+                    { title: 'Proof of Residency', doc: residencyDoc, step: 2, required: true },
+                    { title: 'Cedula / CTC', doc: cedulaDoc, step: 3, required: true },
+                    {
+                      title: 'Barangay Endorsement',
+                      doc: endorsementDoc,
+                      step: 4,
+                      required: false,
+                      isNa: endorsementNotApplicable
+                    },
+                  ].map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs"
+                    >
+                      <div className="flex items-center space-x-3.5">
+                        <div className="w-12 h-12 rounded-xl bg-slate-100 dark:bg-slate-700 overflow-hidden border flex items-center justify-center shrink-0">
+                          {item.doc?.type.includes('image') ? (
+                            <img src={item.doc.previewUrl} alt="Thumbnail" className="w-full h-full object-cover" />
+                          ) : item.isNa ? (
+                            <span className="text-xs font-bold text-slate-400">N/A</span>
+                          ) : (
+                            <FileText size={22} className="text-blue-600" />
+                          )}
+                        </div>
+                        <div>
+                          <div className="flex items-center space-x-2">
+                            <span className="text-xs font-black text-slate-900 dark:text-white">
+                              ✓ {item.title}
+                            </span>
+                            {item.isNa ? (
+                              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300">
+                                Marked as Not Applicable
+                              </span>
+                            ) : (
+                              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
+                                Ready
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-[11px] text-slate-500 mt-0.5">
+                            {item.isNa ? 'Waived for this clearance category' : item.doc ? `${item.doc.name} (${item.doc.size})` : 'Not uploaded'}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* View / Replace Actions */}
+                      <div className="flex items-center space-x-2 shrink-0">
+                        {item.doc && (
+                          <button
+                            type="button"
+                            onClick={() => setPreviewDoc({ title: item.title, doc: item.doc! })}
+                            className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold hover:bg-slate-200 flex items-center gap-1"
+                          >
+                            <Eye size={13} />
+                            <span>View</span>
+                          </button>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => setCurrentStep(item.step)}
+                          className="px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 border border-blue-200 dark:border-blue-700 text-xs font-bold hover:bg-blue-100"
+                        >
+                          Replace
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Footer Submit & Back Buttons */}
+                <div className="pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={() => setCurrentStep(5)}
+                    className="px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold hover:bg-slate-200 flex items-center gap-1.5"
+                  >
+                    <ArrowLeft size={14} />
+                    <span>[ ← Back ]</span>
+                  </button>
+                  <button
+                    type="button"
+                    disabled={isSubmitting}
+                    onClick={handleFinalSubmit}
+                    className="px-8 py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white text-sm font-black shadow-xl shadow-blue-600/35 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <RefreshCw size={16} className="animate-spin" />
+                        <span>Submitting Application...</span>
+                      </>
+                    ) : (
+                      <span>[ Submit Application → ]</span>
+                    )}
+                  </button>
+                </div>
+
+              </div>
+            )}
 
           </div>
         )}
 
         {/* ========================================================================= */}
-        {/* VIEW 3: SUBMISSION CONFIRMATION                                           */}
+        {/* 3. SUBMISSION CONFIRMATION PAGE                                            */}
         {/* ========================================================================= */}
         {activeView === 'confirmation' && lastSubmittedApp && (
-          <div className="max-w-2xl mx-auto space-y-6 animate-in fade-in duration-300">
-            <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-9 border border-slate-200 dark:border-slate-800 shadow-xl text-center space-y-6">
+          <div className="max-w-2xl mx-auto space-y-6 animate-in fade-in duration-300 pb-12">
+            
+            <div className="bg-white dark:bg-slate-900 p-8 sm:p-10 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl text-center space-y-6">
               
-              <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-950 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-inner">
-                <CheckCircle2 size={36} />
+              {/* Success Green Seal */}
+              <div className="w-20 h-20 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto shadow-inner">
+                <CheckCircle2 size={44} />
               </div>
 
               <div>
-                <span className="px-3 py-1 rounded-full text-xs font-black uppercase bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
-                  APPLICATION RECEIVED
+                <span className="text-xs font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
+                  ✓ APPLICATION SUBMITTED SUCCESSFULLY
                 </span>
-                <h2 className="text-2xl font-black text-slate-900 dark:text-white mt-2">
-                  ✓ APPLICATION SUBMITTED!
+                <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-1">
+                  Your Barangay Clearance Application Has Been Received
                 </h2>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-md mx-auto">
-                  Your application has been successfully submitted to the Barangay Licensing & Lupon Registry.
+                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-2">
+                  Our barangay licensing and document review team has initiated verification.
                 </p>
               </div>
 
-              {/* Reference Number Box */}
-              <div className="p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 max-w-md mx-auto text-left space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-black uppercase text-slate-400">Application Reference</span>
-                  <span className="font-mono text-xs font-extrabold text-blue-600 dark:text-blue-400">
+              {/* Reference Details Box */}
+              <div className="p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-left space-y-3 text-xs">
+                <div className="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-700">
+                  <span className="text-slate-500 font-medium">Application Reference Number:</span>
+                  <span className="font-mono font-black text-sm text-blue-600 dark:text-blue-400">
                     {lastSubmittedApp.refNumber}
                   </span>
                 </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-500">Service:</span>
-                  <span className="font-bold text-slate-900 dark:text-white">{lastSubmittedApp.serviceTitle}</span>
-                </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-500">Applicant:</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500 font-medium">Applicant Name:</span>
                   <span className="font-bold text-slate-900 dark:text-white">{lastSubmittedApp.applicantName}</span>
                 </div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-500">Date Submitted:</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500 font-medium">Date Submitted:</span>
                   <span className="font-bold text-slate-900 dark:text-white">{lastSubmittedApp.dateSubmitted}</span>
                 </div>
-              </div>
-
-              {/* Status Pipeline Progress Indicator */}
-              <div className="space-y-2 max-w-lg mx-auto">
-                <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block text-left">
-                  Verification Pipeline
-                </span>
-                <div className="flex items-center justify-between text-[10px] font-bold text-slate-500">
-                  <span className="text-blue-600 font-extrabold">● SUBMITTED</span>
-                  <span>→ DOCUMENT REVIEW</span>
-                  <span>→ VERIFICATION</span>
-                  <span>→ PROCESSING</span>
-                  <span>→ APPROVED</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500 font-medium">Initial Application Status:</span>
+                  <span className="font-bold px-2 py-0.5 rounded-full text-[10px] bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">
+                    {lastSubmittedApp.status}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500 font-medium">Estimated Processing Time:</span>
+                  <span className="font-bold text-emerald-600">{lastSubmittedApp.estimatedTime}</span>
                 </div>
               </div>
 
-              {/* Buttons */}
-              <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+              {/* Status Flow Milestone (Matching Prompt) */}
+              <div className="p-5 rounded-2xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/60 space-y-3">
+                <span className="text-[11px] font-black uppercase tracking-wider text-blue-900 dark:text-blue-300 block text-center">
+                  Processing Lifecycle
+                </span>
+                
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] font-bold text-slate-600 dark:text-slate-300">
+                  <div className="px-2.5 py-1.5 rounded-lg bg-blue-600 text-white font-black">SUBMITTED</div>
+                  <span className="text-slate-400 hidden sm:inline">↓</span>
+                  <div className="px-2.5 py-1.5 rounded-lg bg-slate-200 dark:bg-slate-700">DOCUMENT REVIEW</div>
+                  <span className="text-slate-400 hidden sm:inline">↓</span>
+                  <div className="px-2.5 py-1.5 rounded-lg bg-slate-200 dark:bg-slate-700">BARANGAY VERIFICATION</div>
+                  <span className="text-slate-400 hidden sm:inline">↓</span>
+                  <div className="px-2.5 py-1.5 rounded-lg bg-slate-200 dark:bg-slate-700">APPROVED</div>
+                  <span className="text-slate-400 hidden sm:inline">↓</span>
+                  <div className="px-2.5 py-1.5 rounded-lg bg-slate-200 dark:bg-slate-700">CLEARANCE READY</div>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
                 <button
                   type="button"
                   onClick={() => {
-                    setTrackedRecord(lastSubmittedApp);
                     setTrackQuery(lastSubmittedApp.refNumber);
+                    setTrackedRecord(lastSubmittedApp);
                     setActiveView('track');
                   }}
-                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md shadow-blue-600/30 cursor-pointer"
+                  className="py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-md shadow-blue-600/30 flex items-center justify-center gap-1.5"
                 >
-                  Track Application
+                  <Search size={14} />
+                  <span>View Status</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setShowReceiptModal(true)}
-                  className="w-full sm:w-auto px-5 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs cursor-pointer flex items-center justify-center gap-1.5"
+                  className="py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black shadow-md shadow-emerald-600/30 flex items-center justify-center gap-1.5"
                 >
                   <Download size={14} />
-                  <span>View Official Copy</span>
+                  <span>Download Receipt</span>
                 </button>
 
                 <button
@@ -1579,365 +1893,539 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
                     if (onBack) onBack();
                     else if (onNavigateToTab) onNavigateToTab('Home');
                   }}
-                  className="w-full sm:w-auto px-5 py-3 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 cursor-pointer"
+                  className="py-3 px-4 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-black hover:bg-slate-200 flex items-center justify-center gap-1.5 cursor-pointer"
                 >
-                  ← Back to Portal
+                  <ArrowLeft size={14} />
+                  <span>Back to Portal</span>
                 </button>
               </div>
 
             </div>
+
           </div>
         )}
 
         {/* ========================================================================= */}
-        {/* VIEW 4: APPLICATION TRACKING                                              */}
+        {/* 4. APPLICATION STATUS PAGE (TRACK APPLICATION)                           */}
         {/* ========================================================================= */}
         {activeView === 'track' && (
           <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-300">
             
-            {/* Search Header */}
-            <div className="bg-white dark:bg-slate-900 p-6 sm:p-7 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                  <span className="text-[10px] font-black uppercase tracking-wider text-blue-600 bg-blue-50 dark:bg-blue-950 px-2.5 py-0.5 rounded-full">
-                    LIVE APPLICATION TRACKER
-                  </span>
-                  <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-1">
-                    Track Your Barangay Application
-                  </h2>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => setActiveView('apply')}
-                  className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold cursor-pointer"
-                >
-                  + New Application
-                </button>
+            {/* Search Track Header Card */}
+            <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-5">
+              <div>
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
+                  REAL-TIME APPLICATION TRACKER
+                </span>
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-1">
+                  Track Your Barangay Clearance Application
+                </h2>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  Enter your Application Reference Number to see current milestone status and required actions.
+                </p>
               </div>
 
-              {/* Search Box */}
-              <div className="flex gap-2">
+              {/* Reference Search Input */}
+              <div className="flex flex-col sm:flex-row gap-3">
                 <div className="relative flex-1">
-                  <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <Hash className="absolute left-3.5 top-3 text-slate-400" size={17} />
                   <input
                     type="text"
                     value={trackQuery}
                     onChange={(e) => setTrackQuery(e.target.value)}
                     placeholder="Enter Reference Number (e.g. BC-QC-2026-08129)"
-                    className="w-full pl-10 pr-4 py-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 text-xs sm:text-sm font-mono font-bold outline-none"
+                    className="w-full pl-10 pr-4 py-3 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs sm:text-sm font-semibold text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <button
                   type="button"
                   onClick={() => {
-                    const match = applications.find(a => 
-                      a.refNumber.toLowerCase() === trackQuery.trim().toLowerCase() ||
-                      a.id.toLowerCase() === trackQuery.trim().toLowerCase()
+                    const found = applications.find(
+                      a => a.refNumber.toLowerCase() === trackQuery.trim().toLowerCase()
                     );
-                    if (match) {
-                      setTrackedRecord(match);
-                      showToast('✓ Record found!', 'success');
+                    if (found) {
+                      setTrackedRecord(found);
+                      showToast('Application record found!', 'success');
                     } else {
-                      showToast('Reference number not found. Please verify and try again.', 'error');
+                      showToast('No record found with that Reference Number. Please check and try again.', 'error');
                     }
                   }}
-                  className="px-6 py-3 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs shadow-md shadow-blue-600/30 cursor-pointer"
+                  className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl text-xs sm:text-sm font-black shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 cursor-pointer shrink-0"
                 >
-                  Track Application
+                  <Search size={15} />
+                  <span>Track Application</span>
                 </button>
               </div>
             </div>
 
-            {/* Tracked Record Details */}
+            {/* Tracked Record Result Card */}
             {trackedRecord && (
-              <div className="space-y-6">
+              <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
                 
-                {/* Status Pipeline Card */}
-                <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-100 dark:border-slate-800">
-                    <div>
-                      <span className="text-[10px] font-bold text-slate-400 uppercase">Application Reference</span>
-                      <h3 className="font-mono text-lg font-black text-blue-600 dark:text-blue-400">
-                        {trackedRecord.refNumber}
-                      </h3>
-                      <span className="text-xs text-slate-500 font-medium">
-                        {trackedRecord.serviceTitle} • Filed on {trackedRecord.dateSubmitted}
-                      </span>
-                    </div>
+                {/* Header Summary */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
+                  <div>
+                    <span className="font-mono text-xs font-bold text-blue-600 dark:text-blue-400">
+                      {trackedRecord.refNumber}
+                    </span>
+                    <h3 className="text-lg font-black text-slate-900 dark:text-white mt-0.5">
+                      {trackedRecord.applicantName}
+                    </h3>
+                    <p className="text-xs text-slate-500">
+                      Purpose: <strong>{trackedRecord.purpose}</strong> • Submitted: {trackedRecord.dateSubmitted}
+                    </p>
+                  </div>
 
-                    <span className={`px-3 py-1.5 rounded-full text-xs font-black uppercase self-start sm:self-center ${
-                      trackedRecord.status === 'READY FOR RELEASE' || trackedRecord.status === 'APPROVED'
-                        ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-                        : trackedRecord.status === 'NEEDS CORRECTION'
-                        ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
-                        : 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300'
-                    }`}>
+                  <div className="flex items-center space-x-2">
+                    <span className={`px-3 py-1.5 rounded-full text-xs font-black ${getStatusBadge(trackedRecord.status)}`}>
                       {trackedRecord.status}
                     </span>
                   </div>
+                </div>
 
-                  {/* 5-Stage Visual Progress Tracker */}
-                  <div className="grid grid-cols-5 gap-2 pt-2">
-                    {[
-                      { step: 'Submitted', key: 'SUBMITTED', done: true },
-                      { step: 'Document Review', key: 'DOCUMENT REVIEW', done: trackedRecord.status !== 'SUBMITTED' },
-                      { step: 'Verification', key: 'FOR VERIFICATION', done: ['FOR VERIFICATION', 'PROCESSING', 'APPROVED', 'READY FOR RELEASE'].includes(trackedRecord.status) },
-                      { step: 'Processing', key: 'PROCESSING', done: ['PROCESSING', 'APPROVED', 'READY FOR RELEASE'].includes(trackedRecord.status) },
-                      { step: 'Approved', key: 'APPROVED', done: ['APPROVED', 'READY FOR RELEASE'].includes(trackedRecord.status) }
-                    ].map((st, idx) => (
-                      <div
-                        key={idx}
-                        className={`p-2.5 rounded-xl text-center border text-[11px] font-bold ${
-                          st.done
-                            ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800'
-                            : 'bg-slate-50 dark:bg-slate-800/40 text-slate-400 border-slate-200 dark:border-slate-800'
-                        }`}
-                      >
-                        <span className="block text-[10px] uppercase font-black">{st.done ? '✓' : `Stage ${idx + 1}`}</span>
-                        <span className="truncate block mt-0.5">{st.step}</span>
-                      </div>
-                    ))}
+                {/* ACTION REQUIRED BANNER (If status is NEEDS CORRECTION) */}
+                {trackedRecord.status === 'NEEDS CORRECTION' && (
+                  <div className="p-5 rounded-3xl bg-amber-50 dark:bg-amber-950/40 border-2 border-amber-400 dark:border-amber-600 space-y-3 animate-in fade-in">
+                    <div className="flex items-center space-x-2 text-amber-800 dark:text-amber-300 font-black text-sm">
+                      <AlertTriangle size={18} className="text-amber-600" />
+                      <span>Action Required</span>
+                    </div>
+
+                    <p className="text-xs text-slate-700 dark:text-slate-300 font-medium">
+                      {trackedRecord.remarks ||
+                        'Please replace the following document: Proof of Residency. The uploaded document may be difficult to read.'}
+                    </p>
+
+                    <div className="pt-1 flex items-center space-x-3">
+                      <label className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-black shadow-md shadow-amber-500/30 flex items-center gap-2 cursor-pointer">
+                        <Upload size={14} />
+                        <span>Upload Replacement</span>
+                        <input
+                          type="file"
+                          accept=".jpg,.jpeg,.png,.pdf"
+                          onChange={handleReplacementUpload}
+                          className="hidden"
+                        />
+                      </label>
+
+                      {isUploadingReplacement && (
+                        <span className="text-xs text-amber-700 dark:text-amber-400 font-bold flex items-center gap-1.5 animate-pulse">
+                          <RefreshCw size={13} className="animate-spin" />
+                          <span>Uploading new file &amp; updating status...</span>
+                        </span>
+                      )}
+                    </div>
                   </div>
+                )}
 
-                  {/* ACTION REQUIRED: Correction Banner if needed */}
-                  {trackedRecord.status === 'NEEDS CORRECTION' && (
-                    <div className="p-5 rounded-2xl bg-amber-50 dark:bg-amber-950/50 border border-amber-300 dark:border-amber-700/80 space-y-3 animate-in fade-in">
-                      <div className="flex items-start space-x-3 text-amber-900 dark:text-amber-200">
-                        <AlertTriangle size={20} className="text-amber-600 shrink-0 mt-0.5" />
-                        <div>
-                          <h4 className="font-black text-sm uppercase">⚠ ACTION REQUIRED</h4>
-                          <p className="text-xs font-semibold mt-0.5">
-                            One of your uploaded documents needs to be replaced.
-                          </p>
-                          <p className="text-xs text-amber-800/80 dark:text-amber-300/80 mt-1">
-                            <strong>Reason:</strong> {trackedRecord.remarks || 'The uploaded image is unclear.'}
-                          </p>
+                {/* APPROVED & READY BANNER */}
+                {trackedRecord.status === 'READY FOR RELEASE' && (
+                  <div className="p-5 rounded-3xl bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-400 dark:border-emerald-600 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="space-y-1">
+                      <div className="flex items-center space-x-2 text-emerald-800 dark:text-emerald-300 font-black text-sm">
+                        <Award size={18} className="text-emerald-600" />
+                        <span>Barangay Clearance Ready for Release</span>
+                      </div>
+                      <p className="text-xs text-slate-700 dark:text-slate-300">
+                        Your official Barangay Clearance has been signed and certified with a secure cryptographic QR code.
+                      </p>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => setShowReceiptModal(true)}
+                      className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black shadow-md shadow-emerald-600/30 flex items-center gap-2 shrink-0 cursor-pointer"
+                    >
+                      <Download size={14} />
+                      <span>Download Digital Clearance</span>
+                    </button>
+                  </div>
+                )}
+
+                {/* Visual Step Progress Tracker (7 Life Cycle Stages) */}
+                <div className="space-y-2 pt-2">
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 block">
+                    Progress Tracker
+                  </span>
+
+                  <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2 text-center text-[10px] font-bold">
+                    {[
+                      { key: 'SUBMITTED', label: '1. Submitted' },
+                      { key: 'DOCUMENT REVIEW', label: '2. Doc Review' },
+                      { key: 'FOR VERIFICATION', label: '3. Verification' },
+                      { key: 'PROCESSING', label: '4. Processing' },
+                      { key: 'APPROVED', label: '5. Approved' },
+                      { key: 'READY FOR RELEASE', label: '6. Release Ready' },
+                      { key: 'NEEDS CORRECTION', label: 'Correction / Reject' },
+                    ].map((stepItem) => {
+                      const isActive = trackedRecord.status === stepItem.key;
+                      return (
+                        <div
+                          key={stepItem.key}
+                          className={`p-2.5 rounded-xl border transition-all ${
+                            isActive
+                              ? 'bg-blue-600 text-white border-blue-600 shadow-sm font-black'
+                              : 'bg-slate-50 dark:bg-slate-800/60 text-slate-500 border-slate-200 dark:border-slate-700'
+                          }`}
+                        >
+                          <div className="truncate">{stepItem.label}</div>
+                          {isActive && <div className="text-[9px] mt-0.5 font-bold">CURRENT</div>}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Submitted Documents in Record */}
+                <div className="space-y-3 pt-2">
+                  <span className="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 block">
+                    Document Submissions in Record
+                  </span>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    {/* Valid ID */}
+                    <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                      <div className="flex items-center space-x-2.5 truncate">
+                        <FileText size={16} className="text-blue-600 shrink-0" />
+                        <div className="truncate">
+                          <span className="font-bold block text-slate-900 dark:text-white">Valid Government ID</span>
+                          <span className="text-[11px] text-slate-500 truncate block">
+                            {trackedRecord.documents.validId?.name || 'Not uploaded'}
+                          </span>
                         </div>
                       </div>
-
-                      <div className="pt-1 flex items-center space-x-3">
-                        <label className="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-md shadow-amber-600/30 flex items-center gap-1.5 cursor-pointer">
-                          <Camera size={14} />
-                          <span>Upload New Picture</span>
-                          <input
-                            type="file"
-                            accept=".jpg,.jpeg,.png,.pdf"
-                            onChange={(e) => {
-                              if (e.target.files && e.target.files[0]) {
-                                setReplacementDocTarget(trackedRecord.correctionRequestedDoc || 'proofOfAddress');
-                                handleReplacementUpload(e.target.files[0]);
-                              }
-                            }}
-                            className="hidden"
-                          />
-                        </label>
-                      </div>
+                      {trackedRecord.documents.validId && (
+                        <button
+                          onClick={() => setPreviewDoc({ title: 'Valid ID', doc: trackedRecord.documents.validId! })}
+                          className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border text-[11px] font-bold hover:bg-slate-100"
+                        >
+                          View
+                        </button>
+                      )}
                     </div>
-                  )}
 
-                  {/* Uploaded Documents List */}
-                  <div className="pt-2 space-y-2">
-                    <span className="text-[11px] font-black uppercase text-slate-400">Attached Documents</span>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {Object.entries(trackedRecord.documents).map(([key, doc]) => {
-                        if (!doc) return null;
-                        return (
-                          <div
-                            key={key}
-                            onClick={() => setPreviewDoc({ title: key, doc })}
-                            className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 flex items-center justify-between cursor-pointer hover:border-blue-400 transition-all"
-                          >
-                            <div className="flex items-center space-x-2.5 min-w-0">
-                              <FileText size={16} className="text-blue-500 shrink-0" />
-                              <span className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
-                                {doc.name}
-                              </span>
-                            </div>
-                            <Eye size={14} className="text-slate-400 shrink-0" />
-                          </div>
-                        );
-                      })}
+                    {/* Proof of Residency */}
+                    <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                      <div className="flex items-center space-x-2.5 truncate">
+                        <Home size={16} className="text-blue-600 shrink-0" />
+                        <div className="truncate">
+                          <span className="font-bold block text-slate-900 dark:text-white">Proof of Residency</span>
+                          <span className="text-[11px] text-slate-500 truncate block">
+                            {trackedRecord.documents.proofOfResidency?.name || 'Not uploaded'}
+                          </span>
+                        </div>
+                      </div>
+                      {trackedRecord.documents.proofOfResidency && (
+                        <button
+                          onClick={() => setPreviewDoc({ title: 'Proof of Residency', doc: trackedRecord.documents.proofOfResidency! })}
+                          className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border text-[11px] font-bold hover:bg-slate-100"
+                        >
+                          View
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Cedula / CTC */}
+                    <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                      <div className="flex items-center space-x-2.5 truncate">
+                        <Banknote size={16} className="text-blue-600 shrink-0" />
+                        <div className="truncate">
+                          <span className="font-bold block text-slate-900 dark:text-white">Cedula / CTC</span>
+                          <span className="text-[11px] text-slate-500 truncate block">
+                            {trackedRecord.documents.cedula?.name || 'Not uploaded'}
+                          </span>
+                        </div>
+                      </div>
+                      {trackedRecord.documents.cedula && (
+                        <button
+                          onClick={() => setPreviewDoc({ title: 'Cedula / CTC', doc: trackedRecord.documents.cedula! })}
+                          className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border text-[11px] font-bold hover:bg-slate-100"
+                        >
+                          View
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Endorsement */}
+                    <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                      <div className="flex items-center space-x-2.5 truncate">
+                        <Award size={16} className="text-blue-600 shrink-0" />
+                        <div className="truncate">
+                          <span className="font-bold block text-slate-900 dark:text-white">Barangay Endorsement</span>
+                          <span className="text-[11px] text-slate-500 truncate block">
+                            {trackedRecord.documents.endorsementNotApplicable
+                              ? 'Waived (Not Applicable)'
+                              : trackedRecord.documents.endorsement?.name || 'Not uploaded'}
+                          </span>
+                        </div>
+                      </div>
+                      {trackedRecord.documents.endorsement && (
+                        <button
+                          onClick={() => setPreviewDoc({ title: 'Endorsement', doc: trackedRecord.documents.endorsement! })}
+                          className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-700 text-slate-700 dark:text-slate-200 border text-[11px] font-bold hover:bg-slate-100"
+                        >
+                          View
+                        </button>
+                      )}
                     </div>
                   </div>
-
                 </div>
 
               </div>
             )}
 
-            {/* Back to Portal */}
-            <div className="pt-2 flex justify-start">
-              <button
-                type="button"
-                onClick={() => {
-                  if (onBack) onBack();
-                  else if (onNavigateToTab) onNavigateToTab('Home');
-                }}
-                className="px-5 py-2.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 cursor-pointer shadow-xs"
-              >
-                ← Back to Portal
-              </button>
-            </div>
-
           </div>
         )}
 
         {/* ========================================================================= */}
-        {/* VIEW 5: ADMIN DASHBOARD (MAINTAINS EXISTING DESIGN LANGUAGE)              */}
+        {/* 5. ADMIN SIDE (BARANGAY PERSONNEL DASHBOARD)                              */}
         {/* ========================================================================= */}
         {activeView === 'admin' && (
           <div className="space-y-6 animate-in fade-in duration-300">
             
-            {/* Admin Header */}
-            <div className="bg-white dark:bg-slate-900 p-6 sm:p-7 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+            {/* Admin Header with Real-time Counters */}
+            <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+              
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <span className="text-[10px] font-black uppercase tracking-wider text-purple-600 bg-purple-50 dark:bg-purple-950 px-2.5 py-0.5 rounded-full border border-purple-200 dark:border-purple-800">
-                    BARANGAY OFFICER WORKSPACE
-                  </span>
+                  <div className="flex items-center space-x-2">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 flex items-center gap-1">
+                      <Shield size={12} />
+                      <span>BARANGAY PERSONNEL CONSOLE</span>
+                    </span>
+                    <span className="text-xs text-slate-400 font-medium">Digital Clearance Verification Desk</span>
+                  </div>
                   <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-1">
-                    Clearance &amp; Endorsement Applications
+                    Barangay Clearance Applications Queue
                   </h2>
                 </div>
 
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleLoadSamplePreset('juan');
+                    showToast('Seeded test clearance application into admin queue!', 'info');
+                  }}
+                  className="px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-xs font-bold text-slate-700 dark:text-slate-300 transition-colors flex items-center gap-1.5 shrink-0"
+                >
+                  <Sparkles size={14} className="text-indigo-600" />
+                  <span>Seed Test Application</span>
+                </button>
+              </div>
+
+              {/* 6 Metric Stat Cards (Matching Prompt Specification) */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+                {[
+                  { label: 'Total Applications', count: stats.total, color: 'text-slate-900 dark:text-white', bg: 'bg-slate-50 dark:bg-slate-800/80' },
+                  { label: 'Pending Applications', count: stats.pending, color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50/60 dark:bg-blue-950/30' },
+                  { label: 'For Verification', count: stats.verification, color: 'text-indigo-600 dark:text-indigo-400', bg: 'bg-indigo-50/60 dark:bg-indigo-950/30' },
+                  { label: 'Approved', count: stats.approved, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50/60 dark:bg-emerald-950/30' },
+                  { label: 'Needs Action / Reject', count: stats.rejected, color: 'text-rose-600 dark:text-rose-400', bg: 'bg-rose-50/60 dark:bg-rose-950/30' },
+                  { label: 'Ready for Release', count: stats.ready, color: 'text-teal-600 dark:text-teal-400', bg: 'bg-teal-50/60 dark:bg-teal-950/30' },
+                ].map((item, idx) => (
+                  <div key={idx} className={`p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 ${item.bg}`}>
+                    <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                      {item.label}
+                    </span>
+                    <span className={`text-2xl font-black mt-1 block ${item.color}`}>
+                      {item.count}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Search & Filter Bar */}
+              <div className="flex flex-col sm:flex-row gap-3 pt-2">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3.5 top-3 text-slate-400" size={16} />
+                  <input
+                    type="text"
+                    value={adminSearch}
+                    onChange={(e) => setAdminSearch(e.target.value)}
+                    placeholder="Search by Reference No., Applicant Name, or Address..."
+                    className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-semibold text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+
                 <div className="flex items-center space-x-2">
-                  <button
-                    type="button"
-                    onClick={() => setActiveView('apply')}
-                    className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold cursor-pointer"
+                  <select
+                    value={adminStatusFilter}
+                    onChange={(e) => setAdminStatusFilter(e.target.value)}
+                    className="px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300 outline-none"
                   >
-                    Applicant View
-                  </button>
+                    <option value="All">All Statuses</option>
+                    <option value="SUBMITTED">Submitted</option>
+                    <option value="DOCUMENT REVIEW">Document Review</option>
+                    <option value="FOR VERIFICATION">For Verification</option>
+                    <option value="APPROVED">Approved</option>
+                    <option value="READY FOR RELEASE">Ready for Release</option>
+                    <option value="NEEDS CORRECTION">Needs Correction</option>
+                    <option value="REJECTED">Rejected</option>
+                  </select>
+
+                  <select
+                    value={adminPurposeFilter}
+                    onChange={(e) => setAdminPurposeFilter(e.target.value)}
+                    className="px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300 outline-none"
+                  >
+                    <option value="All">All Purposes</option>
+                    <option value="Employment">Employment</option>
+                    <option value="Business">Business</option>
+                    <option value="School Requirement">School</option>
+                    <option value="Government Requirement">Government</option>
+                    <option value="Residency Verification">Residency</option>
+                  </select>
                 </div>
               </div>
 
-              {/* Status Filter Tabs */}
-              <div className="flex flex-wrap gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
-                {['All', 'SUBMITTED', 'DOCUMENT REVIEW', 'FOR VERIFICATION', 'NEEDS CORRECTION', 'APPROVED', 'REJECTED'].map(st => (
-                  <button
-                    key={st}
-                    type="button"
-                    onClick={() => setAdminStatusFilter(st)}
-                    className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                      adminStatusFilter === st
-                        ? 'bg-blue-600 text-white shadow-sm'
-                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200'
-                    }`}
-                  >
-                    {st === 'All' ? 'All Applications' : st}
-                  </button>
-                ))}
-              </div>
             </div>
 
             {/* Applications Table */}
             <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
               <div className="overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-500 font-bold uppercase tracking-wider text-[10px] border-b border-slate-200 dark:border-slate-800">
-                    <tr>
-                      <th className="px-6 py-4">Reference</th>
-                      <th className="px-6 py-4">Applicant</th>
-                      <th className="px-6 py-4">Service</th>
-                      <th className="px-6 py-4">Date</th>
-                      <th className="px-6 py-4">Status</th>
-                      <th className="px-6 py-4">Documents</th>
-                      <th className="px-6 py-4 text-right">Actions</th>
+                <table className="w-full text-left border-collapse text-xs">
+                  <thead>
+                    <tr className="border-b border-slate-200 dark:border-slate-800 bg-slate-50/75 dark:bg-slate-800/50 text-[11px] font-black uppercase tracking-wider text-slate-500">
+                      <th className="py-3.5 px-4">Reference Number</th>
+                      <th className="py-3.5 px-4">Applicant Name</th>
+                      <th className="py-3.5 px-4">Date Submitted</th>
+                      <th className="py-3.5 px-4">Purpose</th>
+                      <th className="py-3.5 px-4">Status</th>
+                      <th className="py-3.5 px-4">Documents</th>
+                      <th className="py-3.5 px-4 text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                     {applications
-                      .filter(app => adminStatusFilter === 'All' || app.status === adminStatusFilter)
+                      .filter(app => {
+                        const matchSearch =
+                          !adminSearch ||
+                          app.refNumber.toLowerCase().includes(adminSearch.toLowerCase()) ||
+                          app.applicantName.toLowerCase().includes(adminSearch.toLowerCase()) ||
+                          app.address.toLowerCase().includes(adminSearch.toLowerCase());
+                        const matchStatus = adminStatusFilter === 'All' || app.status === adminStatusFilter;
+                        const matchPurpose = adminPurposeFilter === 'All' || app.purpose.includes(adminPurposeFilter);
+                        return matchSearch && matchStatus && matchPurpose;
+                      })
                       .map((app) => (
-                        <tr key={app.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors">
-                          <td className="px-6 py-4 font-mono font-bold text-blue-600 dark:text-blue-400">
+                        <tr key={app.id} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
+                          <td className="py-3.5 px-4 font-mono font-bold text-blue-600 dark:text-blue-400">
                             {app.refNumber}
                           </td>
-                          <td className="px-6 py-4">
+                          <td className="py-3.5 px-4">
                             <span className="font-bold text-slate-900 dark:text-white block">{app.applicantName}</span>
-                            <span className="text-[11px] text-slate-400">{app.contactNumber}</span>
+                            <span className="text-[11px] text-slate-400 truncate block max-w-xs">{app.address}</span>
                           </td>
-                          <td className="px-6 py-4 font-semibold text-slate-700 dark:text-slate-300">
-                            {app.serviceTitle}
-                          </td>
-                          <td className="px-6 py-4 text-slate-500">
+                          <td className="py-3.5 px-4 text-slate-600 dark:text-slate-400 font-medium">
                             {app.dateSubmitted}
                           </td>
-                          <td className="px-6 py-4">
-                            <span className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase ${
-                              app.status === 'APPROVED' || app.status === 'READY FOR RELEASE'
-                                ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-                                : app.status === 'NEEDS CORRECTION'
-                                ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
-                                : 'bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300'
-                            }`}>
+                          <td className="py-3.5 px-4">
+                            <span className="px-2 py-0.5 rounded-md font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                              {app.purpose}
+                            </span>
+                          </td>
+                          <td className="py-3.5 px-4">
+                            <span className={`px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${getStatusBadge(app.status)}`}>
                               {app.status}
                             </span>
                           </td>
-                          <td className="px-6 py-4">
+                          <td className="py-3.5 px-4">
                             <div className="flex items-center space-x-1">
-                              {Object.values(app.documents).filter(Boolean).map((doc, idx) => (
+                              {app.documents.validId && (
                                 <button
-                                  key={idx}
                                   type="button"
-                                  onClick={() => setPreviewDoc({ title: doc!.name, doc: doc! })}
-                                  className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center hover:bg-blue-100 dark:hover:bg-blue-900 cursor-pointer"
-                                  title={doc!.name}
+                                  title="Valid Government ID"
+                                  onClick={() => setPreviewDoc({ title: `Valid ID - ${app.applicantName}`, doc: app.documents.validId! })}
+                                  className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-950 text-blue-600 flex items-center justify-center hover:bg-blue-100"
                                 >
-                                  <FileText size={13} />
+                                  <User size={13} />
                                 </button>
-                              ))}
+                              )}
+                              {app.documents.proofOfResidency && (
+                                <button
+                                  type="button"
+                                  title="Proof of Residency"
+                                  onClick={() => setPreviewDoc({ title: `Proof of Residency - ${app.applicantName}`, doc: app.documents.proofOfResidency! })}
+                                  className="w-7 h-7 rounded-lg bg-emerald-50 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center hover:bg-emerald-100"
+                                >
+                                  <Home size={13} />
+                                </button>
+                              )}
+                              {app.documents.cedula && (
+                                <button
+                                  type="button"
+                                  title="Cedula / CTC"
+                                  onClick={() => setPreviewDoc({ title: `Cedula / CTC - ${app.applicantName}`, doc: app.documents.cedula! })}
+                                  className="w-7 h-7 rounded-lg bg-amber-50 dark:bg-amber-950 text-amber-600 flex items-center justify-center hover:bg-amber-100"
+                                >
+                                  <Banknote size={13} />
+                                </button>
+                              )}
+                              {app.documents.endorsement && (
+                                <button
+                                  type="button"
+                                  title="Barangay Endorsement"
+                                  onClick={() => setPreviewDoc({ title: `Endorsement - ${app.applicantName}`, doc: app.documents.endorsement! })}
+                                  className="w-7 h-7 rounded-lg bg-purple-50 dark:bg-purple-950 text-purple-600 flex items-center justify-center hover:bg-purple-100"
+                                >
+                                  <Award size={13} />
+                                </button>
+                              )}
                             </div>
                           </td>
-                          <td className="px-6 py-4 text-right">
+                          <td className="py-3.5 px-4 text-right">
                             <div className="flex items-center justify-end space-x-1.5">
-                              {/* View: Previews all documents directly */}
+                              {/* View Application Details */}
                               <button
                                 type="button"
                                 onClick={() => setViewApplicationModal(app)}
-                                className="px-2.5 py-1.5 rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-300 font-bold text-[11px] hover:bg-blue-100 cursor-pointer"
+                                className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-200 text-[11px]"
                               >
                                 View
                               </button>
 
-                              {/* Verify */}
-                              {app.status !== 'APPROVED' && (
+                              {/* Verify Button */}
+                              {app.status === 'SUBMITTED' && (
                                 <button
                                   type="button"
-                                  onClick={() => {
-                                    setApplications(prev => prev.map(a => a.id === app.id ? { ...a, status: 'FOR VERIFICATION' } : a));
-                                    showToast(`Application ${app.refNumber} moved to Verification.`, 'info');
-                                  }}
-                                  className="px-2.5 py-1.5 rounded-lg bg-purple-50 text-purple-600 dark:bg-purple-950 dark:text-purple-300 font-bold text-[11px] hover:bg-purple-100 cursor-pointer"
+                                  onClick={() => handleAdminVerify(app.id)}
+                                  className="px-2.5 py-1 rounded-lg bg-blue-600 text-white font-bold hover:bg-blue-500 text-[11px]"
                                 >
                                   Verify
                                 </button>
                               )}
 
-                              {/* Request Correction */}
+                              {/* Approve Button */}
+                              {app.status !== 'APPROVED' && app.status !== 'READY FOR RELEASE' && (
+                                <button
+                                  type="button"
+                                  onClick={() => handleAdminApprove(app.id)}
+                                  className="px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-bold hover:bg-emerald-500 text-[11px]"
+                                >
+                                  Approve
+                                </button>
+                              )}
+
+                              {/* Request Correction Button */}
                               <button
                                 type="button"
                                 onClick={() => {
                                   setCorrectionModalApp(app);
-                                  setCorrectionTargetDoc(Object.keys(app.documents)[0] || 'validId');
+                                  setCorrectionTargetDoc('proofOfResidency');
                                 }}
-                                className="px-2.5 py-1.5 rounded-lg bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-300 font-bold text-[11px] hover:bg-amber-100 cursor-pointer"
+                                className="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 font-bold hover:bg-amber-200 text-[11px]"
                               >
                                 Request Correction
                               </button>
 
-                              {/* Approve */}
-                              {app.status !== 'APPROVED' && (
+                              {/* Reject Button */}
+                              {app.status !== 'REJECTED' && (
                                 <button
                                   type="button"
-                                  onClick={() => {
-                                    setApplications(prev => prev.map(a => a.id === app.id ? { ...a, status: 'APPROVED', remarks: 'Approved by Barangay Captain.' } : a));
-                                    showToast(`Application ${app.refNumber} Approved!`, 'success');
-                                  }}
-                                  className="px-2.5 py-1.5 rounded-lg bg-emerald-600 text-white font-bold text-[11px] hover:bg-emerald-500 cursor-pointer"
+                                  onClick={() => handleAdminReject(app.id)}
+                                  className="px-2 py-1 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 text-[11px] font-bold"
                                 >
-                                  Approve
+                                  Reject
                                 </button>
                               )}
                             </div>
@@ -1955,178 +2443,117 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
       </main>
 
       {/* ========================================================================= */}
-      {/* MODAL 1: SINGLE DOCUMENT PREVIEW MODAL (NO X AT TOP-RIGHT AS REQUESTED)   */}
+      {/* MODAL 1: HIGH-RES DOCUMENT PREVIEW (WITHOUT DOWNLOADING)                 */}
       {/* ========================================================================= */}
       {previewDoc && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-4 max-h-[90vh] flex flex-col">
-            
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-2xl bg-blue-100 dark:bg-blue-950 text-blue-600 flex items-center justify-center shrink-0">
-                <FileText size={20} />
-              </div>
-              <div>
-                <h3 className="font-black text-sm text-slate-900 dark:text-white">{previewDoc.title}</h3>
-                <p className="text-[11px] text-slate-400">{previewDoc.doc.name} • {previewDoc.doc.size}</p>
+        <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-3xl w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-4 max-h-[90vh] flex flex-col">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+              <div className="flex items-center space-x-2.5">
+                <FileText className="text-blue-600" size={20} />
+                <div>
+                  <h3 className="font-black text-sm text-slate-900 dark:text-white">{previewDoc.title}</h3>
+                  <p className="text-[11px] text-slate-400">{previewDoc.doc.name} • {previewDoc.doc.size}</p>
+                </div>
               </div>
             </div>
 
             {/* Document Render Canvas */}
             <div className="flex-1 overflow-auto rounded-2xl bg-slate-100 dark:bg-slate-950 p-4 flex items-center justify-center min-h-[350px]">
               {previewDoc.doc.previewUrl.endsWith('.pdf') || previewDoc.doc.type === 'application/pdf' ? (
-                <div className="text-center space-y-3">
-                  <div className="w-16 h-16 rounded-2xl bg-red-100 dark:bg-red-950 text-red-600 flex items-center justify-center mx-auto">
-                    <FileText size={36} />
+                <div className="text-center p-8 space-y-3">
+                  <div className="w-16 h-16 rounded-2xl bg-red-100 text-red-600 flex items-center justify-center mx-auto">
+                    <FileText size={32} />
                   </div>
-                  <p className="text-xs font-mono font-bold text-slate-700 dark:text-slate-300">
-                    PDF Document: {previewDoc.doc.name}
+                  <h4 className="font-bold text-sm text-slate-800 dark:text-slate-200">
+                    PDF Document Preview Active
+                  </h4>
+                  <p className="text-xs text-slate-500 max-w-sm">
+                    {previewDoc.doc.name} — Encrypted municipal archival format.
                   </p>
+                  <img
+                    src="/New Application.jpg"
+                    alt="Document Scan Render"
+                    className="max-h-[300px] mx-auto rounded-xl shadow-md border object-contain"
+                  />
                 </div>
               ) : (
                 <img
                   src={previewDoc.doc.previewUrl}
-                  alt={previewDoc.title}
-                  className="max-h-[500px] w-auto max-w-full rounded-xl object-contain shadow-md"
+                  alt={previewDoc.doc.name}
+                  className="max-h-[500px] w-auto max-w-full rounded-xl shadow-md object-contain"
                 />
               )}
             </div>
 
-            {/* Footer with Close Preview button */}
-            <div className="flex items-center justify-between pt-2">
-              <span className="text-[11px] text-slate-400">Document authenticated through GovServe Security Gate</span>
+            <div className="flex items-center justify-between text-xs pt-2">
+              <span className="text-slate-500">Document authenticated through GovServe Security Gate</span>
               <button
-                type="button"
                 onClick={() => setPreviewDoc(null)}
-                className="px-5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold cursor-pointer"
+                className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold hover:bg-slate-200"
               >
                 Close Preview
               </button>
             </div>
-
           </div>
         </div>
       )}
 
       {/* ========================================================================= */}
-      {/* MODAL 2: ADMIN VIEW APPLICATION WITH ALL DOCUMENT PREVIEWS                */}
+      {/* MODAL 2: REQUEST CORRECTION DIALOG (FOR ADMIN)                           */}
       {/* ========================================================================= */}
-      {viewApplicationModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-3xl w-full p-6 sm:p-7 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-5 max-h-[92vh] flex flex-col">
-            
+      {correctionModalApp && (
+        <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-4">
             <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-              <div>
-                <span className="text-[10px] font-black uppercase text-blue-600 dark:text-blue-400">
-                  {viewApplicationModal.refNumber}
-                </span>
-                <h3 className="font-black text-base text-slate-900 dark:text-white">
-                  {viewApplicationModal.applicantName} — {viewApplicationModal.serviceTitle}
-                </h3>
+              <div className="flex items-center space-x-2 text-amber-600 font-black text-sm">
+                <AlertTriangle size={18} />
+                <span>Request Document Correction</span>
               </div>
               <button
-                type="button"
-                onClick={() => setViewApplicationModal(null)}
-                className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 flex items-center justify-center cursor-pointer"
+                onClick={() => setCorrectionModalApp(null)}
+                className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 flex items-center justify-center"
               >
                 <X size={16} />
               </button>
             </div>
 
-            {/* Document Previews directly in browser */}
-            <div className="flex-1 overflow-auto space-y-4">
-              <span className="text-xs font-black uppercase text-slate-400 block">Uploaded Documents (Instant Inspection)</span>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {Object.entries(viewApplicationModal.documents).map(([key, doc]) => {
-                  if (!doc) return null;
-                  return (
-                    <div key={key} className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2">
-                      <div className="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
-                        <span className="truncate">{doc.name}</span>
-                        <span className="text-[10px] text-slate-400">{doc.size}</span>
-                      </div>
-
-                      <div className="h-44 rounded-xl bg-slate-200 dark:bg-slate-950 overflow-hidden flex items-center justify-center border border-slate-300 dark:border-slate-600">
-                        {doc.type.startsWith('image/') ? (
-                          <img src={doc.previewUrl} alt={doc.name} className="h-full w-full object-cover" />
-                        ) : (
-                          <div className="text-center text-slate-400">
-                            <FileText size={32} className="mx-auto" />
-                            <span className="text-xs font-mono font-bold mt-1 block">PDF Document</span>
-                          </div>
-                        )}
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={() => setPreviewDoc({ title: key, doc })}
-                        className="w-full py-1.5 rounded-lg bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-300 text-xs font-bold hover:bg-blue-100 cursor-pointer"
-                      >
-                        Inspect Full Size
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div className="pt-2 flex justify-end">
-              <button
-                type="button"
-                onClick={() => setViewApplicationModal(null)}
-                className="px-5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-bold cursor-pointer"
-              >
-                Close
-              </button>
-            </div>
-
-          </div>
-        </div>
-      )}
-
-      {/* ========================================================================= */}
-      {/* MODAL 3: REQUEST CORRECTION MODAL                                         */}
-      {/* ========================================================================= */}
-      {correctionModalApp && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-4">
-            
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-2xl bg-amber-100 dark:bg-amber-950 text-amber-600 flex items-center justify-center shrink-0">
-                <AlertTriangle size={20} />
-              </div>
-              <div>
-                <h3 className="font-black text-sm text-slate-900 dark:text-white">Request Document Correction</h3>
-                <p className="text-[11px] text-slate-400">Applicant: {correctionModalApp.applicantName}</p>
-              </div>
-            </div>
-
             <div className="space-y-3 text-xs">
+              <p className="text-slate-600 dark:text-slate-400">
+                Specify which uploaded document requires replacement by the applicant (<strong>{correctionModalApp.applicantName}</strong>):
+              </p>
+
               <div>
-                <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">Select Document to Replace</label>
+                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                  Document Requiring Replacement:
+                </label>
                 <select
                   value={correctionTargetDoc}
-                  onChange={(e) => setCorrectionTargetDoc(e.target.value)}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-bold outline-none"
+                  onChange={(e) => setCorrectionTargetDoc(e.target.value as any)}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 font-semibold outline-none text-xs"
                 >
-                  {Object.keys(correctionModalApp.documents).map((docKey) => (
-                    <option key={docKey} value={docKey}>{docKey}</option>
-                  ))}
+                  <option value="proofOfResidency">Proof of Residency</option>
+                  <option value="validId">Valid Government ID</option>
+                  <option value="cedula">Cedula / Community Tax Certificate</option>
+                  <option value="endorsement">Barangay Endorsement</option>
                 </select>
               </div>
 
               <div>
-                <label className="font-bold text-slate-700 dark:text-slate-300 block mb-1">Reason for Correction</label>
+                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">
+                  Explanation to Applicant:
+                </label>
                 <textarea
                   rows={3}
                   value={correctionMessage}
                   onChange={(e) => setCorrectionMessage(e.target.value)}
-                  className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs outline-none"
+                  className="w-full p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs font-medium outline-none"
+                  placeholder="e.g. Your uploaded document is cut off or blurry. Please upload a clearer copy."
                 />
               </div>
             </div>
 
-            <div className="pt-2 flex justify-end space-x-2">
+            <div className="pt-2 flex items-center justify-end space-x-2">
               <button
                 type="button"
                 onClick={() => setCorrectionModalApp(null)}
@@ -2136,55 +2563,189 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
               </button>
               <button
                 type="button"
-                onClick={() => {
-                  setApplications(prev => prev.map(a => a.id === correctionModalApp.id ? {
-                    ...a,
-                    status: 'NEEDS CORRECTION',
-                    remarks: correctionMessage,
-                    correctionRequestedDoc: correctionTargetDoc
-                  } : a));
-                  setCorrectionModalApp(null);
-                  showToast('Correction requested and notification sent to applicant.', 'info');
-                }}
-                className="px-5 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-md shadow-amber-600/30 cursor-pointer"
+                onClick={handleAdminSubmitCorrection}
+                className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold shadow-md shadow-amber-500/20"
               >
-                Send Request
+                Send Correction Request
               </button>
             </div>
-
           </div>
         </div>
       )}
 
       {/* ========================================================================= */}
-      {/* MODAL 4: OFFICIAL RECEIPT / CERTIFICATE MODAL                             */}
+      {/* MODAL 3: VIEW FULL APPLICATION DETAILS (FOR ADMIN)                       */}
+      {/* ========================================================================= */}
+      {viewApplicationModal && (
+        <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full p-6 sm:p-7 shadow-2xl border border-slate-200 dark:border-slate-800 space-y-5 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+              <div>
+                <span className="font-mono text-xs font-bold text-blue-600">{viewApplicationModal.refNumber}</span>
+                <h3 className="font-black text-base text-slate-900 dark:text-white">
+                  Barangay Clearance File: {viewApplicationModal.applicantName}
+                </h3>
+              </div>
+              <button
+                onClick={() => setViewApplicationModal(null)}
+                className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-900 flex items-center justify-center"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {/* Applicant Metadata */}
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 grid grid-cols-2 gap-3 text-xs">
+              <div>
+                <span className="text-slate-400">Applicant:</span>
+                <p className="font-bold text-slate-900 dark:text-white mt-0.5">{viewApplicationModal.applicantName}</p>
+              </div>
+              <div>
+                <span className="text-slate-400">Purpose:</span>
+                <p className="font-bold text-blue-600 mt-0.5">{viewApplicationModal.purpose}</p>
+              </div>
+              <div>
+                <span className="text-slate-400">Address:</span>
+                <p className="font-bold text-slate-900 dark:text-white mt-0.5">{viewApplicationModal.address}</p>
+              </div>
+              <div>
+                <span className="text-slate-400">Contact / Email:</span>
+                <p className="font-bold text-slate-900 dark:text-white mt-0.5">
+                  {viewApplicationModal.contactNumber} • {viewApplicationModal.email}
+                </p>
+              </div>
+              <div>
+                <span className="text-slate-400">Current Status:</span>
+                <p className="font-bold text-slate-900 dark:text-white mt-0.5">{viewApplicationModal.status}</p>
+              </div>
+              <div>
+                <span className="text-slate-400">Reviewed By:</span>
+                <p className="font-bold text-slate-900 dark:text-white mt-0.5">{viewApplicationModal.reviewedBy || 'Pending'}</p>
+              </div>
+            </div>
+
+            {/* Documents Preview Grid */}
+            <div className="space-y-2">
+              <span className="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300 block">
+                Uploaded Documents (Click to Inspect)
+              </span>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {[
+                  { label: 'Valid Gov ID', doc: viewApplicationModal.documents.validId },
+                  { label: 'Proof of Residency', doc: viewApplicationModal.documents.proofOfResidency },
+                  { label: 'Cedula CTC', doc: viewApplicationModal.documents.cedula },
+                  {
+                    label: 'Endorsement',
+                    doc: viewApplicationModal.documents.endorsement,
+                    na: viewApplicationModal.documents.endorsementNotApplicable
+                  },
+                ].map((d, i) => (
+                  <div
+                    key={i}
+                    onClick={() => {
+                      if (d.doc) setPreviewDoc({ title: d.label, doc: d.doc });
+                    }}
+                    className={`p-3 rounded-xl border flex items-center justify-between text-xs cursor-pointer transition-colors ${
+                      d.doc
+                        ? 'bg-white dark:bg-slate-800 hover:border-blue-500 border-slate-200 dark:border-slate-700'
+                        : 'bg-slate-50 dark:bg-slate-800/40 border-dashed border-slate-200 text-slate-400'
+                    }`}
+                  >
+                    <div className="truncate">
+                      <span className="font-bold block text-slate-800 dark:text-slate-200">{d.label}</span>
+                      <span className="text-[11px] text-slate-500 truncate block">
+                        {d.na ? 'Marked as Not Applicable' : d.doc ? d.doc.name : 'Missing'}
+                      </span>
+                    </div>
+                    {d.doc && <Eye size={14} className="text-blue-600 shrink-0 ml-2" />}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Remarks note */}
+            {viewApplicationModal.remarks && (
+              <div className="p-3.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 text-xs">
+                <span className="font-bold text-blue-900 dark:text-blue-300 block mb-0.5">Remarks / Audit Note:</span>
+                <p className="text-slate-700 dark:text-slate-300">{viewApplicationModal.remarks}</p>
+              </div>
+            )}
+
+            <div className="pt-2 flex items-center justify-end space-x-2">
+              <button
+                type="button"
+                onClick={() => setViewApplicationModal(null)}
+                className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  handleAdminApprove(viewApplicationModal.id);
+                  setViewApplicationModal(null);
+                }}
+                className="px-5 py-2 rounded-xl bg-emerald-600 text-white text-xs font-bold hover:bg-emerald-500"
+              >
+                Approve &amp; Release Clearance
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* MODAL 4: OFFICIAL APPLICATION RECEIPT / DIGITAL CLEARANCE CERTIFICATE    */}
       {/* ========================================================================= */}
       {showReceiptModal && (lastSubmittedApp || trackedRecord) && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-7 shadow-2xl border border-slate-200 text-slate-900 space-y-5 max-h-[90vh] overflow-auto">
+        <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white text-slate-900 rounded-3xl max-w-xl w-full p-8 shadow-2xl border border-slate-200 space-y-6 relative overflow-hidden">
             
+            {/* Header with Government Seal */}
+            <div className="flex items-center justify-between pb-4 border-b border-slate-200">
+              <div className="flex items-center space-x-3">
+                <img src="/government-logo.png" alt="QC Logo" className="w-12 h-12 object-contain" />
+                <div>
+                  <h3 className="font-black text-sm uppercase tracking-wide">REPUBLIC OF THE PHILIPPINES</h3>
+                  <h4 className="font-extrabold text-xs text-blue-900">BARANGAY CLEARANCE CERTIFICATION RECEIPT</h4>
+                  <p className="text-[10px] text-slate-500">Quezon City • GovServe Digital Services</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowReceiptModal(false)}
+                className="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:text-slate-900 flex items-center justify-center"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            {/* Certificate Details */}
             {(() => {
               const app = lastSubmittedApp || trackedRecord!;
               return (
-                <div className="space-y-4 text-xs font-mono">
-                  <div className="text-center pb-3 border-b border-slate-200 space-y-1">
-                    <img src="/government-logo.png" alt="QC Logo" className="w-12 h-12 mx-auto object-contain" />
-                    <h3 className="font-black text-sm font-sans tracking-tight">BARANGAY CLEARANCE REGISTRY</h3>
-                    <p className="text-[10px] text-slate-500">Quezon City Local Government Unit • Official E-Copy</p>
+                <div className="space-y-4 text-xs">
+                  <div className="p-4 rounded-2xl bg-blue-50/60 border border-blue-200 flex items-center justify-between">
+                    <div>
+                      <span className="text-[10px] font-black uppercase text-blue-900 block">APPLICATION REFERENCE</span>
+                      <span className="font-mono font-black text-base text-blue-700">{app.refNumber}</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-[10px] font-black uppercase text-blue-900 block">STATUS</span>
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-600 text-white">
+                        {app.status}
+                      </span>
+                    </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-200">
                     <div>
-                      <span className="text-slate-500 block">Reference:</span>
-                      <span className="font-bold text-blue-600">{app.refNumber}</span>
+                      <span className="text-slate-500 block">Applicant Name:</span>
+                      <span className="font-bold text-slate-900">{app.applicantName}</span>
                     </div>
                     <div>
-                      <span className="text-slate-500 block">Service:</span>
-                      <span className="font-bold">{app.serviceTitle}</span>
-                    </div>
-                    <div className="col-span-2">
-                      <span className="text-slate-500 block">Applicant:</span>
-                      <span className="font-bold text-slate-900 text-sm">{app.applicantName}</span>
+                      <span className="text-slate-500 block">Purpose:</span>
+                      <span className="font-bold text-slate-900">{app.purpose}</span>
                     </div>
                     <div className="col-span-2">
                       <span className="text-slate-500 block">Address:</span>
@@ -2195,32 +2756,33 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
                       <span className="font-bold text-slate-900">{app.dateSubmitted}</span>
                     </div>
                     <div>
-                      <span className="text-slate-500 block">Status:</span>
-                      <span className="font-bold text-emerald-600 font-sans">{app.status}</span>
+                      <span className="text-slate-500 block">Fee Assessment:</span>
+                      <span className="font-bold text-emerald-600">₱100.00 (PAID / WAIVED)</span>
                     </div>
                   </div>
 
-                  {/* QR Security Seal */}
-                  <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
+                  {/* QR Security Stamp */}
+                  <div className="p-3 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-between">
                     <div className="flex items-center space-x-3">
-                      <div className="w-11 h-11 bg-white rounded-xl border flex items-center justify-center p-1">
-                        <QrCode size={32} className="text-slate-900" />
+                      <div className="w-12 h-12 bg-white rounded-xl border flex items-center justify-center p-1">
+                        <QrCode size={36} className="text-slate-900" />
                       </div>
                       <div>
-                        <span className="font-black text-[11px] block font-sans">CRYPTOGRAPHIC QR SEAL</span>
-                        <span className="text-[9px] text-slate-400 font-mono">
+                        <span className="font-black text-[11px] block">CRYPTOGRAPHIC QR SEAL</span>
+                        <span className="text-[10px] text-slate-500 font-mono">
                           SHA256-{app.refNumber.replace(/[^A-Z0-9]/g, '')}-VERIFIED
                         </span>
                       </div>
                     </div>
-                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-1 rounded-md font-sans">
-                      AUTHENTIC
+                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-1 rounded-md">
+                      OFFICIAL COPY
                     </span>
                   </div>
                 </div>
               );
             })()}
 
+            {/* Print & Close */}
             <div className="pt-2 flex items-center justify-end space-x-2">
               <button
                 type="button"
@@ -2228,12 +2790,12 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
                 className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black flex items-center gap-1.5 shadow-md shadow-blue-600/30 cursor-pointer"
               >
                 <Printer size={14} />
-                <span>Print Official Copy</span>
+                <span>Print Official Document</span>
               </button>
               <button
                 type="button"
                 onClick={() => setShowReceiptModal(false)}
-                className="px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200 cursor-pointer"
+                className="px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 text-xs font-bold hover:bg-slate-200"
               >
                 Close
               </button>

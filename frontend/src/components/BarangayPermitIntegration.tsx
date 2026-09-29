@@ -41,7 +41,10 @@ import { useLanguage } from '../context/LanguageContext';
 import { LanguageToggle } from './ui/LanguageToggle';
 import { TabType } from '../types';
 import { BarangayPermitUploadWizard } from './BarangayPermitUploadWizard';
-import { BarangayClearanceApplicationSystem, BarangayServiceKey } from './BarangayClearanceApplicationSystem';
+import { BarangayClearanceApplicationSystem } from './BarangayClearanceApplicationSystem';
+import { BarangayConstructionUploadWizard } from './BarangayConstructionUploadWizard';
+import { BarangayCedulaUploadWizard } from './BarangayCedulaUploadWizard';
+import { BarangayResidencyEventUploadWizard } from './BarangayResidencyEventUploadWizard';
 
 
 export interface BarangayClearanceItem {
@@ -236,9 +239,9 @@ export const BarangayPermitIntegration: React.FC<BarangayPermitIntegrationProps>
   const [profileDropdownOpen, setProfileDropdownOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // View state: 'admin_registry' | 'admin_grid' | 'grid_network' | 'preview' | 'new_clearance' | 'renewal' | 'cedula' | 'pay_fees' | 'special_clearance' | 'ctc_pulling' | 'verification' | 'safety_seal'
+  // View state: 'admin_registry' | 'admin_grid' | 'grid_network' | 'preview' | 'new_clearance' | 'renewal' | 'cedula' | 'pay_fees' | 'special_clearance' | 'ctc_pulling' | 'verification' | 'safety_seal' | 'construction' | 'residency_event'
   const [currentView, setCurrentView] = useState<
-    'admin_registry' | 'admin_grid' | 'grid_network' | 'preview' | 'new_clearance' | 'renewal' | 'cedula' | 'pay_fees' | 'special_clearance' | 'ctc_pulling' | 'verification' | 'safety_seal'
+    'admin_registry' | 'admin_grid' | 'grid_network' | 'preview' | 'new_clearance' | 'renewal' | 'cedula' | 'pay_fees' | 'special_clearance' | 'ctc_pulling' | 'verification' | 'safety_seal' | 'construction' | 'residency_event'
   >(
     isAdmin
       ? (isBrgyGridTab ? 'admin_grid' : 'admin_registry')
@@ -248,6 +251,8 @@ export const BarangayPermitIntegration: React.FC<BarangayPermitIntegrationProps>
       ? 'new_clearance'
       : 'preview'
   );
+
+  const [activeModal, setActiveModal] = useState<'clearance_req' | 'construction_req' | 'cedula_rates' | 'residency_guidelines' | null>(null);
 
   // Admin Review & Interactive States
   const [activeReviewItem, setActiveReviewItem] = useState<BarangayClearanceItem | null>(null);
@@ -333,7 +338,6 @@ export const BarangayPermitIntegration: React.FC<BarangayPermitIntegrationProps>
   // Safety Seal State
   const [sealBrgyNo, setSealBrgyNo] = useState<string>('BC-2025-0418');
   const [sealSubmitted, setSealSubmitted] = useState<boolean>(false);
-  const [selectedServiceCategory, setSelectedServiceCategory] = useState<BarangayServiceKey>('clearance');
 
   const handleDownloadClearance = (item: BarangayClearanceItem) => {
     const text = `========================================================================================
@@ -1132,7 +1136,7 @@ Digital Security Hash   : ${item.qrHash}
             <div className="space-y-6">
 
               {/* ======================================================================= */}
-              {/* CARD 1: APPLY FOR BARANGAY CLEARANCE - BLUE / SKY THEME */}
+              {/* CARD 1: BARANGAY PERMIT INTEGRATION - SKY / BLUE THEME */}
               {/* ======================================================================= */}
               <div 
                 className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-sky-50/70 to-blue-50/50 dark:from-[#061426] dark:via-[#091e38] dark:to-[#030914] border border-sky-200 dark:border-sky-500/40 p-6 sm:p-8 shadow-xl shadow-sky-900/5 dark:shadow-2xl dark:shadow-sky-950/40 group transition-all duration-300 select-text"
@@ -1144,10 +1148,17 @@ Digital Security Hash   : ${item.qrHash}
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
                   {/* Left Column: Info & Details */}
                   <div className="flex-1 space-y-4">
+                    {/* Badge */}
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-sky-50 dark:bg-sky-950/80 text-sky-600 dark:text-sky-300 border border-sky-200 dark:border-sky-800">
+                        24-BARANGAY NETWORK
+                      </span>
+                    </div>
+
                     {/* Title */}
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
-                        APPLY FOR BARANGAY CLEARANCE
+                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                        Barangay Permit Integration
                       </h3>
                     </div>
 
@@ -1216,7 +1227,6 @@ Digital Security Hash   : ${item.qrHash}
                       <button
                         type="button"
                         onClick={() => {
-                          setSelectedServiceCategory('clearance');
                           setPurpose('New Business Permit');
                           setNewSubmitted(false);
                           setCurrentView('new_clearance');
@@ -1225,6 +1235,25 @@ Digital Security Hash   : ${item.qrHash}
                       >
                         <span>Request Barangay Clearance →</span>
                       </button>
+
+                      <div className="grid grid-cols-2 gap-2 pt-0.5">
+                        <button
+                          type="button"
+                          onClick={() => setCurrentView('cedula')}
+                          className="py-2.5 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
+                        >
+                          <FileText size={13} className="text-blue-500" />
+                          <span>Cedula CTC Filing</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setActiveModal('clearance_req')}
+                          className="py-2.5 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
+                        >
+                          <FileText size={13} className="text-blue-500" />
+                          <span>View Requirements</span>
+                        </button>
+                      </div>
                     </div>
 
                     <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-sky-200 dark:border-sky-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
@@ -1267,10 +1296,20 @@ Digital Security Hash   : ${item.qrHash}
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
                   {/* Left Column: Info & Details */}
                   <div className="flex-1 space-y-4">
+                    {/* Badges */}
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-amber-100/80 dark:bg-amber-950/80 text-amber-800 dark:text-amber-300 border border-amber-300/80 dark:border-amber-700/80">
+                        CONSTRUCTION &amp; EXCAVATION
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-amber-800 dark:text-amber-300 bg-amber-50/60 dark:bg-amber-950/40 border border-amber-200/80 dark:border-amber-800/80">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>Site Endorsement
+                      </span>
+                    </div>
+
                     {/* Title */}
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
-                        BARANGAY CONSTRUCTION ENDORSEMENT
+                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                        Barangay Construction Endorsement
                       </h3>
                     </div>
 
@@ -1339,15 +1378,27 @@ Digital Security Hash   : ${item.qrHash}
                       <button
                         type="button"
                         onClick={() => {
-                          setSelectedServiceCategory('construction');
-                          setPurpose('Building Construction Endorsement');
-                          setNewSubmitted(false);
-                          setCurrentView('new_clearance');
+                          setCurrentView('construction');
                         }}
-                        className="w-full py-3.5 px-5 bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-amber-600/40 hover:shadow-amber-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
+                        className="w-full py-3.5 px-5 bg-[#d96b00] hover:bg-[#c25e00] active:bg-[#a85200] text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-orange-600/30 hover:shadow-orange-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
                       >
                         <span>Apply for Construction Endorsement →</span>
                       </button>
+
+                      <div className="grid grid-cols-2 gap-2 pt-0.5">
+                        <div className="py-2 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center shadow-xs">
+                          <span className="text-[9px] font-black uppercase text-amber-700 dark:text-amber-400 tracking-wider">ASSESSMENT FEE</span>
+                          <span className="text-xs font-black text-slate-900 dark:text-slate-100">₱800.00</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setActiveModal('construction_req')}
+                          className="py-2.5 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-amber-400 dark:hover:border-amber-500 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
+                        >
+                          <FileText size={13} className="text-amber-600" />
+                          <span>View Requirements</span>
+                        </button>
+                      </div>
                     </div>
 
                     <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-amber-200 dark:border-amber-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
@@ -1390,10 +1441,20 @@ Digital Security Hash   : ${item.qrHash}
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
                   {/* Left Column: Info & Details */}
                   <div className="flex-1 space-y-4">
+                    {/* Badges */}
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-emerald-100/80 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 border border-emerald-300/80 dark:border-emerald-700/80">
+                        INSTANT TAX CLEARANCE
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50/60 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/80">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Digital CTC Number
+                      </span>
+                    </div>
+
                     {/* Title */}
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
-                        COMMUNITY TAX CERTIFICATE (CEDULA CTC)
+                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                        Community Tax Certificate (Cedula CTC)
                       </h3>
                     </div>
 
@@ -1462,14 +1523,27 @@ Digital Security Hash   : ${item.qrHash}
                       <button
                         type="button"
                         onClick={() => {
-                          setSelectedServiceCategory('cedula');
-                          setCedulaSubmitted(false);
-                          setCurrentView('new_clearance');
+                          setCurrentView('cedula');
                         }}
-                        className="w-full py-3.5 px-5 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-emerald-600/40 hover:shadow-emerald-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
+                        className="w-full py-3.5 px-5 bg-emerald-700 hover:bg-emerald-600 active:bg-emerald-800 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-emerald-700/30 hover:shadow-emerald-600/40 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
                       >
                         <span>File Instant Cedula (CTC) →</span>
                       </button>
+
+                      <div className="grid grid-cols-2 gap-2 pt-0.5">
+                        <div className="py-2 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center shadow-xs">
+                          <span className="text-[9px] font-black uppercase text-emerald-700 dark:text-emerald-400 tracking-wider">BASIC RATE</span>
+                          <span className="text-xs font-black text-slate-900 dark:text-slate-100">₱55.00+</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setActiveModal('cedula_rates')}
+                          className="py-2.5 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-emerald-400 dark:hover:border-emerald-500 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
+                        >
+                          <FileText size={13} className="text-emerald-600" />
+                          <span>View Rates</span>
+                        </button>
+                      </div>
                     </div>
 
                     <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-emerald-200 dark:border-emerald-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
@@ -1512,10 +1586,20 @@ Digital Security Hash   : ${item.qrHash}
                 <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
                   {/* Left Column: Info & Details */}
                   <div className="flex-1 space-y-4">
+                    {/* Badges */}
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-black tracking-wider uppercase bg-purple-100/80 dark:bg-purple-950/80 text-purple-800 dark:text-purple-300 border border-purple-300/80 dark:border-purple-700/80">
+                        CIVIL STATUS &amp; SPECIAL PASS
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold text-purple-800 dark:text-purple-300 bg-purple-50/60 dark:bg-purple-950/40 border border-purple-200/80 dark:border-purple-800/80">
+                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500"></span>Official Seal
+                      </span>
+                    </div>
+
                     {/* Title */}
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
-                        BARANGAY RESIDENCY &amp; EVENT CLEARANCE
+                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                        Barangay Residency &amp; Event Clearance
                       </h3>
                     </div>
 
@@ -1584,14 +1668,27 @@ Digital Security Hash   : ${item.qrHash}
                       <button
                         type="button"
                         onClick={() => {
-                          setSelectedServiceCategory('residency_event');
-                          setSpecialSubmitted(false);
-                          setCurrentView('new_clearance');
+                          setCurrentView('residency_event');
                         }}
-                        className="w-full py-3.5 px-5 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-purple-600/40 hover:shadow-purple-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
+                        className="w-full py-3.5 px-5 bg-[#8b00e8] hover:bg-[#7b00cc] active:bg-[#6800ad] text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-purple-600/30 hover:shadow-purple-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
                       >
                         <span>Request Residency &amp; Event Pass →</span>
                       </button>
+
+                      <div className="grid grid-cols-2 gap-2 pt-0.5">
+                        <div className="py-2 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center shadow-xs">
+                          <span className="text-[9px] font-black uppercase text-purple-700 dark:text-purple-400 tracking-wider">STANDARD PASS</span>
+                          <span className="text-xs font-black text-slate-900 dark:text-slate-100">₱150.00</span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setActiveModal('residency_guidelines')}
+                          className="py-2.5 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-purple-400 dark:hover:border-purple-500 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
+                        >
+                          <FileText size={13} className="text-purple-600" />
+                          <span>View Guidelines</span>
+                        </button>
+                      </div>
                     </div>
 
                     <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-purple-200 dark:border-purple-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
@@ -1621,6 +1718,7 @@ Digital Security Hash   : ${item.qrHash}
                 </div>
               </div>
 
+
             </div>
 
 
@@ -1637,127 +1735,44 @@ Digital Security Hash   : ${item.qrHash}
             onNavigateToTab={onNavigateToTab}
             onAddNewApplication={onAddNewApplication}
             initialMode="apply"
-            initialServiceCategory={selectedServiceCategory}
           />
         )}
 
         {/* ========================================================================= */}
-        {/* SUBVIEW 2: CEDULA / COMMUNITY TAX CERTIFICATE CALCULATOR */}
+        {/* SUBVIEW: BARANGAY CONSTRUCTION ENDORSEMENT (100% PHOTO-UPLOAD WIZARD) */}
         {/* ========================================================================= */}
-        {currentView === 'cedula' && (
-          <div className="space-y-6 max-w-xl mx-auto animate-in fade-in pb-8">
-
-            <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
-              <div className="flex items-center space-x-3 pb-4 border-b border-slate-100 dark:border-slate-800">
-                <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center font-bold">
-                  <FileText size={24} />
-                </div>
-                <div>
-                  <h2 className="text-xl font-black text-slate-900 dark:text-white">Community Tax Certificate (Cedula)</h2>
-                  <p className="text-xs text-slate-500">Official Municipal Tax Assessment & Instant CTC Filing</p>
-                </div>
-              </div>
-
-              {!cedulaSubmitted ? (
-                <div className="space-y-4 text-xs">
-                  <div>
-                    <label className="font-bold text-slate-700 dark:text-slate-300">Taxpayer Full Name *</label>
-                    <input 
-                      type="text" 
-                      value={applicantName} 
-                      onChange={(e) => setApplicantName(e.target.value)} 
-                      className="w-full mt-1 p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl" 
-                    />
-                  </div>
-
-                  <div>
-                    <label className="font-bold text-slate-700 dark:text-slate-300">Annual Gross Salary / Compensation (₱)</label>
-                    <input 
-                      type="number" 
-                      value={cedulaSalary} 
-                      onChange={(e) => {
-                        const val = parseFloat(e.target.value) || 0;
-                        setCedulaSalary(val);
-                        calculateCedula(val, cedulaGrossReceipts);
-                      }} 
-                      className="w-full mt-1 p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-mono" 
-                    />
-                  </div>
-
-                  <div>
-                    <label className="font-bold text-slate-700 dark:text-slate-300">Gross Business Earnings / Receipts (₱, if any)</label>
-                    <input 
-                      type="number" 
-                      value={cedulaGrossReceipts} 
-                      onChange={(e) => {
-                        const val = parseFloat(e.target.value) || 0;
-                        setCedulaGrossReceipts(val);
-                        calculateCedula(cedulaSalary, val);
-                      }} 
-                      className="w-full mt-1 p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-mono" 
-                    />
-                  </div>
-
-                  <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 space-y-2">
-                    <div className="flex justify-between">
-                      <span className="text-slate-600 dark:text-slate-400">Basic Community Tax:</span>
-                      <span className="font-mono font-bold text-slate-800 dark:text-slate-200">₱ 5.00</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-600 dark:text-slate-400">Additional Tax on Income:</span>
-                      <span className="font-mono font-bold text-slate-800 dark:text-slate-200">₱ {Math.floor(cedulaSalary / 1000)}.00</span>
-                    </div>
-                    {cedulaGrossReceipts > 0 && (
-                      <div className="flex justify-between">
-                        <span className="text-slate-600 dark:text-slate-400">Additional Tax on Business:</span>
-                        <span className="font-mono font-bold text-slate-800 dark:text-slate-200">₱ {Math.floor(cedulaGrossReceipts / 1000)}.00</span>
-                      </div>
-                    )}
-                    <div className="border-t border-emerald-200 dark:border-emerald-800 pt-2 flex justify-between font-bold text-sm">
-                      <span className="text-emerald-950 dark:text-emerald-200">Total Cedula Dues:</span>
-                      <span className="font-mono text-emerald-600 dark:text-emerald-400 font-black">₱ {cedulaComputedTotal}.00</span>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-end pt-2">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setCedulaSubmitted(true);
-                        showToast(`Cedula generated for ₱ ${cedulaComputedTotal}.00!`);
-                      }}
-                      className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold shadow-md cursor-pointer transition-all active:scale-[0.98]"
-                    >
-                      Issue Digital Cedula (CTC)
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="text-center py-6 space-y-4">
-                  <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-950/80 text-emerald-600 rounded-full flex items-center justify-center mx-auto">
-                    <CheckCircle2 size={36} />
-                  </div>
-                  <h3 className="text-xl font-bold">Digital Cedula Issued!</h3>
-                  <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-left text-xs font-mono space-y-1 max-w-sm mx-auto">
-                    <p><strong>CTC NUMBER :</strong> CTC-2025-{Math.floor(1000000 + Math.random() * 9000000)}</p>
-                    <p><strong>TAXPAYER   :</strong> {applicantName}</p>
-                    <p><strong>TOTAL TAX  :</strong> ₱ {cedulaComputedTotal}.00</p>
-                    <p><strong>DATE ISSUED:</strong> {new Date().toLocaleDateString()}</p>
-                  </div>
-                  <button 
-                    onClick={() => setCurrentView('preview')} 
-                    className="px-5 py-2.5 bg-slate-800 text-white rounded-xl text-xs font-bold cursor-pointer"
-                  >
-                    Return to Overview
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
+        {currentView === 'construction' && (
+          <BarangayConstructionUploadWizard
+            onBackToPortal={() => onNavigateToTab ? onNavigateToTab('Home') : setCurrentView('preview')}
+            onReturnToOverview={() => setCurrentView('preview')}
+            onAddNewApplication={onAddNewApplication}
+          />
         )}
 
         {/* ========================================================================= */}
-        {/* SUBVIEW 3: PAY BARANGAY FEES */}
+        {/* SUBVIEW: COMMUNITY TAX CERTIFICATE (CEDULA CTC - 100% PHOTO-UPLOAD) */}
+        {/* ========================================================================= */}
+        {currentView === 'cedula' && (
+          <BarangayCedulaUploadWizard
+            onBackToPortal={() => onNavigateToTab ? onNavigateToTab('Home') : setCurrentView('preview')}
+            onReturnToOverview={() => setCurrentView('preview')}
+            onAddNewApplication={onAddNewApplication}
+          />
+        )}
+
+        {/* ========================================================================= */}
+        {/* SUBVIEW: BARANGAY RESIDENCY & EVENT CLEARANCE (100% PHOTO-UPLOAD) */}
+        {/* ========================================================================= */}
+        {(currentView === 'residency_event' || currentView === 'special_clearance') && (
+          <BarangayResidencyEventUploadWizard
+            onBackToPortal={() => onNavigateToTab ? onNavigateToTab('Home') : setCurrentView('preview')}
+            onReturnToOverview={() => setCurrentView('preview')}
+            onAddNewApplication={onAddNewApplication}
+          />
+        )}
+
+        {/* ========================================================================= */}
+        {/* SUBVIEW: PAY BARANGAY FEES */}
         {/* ========================================================================= */}
         {currentView === 'pay_fees' && (
           <div className="space-y-6 max-w-xl mx-auto animate-in fade-in pb-8">
@@ -1768,7 +1783,7 @@ Digital Security Hash   : ${item.qrHash}
                   <CreditCard size={24} />
                 </div>
                 <div>
-                  <h2 className="text-xl font-black text-slate-900 dark:text-white">Pay Barangay Dues & Fees</h2>
+                  <h2 className="text-xl font-black text-slate-900 dark:text-white">Pay Barangay Dues &amp; Fees</h2>
                   <p className="text-xs text-slate-500">Official Municipal Revenue Gateway • Real-Time Settlement</p>
                 </div>
               </div>
@@ -1792,7 +1807,7 @@ Digital Security Hash   : ${item.qrHash}
                       <span className="font-bold text-slate-800 dark:text-slate-200">₱ 500.00</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-slate-500">Lupon & Cleanliness Fee:</span>
+                      <span className="text-slate-500">Lupon &amp; Cleanliness Fee:</span>
                       <span className="font-bold text-slate-800 dark:text-slate-200">₱ 200.00</span>
                     </div>
                     <div className="flex justify-between border-t border-slate-200 dark:border-slate-700 pt-2 font-bold text-sm">
@@ -1832,98 +1847,6 @@ Digital Security Hash   : ${item.qrHash}
                     <p><strong>AMOUNT PAID:</strong> {feeReceipt.amount}</p>
                     <p><strong>TIMESTAMP  :</strong> {feeReceipt.date}</p>
                   </div>
-                  <button onClick={() => setCurrentView('preview')} className="px-5 py-2.5 bg-slate-800 text-white rounded-xl text-xs font-bold cursor-pointer">
-                    Return to Overview
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* ========================================================================= */}
-        {/* SUBVIEW 4: SPECIAL EVENT & STREET ACTIVITY CLEARANCE */}
-        {/* ========================================================================= */}
-        {currentView === 'special_clearance' && (
-          <div className="space-y-6 max-w-xl mx-auto animate-in fade-in pb-8">
-
-            <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
-              <div className="flex items-center space-x-3 pb-4 border-b border-slate-100 dark:border-slate-800">
-                <div className="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950 text-amber-600 flex items-center justify-center font-bold">
-                  <Award size={24} />
-                </div>
-                <div>
-                  <h2 className="text-xl font-black text-slate-900 dark:text-white">Special Barangay Event Clearance</h2>
-                  <p className="text-xs text-slate-500">Street Activity, Bazaar & Temporary Community Pass</p>
-                </div>
-              </div>
-
-              {!specialSubmitted ? (
-                <div className="space-y-4 text-xs">
-                  <div>
-                    <label className="font-bold text-slate-700 dark:text-slate-300">Event / Activity Title *</label>
-                    <input
-                      type="text"
-                      value={specialEventTitle}
-                      onChange={(e) => setSpecialEventTitle(e.target.value)}
-                      className="w-full mt-1 p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="font-bold text-slate-700 dark:text-slate-300">Activity Type *</label>
-                      <select
-                        value={specialEventType}
-                        onChange={(e) => setSpecialEventType(e.target.value)}
-                        className="w-full mt-1 p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl"
-                      >
-                        <option value="Street Activity / Flea Market">Street Activity / Flea Market</option>
-                        <option value="Motorcade / Parade Pass">Motorcade / Parade Pass</option>
-                        <option value="Sports Tournament / Liga">Sports Tournament / Liga</option>
-                        <option value="Filming / Photography Shoot">Filming / Photography Shoot</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="font-bold text-slate-700 dark:text-slate-300">Scheduled Dates *</label>
-                      <input
-                        type="text"
-                        value={specialEventDate}
-                        onChange={(e) => setSpecialEventDate(e.target.value)}
-                        className="w-full mt-1 p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl"
-                      >
-                      </input>
-                    </div>
-                  </div>
-
-                  <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 space-y-1">
-                    <p className="font-bold text-amber-900 dark:text-amber-200">Barangay Tanod Safety Escort:</p>
-                    <p className="text-[11px] text-slate-600 dark:text-slate-400">
-                      Standard fee includes ₱350 event clearance and deployment of Barangay Public Safety Officers (Tanod).
-                    </p>
-                  </div>
-
-                  <div className="flex justify-end pt-2">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSpecialSubmitted(true);
-                        showToast('Special Event Clearance submitted!');
-                      }}
-                      className="px-6 py-3 bg-amber-600 hover:bg-amber-500 text-white rounded-xl font-bold shadow-md cursor-pointer transition-all active:scale-[0.98]"
-                    >
-                      File Special Event Clearance
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="text-center py-6 space-y-4">
-                  <div className="w-16 h-16 bg-amber-50 dark:bg-amber-950/80 text-amber-600 rounded-full flex items-center justify-center mx-auto">
-                    <CheckCircle2 size={36} />
-                  </div>
-                  <h3 className="text-xl font-bold">Event Clearance Issued!</h3>
-                  <p className="text-xs text-slate-500">Official Street Event Permit Pass is authorized for {specialEventDate}.</p>
                   <button onClick={() => setCurrentView('preview')} className="px-5 py-2.5 bg-slate-800 text-white rounded-xl text-xs font-bold cursor-pointer">
                     Return to Overview
                   </button>
@@ -2610,6 +2533,271 @@ Digital Security Hash   : ${item.qrHash}
                   Confirm Rejection & Issue Notice
                 </button>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================================= */}
+        {/* PUBLIC SERVICE REQUIREMENTS & RATES INFORMATION MODAL */}
+        {/* ========================================================================= */}
+        {activeModal && (
+          <div className="fixed inset-0 z-50 bg-slate-950/75 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in">
+            <div className="bg-white dark:bg-slate-900 w-full max-w-xl rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl p-6 sm:p-7 space-y-5 max-h-[90vh] overflow-y-auto">
+              
+              {/* Modal Header */}
+              <div className="flex items-center justify-between pb-3.5 border-b border-slate-100 dark:border-slate-800">
+                <div className="flex items-center space-x-3">
+                  <div className={`w-11 h-11 rounded-2xl flex items-center justify-center font-bold ${
+                    activeModal === 'clearance_req' ? 'bg-sky-50 dark:bg-sky-950/80 text-sky-600' :
+                    activeModal === 'construction_req' ? 'bg-amber-50 dark:bg-amber-950/80 text-amber-600' :
+                    activeModal === 'cedula_rates' ? 'bg-emerald-50 dark:bg-emerald-950/80 text-emerald-600' :
+                    'bg-purple-50 dark:bg-purple-950/80 text-purple-600'
+                  }`}>
+                    <FileText size={22} />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-black text-slate-900 dark:text-white">
+                      {activeModal === 'clearance_req' && 'Barangay Clearance Document Checklist'}
+                      {activeModal === 'construction_req' && 'Barangay Construction Endorsement Requirements'}
+                      {activeModal === 'cedula_rates' && 'Community Tax Certificate (Cedula) Rate Schedule'}
+                      {activeModal === 'residency_guidelines' && 'Barangay Residency & Event Pass Guidelines'}
+                    </h3>
+                    <p className="text-xs text-slate-500">Official Local Government Code &amp; Barangay Standards</p>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setActiveModal(null)} 
+                  className="p-1.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Modal Body */}
+              {activeModal === 'clearance_req' && (
+                <div className="space-y-4 text-xs text-slate-700 dark:text-slate-300">
+                  <div className="p-3.5 rounded-2xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800 space-y-1">
+                    <span className="font-bold text-sky-900 dark:text-sky-200">100% Photo-Upload Friendly:</span>
+                    <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                      Simply take clear photos using your phone or upload digital snapshots. No manual document typing required.
+                    </p>
+                  </div>
+
+                  <div className="space-y-2.5">
+                    <div className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                      <span className="w-5 h-5 rounded-full bg-blue-100 text-blue-700 font-black text-[10px] flex items-center justify-center shrink-0">1</span>
+                      <div>
+                        <strong className="text-slate-900 dark:text-white block">Valid Government-Issued Photo ID (Mandatory)</strong>
+                        <span className="text-[11px] text-slate-500">PhilID (National ID), Driver&apos;s License, Passport, PRC ID, or Voter&apos;s ID.</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                      <span className="w-5 h-5 rounded-full bg-blue-100 text-blue-700 font-black text-[10px] flex items-center justify-center shrink-0">2</span>
+                      <div>
+                        <strong className="text-slate-900 dark:text-white block">Proof of Residency or Business Address (Mandatory)</strong>
+                        <span className="text-[11px] text-slate-500">Recent utility bill (Meralco / Manila Water), Contract of Lease, or Land Title / Tax Dec.</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                      <span className="w-5 h-5 rounded-full bg-blue-100 text-blue-700 font-black text-[10px] flex items-center justify-center shrink-0">3</span>
+                      <div>
+                        <strong className="text-slate-900 dark:text-white block">Community Tax Certificate (Cedula CTC) (Mandatory)</strong>
+                        <span className="text-[11px] text-slate-500">Current calendar year CTC receipt. Can be filed instantly online if not yet obtained.</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                      <span className="w-5 h-5 rounded-full bg-blue-100 text-blue-700 font-black text-[10px] flex items-center justify-center shrink-0">4</span>
+                      <div>
+                        <strong className="text-slate-900 dark:text-white block">Recent 2x2 Photo or Live Selfie</strong>
+                        <span className="text-[11px] text-slate-500">High-resolution photo on light background for printing on official Barangay Clearance seal.</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-2 flex items-center justify-between border-t border-slate-100 dark:border-slate-800">
+                    <span className="text-[11px] text-slate-500">Tariff: ₱150.00 – ₱500.00</span>
+                    <button
+                      onClick={() => {
+                        setActiveModal(null);
+                        setCurrentView('new_clearance');
+                      }}
+                      className="py-2.5 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold shadow-md cursor-pointer transition-all"
+                    >
+                      Start Clearance Upload →
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {activeModal === 'construction_req' && (
+                <div className="space-y-4 text-xs text-slate-700 dark:text-slate-300">
+                  <div className="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 space-y-1">
+                    <span className="font-bold text-amber-900 dark:text-amber-200">Construction Regulatory Assessment Fee: ₱800.00</span>
+                    <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                      Required prior to Municipal Building Official permit issuance. Lupon site verification takes 24–48 hours.
+                    </p>
+                  </div>
+
+                  <div className="space-y-2.5">
+                    <div className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                      <span className="w-5 h-5 rounded-full bg-amber-100 text-amber-800 font-black text-[10px] flex items-center justify-center shrink-0">1</span>
+                      <div>
+                        <strong className="text-slate-900 dark:text-white block">Site Sketch Plan / Blueprint Perspective Photo</strong>
+                        <span className="text-[11px] text-slate-500">Architectural layout or site sketch displaying boundary lines and setback dimensions.</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                      <span className="w-5 h-5 rounded-full bg-amber-100 text-amber-800 font-black text-[10px] flex items-center justify-center shrink-0">2</span>
+                      <div>
+                        <strong className="text-slate-900 dark:text-white block">Transfer Certificate of Title (TCT) / Tax Declaration Photo</strong>
+                        <span className="text-[11px] text-slate-500">Official Registry of Deeds land title copy or current Real Property Tax declaration.</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                      <span className="w-5 h-5 rounded-full bg-amber-100 text-amber-800 font-black text-[10px] flex items-center justify-center shrink-0">3</span>
+                      <div>
+                        <strong className="text-slate-900 dark:text-white block">Neighbor Consent / Boundary Concurrence Photo</strong>
+                        <span className="text-[11px] text-slate-500">Signed concurrence waiver from left, right, and rear adjacent property owners.</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                      <span className="w-5 h-5 rounded-full bg-amber-100 text-amber-800 font-black text-[10px] flex items-center justify-center shrink-0">4</span>
+                      <div>
+                        <strong className="text-slate-900 dark:text-white block">Contractor / Engineer PCAB &amp; Photo ID</strong>
+                        <span className="text-[11px] text-slate-500">Valid PRC engineer license or PCAB contractor registration card.</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-2 flex items-center justify-between border-t border-slate-100 dark:border-slate-800">
+                    <span className="text-[11px] text-slate-500">Assessment Fee: ₱800.00</span>
+                    <button
+                      onClick={() => {
+                        setActiveModal(null);
+                        setCurrentView('construction');
+                      }}
+                      className="py-2.5 px-4 bg-[#d96b00] hover:bg-[#c25e00] text-white rounded-xl text-xs font-bold shadow-md cursor-pointer transition-all"
+                    >
+                      Apply for Endorsement →
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {activeModal === 'cedula_rates' && (
+                <div className="space-y-4 text-xs text-slate-700 dark:text-slate-300">
+                  <div className="p-3.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 space-y-1">
+                    <span className="font-bold text-emerald-900 dark:text-emerald-200">Statutory Local Tax Code Schedule (RA 7160 Sec. 156-164)</span>
+                    <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                      Instant assessment computed automatically upon uploading your proof of income or payslip photo.
+                    </p>
+                  </div>
+
+                  <div className="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700">
+                    <table className="w-full text-left border-collapse">
+                      <thead className="bg-slate-50 dark:bg-slate-800 text-[11px] text-slate-500 uppercase tracking-wider font-bold">
+                        <tr>
+                          <th className="p-2.5 border-b border-slate-200 dark:border-slate-700">Tax Component</th>
+                          <th className="p-2.5 border-b border-slate-200 dark:border-slate-700">Rate / Tariff</th>
+                          <th className="p-2.5 border-b border-slate-200 dark:border-slate-700">Cap / Maximum</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-[11px]">
+                        <tr>
+                          <td className="p-2.5 font-medium">Basic Individual Community Tax</td>
+                          <td className="p-2.5 font-mono font-bold text-emerald-600">₱ 5.00</td>
+                          <td className="p-2.5 text-slate-500">Fixed statutory</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2.5 font-medium">Additional Tax on Gross Income / Salary</td>
+                          <td className="p-2.5 font-mono font-bold text-emerald-600">₱ 1.00 / ₱1,000</td>
+                          <td className="p-2.5 text-slate-500">Max ₱5,000.00</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2.5 font-medium">Additional Tax on Real Property Owned</td>
+                          <td className="p-2.5 font-mono font-bold text-emerald-600">₱ 1.00 / ₱1,000</td>
+                          <td className="p-2.5 text-slate-500">Max ₱5,000.00</td>
+                        </tr>
+                        <tr>
+                          <td className="p-2.5 font-medium">Corporate Basic Community Tax</td>
+                          <td className="p-2.5 font-mono font-bold text-emerald-600">₱ 500.00</td>
+                          <td className="p-2.5 text-slate-500">+ ₱2/₱5k gross</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div className="pt-2 flex items-center justify-between border-t border-slate-100 dark:border-slate-800">
+                    <span className="text-[11px] text-slate-500">Basic Rate: ₱55.00+</span>
+                    <button
+                      onClick={() => {
+                        setActiveModal(null);
+                        setCurrentView('cedula');
+                      }}
+                      className="py-2.5 px-4 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold shadow-md cursor-pointer transition-all"
+                    >
+                      File Instant Cedula Now →
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {activeModal === 'residency_guidelines' && (
+                <div className="space-y-4 text-xs text-slate-700 dark:text-slate-300">
+                  <div className="p-3.5 rounded-2xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 space-y-1">
+                    <span className="font-bold text-purple-900 dark:text-purple-200">Barangay Certificate of Residency &amp; Event Guidelines</span>
+                    <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+                      Issued for employment, passport processing, bank requirements, school scholarship, or community street events.
+                    </p>
+                  </div>
+
+                  <div className="space-y-2.5">
+                    <div className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                      <span className="w-5 h-5 rounded-full bg-purple-100 text-purple-800 font-black text-[10px] flex items-center justify-center shrink-0">1</span>
+                      <div>
+                        <strong className="text-slate-900 dark:text-white block">6-Month Minimum Residence Affirmation</strong>
+                        <span className="text-[11px] text-slate-500">Applicant must have lived in the Barangay for at least six (6) continuous months.</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                      <span className="w-5 h-5 rounded-full bg-purple-100 text-purple-800 font-black text-[10px] flex items-center justify-center shrink-0">2</span>
+                      <div>
+                        <strong className="text-slate-900 dark:text-white block">R.A. 11261 (First Time Jobseekers Act) Free Exemption</strong>
+                        <span className="text-[11px] text-slate-500">Free ₱0.00 fee waiver for first-time jobseekers with Barangay oath of undertaking.</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800">
+                      <span className="w-5 h-5 rounded-full bg-purple-100 text-purple-800 font-black text-[10px] flex items-center justify-center shrink-0">3</span>
+                      <div>
+                        <strong className="text-slate-900 dark:text-white block">Special Event &amp; Street Activity Clearances</strong>
+                        <span className="text-[11px] text-slate-500">Includes Tanod safety coordination, traffic management, and temporary road use permission.</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-2 flex items-center justify-between border-t border-slate-100 dark:border-slate-800">
+                    <span className="text-[11px] text-slate-500">Standard Pass: ₱150.00</span>
+                    <button
+                      onClick={() => {
+                        setActiveModal(null);
+                        setCurrentView('residency_event');
+                      }}
+                      className="py-2.5 px-4 bg-[#8b00e8] hover:bg-[#7b00cc] text-white rounded-xl text-xs font-bold shadow-md cursor-pointer transition-all"
+                    >
+                      Request Residency &amp; Event Pass →
+                    </button>
+                  </div>
+                </div>
+              )}
+
             </div>
           </div>
         )}

@@ -351,7 +351,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
       ],
       keywords: ['barangay', 'clearance', 'cedula', 'sedula', 'ctc', 'community', 'tax', 'buwis', 'lupon', 'endorsement', 'endoso'],
       primaryBtnText: 'Apply for Barangay Clearance →',
-      primaryTab: 'Barangay Clearance Filing' as TabType,
+      primaryTab: 'Barangay Permit Integration' as TabType,
       secondaryBtnText: 'View Barangay Portal',
       secondaryTab: 'Barangay Permit Integration' as TabType,
       reqCategory: 'barangay' as const,
@@ -802,6 +802,69 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                             <div className="select-text">
                               <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
                                 SPECIAL TRIP CLEARANCE
+                              </h4>
+                            </div>
+                          </div>
+                        </div>
+                      ) : service.id === 'barangay' ? (
+                        /* 4 Core Barangay Permitting Services (User Reference Cards) */
+                        <div className="space-y-3.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                          {/* 1. APPLY FOR BARANGAY CLEARANCE */}
+                          <div 
+                            onClick={() => onNavigateToTab('Barangay Permit Integration')}
+                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                          >
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <ShieldCheck size={18} />
+                            </div>
+                            <div className="select-text">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                                APPLY FOR BARANGAY CLEARANCE
+                              </h4>
+                            </div>
+                          </div>
+
+                          {/* 2. BARANGAY CONSTRUCTION ENDORSEMENT */}
+                          <div 
+                            onClick={() => onNavigateToTab('Barangay Permit Integration')}
+                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                          >
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <Building size={18} />
+                            </div>
+                            <div className="select-text">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                                BARANGAY CONSTRUCTION ENDORSEMENT
+                              </h4>
+                            </div>
+                          </div>
+
+                          {/* 3. COMMUNITY TAX CERTIFICATE (CEDULA CTC) */}
+                          <div 
+                            onClick={() => onNavigateToTab('Barangay Permit Integration')}
+                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                          >
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <FileText size={18} />
+                            </div>
+                            <div className="select-text">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                                COMMUNITY TAX CERTIFICATE (CEDULA CTC)
+                              </h4>
+                            </div>
+                          </div>
+
+                          {/* 4. BARANGAY RESIDENCY & EVENT CLEARANCE */}
+                          <div 
+                            onClick={() => onNavigateToTab('Barangay Permit Integration')}
+                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                          >
+                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <Users size={18} />
+                            </div>
+                            <div className="select-text">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                                BARANGAY RESIDENCY &amp; EVENT CLEARANCE
                               </h4>
                             </div>
                           </div>
