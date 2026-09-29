@@ -1236,24 +1236,7 @@ Digital Security Hash   : ${item.qrHash}
                         <span>Request Barangay Clearance →</span>
                       </button>
 
-                      <div className="grid grid-cols-2 gap-2 pt-0.5">
-                        <button
-                          type="button"
-                          onClick={() => setCurrentView('cedula')}
-                          className="py-2.5 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
-                        >
-                          <FileText size={13} className="text-blue-500" />
-                          <span>Cedula CTC Filing</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setActiveModal('clearance_req')}
-                          className="py-2.5 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-400 dark:hover:border-blue-500 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
-                        >
-                          <FileText size={13} className="text-blue-500" />
-                          <span>View Requirements</span>
-                        </button>
-                      </div>
+
                     </div>
 
                     <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-sky-200 dark:border-sky-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
@@ -1385,20 +1368,7 @@ Digital Security Hash   : ${item.qrHash}
                         <span>Apply for Construction Endorsement →</span>
                       </button>
 
-                      <div className="grid grid-cols-2 gap-2 pt-0.5">
-                        <div className="py-2 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center shadow-xs">
-                          <span className="text-[9px] font-black uppercase text-amber-700 dark:text-amber-400 tracking-wider">ASSESSMENT FEE</span>
-                          <span className="text-xs font-black text-slate-900 dark:text-slate-100">₱800.00</span>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => setActiveModal('construction_req')}
-                          className="py-2.5 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-amber-400 dark:hover:border-amber-500 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
-                        >
-                          <FileText size={13} className="text-amber-600" />
-                          <span>View Requirements</span>
-                        </button>
-                      </div>
+
                     </div>
 
                     <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-amber-200 dark:border-amber-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
@@ -1530,20 +1500,7 @@ Digital Security Hash   : ${item.qrHash}
                         <span>File Instant Cedula (CTC) →</span>
                       </button>
 
-                      <div className="grid grid-cols-2 gap-2 pt-0.5">
-                        <div className="py-2 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center shadow-xs">
-                          <span className="text-[9px] font-black uppercase text-emerald-700 dark:text-emerald-400 tracking-wider">BASIC RATE</span>
-                          <span className="text-xs font-black text-slate-900 dark:text-slate-100">₱55.00+</span>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => setActiveModal('cedula_rates')}
-                          className="py-2.5 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-emerald-400 dark:hover:border-emerald-500 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
-                        >
-                          <FileText size={13} className="text-emerald-600" />
-                          <span>View Rates</span>
-                        </button>
-                      </div>
+
                     </div>
 
                     <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-emerald-200 dark:border-emerald-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
@@ -1675,20 +1632,7 @@ Digital Security Hash   : ${item.qrHash}
                         <span>Request Residency &amp; Event Pass →</span>
                       </button>
 
-                      <div className="grid grid-cols-2 gap-2 pt-0.5">
-                        <div className="py-2 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center shadow-xs">
-                          <span className="text-[9px] font-black uppercase text-purple-700 dark:text-purple-400 tracking-wider">STANDARD PASS</span>
-                          <span className="text-xs font-black text-slate-900 dark:text-slate-100">₱150.00</span>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={() => setActiveModal('residency_guidelines')}
-                          className="py-2.5 px-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-purple-400 dark:hover:border-purple-500 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5 cursor-pointer"
-                        >
-                          <FileText size={13} className="text-purple-600" />
-                          <span>View Guidelines</span>
-                        </button>
-                      </div>
+
                     </div>
 
                     <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-purple-200 dark:border-purple-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
