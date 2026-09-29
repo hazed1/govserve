@@ -1169,14 +1169,16 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
                   </button>
                   <button
                     type="button"
+                    disabled={!idDoc}
                     onClick={() => {
-                      if (!idDoc) {
-                        showToast('Please upload this document to continue.', 'error');
-                        return;
-                      }
+                      if (!idDoc) return;
                       setCurrentStep(2);
                     }}
-                    className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-lg shadow-blue-600/30 flex items-center gap-2 cursor-pointer"
+                    className={`px-6 py-3 rounded-xl text-xs font-black flex items-center gap-2 transition-all ${
+                      idDoc
+                        ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
+                        : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed shadow-none'
+                    }`}
                   >
                     <span>Next: Proof of Residency →</span>
                   </button>
@@ -1300,14 +1302,16 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
                   </button>
                   <button
                     type="button"
+                    disabled={!residencyDoc}
                     onClick={() => {
-                      if (!residencyDoc) {
-                        showToast('Please upload this document to continue.', 'error');
-                        return;
-                      }
+                      if (!residencyDoc) return;
                       setCurrentStep(3);
                     }}
-                    className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-lg shadow-blue-600/30 flex items-center gap-2"
+                    className={`px-6 py-3 rounded-xl text-xs font-black flex items-center gap-2 transition-all ${
+                      residencyDoc
+                        ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
+                        : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed shadow-none'
+                    }`}
                   >
                     <span>Next: Cedula / CTC →</span>
                   </button>
@@ -1430,14 +1434,16 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
                   </button>
                   <button
                     type="button"
+                    disabled={!cedulaDoc}
                     onClick={() => {
-                      if (!cedulaDoc) {
-                        showToast('Please upload this document to continue.', 'error');
-                        return;
-                      }
+                      if (!cedulaDoc) return;
                       setCurrentStep(4);
                     }}
-                    className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-lg shadow-blue-600/30 flex items-center gap-2"
+                    className={`px-6 py-3 rounded-xl text-xs font-black flex items-center gap-2 transition-all ${
+                      cedulaDoc
+                        ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
+                        : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed shadow-none'
+                    }`}
                   >
                     <span>Next: Barangay Endorsement →</span>
                   </button>
@@ -1584,14 +1590,16 @@ export const BarangayClearanceApplicationSystem: React.FC<BarangayClearanceAppli
                   </button>
                   <button
                     type="button"
+                    disabled={!endorsementDoc && !endorsementNotApplicable}
                     onClick={() => {
-                      if (!endorsementDoc && !endorsementNotApplicable) {
-                        showToast('Please upload your endorsement or mark as Not Applicable.', 'error');
-                        return;
-                      }
+                      if (!endorsementDoc && !endorsementNotApplicable) return;
                       setCurrentStep(5);
                     }}
-                    className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-lg shadow-blue-600/30 flex items-center gap-2"
+                    className={`px-6 py-3 rounded-xl text-xs font-black flex items-center gap-2 transition-all ${
+                      (endorsementDoc || endorsementNotApplicable)
+                        ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
+                        : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed shadow-none'
+                    }`}
                   >
                     <span>Next: Purpose of Application →</span>
                   </button>

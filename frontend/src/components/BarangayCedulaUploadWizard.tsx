@@ -121,7 +121,7 @@ export const BarangayCedulaUploadWizard: React.FC<BarangayCedulaUploadWizardProp
   ) => {
     return (
       <div className="space-y-3">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h4 className="text-sm font-black text-slate-900 dark:text-white flex items-center gap-2">
               <Camera size={16} className="text-emerald-600 dark:text-emerald-400" />
@@ -129,9 +129,17 @@ export const BarangayCedulaUploadWizard: React.FC<BarangayCedulaUploadWizardProp
             </h4>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{desc}</p>
           </div>
-          <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200">
-            {badge}
-          </span>
+          {!doc ? (
+            <span className="self-start sm:self-auto inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700 shrink-0">
+              <span className="w-2 h-2 rounded-full bg-slate-400"></span>
+              ○ Not uploaded
+            </span>
+          ) : (
+            <span className="self-start sm:self-auto inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 shrink-0">
+              <CheckCircle2 size={13} />
+              ✓ Uploaded
+            </span>
+          )}
         </div>
 
         {!doc ? (
@@ -373,23 +381,26 @@ export const BarangayCedulaUploadWizard: React.FC<BarangayCedulaUploadWizardProp
                 )}
 
                 {currentStep < 3 ? (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (currentStep === 1 && !idDoc) {
-                        showToast('Please upload your ID photo to proceed.');
-                        return;
-                      }
-                      if (currentStep === 2 && !incomeDoc) {
-                        showToast('Please upload your income proof photo to proceed.');
-                        return;
-                      }
-                      setCurrentStep(prev => prev + 1);
-                    }}
-                    className="px-6 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black shadow-lg shadow-emerald-600/30 flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]"
-                  >
-                    <span>Next Step →</span>
-                  </button>
+                  (() => {
+                    const isStepUploaded = currentStep === 1 ? !!idDoc : currentStep === 2 ? !!incomeDoc : true;
+                    return (
+                      <button
+                        type="button"
+                        disabled={!isStepUploaded}
+                        onClick={() => {
+                          if (!isStepUploaded) return;
+                          setCurrentStep(prev => prev + 1);
+                        }}
+                        className={`px-6 py-3 rounded-xl text-xs font-black flex items-center gap-2 transition-all ${
+                          isStepUploaded
+                            ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
+                            : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed shadow-none'
+                        }`}
+                      >
+                        <span>Next Step →</span>
+                      </button>
+                    );
+                  })()
                 ) : (
                   <button
                     type="button"
