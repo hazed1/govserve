@@ -391,13 +391,28 @@ export const FranchiseTransportPermitModule: React.FC<FranchiseTransportPermitMo
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Current view controller: 'admin_reviews' | 'preview' | 'hub' | 'new_franchise_wizard' | 'renewal' | 'amendment' | 'pay_fees' | 'special_trip' | 'ctc_pulling' | 'verification' | 'safety_seal'
+  const getInitialView = () => {
+    if (isFranchiseReviewTab) return 'admin_reviews';
+    if (currentTab === 'Franchise Annual Renewal') return 'renewal';
+    if (currentTab === 'Franchise Permit Filing') return 'new_franchise_wizard';
+    if (currentTab === 'Franchise Amendment' || currentTab === 'Amendment & Substitution') return 'amendment';
+    if (currentTab === 'Special Trip Clearance') return 'special_trip';
+    return 'preview';
+  };
+
   const [currentView, setCurrentView] = useState<
     'admin_reviews' | 'preview' | 'hub' | 'new_franchise_wizard' | 'renewal' | 'amendment' | 'pay_fees' | 'special_trip' | 'ctc_pulling' | 'verification' | 'safety_seal'
-  >(isFranchiseRenewalTab ? 'renewal' : isFranchiseReviewTab ? 'admin_reviews' : 'preview');
+  >(getInitialView);
 
   useEffect(() => {
     if (currentTab === 'Franchise Annual Renewal') {
       setCurrentView('renewal');
+    } else if (currentTab === 'Franchise Permit Filing') {
+      setCurrentView('new_franchise_wizard');
+    } else if (currentTab === 'Franchise Amendment' || currentTab === 'Amendment & Substitution') {
+      setCurrentView('amendment');
+    } else if (currentTab === 'Special Trip Clearance') {
+      setCurrentView('special_trip');
     }
   }, [currentTab]);
 

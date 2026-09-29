@@ -752,6 +752,9 @@ function GovServePortal() {
       case 'Franchise Permit Filing':
       case 'Franchise Permit Review':
       case 'Franchise Annual Renewal':
+      case 'Franchise Amendment':
+      case 'Amendment & Substitution':
+      case 'Special Trip Clearance':
       case 'Franchise Fee Computation':
       case 'Fleet Progress Monitoring':
         return (
