@@ -141,6 +141,14 @@ export const Sidebar: React.FC<AppSidebarProps> = ({ activeTab = 'Home', onNavig
                 <QrCode size={16} className="text-teal-400" />
                 <span>Track & Verify E-Permit</span>
               </button>
+
+              <button
+                onClick={() => onNavigate?.('Track & Verify Permits')}
+                className="w-full flex items-center space-x-3 px-3 py-2 rounded-xl text-xs font-medium text-slate-300 hover:bg-slate-800/60 hover:text-white transition-colors"
+              >
+                <ShieldCheck size={16} className="text-emerald-400" />
+                <span>Track & Verify Permits</span>
+              </button>
             </div>
           </div>
         </nav>

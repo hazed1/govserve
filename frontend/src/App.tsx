@@ -33,6 +33,7 @@ import { BarangayClearanceApplicationSystem } from './components/BarangayClearan
 import { EPermitTrackerModule } from './components/EPermitTrackerModule';
 import { AIComplianceChecking } from './components/AIComplianceChecking';
 import { PublicLandingPage } from './components/PublicLandingPage';
+import { TrackVerifyPermitModule } from './components/TrackVerifyPermitModule';
 import { 
   fetchApplications, 
   fetchApplicationStats, 
@@ -807,8 +808,25 @@ function GovServePortal() {
         return (
           <EPermitTrackerModule 
             currentTab={activeTab} 
+            applications={applications}
             onNavigateToTab={(tab) => setActiveTab(tab as TabType)} 
             onAddNewApplication={handleAddNewApplication}
+            onNavigateToDashboard={handleNavigateToDashboard}
+            onUpdateApplicationStatus={(appId, newStatus) => {
+              setApplications(prev => prev.map(a => a.id === appId ? { ...a, status: newStatus } : a));
+            }}
+          />
+        );
+
+      case 'Track & Verify Permits':
+      case 'Track Permit Application':
+      case 'Live Milestone Tracker':
+      case 'Cryptographic Verification':
+      case 'Report Fraudulent Permit':
+        return (
+          <TrackVerifyPermitModule 
+            currentTab={activeTab}
+            onNavigateToTab={(tab) => setActiveTab(tab as TabType)}
             onNavigateToDashboard={handleNavigateToDashboard}
           />
         );
@@ -986,8 +1004,33 @@ function GovServePortal() {
       <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
         <EPermitTrackerModule 
           currentTab={activeTab}
+          applications={applications}
           onNavigateToTab={(tab) => setActiveTab(tab as TabType)}
           onAddNewApplication={handleAddNewApplication}
+          onNavigateToDashboard={handleNavigateToDashboard}
+          onUpdateApplicationStatus={(appId, newStatus) => {
+            setApplications(prev => prev.map(a => a.id === appId ? { ...a, status: newStatus } : a));
+          }}
+        />
+        {/* Global Floating AI Permit Assistant Widget */}
+        <AIChatWidget onNavigateToTab={(tab) => setActiveTab(tab as TabType)} />
+      </div>
+    );
+  }
+
+  // Dedicated Standalone Track & Verify Permits View for Citizen (No Sidebar)
+  if (user?.role === 'user' && (
+    activeTab === 'Track & Verify Permits' ||
+    activeTab === 'Track Permit Application' ||
+    activeTab === 'Live Milestone Tracker' ||
+    activeTab === 'Cryptographic Verification' ||
+    activeTab === 'Report Fraudulent Permit'
+  )) {
+    return (
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
+        <TrackVerifyPermitModule 
+          currentTab={activeTab}
+          onNavigateToTab={(tab) => setActiveTab(tab as TabType)}
           onNavigateToDashboard={handleNavigateToDashboard}
         />
         {/* Global Floating AI Permit Assistant Widget */}

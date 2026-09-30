@@ -421,18 +421,18 @@ const translations: Record<string, { en: string; tl: string }> = {
     tl: 'Opisyal na selyo at lagda ng Punong Barangay'
   },
   'card_barangay_btn_primary': {
-    en: 'Request Barangay Clearance',
-    tl: 'Humiling ng Barangay Clearance'
+    en: 'Apply for Barangay Clearance',
+    tl: 'Mag-aplay para sa Barangay Clearance'
   },
   'card_barangay_btn_secondary': {
     en: 'Cedula CTC Filing',
     tl: 'Kumuha ng Sedula'
   },
 
-  // Card 5: E-Permit tracker
+  // Card 5: E-Permit Tracker
   'card_tracking_title': {
-    en: 'E-Permit tracker',
-    tl: 'E-Permit tracker'
+    en: 'E-Permit Tracker',
+    tl: 'E-Permit Tracker'
   },
   'card_tracking_subtitle': {
     en: 'Online Application & Status Tracking',
@@ -443,8 +443,48 @@ const translations: Record<string, { en: string; tl: string }> = {
     tl: 'Digital Services & Tracking'
   },
   'card_tracking_desc': {
-    en: 'You can track your permit application or status online.',
-    tl: 'Maaari mong subaybayan ang iyong permit application o status online.'
+    en: 'Track your permit application from Business, Building, Transport, or Barangay services in one place.',
+    tl: 'Subaybayan ang iyong permit application mula sa Business, Building, Transport, o Barangay services sa isang lugar.'
+  },
+  'track_target_users_title': {
+    en: 'TARGET USERS',
+    tl: 'TARGET USERS'
+  },
+  'track_target_users_desc': {
+    en: 'Citizens, business owners, applicants, engineers, drivers, operators, and authorized representatives',
+    tl: 'Mga mamamayan, may-ari ng negosyo, aplikante, inhinyero, drayber, operator, at awtorisadong kinatawan'
+  },
+  'track_service_method_title': {
+    en: 'SERVICE METHOD',
+    tl: 'SERVICE METHOD'
+  },
+  'track_service_method_desc': {
+    en: 'Online permit tracking through the centralized E-Permit system',
+    tl: 'Online permit tracking sa pamamagitan ng sentralisadong sistemang E-Permit'
+  },
+  'track_time_period_title': {
+    en: 'TIME PERIOD',
+    tl: 'TIME PERIOD'
+  },
+  'track_time_period_desc': {
+    en: 'Real-time application status and milestone updates',
+    tl: 'Real-time na katayuan ng aplikasyon at mga milestone update'
+  },
+  'track_charges_title': {
+    en: 'CHARGES & PAYMENT',
+    tl: 'CHARGES & PAYMENT'
+  },
+  'track_charges_desc': {
+    en: 'Free tracking service',
+    tl: 'Libreng serbisyo sa pagsubaybay'
+  },
+  'track_payment_method_title': {
+    en: 'PAYMENT METHOD',
+    tl: 'PAYMENT METHOD'
+  },
+  'track_payment_method_desc': {
+    en: 'Use the payment method provided by the selected permit service',
+    tl: 'Gamitin ang paraan ng pagbabayad na ibinigay ng napiling serbisyo ng permit'
   },
   'card_tracking_tag1': {
     en: 'Real-time application status and milestone tracking',

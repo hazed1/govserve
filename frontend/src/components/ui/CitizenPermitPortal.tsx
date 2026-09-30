@@ -350,7 +350,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
         t('card_barangay_tag3', 'Official Punong Barangay QR signature seal')
       ],
       keywords: ['barangay', 'clearance', 'cedula', 'sedula', 'ctc', 'community', 'tax', 'buwis', 'lupon', 'endorsement', 'endoso'],
-      primaryBtnText: 'Apply for Barangay Clearance →',
+      primaryBtnText: t('card_barangay_btn_primary', 'Apply for Barangay Clearance'),
       primaryTab: 'Barangay Permit Integration' as TabType,
       secondaryBtnText: 'View Barangay Portal',
       secondaryTab: 'Barangay Permit Integration' as TabType,
@@ -369,34 +369,34 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
     },
     {
       id: 'tracking',
-      title: t('card_tracking_title', 'E-Permit tracker'),
+      title: t('card_tracking_title', 'E-Permit Tracker'),
       subtitle: t('card_tracking_subtitle', 'Online Application & Status Tracking'),
       category: t('card_tracking_category', 'Digital Services & Tracking'),
-      description: t('card_tracking_desc', 'You can track your permit application or status online.'),
-      targetUsersTitle: t('track_target_users_title', 'Target Users'),
-      targetUsers: t('track_target_users_desc', 'All citizens and applicants tracking pending or approved LGU permits'),
-      serviceMethodTitle: t('track_service_method_title', 'Service Method'),
-      serviceMethod: t('track_service_method_desc', 'Online tracking through GovServe'),
-      timePeriodTitle: t('track_time_period_title', 'Time Period'),
-      timePeriod: t('track_time_period_desc', 'Instant 24/7 digital status lookup with milestone audit history'),
-      chargesTitle: t('track_charges_title', 'Charges & Payment'),
-      chargesPayment: t('track_charges_desc', 'Free Public LGU Service (₱0.00 Tariff)'),
-      paymentMethodTitle: t('track_payment_method_title', 'Payment Method'),
-      paymentMethod: t('track_payment_method_desc', 'Via GovServe online portal'),
+      description: t('card_tracking_desc', 'Track your permit application from Business, Building, Transport, or Barangay services in one place.'),
+      targetUsersTitle: t('track_target_users_title', 'TARGET USERS'),
+      targetUsers: t('track_target_users_desc', 'Citizens, business owners, applicants, engineers, drivers, operators, and authorized representatives'),
+      serviceMethodTitle: t('track_service_method_title', 'SERVICE METHOD'),
+      serviceMethod: t('track_service_method_desc', 'Online permit tracking through the centralized E-Permit system'),
+      timePeriodTitle: t('track_time_period_title', 'TIME PERIOD'),
+      timePeriod: t('track_time_period_desc', 'Real-time application status and milestone updates'),
+      chargesTitle: t('track_charges_title', 'CHARGES & PAYMENT'),
+      chargesPayment: t('track_charges_desc', 'Free tracking service'),
+      paymentMethodTitle: t('track_payment_method_title', 'PAYMENT METHOD'),
+      paymentMethod: t('track_payment_method_desc', 'Use the payment method provided by the selected permit service'),
       uploadTitle: t('track_doc_upload_title', 'QR Decal & Reference Scanner Active'),
       uploadDesc: t('track_doc_upload_desc', 'Scan or upload clear photos of your Permit QR Decal, Official Receipt QR, or enter reference code for instant validation.'),
       chips: [
-        { label: 'Permit QR Decal', color: 'text-teal-500' },
-        { label: 'Official Receipt QR', color: 'text-blue-500' },
-        { label: 'Reference Code', color: 'text-purple-500' },
-        { label: 'Digital Seal', color: 'text-emerald-500' }
+        { label: 'Business Permit', color: 'text-blue-500' },
+        { label: 'Building Permit', color: 'text-amber-500' },
+        { label: 'Transport / Franchise', color: 'text-emerald-500' },
+        { label: 'Barangay Clearance', color: 'text-purple-500' }
       ],
       tags: [
         t('card_tracking_tag1', 'Real-time application status and milestone tracking'),
         t('card_tracking_tag2', 'Public reference code lookup (BP / BC / FT / BR)'),
         t('card_tracking_tag3', 'Digital authenticity and official QR code verification')
       ],
-      keywords: ['tracker', 'subaybay', 'qr', 'verify', 'beripika', 'authenticity', 'milestone', 'status', 'katayuan', 'anti-fraud', 'cryptographic', 'reference', 'online'],
+      keywords: ['tracker', 'e-permit', 'subaybay', 'qr', 'verify', 'beripika', 'authenticity', 'milestone', 'status', 'katayuan', 'reference', 'online', 'business', 'building', 'transport', 'barangay'],
       primaryBtnText: t('card_tracking_btn_primary', 'Track Permit Application'),
       primaryTab: 'E-Permit Tracker' as TabType,
       secondaryBtnText: t('card_tracking_btn_secondary', 'Verify QR Authenticity'),
@@ -870,64 +870,64 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                           </div>
                         </div>
                       ) : (
-                        /* 5 Feature Rows for other services (Barangay, Tracker) */
-                        <div className="space-y-3 pt-2 border-t border-slate-100 dark:border-slate-800">
-                          {/* Row 1: Target Users */}
-                          <div className="flex items-center space-x-3.5 group/item">
+                        /* 4 Core Permit Tracker Services */
+                        <div className="space-y-3.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                          {/* 1. BUSINESS PERMIT TRACKER */}
+                          <div 
+                            onClick={() => onNavigateToTab('E-Permit Tracker')}
+                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                          >
                             <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <Users size={18} />
+                              <Building2 size={18} />
                             </div>
-                            <div>
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
-                                {service.targetUsersTitle}
+                            <div className="select-text">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                                BUSINESS PERMIT TRACKER
                               </h4>
                             </div>
                           </div>
 
-                          {/* Row 2: Service Method */}
-                          <div className="flex items-center space-x-3.5 group/item">
+                          {/* 2. BUILDING & CONSTRUCTION PERMIT TRACKER */}
+                          <div 
+                            onClick={() => onNavigateToTab('E-Permit Tracker')}
+                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                          >
                             <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <IconComponent size={18} />
+                              <Building size={18} />
                             </div>
-                            <div>
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
-                                {service.serviceMethodTitle}
+                            <div className="select-text">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                                BUILDING &amp; CONSTRUCTION PERMIT TRACKER
                               </h4>
                             </div>
                           </div>
 
-                          {/* Row 3: Time Period */}
-                          <div className="flex items-center space-x-3.5 group/item">
+                          {/* 3. FRANCHISE & TRANSPORT PERMIT TRACKER */}
+                          <div 
+                            onClick={() => onNavigateToTab('E-Permit Tracker')}
+                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                          >
                             <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <Clock size={18} />
+                              <Bus size={18} />
                             </div>
-                            <div>
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
-                                {service.timePeriodTitle}
+                            <div className="select-text">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                                FRANCHISE &amp; TRANSPORT PERMIT TRACKER
                               </h4>
                             </div>
                           </div>
 
-                          {/* Row 4: Charges & Payment */}
-                          <div className="flex items-center space-x-3.5 group/item">
+                          {/* 4. BARANGAY PERMIT TRACKER */}
+                          <div 
+                            onClick={() => onNavigateToTab('E-Permit Tracker')}
+                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                          >
                             <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <Banknote size={18} />
+                              <ShieldCheck size={18} />
                             </div>
-                            <div>
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
-                                {service.chargesTitle}
-                              </h4>
-                            </div>
-                          </div>
-
-                          {/* Row 5: Payment Method */}
-                          <div className="flex items-center space-x-3.5 group/item">
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <CreditCard size={18} />
-                            </div>
-                            <div>
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
-                                {service.paymentMethodTitle}
+                            <div className="select-text">
+                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                                BARANGAY PERMIT TRACKER
                               </h4>
                             </div>
                           </div>
@@ -941,7 +941,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                         onClick={() => onNavigateToTab(service.primaryTab)}
                         className={`w-full py-3.5 ${service.accent.primaryBtn} rounded-2xl text-xs font-bold transition-all flex items-center justify-center space-x-2 group/btn cursor-pointer`}
                       >
-                        <span>{service.primaryBtnText}</span>
+                        <span>{service.primaryBtnText.replace(/→\s*$/, '').trim()}</span>
                         <ArrowRight size={15} className="group-hover/btn:translate-x-1 transition-transform" />
                       </button>
 

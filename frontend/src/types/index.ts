@@ -64,6 +64,12 @@ export type TabType =
   | 'Live Application Milestone Status'
   | 'AI Clearance Audit'
   | 'Digital Permit Download'
+  // 6. Track & Verify Official Permits Module
+  | 'Track & Verify Permits'
+  | 'Track Permit Application'
+  | 'Live Milestone Tracker'
+  | 'Cryptographic Verification'
+  | 'Report Fraudulent Permit'
   // Utility & Standard Nav Tabs
   | 'Public Services Portal'
   | 'Landing Page'
