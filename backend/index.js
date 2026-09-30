@@ -65,11 +65,33 @@ app.use('/api/ai', aiRouter);
 // Serve Frontend Static Build (Production)
 const frontendDistPath = path.join(__dirname, '../frontend/dist');
 if (fs.existsSync(frontendDistPath)) {
-  app.use(express.static(frontendDistPath));
+  // Hashed assets (JS/CSS) — cache for 1 year (immutable, Vite hashes filenames)
+  app.use('/assets', express.static(path.join(frontendDistPath, 'assets'), {
+    maxAge: '1y',
+    immutable: true
+  }));
+
+  // All other static files — short cache
+  app.use(express.static(frontendDistPath, {
+    maxAge: '1h',
+    setHeaders: (res, filePath) => {
+      // Never cache index.html
+      if (filePath.endsWith('.html')) {
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+      }
+    }
+  }));
+
+  // SPA fallback — always serve fresh index.html
   app.use((req, res) => {
     if (req.originalUrl.startsWith('/api')) {
       return res.status(404).json({ error: 'API route not found' });
     }
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
     res.sendFile(path.join(frontendDistPath, 'index.html'));
   });
 } else {
