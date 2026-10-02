@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { 
   Building2, 
   Upload, 
+  UploadCloud,
   CheckCircle2, 
   ArrowRight, 
   ArrowLeft, 
@@ -46,6 +47,14 @@ export interface BusinessPermitUploadWizardProps {
   initialAppType?: 'NEW' | 'RENEWAL' | 'AMENDMENT';
 }
 
+const uploadBoxThemes = [
+  {
+    iconColor: 'text-slate-400',
+    textColor: 'text-slate-700 dark:text-slate-300',
+    hoverBorder: 'hover:border-blue-500 dark:hover:border-sky-500',
+  },
+];
+
 export interface UploadedDocItem {
   id: string;
   code: string;
@@ -87,33 +96,33 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
 
   // Operational & Activity Info
   const [operationInfo, setOperationInfo] = useState({
-    capitalInvestment: '150,000.00',
-    floorAreaSqm: '45.00',
-    totalEmployees: '4',
-    femaleEmployees: '2',
-    maleEmployees: '2',
-    pwdEmployees: '0',
-    deliveryVehicles: '1',
-    monthlyRental: '18,000.00',
-    lessorName: 'Katipunan Commercial Properties Inc.',
-    lessorContact: '+63 917 111 2233'
+    capitalInvestment: '',
+    floorAreaSqm: '',
+    totalEmployees: '',
+    femaleEmployees: '',
+    maleEmployees: '',
+    pwdEmployees: '',
+    deliveryVehicles: '',
+    monthlyRental: '',
+    lessorName: '',
+    lessorContact: ''
   });
 
   const [activityInfo, setActivityInfo] = useState({
-    psicCode: '4741 - Retail sale of information and communication equipment',
-    lineOfBusiness: 'Computer Hardware, Peripherals & Internet Services',
-    productsServices: 'Computer rentals, printing, photocopying, hardware accessories',
-    operatingHours: '08:00 AM - 10:00 PM',
-    daysOpen: 'Monday to Sunday'
+    psicCode: '',
+    lineOfBusiness: '',
+    productsServices: '',
+    operatingHours: '',
+    daysOpen: ''
   });
 
   const [otherInfo, setOtherInfo] = useState({
-    emergencyContactName: 'Maria Dela Cruz',
-    emergencyContactNumber: '+63 918 333 4444',
-    emergencyContactRelation: 'Spouse',
-    hasSanitaryPermit: true,
-    hasFireSafetyClearance: true,
-    hasZoningClearance: true
+    emergencyContactName: '',
+    emergencyContactNumber: '',
+    emergencyContactRelation: '',
+    hasSanitaryPermit: false,
+    hasFireSafetyClearance: false,
+    hasZoningClearance: false
   });
 
   // Hidden file inputs for direct trigger
@@ -126,38 +135,26 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
   const [appType, setAppType] = useState<'NEW' | 'RENEWAL' | 'AMENDMENT'>(initialAppType);
   const [applicantType, setApplicantType] = useState<'OWNER' | 'REPRESENTATIVE'>('OWNER');
   const [applicantInfo, setApplicantInfo] = useState({
-    fullName: user?.name || 'Juan Dela Cruz',
-    mobile: '+63 917 555 0192',
-    email: user?.email || 'applicant.delacruz@example.com',
-    repFullName: 'Maria Santos Dela Cruz',
-    repMobile: '+63 918 333 4444'
+    fullName: '',
+    mobile: '',
+    email: '',
+    repFullName: '',
+    repMobile: ''
   });
 
   // Representative supporting documents (stored directly in state)
-  const [repAuthLetter, setRepAuthLetter] = useState<{ fileName: string; fileUrl: string; status: string } | null>({
-    fileName: 'Authorization_Letter_Notarized.jpg',
-    fileUrl: '/Renewal.jpg',
-    status: '✓ Uploaded'
-  });
-  const [repOwnerId, setRepOwnerId] = useState<{ fileName: string; fileUrl: string; status: string } | null>({
-    fileName: 'Owner_Valid_ID.jpg',
-    fileUrl: '/Amendment.jpg',
-    status: '✓ Uploaded'
-  });
-  const [repId, setRepId] = useState<{ fileName: string; fileUrl: string; status: string } | null>({
-    fileName: 'Representative_ID.jpg',
-    fileUrl: '/Special Permit.jpg',
-    status: '✓ Uploaded'
-  });
+  const [repAuthLetter, setRepAuthLetter] = useState<{ fileName: string; fileUrl: string; status: string } | null>(null);
+  const [repOwnerId, setRepOwnerId] = useState<{ fileName: string; fileUrl: string; status: string } | null>(null);
+  const [repId, setRepId] = useState<{ fileName: string; fileUrl: string; status: string } | null>(null);
 
   // STEP 2: BUSINESS INFORMATION (minimal manual fields)
   const [businessInfo, setBusinessInfo] = useState({
-    businessName: 'ABC Computer Shop',
+    businessName: '',
     businessType: 'Sole Proprietorship' as 'Sole Proprietorship' | 'Partnership' | 'Corporation' | 'Cooperative' | 'Other',
-    natureOfBusiness: 'Internet Cafe & Computer Services',
-    businessAddress: 'Unit 102 Ground Floor, Katipunan St.',
-    businessBarangay: 'Barangay San Antonio',
-    businessContact: '+63 917 555 0192'
+    natureOfBusiness: '',
+    businessAddress: '',
+    businessBarangay: '',
+    businessContact: ''
   });
 
   // Property / Right to Use Location
@@ -172,16 +169,12 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
       category: 'Identification',
       description: 'Philippine National ID (PhilID), Passport, Driver’s License, or UMID of Registered Proprietor',
       file: null,
-      fileName: 'Philippine_National_ID_Juan_Dela_Cruz.jpg',
-      fileUrl: '/Amendment.jpg',
-      fileType: 'image/jpeg',
-      fileSize: 1024 * 510,
-      status: 'UPLOADED',
-      mandatory: true,
-      detectedData: {
-        ownerName: 'Juan Dela Cruz',
-        regNumber: 'PHILID-4921-8841-02'
-      }
+      fileName: null,
+      fileUrl: null,
+      fileType: null,
+      fileSize: null,
+      status: 'NOT UPLOADED',
+      mandatory: true
     },
     {
       id: 'bus_reg',
@@ -190,17 +183,12 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
       category: 'Registration',
       description: 'DTI Business Name Certificate (Sole Prop), SEC Registration Certificate (Corp/Partnership), or CDA (Cooperative)',
       file: null,
-      fileName: 'DTI_Registration_ABC_Computer_Shop.jpg',
-      fileUrl: '/New Application.jpg',
-      fileType: 'image/jpeg',
-      fileSize: 1024 * 750,
-      status: 'UPLOADED',
-      mandatory: true,
-      detectedData: {
-        businessName: 'ABC Computer Shop',
-        regNumber: 'DTI-NCR-2026-98124',
-        ownerName: 'Juan Dela Cruz'
-      }
+      fileName: null,
+      fileUrl: null,
+      fileType: null,
+      fileSize: null,
+      status: 'NOT UPLOADED',
+      mandatory: true
     },
     {
       id: 'location_proof',
@@ -209,15 +197,12 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
       category: 'Location Right',
       description: 'Notarized Contract of Lease, Tax Declaration / TCT (if owned), or LGU Property Authorization',
       file: null,
-      fileName: 'Contract_of_Lease_Notarized.jpg',
-      fileUrl: '/Renewal.jpg',
-      fileType: 'image/jpeg',
-      fileSize: 1024 * 920,
-      status: 'UPLOADED',
-      mandatory: true,
-      detectedData: {
-        address: 'Unit 102 Ground Floor, Katipunan St., Barangay San Antonio, Quezon City'
-      }
+      fileName: null,
+      fileUrl: null,
+      fileType: null,
+      fileSize: null,
+      status: 'NOT UPLOADED',
+      mandatory: true
     },
     {
       id: 'location_photo',
@@ -226,11 +211,11 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
       category: 'Storefront',
       description: 'Clear exterior storefront photo showing business establishment signage and entrance',
       file: null,
-      fileName: 'Storefront_Exterior_Photo.jpg',
-      fileUrl: '/Special Permit.jpg',
-      fileType: 'image/jpeg',
-      fileSize: 1024 * 650,
-      status: 'UPLOADED',
+      fileName: null,
+      fileUrl: null,
+      fileType: null,
+      fileSize: null,
+      status: 'NOT UPLOADED',
       mandatory: true
     },
     {
@@ -282,9 +267,110 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
         natureOfBusiness: 'Internet Cafe & IT Services',
         businessAddress: 'Unit 102 Ground Floor, Katipunan St.',
         businessBarangay: 'Barangay San Antonio',
-        businessContact: '+63 917 555 0192'
+        businessContact: '09175550192'
       });
       setPropertyTenure('LEASED');
+      setApplicantInfo({
+        fullName: 'Juan Dela Cruz',
+        mobile: '09175550192',
+        email: 'juan.delacruz@example.com',
+        repFullName: '',
+        repMobile: ''
+      });
+      setOperationInfo({
+        capitalInvestment: '150,000.00',
+        floorAreaSqm: '45.00',
+        totalEmployees: '4',
+        femaleEmployees: '2',
+        maleEmployees: '2',
+        pwdEmployees: '0',
+        deliveryVehicles: '1',
+        monthlyRental: '18,000.00',
+        lessorName: 'Katipunan Commercial Properties Inc.',
+        lessorContact: '09171112233'
+      });
+      setActivityInfo({
+        psicCode: '4741 - Retail sale of information and communication equipment',
+        lineOfBusiness: 'Computer Hardware, Peripherals & Internet Services',
+        productsServices: 'Computer rentals, printing, photocopying, hardware accessories',
+        operatingHours: '14',
+        daysOpen: '7'
+      });
+      setDocuments([
+        {
+          id: 'valid_id',
+          code: 'VALID_ID',
+          name: 'Valid Government ID',
+          category: 'Identification',
+          description: 'Philippine National ID (PhilID), Passport, Driver’s License, or UMID of Registered Proprietor',
+          file: null,
+          fileName: 'Philippine_National_ID_Juan_Dela_Cruz.jpg',
+          fileUrl: '/Amendment.jpg',
+          fileType: 'image/jpeg',
+          fileSize: 1024 * 510,
+          status: 'UPLOADED',
+          mandatory: true,
+          detectedData: { ownerName: 'Juan Dela Cruz', regNumber: 'PHILID-4921-8841-02' }
+        },
+        {
+          id: 'bus_reg',
+          code: 'BUS_REG',
+          name: 'Business Registration',
+          category: 'Registration',
+          description: 'DTI Business Name Certificate (Sole Prop), SEC Registration Certificate (Corp/Partnership), or CDA (Cooperative)',
+          file: null,
+          fileName: 'DTI_Registration_ABC_Computer_Shop.jpg',
+          fileUrl: '/New Application.jpg',
+          fileType: 'image/jpeg',
+          fileSize: 1024 * 750,
+          status: 'UPLOADED',
+          mandatory: true,
+          detectedData: { businessName: 'ABC Computer Shop', regNumber: 'DTI-NCR-2026-98124', ownerName: 'Juan Dela Cruz' }
+        },
+        {
+          id: 'location_proof',
+          code: 'LOCATION_PROOF',
+          name: 'Proof of Right to Use Business Location',
+          category: 'Location Right',
+          description: 'Notarized Contract of Lease, Tax Declaration / TCT (if owned), or LGU Property Authorization',
+          file: null,
+          fileName: 'Contract_of_Lease_Notarized.jpg',
+          fileUrl: '/Renewal.jpg',
+          fileType: 'image/jpeg',
+          fileSize: 1024 * 920,
+          status: 'UPLOADED',
+          mandatory: true,
+          detectedData: { address: 'Unit 102 Ground Floor, Katipunan St., Barangay San Antonio, Quezon City' }
+        },
+        {
+          id: 'location_photo',
+          code: 'LOCATION_PHOTO',
+          name: 'Business Location Photo',
+          category: 'Storefront',
+          description: 'Clear exterior storefront photo showing business establishment signage and entrance',
+          file: null,
+          fileName: 'Storefront_Exterior_Photo.jpg',
+          fileUrl: '/Special Permit.jpg',
+          fileType: 'image/jpeg',
+          fileSize: 1024 * 650,
+          status: 'UPLOADED',
+          mandatory: true
+        },
+        {
+          id: 'other_docs',
+          code: 'OTHER_DOCS',
+          name: 'Other Supporting Documents',
+          category: 'Optional Supporting',
+          description: 'Barangay Business Clearance, Sanitary Endorsement, or Fire Safety Inspection Certificate',
+          file: null,
+          fileName: null,
+          fileUrl: null,
+          fileType: null,
+          fileSize: null,
+          status: 'NOT UPLOADED',
+          mandatory: false
+        }
+      ]);
     } else if (sample === 'corp') {
       setBusinessInfo({
         businessName: 'Apex Digital Solutions Inc.',
@@ -292,9 +378,110 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
         natureOfBusiness: 'Software Development & BPO Services',
         businessAddress: '8th Floor Cyber Tower, Commonwealth Ave.',
         businessBarangay: 'Barangay Batasan Hills',
-        businessContact: '+63 917 888 1234'
+        businessContact: '09178881234'
       });
       setPropertyTenure('OWNED');
+      setApplicantInfo({
+        fullName: 'Alexander Reyes',
+        mobile: '09178881234',
+        email: 'alex.reyes@apexdigital.ph',
+        repFullName: '',
+        repMobile: ''
+      });
+      setOperationInfo({
+        capitalInvestment: '3,000,000.00',
+        floorAreaSqm: '250.00',
+        totalEmployees: '35',
+        femaleEmployees: '20',
+        maleEmployees: '15',
+        pwdEmployees: '1',
+        deliveryVehicles: '2',
+        monthlyRental: '0.00',
+        lessorName: 'N/A (Owned Facility)',
+        lessorContact: ''
+      });
+      setActivityInfo({
+        psicCode: '6201 - Computer programming activities',
+        lineOfBusiness: 'Software Development, Web Design & Cloud Systems',
+        productsServices: 'Software development, SaaS systems, technical support',
+        operatingHours: '24',
+        daysOpen: '7'
+      });
+      setDocuments([
+        {
+          id: 'valid_id',
+          code: 'VALID_ID',
+          name: 'Valid Government ID',
+          category: 'Identification',
+          description: 'Philippine National ID (PhilID), Passport, Driver’s License, or UMID of Registered Proprietor',
+          file: null,
+          fileName: 'Passport_Alexander_Reyes.jpg',
+          fileUrl: '/Amendment.jpg',
+          fileType: 'image/jpeg',
+          fileSize: 1024 * 610,
+          status: 'UPLOADED',
+          mandatory: true,
+          detectedData: { ownerName: 'Alexander Reyes', regNumber: 'P-9841284-B' }
+        },
+        {
+          id: 'bus_reg',
+          code: 'BUS_REG',
+          name: 'Business Registration',
+          category: 'Registration',
+          description: 'DTI Business Name Certificate (Sole Prop), SEC Registration Certificate (Corp/Partnership), or CDA (Cooperative)',
+          file: null,
+          fileName: 'SEC_Registration_Certificate_Apex.jpg',
+          fileUrl: '/New Application.jpg',
+          fileType: 'image/jpeg',
+          fileSize: 1024 * 890,
+          status: 'UPLOADED',
+          mandatory: true,
+          detectedData: { businessName: 'Apex Digital Solutions Inc.', regNumber: 'SEC-CS2024-00918', ownerName: 'Alexander Reyes' }
+        },
+        {
+          id: 'location_proof',
+          code: 'LOCATION_PROOF',
+          name: 'Proof of Right to Use Business Location',
+          category: 'Location Right',
+          description: 'Notarized Contract of Lease, Tax Declaration / TCT (if owned), or LGU Property Authorization',
+          file: null,
+          fileName: 'Transfer_Certificate_of_Title_TCT.jpg',
+          fileUrl: '/Renewal.jpg',
+          fileType: 'image/jpeg',
+          fileSize: 1024 * 990,
+          status: 'UPLOADED',
+          mandatory: true,
+          detectedData: { address: '8th Floor Cyber Tower, Commonwealth Ave., Barangay Batasan Hills, Quezon City' }
+        },
+        {
+          id: 'location_photo',
+          code: 'LOCATION_PHOTO',
+          name: 'Business Location Photo',
+          category: 'Storefront',
+          description: 'Clear exterior storefront photo showing business establishment signage and entrance',
+          file: null,
+          fileName: 'Office_Exterior_Facade_Cyber_Tower.jpg',
+          fileUrl: '/Special Permit.jpg',
+          fileType: 'image/jpeg',
+          fileSize: 1024 * 720,
+          status: 'UPLOADED',
+          mandatory: true
+        },
+        {
+          id: 'other_docs',
+          code: 'OTHER_DOCS',
+          name: 'Other Supporting Documents',
+          category: 'Optional Supporting',
+          description: 'Barangay Business Clearance, Sanitary Endorsement, or Fire Safety Inspection Certificate',
+          file: null,
+          fileName: null,
+          fileUrl: null,
+          fileType: null,
+          fileSize: null,
+          status: 'NOT UPLOADED',
+          mandatory: false
+        }
+      ]);
     } else {
       setBusinessInfo({
         businessName: 'Bagong Pag-Asa Consumers Cooperative',
@@ -302,9 +489,110 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
         natureOfBusiness: 'Retail General Merchandise & Lending',
         businessAddress: 'Block 14 Lot 8, Central Ave.',
         businessBarangay: 'Barangay Central',
-        businessContact: '+63 920 333 4444'
+        businessContact: '09203334444'
       });
       setPropertyTenure('GOVERNMENT_PROPERTY');
+      setApplicantInfo({
+        fullName: 'Elena Bautista',
+        mobile: '09203334444',
+        email: 'elena.bautista@bagongpagasa.coop',
+        repFullName: '',
+        repMobile: ''
+      });
+      setOperationInfo({
+        capitalInvestment: '1,200,000.00',
+        floorAreaSqm: '120.00',
+        totalEmployees: '12',
+        femaleEmployees: '8',
+        maleEmployees: '4',
+        pwdEmployees: '0',
+        deliveryVehicles: '1',
+        monthlyRental: '12,000.00',
+        lessorName: 'Barangay Central Cooperative Center',
+        lessorContact: '09201110000'
+      });
+      setActivityInfo({
+        psicCode: '4711 - Retail sale in non-specialized stores',
+        lineOfBusiness: 'Consumer Goods, Groceries & Financial Services',
+        productsServices: 'Groceries, essential consumer goods, member micro-loans',
+        operatingHours: '13',
+        daysOpen: '6'
+      });
+      setDocuments([
+        {
+          id: 'valid_id',
+          code: 'VALID_ID',
+          name: 'Valid Government ID',
+          category: 'Identification',
+          description: 'Philippine National ID (PhilID), Passport, Driver’s License, or UMID of Registered Proprietor',
+          file: null,
+          fileName: 'UMID_Elena_Bautista.jpg',
+          fileUrl: '/Amendment.jpg',
+          fileType: 'image/jpeg',
+          fileSize: 1024 * 490,
+          status: 'UPLOADED',
+          mandatory: true,
+          detectedData: { ownerName: 'Elena Bautista', regNumber: 'CRN-0012-9841-992' }
+        },
+        {
+          id: 'bus_reg',
+          code: 'BUS_REG',
+          name: 'Business Registration',
+          category: 'Registration',
+          description: 'DTI Business Name Certificate (Sole Prop), SEC Registration Certificate (Corp/Partnership), or CDA (Cooperative)',
+          file: null,
+          fileName: 'CDA_Registration_Certificate_Bagong_PagAsa.jpg',
+          fileUrl: '/New Application.jpg',
+          fileType: 'image/jpeg',
+          fileSize: 1024 * 810,
+          status: 'UPLOADED',
+          mandatory: true,
+          detectedData: { businessName: 'Bagong Pag-Asa Consumers Cooperative', regNumber: 'CDA-NCR-2023-4412', ownerName: 'Elena Bautista' }
+        },
+        {
+          id: 'location_proof',
+          code: 'LOCATION_PROOF',
+          name: 'Proof of Right to Use Business Location',
+          category: 'Location Right',
+          description: 'Notarized Contract of Lease, Tax Declaration / TCT (if owned), or LGU Property Authorization',
+          file: null,
+          fileName: 'LGU_Property_Occupancy_Authorization.jpg',
+          fileUrl: '/Renewal.jpg',
+          fileType: 'image/jpeg',
+          fileSize: 1024 * 940,
+          status: 'UPLOADED',
+          mandatory: true,
+          detectedData: { address: 'Block 14 Lot 8, Central Ave., Barangay Central, Quezon City' }
+        },
+        {
+          id: 'location_photo',
+          code: 'LOCATION_PHOTO',
+          name: 'Business Location Photo',
+          category: 'Storefront',
+          description: 'Clear exterior storefront photo showing business establishment signage and entrance',
+          file: null,
+          fileName: 'Storefront_Bagong_PagAsa_Coop.jpg',
+          fileUrl: '/Special Permit.jpg',
+          fileType: 'image/jpeg',
+          fileSize: 1024 * 680,
+          status: 'UPLOADED',
+          mandatory: true
+        },
+        {
+          id: 'other_docs',
+          code: 'OTHER_DOCS',
+          name: 'Other Supporting Documents',
+          category: 'Optional Supporting',
+          description: 'Barangay Business Clearance, Sanitary Endorsement, or Fire Safety Inspection Certificate',
+          file: null,
+          fileName: null,
+          fileUrl: null,
+          fileType: null,
+          fileSize: null,
+          status: 'NOT UPLOADED',
+          mandatory: false
+        }
+      ]);
     }
   };
 
@@ -417,6 +705,63 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
     }));
   };
 
+  // Direct File Upload from Dashed Dropzone Box (Picture 1 style)
+  const handleDirectFileUpload = (docId: string, file: File | null) => {
+    if (!file) return;
+    setUploadError(null);
+    const MAX_SIZE = 10 * 1024 * 1024;
+    if (file.size > MAX_SIZE) {
+      setUploadError(`File "${file.name}" exceeds the 10 MB limit (${(file.size / (1024 * 1024)).toFixed(2)} MB). Please select a file under 10 MB.`);
+      return;
+    }
+
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+    if (!validTypes.includes(file.type.toLowerCase()) && !file.name.match(/\.(jpg|jpeg|png|pdf)$/i)) {
+      setUploadError(`File type "${file.type}" is not supported. Supported formats: JPG, PNG, PDF.`);
+      return;
+    }
+
+    let previewUrl: string | null = null;
+    if (file.type.startsWith('image/') || file.name.match(/\.(jpg|jpeg|png)$/i)) {
+      try {
+        previewUrl = URL.createObjectURL(file);
+      } catch (err) {
+        console.warn('Preview URL error:', err);
+      }
+    }
+
+    setDocuments(prev => prev.map(d => {
+      if (d.id === docId) {
+        return {
+          ...d,
+          file,
+          fileName: file.name,
+          fileUrl: previewUrl || d.fileUrl || '/New Application.jpg',
+          fileType: file.type || 'image/jpeg',
+          fileSize: file.size,
+          status: 'UPLOADED',
+          comment: undefined
+        };
+      }
+      return d;
+    }));
+
+    if (docId === 'bus_reg' || docId === 'valid_id') {
+      const detectedBizName = docId === 'bus_reg' ? businessInfo.businessName || 'ABC Computer Shop' : businessInfo.businessName;
+      const detectedRegNo = docId === 'bus_reg' ? 'DTI-NCR-2026-98124' : 'PHILID-4921-8841-02';
+      const detectedOwner = applicantInfo.fullName || 'Juan Dela Cruz';
+
+      setOcrDetectedDoc({
+        docId,
+        docName: docId === 'bus_reg' ? 'DTI Registration' : 'Valid Government ID',
+        businessName: detectedBizName,
+        regNumber: detectedRegNo,
+        ownerName: detectedOwner,
+        isEditing: false
+      });
+    }
+  };
+
   // Replacement upload for "NEEDS CORRECTION"
   const handleReplacementUpload = async (e: React.ChangeEvent<HTMLInputElement>, docId: string) => {
     const file = e.target.files?.[0];
@@ -477,6 +822,36 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
   const uploadedMandatoryDocs = mandatoryDocs.filter(d => d.status !== 'NOT UPLOADED' && (d.file || d.fileName || d.fileUrl));
   const missingCount = mandatoryDocs.length - uploadedMandatoryDocs.length;
   const isDocumentsComplete = missingCount === 0;
+
+  // Step validation rules: cannot continue if required text fields are empty
+  const isStep3Valid = Boolean(
+    businessInfo.businessName?.trim() &&
+    businessInfo.natureOfBusiness?.trim() &&
+    businessInfo.businessContact?.replace(/\D/g, '').length === 11 &&
+    businessInfo.businessAddress?.trim() &&
+    businessInfo.businessBarangay?.trim()
+  );
+
+  const isStep4Valid = Boolean(
+    operationInfo.capitalInvestment?.trim() &&
+    operationInfo.floorAreaSqm?.trim() &&
+    operationInfo.totalEmployees?.trim()
+  );
+
+  const isStep5Valid = Boolean(
+    activityInfo.psicCode?.trim() &&
+    activityInfo.lineOfBusiness?.trim()
+  );
+
+  const isStep6Valid = Boolean(
+    applicantInfo.fullName?.trim() &&
+    applicantInfo.mobile?.replace(/\D/g, '').length === 11 &&
+    applicantInfo.email?.trim() &&
+    (applicantType === 'OWNER' || (
+      applicantInfo.repFullName?.trim() &&
+      applicantInfo.repMobile?.replace(/\D/g, '').length === 11
+    ))
+  );
 
   // Final Application Submission
   const handleSubmitApplication = async () => {
@@ -611,7 +986,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-5 sm:p-8 shadow-md space-y-6 animate-in fade-in max-w-6xl mx-auto">
+    <div className="space-y-6 animate-in fade-in w-full">
       
       {/* ========================================================================= */}
       {/* 7-STEP UNIFIED PROGRESS HEADER (MATCHING QUEZON CITY BOSS PICTURE 1) */}
@@ -833,27 +1208,23 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
             </label>
           </div>
 
-          {/* Bottom Navigation Buttons: BACK & CONTINUE */}
-          <div className="pt-3 flex items-center justify-between border-t border-slate-200 dark:border-slate-800">
+          {/* Bottom Navigation Buttons: Back to New Business Permit Application & Continue to Basic Documentary Requirements */}
+          <div className="pt-4 flex flex-wrap items-center justify-between border-t border-slate-200 dark:border-slate-800 gap-3">
             <button
               type="button"
               onClick={onBack}
-              className="px-6 py-2 bg-white hover:bg-slate-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 rounded text-xs font-bold uppercase transition-all cursor-pointer shadow-xs"
+              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
             >
-              BACK
+              Back to New Business Permit Application
             </button>
 
             <button
               type="button"
               disabled={!hasAgreedGuidelines}
               onClick={() => setWizardStep(2)}
-              className={`px-7 py-2 rounded text-xs font-black uppercase tracking-wider transition-all cursor-pointer shadow-md ${
-                hasAgreedGuidelines
-                  ? 'bg-[#004b75] hover:bg-[#003859] active:bg-[#00273d] text-white'
-                  : 'bg-slate-300 dark:bg-slate-800 text-slate-500 dark:text-slate-500 cursor-not-allowed opacity-70'
-              }`}
+              className="px-7 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-2xl text-xs font-bold transition-all shadow-md cursor-pointer"
             >
-              CONTINUE
+              Continue to Basic Documentary Requirements
             </button>
           </div>
         </div>
@@ -865,166 +1236,12 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
       {wizardStep === 2 && (
         <div className="space-y-6 animate-in fade-in">
           
-          {/* Header & Photo-First Guidance Banner */}
-          <div className="space-y-3">
-            <div className="flex items-center space-x-2">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">
-                Upload-First Experience
-              </span>
-              <span className="text-xs text-slate-400 font-mono">JPG, JPEG, PNG, PDF up to 5 MB</span>
-            </div>
-            
+          {/* Header */}
+          <div className="space-y-1">
             <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white">
               Step 2: Basic Documentary Requirements
             </h3>
-            
-            {/* 6. PHOTO-FIRST EXPERIENCE CALLOUT */}
-            <div className="p-4 rounded-2xl bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-              <div className="space-y-1">
-                <span className="font-extrabold text-blue-900 dark:text-blue-200 flex items-center gap-1.5">
-                  <Camera size={16} className="text-blue-600 dark:text-blue-400" />
-                  <span>Photo-First Experience Instructions:</span>
-                </span>
-                <p className="text-[11px] text-blue-800/90 dark:text-blue-300">
-                  "Take a clear photo of your document. Make sure all text is visible. Do not upload blurry or cropped images."
-                </p>
-              </div>
-            </div>
           </div>
-
-          {/* 10. REQUIREMENTS CHECKER CARD */}
-          <div className={`p-4 sm:p-5 rounded-3xl border transition-all ${
-            isDocumentsComplete
-              ? 'bg-emerald-50/60 dark:bg-emerald-950/30 border-emerald-300 dark:border-emerald-800'
-              : 'bg-amber-50/60 dark:bg-amber-950/30 border-amber-300 dark:border-amber-800'
-          }`}>
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div className="flex items-center space-x-3">
-                <div className={`w-10 h-10 rounded-2xl flex items-center justify-center font-bold text-white shadow-xs ${
-                  isDocumentsComplete ? 'bg-emerald-600' : 'bg-amber-500'
-                }`}>
-                  {isDocumentsComplete ? <CheckCircle2 size={22} /> : <AlertTriangle size={22} />}
-                </div>
-                <div>
-                  <h4 className="font-extrabold text-xs sm:text-sm text-slate-900 dark:text-white flex items-center gap-2">
-                    <span>DOCUMENT REQUIREMENTS:</span>
-                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase ${
-                      isDocumentsComplete ? 'bg-emerald-600 text-white' : 'bg-amber-500 text-white'
-                    }`}>
-                      {isDocumentsComplete ? 'DOCUMENTS COMPLETE' : `${missingCount} REQUIRED DOCUMENTS REMAINING`}
-                    </span>
-                  </h4>
-                  <div className="flex flex-wrap items-center gap-2 mt-1.5 text-[11px]">
-                    <span className="text-emerald-700 dark:text-emerald-400 font-semibold flex items-center gap-0.5">
-                      ✓ Valid ID
-                    </span>
-                    <span className="text-emerald-700 dark:text-emerald-400 font-semibold flex items-center gap-0.5">
-                      ✓ Business Registration
-                    </span>
-                    <span className="text-emerald-700 dark:text-emerald-400 font-semibold flex items-center gap-0.5">
-                      ✓ Proof of Business Location
-                    </span>
-                    <span className="text-emerald-700 dark:text-emerald-400 font-semibold flex items-center gap-0.5">
-                      ✓ Business Location Photo
-                    </span>
-                    <span className="text-slate-400">
-                      ○ Authorization Letter {applicantType === 'OWNER' ? '(Not required)' : '(Uploaded)'}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {!isDocumentsComplete && (
-                <span className="text-[11px] text-amber-700 dark:text-amber-300 font-semibold italic">
-                  * All required documents must be uploaded to proceed.
-                </span>
-              )}
-            </div>
-          </div>
-
-          {/* 7. SMART DOCUMENT INFORMATION (OCR) DETECTED MODAL / CARD */}
-          {ocrDetectedDoc && (
-            <div className="p-5 rounded-3xl bg-blue-50 dark:bg-blue-950/50 border-2 border-blue-400 dark:border-blue-700 space-y-4 animate-in fade-in">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2 text-blue-950 dark:text-blue-200">
-                  <Sparkles size={18} className="text-blue-600" />
-                  <h4 className="font-extrabold text-xs uppercase tracking-wider">
-                    Information detected from your document ({ocrDetectedDoc.docName})
-                  </h4>
-                </div>
-                <span className="text-[10px] font-bold text-blue-600 bg-white dark:bg-slate-900 px-2 py-0.5 rounded-full border border-blue-200">
-                  Smart OCR Read
-                </span>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs bg-white dark:bg-slate-900 p-4 rounded-2xl border border-blue-200 dark:border-blue-800">
-                <div>
-                  <label className="text-[10px] font-bold text-slate-400 uppercase">Business Name:</label>
-                  {ocrDetectedDoc.isEditing ? (
-                    <input 
-                      type="text" 
-                      value={ocrDetectedDoc.businessName} 
-                      onChange={(e) => setOcrDetectedDoc({ ...ocrDetectedDoc, businessName: e.target.value })}
-                      className="w-full p-1.5 border border-slate-300 rounded font-bold"
-                    />
-                  ) : (
-                    <p className="font-black text-slate-900 dark:text-white text-sm">{ocrDetectedDoc.businessName}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="text-[10px] font-bold text-slate-400 uppercase">Registration Number:</label>
-                  {ocrDetectedDoc.isEditing ? (
-                    <input 
-                      type="text" 
-                      value={ocrDetectedDoc.regNumber} 
-                      onChange={(e) => setOcrDetectedDoc({ ...ocrDetectedDoc, regNumber: e.target.value })}
-                      className="w-full p-1.5 border border-slate-300 rounded font-mono font-bold"
-                    />
-                  ) : (
-                    <p className="font-mono font-bold text-blue-600 dark:text-blue-400">{ocrDetectedDoc.regNumber}</p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="text-[10px] font-bold text-slate-400 uppercase">Owner / Registered Name:</label>
-                  {ocrDetectedDoc.isEditing ? (
-                    <input 
-                      type="text" 
-                      value={ocrDetectedDoc.ownerName} 
-                      onChange={(e) => setOcrDetectedDoc({ ...ocrDetectedDoc, ownerName: e.target.value })}
-                      className="w-full p-1.5 border border-slate-300 rounded font-bold"
-                    />
-                  ) : (
-                    <p className="font-bold text-slate-900 dark:text-white">{ocrDetectedDoc.ownerName}</p>
-                  )}
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between text-xs pt-1">
-                <span className="text-[11px] text-slate-500 italic">
-                  * Verify and confirm the extracted values or edit before applying.
-                </span>
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setOcrDetectedDoc({ ...ocrDetectedDoc, isEditing: !ocrDetectedDoc.isEditing })}
-                    className="px-4 py-2 border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-200 cursor-pointer"
-                  >
-                    {ocrDetectedDoc.isEditing ? 'Save Changes' : '[ EDIT ]'}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleConfirmOcr}
-                    className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-black shadow-md cursor-pointer flex items-center space-x-1"
-                  >
-                    <Check size={14} />
-                    <span>[ CONFIRM ]</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* 4. DOCUMENT UPLOAD CHECKLIST (REQUIRED DOCUMENTS) */}
           <div className="space-y-4">
@@ -1035,6 +1252,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
             {documents.map((doc, idx) => {
               const isUploaded = doc.status === 'UPLOADED' || doc.status === 'ACCEPTED' || doc.status === 'UNDER REVIEW';
               const isNeedsCorrection = doc.status === 'NEEDS CORRECTION';
+              const theme = uploadBoxThemes[idx % uploadBoxThemes.length];
 
               return (
                 <div 
@@ -1073,7 +1291,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
                             ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300'
                             : 'bg-slate-100 text-slate-500 dark:bg-slate-800'
                         }`}>
-                          Status: {doc.status === 'UPLOADED' ? '✓ Uploaded' : doc.status}
+                          Status: {doc.status === 'UPLOADED' ? 'Uploaded' : doc.status}
                         </span>
                       </div>
 
@@ -1092,82 +1310,121 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
                       )}
                     </div>
 
-                    {/* Right: Upload Actions & Preview Box */}
+                    {/* Right: Upload Actions & Preview Box (Exact Style of Picture 1) */}
                     <div className="flex flex-wrap items-center gap-2.5 flex-shrink-0">
                       
-                      {/* Image Preview Box */}
-                      {isUploaded && doc.fileUrl && (
-                        <div className="relative group/thumb w-14 h-14 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
-                          <img 
-                            src={doc.fileUrl} 
-                            alt={doc.name} 
-                            className="w-full h-full object-cover"
-                          />
-                          <button
-                            type="button"
-                            onClick={() => setPreviewModalUrl({ url: doc.fileUrl!, title: doc.name })}
-                            className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover/thumb:opacity-100 flex items-center justify-center text-white transition-opacity cursor-pointer"
-                            title="Preview Picture"
-                          >
-                            <Eye size={16} />
-                          </button>
-                        </div>
-                      )}
-
-                      {/* Not Uploaded: Prominent [+ UPLOAD PHOTO] button */}
-                      {!isUploaded && !isNeedsCorrection && (
-                        <button
-                          type="button"
-                          onClick={() => triggerDocUploadModal(doc.id)}
-                          className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-black shadow-xs cursor-pointer transition-colors flex items-center space-x-1.5"
-                        >
-                          <Camera size={14} />
-                          <span>+ UPLOAD PHOTO</span>
-                        </button>
-                      )}
-
-                      {/* Uploaded state buttons: [ VIEW ], [ REPLACE ], [ REMOVE ] */}
+                      {/* Uploaded state: Matching Picture 1 (File pill + action buttons row) */}
                       {isUploaded && !isNeedsCorrection && (
-                        <div className="flex items-center gap-2">
-                          <button
-                            type="button"
+                        <div className="w-full sm:w-64 space-y-1.5">
+                          {/* File Pill Matching Screenshot */}
+                          <div 
                             onClick={() => setPreviewModalUrl({ url: doc.fileUrl || '/New Application.jpg', title: doc.name })}
-                            className="px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold transition-colors cursor-pointer flex items-center space-x-1"
+                            className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-sky-500 flex items-center justify-between cursor-pointer transition-all shadow-2xs group"
+                            title="Click to preview document"
                           >
-                            <Eye size={13} />
-                            <span>[ VIEW ]</span>
-                          </button>
-                          
-                          <button
-                            type="button"
-                            onClick={() => triggerDocUploadModal(doc.id)}
-                            className="px-3 py-2 bg-blue-50 dark:bg-blue-950 hover:bg-blue-100 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 rounded-xl text-xs font-bold transition-colors cursor-pointer flex items-center space-x-1"
-                          >
-                            <Camera size={13} />
-                            <span>[ REPLACE ]</span>
-                          </button>
+                            <div className="flex items-center space-x-1.5 min-w-0 pr-1">
+                              <FileText size={14} className="text-blue-600 dark:text-sky-400 shrink-0 group-hover:scale-110 transition-transform" />
+                              <span className="font-mono text-[11px] text-blue-600 dark:text-sky-400 truncate max-w-[130px] font-semibold">
+                                {doc.fileName || doc.name}
+                              </span>
+                            </div>
+                            <div className="flex items-center space-x-1 shrink-0">
+                              <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono hidden md:inline">
+                                {doc.fileSize ? `${(doc.fileSize / 1024).toFixed(0)} KB` : '66 KB'}
+                              </span>
+                              <span className="text-[10px] px-2 py-0.5 bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 rounded-full font-bold">
+                                Attached
+                              </span>
+                            </div>
+                          </div>
 
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveDoc(doc.id)}
-                            className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 rounded-xl transition-colors cursor-pointer"
-                            title="Remove uploaded document"
-                          >
-                            <Trash2 size={16} />
-                          </button>
+                          {/* Action Buttons Row */}
+                          <div className="flex items-center gap-1.5 pt-0.5">
+                            <label
+                              htmlFor={`doc-replace-${doc.id}`}
+                              className="flex-1 py-1.5 px-2 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-sky-400 text-[11px] font-semibold transition-colors flex items-center justify-center space-x-1 cursor-pointer"
+                            >
+                              <Upload size={12} />
+                              <span>Upload File</span>
+                              <input
+                                id={`doc-replace-${doc.id}`}
+                                type="file"
+                                accept=".jpg,.jpeg,.png,.pdf"
+                                onChange={(e) => handleDirectFileUpload(doc.id, e.target.files?.[0] || null)}
+                                className="hidden"
+                              />
+                            </label>
+
+                            <button
+                              type="button"
+                              onClick={() => setPreviewModalUrl({ url: doc.fileUrl || '/New Application.jpg', title: doc.name })}
+                              title="View Document Preview"
+                              className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-950/50 hover:text-blue-600 dark:hover:text-sky-400 transition-colors cursor-pointer"
+                            >
+                              <Eye size={13} />
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => {
+                                const link = document.createElement('a');
+                                link.href = doc.fileUrl || '/New Application.jpg';
+                                link.download = doc.fileName || `${doc.name}.jpg`;
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                              }}
+                              title="Download Attached Document"
+                              className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+                            >
+                              <Download size={13} />
+                            </button>
+
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveDoc(doc.id)}
+                              title="Remove File"
+                              className="p-1.5 rounded-lg border border-red-200 dark:border-red-900/60 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/50 transition-colors cursor-pointer"
+                            >
+                              <Trash2 size={13} />
+                            </button>
+                          </div>
                         </div>
                       )}
 
-                      {/* Needs Correction: [ RE-UPLOAD ] button */}
-                      {isNeedsCorrection && (
-                        <label className="px-5 py-2.5 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-black shadow-xs cursor-pointer inline-flex items-center space-x-1.5">
-                          <Upload size={14} />
-                          <span>[ RE-UPLOAD ]</span>
+                      {/* Not Uploaded: Dashed dropzone matching Picture 1 */}
+                      {!isUploaded && !isNeedsCorrection && (
+                        <label
+                          htmlFor={`doc-upload-${doc.id}`}
+                          className={`p-3.5 bg-white dark:bg-slate-900 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 ${theme.hoverBorder} flex flex-col items-center justify-center text-center gap-1 cursor-pointer transition-all w-full sm:w-64 shadow-2xs hover:shadow-xs group`}
+                        >
+                          <UploadCloud size={20} className={`${theme.iconColor} shrink-0 group-hover:scale-110 transition-transform`} />
+                          <span className={`text-[11px] font-bold ${theme.textColor}`}>Click to upload picture</span>
+                          <span className="text-[9px] text-slate-400">JPG, PNG, PDF up to 10MB</span>
                           <input
+                            id={`doc-upload-${doc.id}`}
                             type="file"
                             accept=".jpg,.jpeg,.png,.pdf"
-                            capture="environment"
-                            onChange={(e) => handleReplacementUpload(e, doc.id)}
+                            onChange={(e) => handleDirectFileUpload(doc.id, e.target.files?.[0] || null)}
+                            className="hidden"
+                          />
+                        </label>
+                      )}
+
+                      {/* Needs Correction: Re-upload dropzone */}
+                      {isNeedsCorrection && (
+                        <label
+                          htmlFor={`doc-reupload-${doc.id}`}
+                          className="p-3.5 bg-white dark:bg-slate-900 rounded-2xl border-2 border-dashed border-amber-400 hover:border-amber-500 flex flex-col items-center justify-center text-center gap-1 cursor-pointer transition-colors w-full sm:w-64 shadow-2xs group"
+                        >
+                          <UploadCloud size={20} className="text-amber-500 shrink-0 group-hover:scale-110 transition-transform" />
+                          <span className="text-[11px] font-bold text-amber-600 dark:text-amber-400">Click to upload picture</span>
+                          <span className="text-[9px] text-slate-400">JPG, PNG, PDF up to 10MB</span>
+                          <input
+                            id={`doc-reupload-${doc.id}`}
+                            type="file"
+                            accept=".jpg,.jpeg,.png,.pdf"
+                            onChange={(e) => handleDirectFileUpload(doc.id, e.target.files?.[0] || null)}
                             className="hidden"
                           />
                         </label>
@@ -1179,24 +1436,24 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
                 </div>
               );
             })}
+
           </div>
 
           <div className="pt-4 flex justify-between">
             <button
               type="button"
               onClick={() => setWizardStep(1)}
-              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer"
+              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
             >
-              ← Back to General Guidelines
+              Back to General Guidelines
             </button>
             <button
               type="button"
               disabled={!isDocumentsComplete}
               onClick={() => setWizardStep(3)}
-              className="px-7 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-2xl text-xs font-bold transition-all shadow-md flex items-center space-x-2 cursor-pointer"
+              className="px-7 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-2xl text-xs font-bold transition-all shadow-md cursor-pointer"
             >
-              <span>Continue to Business Information</span>
-              <ArrowRight size={15} />
+              Continue to Business Information
             </button>
           </div>
         </div>
@@ -1299,10 +1556,18 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
               </label>
               <input
                 type="text"
+                inputMode="numeric"
+                maxLength={11}
+                placeholder="09171234567"
                 value={businessInfo.businessContact}
-                onChange={(e) => setBusinessInfo({ ...businessInfo, businessContact: e.target.value })}
+                onChange={(e) => setBusinessInfo({ ...businessInfo, businessContact: e.target.value.replace(/\D/g, '').slice(0, 11) })}
                 className="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-mono font-bold"
               />
+              {businessInfo.businessContact && businessInfo.businessContact.length !== 11 && (
+                <span className="text-[10px] text-amber-600 dark:text-amber-400 mt-1 block">
+                  Must be exactly 11 digits ({businessInfo.businessContact.length}/11)
+                </span>
+              )}
             </div>
 
             {/* Business Address */}
@@ -1364,17 +1629,17 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
             <button
               type="button"
               onClick={() => setWizardStep(2)}
-              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer"
+              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
             >
-              ← Back to Documentary Requirements
+              Back to Documentary Requirements
             </button>
             <button
               type="button"
+              disabled={!isStep3Valid}
               onClick={() => setWizardStep(4)}
-              className="px-7 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl text-xs font-bold transition-all shadow-md flex items-center space-x-2 cursor-pointer"
+              className="px-7 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-2xl text-xs font-bold transition-all shadow-md cursor-pointer"
             >
-              <span>Continue to Business Operation</span>
-              <ArrowRight size={15} />
+              Continue to Business Operation
             </button>
           </div>
         </div>
@@ -1479,8 +1744,10 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
                 <label className="block text-[10px] font-bold uppercase text-slate-500 mb-1">Monthly Rental (PHP)</label>
                 <input
                   type="text"
+                  inputMode="decimal"
+                  placeholder="0.00"
                   value={operationInfo.monthlyRental}
-                  onChange={(e) => setOperationInfo({ ...operationInfo, monthlyRental: e.target.value })}
+                  onChange={(e) => setOperationInfo({ ...operationInfo, monthlyRental: e.target.value.replace(/[^0-9.]/g, '') })}
                   className="w-full p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg font-mono font-bold"
                 />
               </div>
@@ -1497,8 +1764,11 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
                 <label className="block text-[10px] font-bold uppercase text-slate-500 mb-1">Lessor Contact Number</label>
                 <input
                   type="text"
+                  inputMode="numeric"
+                  maxLength={11}
+                  placeholder="09171234567"
                   value={operationInfo.lessorContact}
-                  onChange={(e) => setOperationInfo({ ...operationInfo, lessorContact: e.target.value })}
+                  onChange={(e) => setOperationInfo({ ...operationInfo, lessorContact: e.target.value.replace(/\D/g, '').slice(0, 11) })}
                   className="w-full p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg font-mono"
                 />
               </div>
@@ -1509,17 +1779,17 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
             <button
               type="button"
               onClick={() => setWizardStep(3)}
-              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer"
+              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
             >
-              ← Back to Business Information
+              Back to Business Information
             </button>
             <button
               type="button"
+              disabled={!isStep4Valid}
               onClick={() => setWizardStep(5)}
-              className="px-7 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl text-xs font-bold transition-all shadow-md flex items-center space-x-2 cursor-pointer"
+              className="px-7 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-2xl text-xs font-bold transition-all shadow-md cursor-pointer"
             >
-              <span>Continue to Business Activity</span>
-              <ArrowRight size={15} />
+              Continue to Business Activity
             </button>
           </div>
         </div>
@@ -1584,8 +1854,10 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
                 </label>
                 <input
                   type="text"
+                  inputMode="numeric"
+                  placeholder="e.g. 8"
                   value={activityInfo.operatingHours}
-                  onChange={(e) => setActivityInfo({ ...activityInfo, operatingHours: e.target.value })}
+                  onChange={(e) => setActivityInfo({ ...activityInfo, operatingHours: e.target.value.replace(/\D/g, '') })}
                   className="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-medium"
                 />
               </div>
@@ -1595,8 +1867,10 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
                 </label>
                 <input
                   type="text"
+                  inputMode="numeric"
+                  placeholder="e.g. 6"
                   value={activityInfo.daysOpen}
-                  onChange={(e) => setActivityInfo({ ...activityInfo, daysOpen: e.target.value })}
+                  onChange={(e) => setActivityInfo({ ...activityInfo, daysOpen: e.target.value.replace(/\D/g, '') })}
                   className="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-medium"
                 />
               </div>
@@ -1607,17 +1881,17 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
             <button
               type="button"
               onClick={() => setWizardStep(4)}
-              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer"
+              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
             >
-              ← Back to Business Operation
+              Back to Business Operation
             </button>
             <button
               type="button"
+              disabled={!isStep5Valid}
               onClick={() => setWizardStep(6)}
-              className="px-7 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl text-xs font-bold transition-all shadow-md flex items-center space-x-2 cursor-pointer"
+              className="px-7 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-2xl text-xs font-bold transition-all shadow-md cursor-pointer"
             >
-              <span>Continue to Other Information</span>
-              <ArrowRight size={15} />
+              Continue to Other Information
             </button>
           </div>
         </div>
@@ -1744,11 +2018,19 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
               </label>
               <input
                 type="text"
+                inputMode="numeric"
+                maxLength={11}
+                placeholder="09171234567"
                 value={applicantInfo.mobile}
-                onChange={(e) => setApplicantInfo({ ...applicantInfo, mobile: e.target.value })}
+                onChange={(e) => setApplicantInfo({ ...applicantInfo, mobile: e.target.value.replace(/\D/g, '').slice(0, 11) })}
                 className="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 font-mono font-bold"
                 required
               />
+              {applicantInfo.mobile && applicantInfo.mobile.length !== 11 && (
+                <span className="text-[10px] text-amber-600 dark:text-amber-400 mt-1 block">
+                  Must be exactly 11 digits ({applicantInfo.mobile.length}/11)
+                </span>
+              )}
             </div>
 
             <div>
@@ -1793,10 +2075,18 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
                   </label>
                   <input
                     type="text"
+                    inputMode="numeric"
+                    maxLength={11}
+                    placeholder="09171234567"
                     value={applicantInfo.repMobile}
-                    onChange={(e) => setApplicantInfo({ ...applicantInfo, repMobile: e.target.value })}
+                    onChange={(e) => setApplicantInfo({ ...applicantInfo, repMobile: e.target.value.replace(/\D/g, '').slice(0, 11) })}
                     className="w-full p-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl font-mono font-bold"
                   />
+                  {applicantInfo.repMobile && applicantInfo.repMobile.length !== 11 && (
+                    <span className="text-[10px] text-amber-600 dark:text-amber-400 mt-1 block">
+                      Must be exactly 11 digits ({applicantInfo.repMobile.length}/11)
+                    </span>
+                  )}
                 </div>
               </div>
 
@@ -1878,17 +2168,17 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
             <button
               type="button"
               onClick={() => setWizardStep(5)}
-              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer"
+              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
             >
-              ← Back to Business Activity
+              Back to Business Activity
             </button>
             <button
               type="button"
+              disabled={!isStep6Valid}
               onClick={() => setWizardStep(7)}
-              className="px-7 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-2xl text-xs font-bold transition-all shadow-md flex items-center space-x-2 cursor-pointer"
+              className="px-7 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-2xl text-xs font-bold transition-all shadow-md cursor-pointer"
             >
-              <span>Continue to Summary Page</span>
-              <ArrowRight size={15} />
+              Continue to Summary Page
             </button>
           </div>
         </div>
@@ -1925,7 +2215,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
                   className="px-3 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:bg-blue-50 cursor-pointer flex items-center space-x-1"
                 >
                   <Edit2 size={11} />
-                  <span>[ EDIT ]</span>
+                  <span>EDIT</span>
                 </button>
               </div>
 
@@ -2046,27 +2336,24 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
 
           </div>
 
-          <div className="pt-4 flex justify-between">
+          <div className="pt-4 flex justify-between items-center">
             <button
               type="button"
-              onClick={() => setWizardStep(3)}
-              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer"
+              onClick={() => setWizardStep(6)}
+              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
             >
-              ← Back to Other Information
+              Back to Other Information
             </button>
             <button
               type="button"
               disabled={!certifiedTruth || isSubmitting}
               onClick={handleSubmitApplication}
-              className="px-8 py-3.5 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white rounded-2xl text-xs font-black shadow-lg shadow-blue-600/30 flex items-center space-x-2 transition-all cursor-pointer"
+              className="px-8 py-3.5 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white rounded-2xl text-xs font-black shadow-lg shadow-blue-600/30 transition-all cursor-pointer"
             >
               {isSubmitting ? (
                 <span>Submitting Application...</span>
               ) : (
-                <>
-                  <CheckCircle2 size={16} />
-                  <span>[ SUBMIT APPLICATION ]</span>
-                </>
+                <span>SUBMIT APPLICATION</span>
               )}
             </button>
           </div>
@@ -2114,7 +2401,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
                     : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700'
                 }`}
               >
-                [ TRACK APPLICATION ]
+                TRACK APPLICATION
               </button>
 
               <button
@@ -2126,7 +2413,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
                     : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700'
                 }`}
               >
-                [ VIEW APPLICATION ]
+                VIEW APPLICATION
               </button>
             </div>
           </div>
@@ -2443,8 +2730,16 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
       {/* 5. UPLOAD EXPERIENCE MODAL (TAKE PHOTO OR UPLOAD FROM DEVICE) */}
       {/* ========================================================================= */}
       {isUploadModalOpen && activeUploadDocId && (
-        <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 animate-in fade-in zoom-in-95 space-y-5 p-6">
+        <div 
+          className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setIsUploadModalOpen(false);
+          }}
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white dark:bg-slate-900 w-full max-w-md rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 animate-in fade-in zoom-in-95 space-y-5 p-6 cursor-default"
+          >
             
             <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
               <div>
@@ -2526,8 +2821,16 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
       {/* LIGHTBOX / IMAGE PREVIEW MODAL */}
       {/* ========================================================================= */}
       {previewModalUrl && (
-        <div className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 animate-in fade-in zoom-in-95">
+        <div 
+          className="fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 cursor-pointer"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setPreviewModalUrl(null);
+          }}
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="bg-white dark:bg-slate-900 w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 animate-in fade-in zoom-in-95 cursor-default"
+          >
             <div className="p-4 bg-slate-900 text-white flex items-center justify-between">
               <span className="font-bold text-xs">{previewModalUrl.title}</span>
               <button 

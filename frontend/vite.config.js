@@ -9,6 +9,18 @@ export default defineConfig({
             '@': path.resolve(import.meta.dirname, './src'),
         },
     },
+    build: {
+        // Ensure fresh output every build
+        emptyOutDir: true,
+        rollupOptions: {
+            output: {
+                // Content-hash filenames guarantee cache busting
+                entryFileNames: 'assets/[name]-[hash].js',
+                chunkFileNames: 'assets/[name]-[hash].js',
+                assetFileNames: 'assets/[name]-[hash].[ext]',
+            },
+        },
+    },
     server: {
         host: '0.0.0.0',
         port: 5173,
