@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { 
   ShieldCheck, 
   Search, 
-  ArrowRight, 
   CheckCircle2, 
   Building2, 
   Building, 
@@ -12,8 +11,6 @@ import {
   Lock, 
   QrCode, 
   ExternalLink, 
-  Sun, 
-  Moon, 
   Sparkles, 
   Clock, 
   Layers, 
@@ -84,6 +81,12 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
 
   // Active Navigation State (Home, Features, How It Works)
   const [activeNav, setActiveNav] = useState<'home' | 'features' | 'how-it-works'>('home');
+
+  // Permanently maintain dark mode appearance on public landing page
+  useEffect(() => {
+    document.documentElement.classList.add('dark');
+    document.documentElement.style.colorScheme = 'dark';
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -185,7 +188,7 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans transition-colors duration-200">
+    <div className="dark min-h-screen bg-slate-950 text-slate-100 font-sans transition-colors duration-200">
       
       {/* ========================================================================= */}
       {/* 1. TOP ANNOUNCEMENT BAR & NAVIGATION */}
@@ -281,14 +284,6 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
             {/* Language Switcher Button */}
             <LanguageToggle />
 
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-              title={theme === 'dark' ? t('theme_light', 'Switch to Light Mode') : t('theme_dark', 'Switch to Dark Mode')}
-            >
-              {theme === 'dark' ? <Sun size={17} className="text-amber-400" /> : <Moon size={17} />}
-            </button>
 
             {/* Sign In or Dashboard Button */}
             {isAuthenticated ? (
@@ -297,7 +292,6 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                 className="inline-flex items-center space-x-1.5 px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-600/25 transition-all cursor-pointer hover:scale-105 active:scale-95"
               >
                 <span>{language === 'tl' ? 'Pumunta sa Dashboard' : 'Go to Dashboard'}</span>
-                <ArrowRight size={14} />
               </button>
             ) : (
               <button
@@ -305,7 +299,6 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                 className="inline-flex items-center space-x-1.5 px-5 py-2.5 rounded-full bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-600/25 transition-all cursor-pointer hover:scale-105 active:scale-95"
               >
                 <span>{t('sign_in', 'Sign In')}</span>
-                <ArrowRight size={14} />
               </button>
             )}
           </div>
@@ -363,7 +356,6 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                     ? `Pumasok sa ${user?.role === 'admin' ? 'Admin Console' : 'Citizen Dashboard'}`
                     : `Enter ${user?.role === 'admin' ? 'Admin Console' : 'Citizen Dashboard'}`}
                 </span>
-                <ArrowRight size={16} />
               </button>
             </div>
           )}
@@ -891,7 +883,6 @@ export const PublicLandingPage: React.FC<PublicLandingPageProps> = ({ onNavigate
                         ? `Mag-sign In sa ${selectedRolePreset === 'admin' ? 'Admin Portal' : 'Citizen Hub'}`
                         : `Sign In to ${selectedRolePreset === 'admin' ? 'Admin Portal' : 'Citizen Hub'}`}
                     </span>
-                    <ArrowRight size={14} />
                   </button>
                 </form>
               </div>

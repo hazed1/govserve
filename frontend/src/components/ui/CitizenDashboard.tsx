@@ -5,7 +5,6 @@ import {
   Clock, 
   CheckCircle2, 
   XCircle,
-  ArrowRight, 
   Plus, 
   Download, 
   Search, 
@@ -277,14 +276,13 @@ export const CitizenDashboard: React.FC<CitizenDashboardProps> = ({
 
           {/* Primary Quick Action Buttons */}
           <div className="flex flex-col sm:flex-row md:flex-col gap-2.5 flex-shrink-0">
-            <button
-              onClick={() => onNavigateToTab('Business Registration (New / Renewal)')}
-              className="px-6 py-3.5 bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-bold rounded-2xl shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center space-x-2 group cursor-pointer"
-            >
-              <Plus size={16} />
-              <span>{t('apply_new_permit', 'Apply for New Permit')}</span>
-              <ArrowRight size={15} className="group-hover:translate-x-1 transition-transform" />
-            </button>
+              <button
+                onClick={() => onNavigateToTab('Business Registration (New / Renewal)')}
+                className="px-6 py-3.5 bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-bold rounded-2xl shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center space-x-2 group cursor-pointer"
+              >
+                <Plus size={16} />
+                <span>{t('apply_new_permit', 'Apply for New Permit')}</span>
+              </button>
 
             <button
               onClick={() => {
@@ -339,10 +337,9 @@ export const CitizenDashboard: React.FC<CitizenDashboardProps> = ({
                 const el = document.getElementById('applications-management-section');
                 if (el) el.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="px-3.5 py-2 bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/60 text-blue-600 dark:text-blue-400 rounded-xl text-xs font-bold transition-colors cursor-pointer flex items-center space-x-1"
+              className="px-3.5 py-2 bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/60 text-blue-600 dark:text-blue-400 rounded-xl text-xs font-bold transition-colors cursor-pointer flex items-center justify-center"
             >
               <span>View All ({totalCount})</span>
-              <ArrowRight size={13} />
             </button>
           </div>
         </div>

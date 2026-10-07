@@ -52,62 +52,7 @@ html:not(.dark) .bg-white {
   background-color: #030712 !important;
 }
 
-/* Exemption for Login Right Side Light Mode */
-.login-right-light,
-.login-right-light .bg-white {
-  background-color: #ffffff !important;
-  color: #0f172a !important;
-}
 
-.login-right-light .bg-slate-50 {
-  background-color: #f8fafc !important;
-  color: #0f172a !important;
-}
-
-.login-right-light .bg-slate-100 {
-  background-color: #f1f5f9 !important;
-}
-
-.login-right-light .text-slate-900,
-.login-right-light .text-slate-800 {
-  color: #0f172a !important;
-}
-
-.login-right-light .text-slate-700 {
-  color: #334155 !important;
-}
-
-.login-right-light .text-slate-600 {
-  color: #475569 !important;
-}
-
-.login-right-light .text-slate-500 {
-  color: #64748b !important;
-}
-
-.login-right-light .text-slate-400 {
-  color: #94a3b8 !important;
-}
-
-.login-right-light .border-slate-200,
-.login-right-light .border-slate-200\/90,
-.login-right-light .border-slate-300 {
-  border-color: #e2e8f0 !important;
-}
-
-.login-right-light input[type="text"],
-.login-right-light input[type="email"],
-.login-right-light input[type="password"],
-.login-right-light input[type="tel"],
-.login-right-light select {
-  background-color: #f8fafc !important;
-  color: #0f172a !important;
-  border-color: #cbd5e1 !important;
-}
-
-.login-right-light input::placeholder {
-  color: #94a3b8 !important;
-}
 
 /* Cards, Modals, Panels & Dropdowns */
 .dark .bg-white:not(.login-override-light) {

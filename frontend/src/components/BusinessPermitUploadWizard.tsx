@@ -4,8 +4,6 @@ import {
   Upload, 
   UploadCloud,
   CheckCircle2, 
-  ArrowRight, 
-  ArrowLeft, 
   Check, 
   Sparkles, 
   QrCode, 
@@ -33,7 +31,8 @@ import {
   Search,
   Printer,
   Edit2,
-  Briefcase
+  Briefcase,
+  Calendar
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { ApplicationItem } from '../types';
@@ -835,12 +834,21 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
   const isStep4Valid = Boolean(
     operationInfo.capitalInvestment?.trim() &&
     operationInfo.floorAreaSqm?.trim() &&
-    operationInfo.totalEmployees?.trim()
+    operationInfo.totalEmployees?.trim() &&
+    operationInfo.femaleEmployees?.trim() &&
+    operationInfo.maleEmployees?.trim() &&
+    operationInfo.pwdEmployees?.trim() &&
+    operationInfo.monthlyRental?.trim() &&
+    operationInfo.lessorName?.trim() &&
+    operationInfo.lessorContact?.replace(/\D/g, '').length === 11
   );
 
   const isStep5Valid = Boolean(
     activityInfo.psicCode?.trim() &&
-    activityInfo.lineOfBusiness?.trim()
+    activityInfo.lineOfBusiness?.trim() &&
+    activityInfo.productsServices?.trim() &&
+    activityInfo.operatingHours?.trim() &&
+    activityInfo.daysOpen?.trim()
   );
 
   const isStep6Valid = Boolean(
@@ -987,11 +995,301 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
 
   return (
     <div className="space-y-6 animate-in fade-in w-full">
-      
-      {/* ========================================================================= */}
-      {/* 7-STEP UNIFIED PROGRESS HEADER (MATCHING QUEZON CITY BOSS PICTURE 1) */}
-      {/* ========================================================================= */}
-      <div className="grid grid-cols-7 border border-slate-300 dark:border-slate-700 rounded-t-xl overflow-hidden shadow-xs">
+      {submittedApp ? (
+        /* Dedicated Standalone Page for Submitted Application */
+        <div className="space-y-7 animate-in fade-in">
+          
+          {/* 13. APPLICATION NUMBER BANNER */}
+          <div className="text-center space-y-2 py-3 bg-emerald-50/50 dark:bg-emerald-950/30 rounded-3xl border border-emerald-200 dark:border-emerald-800/80 p-6">
+            <div className="w-14 h-14 mx-auto rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-md">
+              <CheckCircle2 size={32} />
+            </div>
+            
+            <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+              {appType === 'NEW' ? 'NEW BUSINESS PERMIT - APPLICATION SUBMITTED' : 'APPLICATION SUBMITTED'}
+            </h3>
+
+            <div className="inline-block mt-2 px-4 py-2 rounded-xl bg-white dark:bg-slate-900 border border-emerald-300 dark:border-emerald-800 shadow-xs">
+              <span className="text-xs text-slate-500 dark:text-slate-400 mr-2">Application Number:</span>
+              <span className="font-mono font-black text-blue-600 dark:text-blue-400 text-base">
+                {submittedApp.id}
+              </span>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-slate-600 dark:text-slate-300 pt-1">
+              <span>Date Submitted: <strong className="text-slate-900 dark:text-white">September 24, 2026</strong></span>
+              <span>•</span>
+              <span>Status: <strong className="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-black uppercase">{trackingStatus}</strong></span>
+            </div>
+          </div>
+
+          {/* 14. APPLICATION TRACKING VIEW */}
+          {activeTrackingTab === 'tracking' && (
+            <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-7 shadow-xs space-y-6">
+              
+              {/* Top Details Summary */}
+              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 pb-4 border-b border-slate-100 dark:border-slate-800 text-xs">
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Application Number:</span>
+                  <span className="font-mono font-bold text-blue-600 dark:text-blue-400">{submittedApp.id}</span>
+                </div>
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Business Name:</span>
+                  <span className="font-bold text-slate-900 dark:text-white truncate block">{businessInfo.businessName}</span>
+                </div>
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Application Type:</span>
+                  <span className="font-medium text-slate-700 dark:text-slate-300">
+                    {appType === 'NEW' ? 'New Business Permit' : appType === 'RENEWAL' ? 'Renewal' : 'Amendment'}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Date Submitted:</span>
+                  <span className="font-medium text-slate-700 dark:text-slate-300">September 24, 2026</span>
+                </div>
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Current Status:</span>
+                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase ${
+                    trackingStatus === 'PERMIT READY' || trackingStatus === 'APPROVED'
+                      ? 'bg-emerald-100 text-emerald-800'
+                      : trackingStatus === 'NEEDS CORRECTION'
+                      ? 'bg-amber-100 text-amber-800 animate-pulse'
+                      : 'bg-blue-100 text-blue-800'
+                  }`}>
+                    {trackingStatus}
+                  </span>
+                </div>
+              </div>
+
+              {/* 15. NEEDS CORRECTION SECTION */}
+              {trackingStatus === 'NEEDS CORRECTION' && (
+                <div className="p-5 rounded-3xl bg-amber-50 dark:bg-amber-950/40 border-2 border-amber-400 dark:border-amber-800 space-y-3 animate-in fade-in">
+                  <div className="flex items-center space-x-2 text-amber-900 dark:text-amber-200">
+                    <AlertCircle size={20} className="text-amber-600" />
+                    <h4 className="font-black text-sm uppercase">
+                      DOCUMENT NEEDS CORRECTION
+                    </h4>
+                  </div>
+                  <p className="text-xs text-amber-800 dark:text-amber-300">
+                    Your application is safe and has NOT been deleted. Please replace only the affected document:
+                  </p>
+
+                  {documents.filter(d => d.status === 'NEEDS CORRECTION').map(doc => (
+                    <div key={doc.id} className="p-4 bg-white dark:bg-slate-900 rounded-2xl border border-amber-300 dark:border-amber-800 space-y-2">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                        <div>
+                          <span className="font-extrabold text-xs text-slate-900 dark:text-white block">
+                            Document: {doc.name}
+                          </span>
+                          <p className="text-xs text-rose-600 dark:text-rose-400 font-bold mt-0.5">
+                            Reason: "{doc.comment || 'Please upload a clearer image.'}"
+                          </p>
+                        </div>
+
+                        <label className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-black shadow-xs cursor-pointer inline-flex items-center space-x-1.5 flex-shrink-0">
+                          <Camera size={14} />
+                          <span>[ UPLOAD NEW PHOTO ]</span>
+                          <input
+                            type="file"
+                            accept=".jpg,.jpeg,.png,.pdf"
+                            capture="environment"
+                            onChange={(e) => handleReplacementUpload(e, doc.id)}
+                            className="hidden"
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* 14. 7-STAGE APPLICATION TIMELINE */}
+              <div className="space-y-3">
+                <h5 className="font-black text-xs uppercase tracking-wider text-slate-400">
+                  Application Processing Timeline
+                </h5>
+
+                <div className="grid grid-cols-1 sm:grid-cols-7 gap-2.5 text-xs">
+                  {[
+                    { id: 1, title: 'Application Submitted', done: true, active: trackingStatus === 'SUBMITTED' },
+                    { id: 2, title: 'Initial Evaluation', done: trackingStatus !== 'SUBMITTED', active: trackingStatus === 'UNDER INITIAL REVIEW' },
+                    { id: 3, title: 'Document Evaluation', done: ['FOR ASSESSMENT', 'FOR APPROVAL', 'APPROVED', 'FOR PAYMENT', 'PAYMENT VERIFIED', 'PERMIT READY', 'COMPLETED'].includes(trackingStatus), active: trackingStatus === 'UNDER REVIEW' || trackingStatus === 'NEEDS CORRECTION', alert: trackingStatus === 'NEEDS CORRECTION' },
+                    { id: 4, title: 'Assessment', done: ['FOR APPROVAL', 'APPROVED', 'FOR PAYMENT', 'PAYMENT VERIFIED', 'PERMIT READY', 'COMPLETED'].includes(trackingStatus), active: trackingStatus === 'FOR ASSESSMENT' },
+                    { id: 5, title: 'Approval', done: ['FOR PAYMENT', 'PAYMENT VERIFIED', 'PERMIT READY', 'COMPLETED'].includes(trackingStatus), active: trackingStatus === 'APPROVED' },
+                    { id: 6, title: 'Payment', done: ['PAYMENT VERIFIED', 'PERMIT READY', 'COMPLETED'].includes(trackingStatus), active: trackingStatus === 'FOR PAYMENT' || paymentDone },
+                    { id: 7, title: 'Permit Release', done: trackingStatus === 'PERMIT READY' || trackingStatus === 'COMPLETED', active: trackingStatus === 'PERMIT READY' }
+                  ].map((stage) => (
+                    <div 
+                      key={stage.id}
+                      className={`p-3 rounded-2xl border space-y-1 transition-all ${
+                        stage.alert
+                          ? 'bg-amber-50 dark:bg-amber-950/40 border-amber-300 dark:border-amber-800'
+                          : stage.done
+                          ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800'
+                          : stage.active
+                          ? 'bg-blue-50 dark:bg-blue-950/40 border-blue-400 ring-2 ring-blue-500/20'
+                          : 'bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700 opacity-60'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span className={`font-black text-[11px] ${
+                          stage.alert ? 'text-amber-700' : stage.done ? 'text-emerald-700 dark:text-emerald-300' : stage.active ? 'text-blue-600' : 'text-slate-500'
+                        }`}>
+                          {stage.done ? '✓' : stage.active ? '●' : '○'}
+                        </span>
+                        <span className="text-[10px] font-mono text-slate-400">0{stage.id}</span>
+                      </div>
+                      <p className="font-bold text-[11px] text-slate-800 dark:text-slate-200 leading-tight">
+                        {stage.title}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* 21. PERMIT RELEASE SECTION (WHEN PERMIT READY) */}
+              {(trackingStatus === 'PERMIT READY' || releasedPermit) && (
+                <div className="p-6 rounded-3xl border-2 border-emerald-500 bg-emerald-50/40 dark:bg-emerald-950/20 space-y-4 animate-in fade-in">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-16 h-16 bg-white p-1 rounded-2xl border shadow-sm flex items-center justify-center flex-shrink-0">
+                        <QrCode size={54} className="text-slate-900" />
+                      </div>
+                      <div>
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-600 text-white">
+                          STATUS: PERMIT READY
+                        </span>
+                        <h4 className="font-black text-base text-slate-900 dark:text-white mt-1">
+                          Official Mayor's Business Permit #{releasedPermit?.permitNumber || `MP-2026-${submittedApp.id.replace('BP-2026-', '')}`}
+                        </h4>
+                        <p className="text-xs text-slate-500">
+                          BIN: {releasedPermit?.bin || 'BIN-QC-2026-48190'} • Valid until: December 31, 2026
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Buttons: [ VIEW PERMIT ], [ DOWNLOAD PERMIT ], [ PRINT PERMIT ] */}
+                    <div className="flex flex-wrap items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setPermitModalOpen(true)}
+                        className="px-4 py-2 bg-white dark:bg-slate-900 border border-emerald-300 dark:border-emerald-700 hover:bg-emerald-50 text-emerald-800 dark:text-emerald-200 rounded-xl text-xs font-bold shadow-xs cursor-pointer flex items-center space-x-1.5"
+                      >
+                        <Eye size={14} />
+                        <span>[ VIEW PERMIT ]</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => alert(`Permit PDF downloaded for ${businessInfo.businessName}`)}
+                        className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold shadow-md cursor-pointer flex items-center space-x-1.5"
+                      >
+                        <Download size={14} />
+                        <span>[ DOWNLOAD PERMIT ]</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => window.print()}
+                        className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold shadow-xs cursor-pointer flex items-center space-x-1.5"
+                      >
+                        <Printer size={14} />
+                        <span>[ PRINT PERMIT ]</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+            </div>
+          )}
+
+          {/* VIEW APPLICATION TAB */}
+          {activeTrackingTab === 'application' && (
+            <div className="p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-5 animate-in fade-in">
+              <h4 className="font-black text-sm uppercase text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800 pb-2">
+                Submitted Application Record ({submittedApp.id})
+              </h4>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+                <div>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase">Applicant Full Name:</span>
+                  <p className="font-bold text-slate-900 dark:text-white">{applicantInfo.fullName}</p>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase">Mobile Number:</span>
+                  <p className="font-mono font-bold text-slate-900 dark:text-white">{applicantInfo.mobile}</p>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase">Email Address:</span>
+                  <p className="font-mono text-slate-700 dark:text-slate-300">{applicantInfo.email}</p>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase">Business Name:</span>
+                  <p className="font-bold text-slate-900 dark:text-white">{businessInfo.businessName}</p>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase">Business Type:</span>
+                  <p className="font-medium text-slate-700 dark:text-slate-300">{businessInfo.businessType}</p>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase">Nature of Business:</span>
+                  <p className="font-medium text-slate-700 dark:text-slate-300">{businessInfo.natureOfBusiness}</p>
+                </div>
+                <div className="sm:col-span-2">
+                  <span className="text-[10px] font-bold text-slate-400 uppercase">Business Address:</span>
+                  <p className="font-medium text-slate-700 dark:text-slate-300">
+                    {businessInfo.businessAddress}, {businessInfo.businessBarangay}, Quezon City
+                  </p>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase">Right to Use Location:</span>
+                  <p className="font-medium text-slate-700 dark:text-slate-300">{propertyTenure}</p>
+                </div>
+              </div>
+
+              {/* Uploaded Documents List */}
+              <div className="pt-3 border-t border-slate-200 dark:border-slate-800 space-y-3">
+                <span className="text-[10px] font-bold text-slate-400 uppercase">Submitted Documents:</span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                  {documents.filter(d => d.fileName || d.fileUrl).map((d) => (
+                    <div key={d.id} className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                      <div className="flex items-center space-x-2 truncate">
+                        <span className="text-emerald-600 font-bold">✓</span>
+                        <span className="font-bold text-slate-800 dark:text-slate-200 truncate">{d.name}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setPreviewModalUrl({ url: d.fileUrl || '/New Application.jpg', title: d.name })}
+                        className="text-[10px] font-bold text-blue-600 hover:underline flex-shrink-0"
+                      >
+                        [ VIEW ]
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Bottom Navigation Control */}
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <button
+              type="button"
+              onClick={onBack}
+              className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-md cursor-pointer transition-all"
+            >
+              Return to Business Permit Application
+            </button>
+          </div>
+
+        </div>
+      ) : (
+        <>
+          {/* ========================================================================= */}
+          {/* 7-STEP UNIFIED PROGRESS HEADER (MATCHING QUEZON CITY BOSS PICTURE 1) */}
+          {/* ========================================================================= */}
+          <div className="grid grid-cols-7 border border-slate-300 dark:border-slate-700 rounded-t-xl overflow-hidden shadow-xs">
         {[
           { step: 1, label: 'General' },
           { step: 2, label: 'Basic Documentary Requirements' },
@@ -999,25 +1297,18 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
           { step: 4, label: 'Business Operation' },
           { step: 5, label: 'Business Activity' },
           { step: 6, label: 'Other Required Information' },
-          { step: 7, label: 'Summary Page' }
+          { step: 7, label: 'Submit Page' }
         ].map((item) => {
           const isActive = wizardStep === item.step;
           const isPassed = wizardStep > item.step;
           return (
             <div
               key={item.step}
-              onClick={() => {
-                if (item.step <= wizardStep || (item.step === 2 && hasAgreedGuidelines)) {
-                  setWizardStep(item.step as any);
-                }
-              }}
-              className={`py-3 px-1 sm:px-2 border-r last:border-r-0 border-white/50 dark:border-slate-700/60 flex flex-col items-center justify-center text-center transition-all ${
-                item.step <= wizardStep || (item.step === 2 && hasAgreedGuidelines) ? 'cursor-pointer' : 'cursor-default'
-              } ${
+              className={`py-3 px-1 sm:px-2 border-r last:border-r-0 border-white/50 dark:border-slate-700/60 flex flex-col items-center justify-center text-center transition-all cursor-default select-none ${
                 isActive
                   ? 'bg-[#154760] text-white shadow-inner'
                   : isPassed
-                  ? 'bg-[#82929e] hover:bg-[#728390] text-white'
+                  ? 'bg-[#82929e] text-white'
                   : 'bg-[#b6bec5] dark:bg-slate-800 text-slate-800 dark:text-slate-300'
               }`}
             >
@@ -1668,8 +1959,14 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
               </label>
               <input
                 type="text"
+                inputMode="decimal"
                 value={operationInfo.capitalInvestment}
-                onChange={(e) => setOperationInfo({ ...operationInfo, capitalInvestment: e.target.value })}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/[^0-9.]/g, '');
+                  const parts = val.split('.');
+                  const clean = parts.length > 1 ? `${parts[0]}.${parts.slice(1).join('')}` : parts[0];
+                  setOperationInfo({ ...operationInfo, capitalInvestment: clean });
+                }}
                 className="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-mono font-bold"
               />
             </div>
@@ -1680,8 +1977,14 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
               </label>
               <input
                 type="text"
+                inputMode="decimal"
                 value={operationInfo.floorAreaSqm}
-                onChange={(e) => setOperationInfo({ ...operationInfo, floorAreaSqm: e.target.value })}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/[^0-9.]/g, '');
+                  const parts = val.split('.');
+                  const clean = parts.length > 1 ? `${parts[0]}.${parts.slice(1).join('')}` : parts[0];
+                  setOperationInfo({ ...operationInfo, floorAreaSqm: clean });
+                }}
                 className="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-mono font-bold"
               />
             </div>
@@ -1692,44 +1995,48 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
               </label>
               <input
                 type="text"
+                inputMode="numeric"
                 value={operationInfo.totalEmployees}
-                onChange={(e) => setOperationInfo({ ...operationInfo, totalEmployees: e.target.value })}
+                onChange={(e) => setOperationInfo({ ...operationInfo, totalEmployees: e.target.value.replace(/\D/g, '') })}
                 className="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-mono font-bold"
               />
             </div>
 
             <div>
               <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
-                Female Employees
+                Female Employees *
               </label>
               <input
                 type="text"
+                inputMode="numeric"
                 value={operationInfo.femaleEmployees}
-                onChange={(e) => setOperationInfo({ ...operationInfo, femaleEmployees: e.target.value })}
+                onChange={(e) => setOperationInfo({ ...operationInfo, femaleEmployees: e.target.value.replace(/\D/g, '') })}
                 className="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-mono"
               />
             </div>
 
             <div>
               <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
-                Male Employees
+                Male Employees *
               </label>
               <input
                 type="text"
+                inputMode="numeric"
                 value={operationInfo.maleEmployees}
-                onChange={(e) => setOperationInfo({ ...operationInfo, maleEmployees: e.target.value })}
+                onChange={(e) => setOperationInfo({ ...operationInfo, maleEmployees: e.target.value.replace(/\D/g, '') })}
                 className="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-mono"
               />
             </div>
 
             <div>
               <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
-                PWD Employees
+                PWD Employees *
               </label>
               <input
                 type="text"
+                inputMode="numeric"
                 value={operationInfo.pwdEmployees}
-                onChange={(e) => setOperationInfo({ ...operationInfo, pwdEmployees: e.target.value })}
+                onChange={(e) => setOperationInfo({ ...operationInfo, pwdEmployees: e.target.value.replace(/\D/g, '') })}
                 className="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-mono"
               />
             </div>
@@ -1741,7 +2048,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
             </h4>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
               <div>
-                <label className="block text-[10px] font-bold uppercase text-slate-500 mb-1">Monthly Rental (PHP)</label>
+                <label className="block text-[10px] font-bold uppercase text-slate-500 mb-1">Monthly Rental (PHP) *</label>
                 <input
                   type="text"
                   inputMode="decimal"
@@ -1752,7 +2059,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
                 />
               </div>
               <div>
-                <label className="block text-[10px] font-bold uppercase text-slate-500 mb-1">Lessor / Building Name</label>
+                <label className="block text-[10px] font-bold uppercase text-slate-500 mb-1">Lessor / Building Name *</label>
                 <input
                   type="text"
                   value={operationInfo.lessorName}
@@ -1761,7 +2068,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
                 />
               </div>
               <div>
-                <label className="block text-[10px] font-bold uppercase text-slate-500 mb-1">Lessor Contact Number</label>
+                <label className="block text-[10px] font-bold uppercase text-slate-500 mb-1">Lessor Contact Number *</label>
                 <input
                   type="text"
                   inputMode="numeric"
@@ -1771,26 +2078,38 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
                   onChange={(e) => setOperationInfo({ ...operationInfo, lessorContact: e.target.value.replace(/\D/g, '').slice(0, 11) })}
                   className="w-full p-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg font-mono"
                 />
+                {operationInfo.lessorContact && operationInfo.lessorContact.length !== 11 && (
+                  <span className="text-[10px] text-amber-600 dark:text-amber-400 mt-1 block">
+                    Must be exactly 11 digits ({operationInfo.lessorContact.length}/11)
+                  </span>
+                )}
               </div>
             </div>
           </div>
 
-          <div className="pt-4 flex justify-between">
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-3">
             <button
               type="button"
               onClick={() => setWizardStep(3)}
-              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+              className="w-full sm:w-auto px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
             >
               Back to Business Information
             </button>
-            <button
-              type="button"
-              disabled={!isStep4Valid}
-              onClick={() => setWizardStep(5)}
-              className="px-7 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-2xl text-xs font-bold transition-all shadow-md cursor-pointer"
-            >
-              Continue to Business Activity
-            </button>
+            <div className="flex flex-col sm:flex-row items-center gap-2 sm:ml-auto w-full sm:w-auto">
+              {!isStep4Valid && (
+                <span className="text-[11px] text-amber-600 dark:text-amber-400 font-semibold text-center sm:text-right">
+                  Please complete all operational and premise fields to continue
+                </span>
+              )}
+              <button
+                type="button"
+                disabled={!isStep4Valid}
+                onClick={() => setWizardStep(5)}
+                className="w-full sm:w-auto px-7 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-2xl text-xs font-bold transition-all shadow-md cursor-pointer"
+              >
+                Continue to Business Activity
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -1837,7 +2156,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
 
             <div>
               <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
-                Primary Products and Services Offered
+                Primary Products and Services Offered *
               </label>
               <textarea
                 rows={2}
@@ -1850,7 +2169,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Operating Hours
+                  Operating Hours *
                 </label>
                 <input
                   type="text"
@@ -1863,7 +2182,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
               </div>
               <div>
                 <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300 mb-1">
-                  Days Open
+                  Days Open *
                 </label>
                 <input
                   type="text"
@@ -1877,22 +2196,29 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
             </div>
           </div>
 
-          <div className="pt-4 flex justify-between">
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-3">
             <button
               type="button"
               onClick={() => setWizardStep(4)}
-              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+              className="w-full sm:w-auto px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
             >
               Back to Business Operation
             </button>
-            <button
-              type="button"
-              disabled={!isStep5Valid}
-              onClick={() => setWizardStep(6)}
-              className="px-7 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-2xl text-xs font-bold transition-all shadow-md cursor-pointer"
-            >
-              Continue to Other Information
-            </button>
+            <div className="flex flex-col sm:flex-row items-center gap-2 sm:ml-auto w-full sm:w-auto">
+              {!isStep5Valid && (
+                <span className="text-[11px] text-amber-600 dark:text-amber-400 font-semibold text-center sm:text-right">
+                  Please complete all business activity and operating schedule fields to continue
+                </span>
+              )}
+              <button
+                type="button"
+                disabled={!isStep5Valid}
+                onClick={() => setWizardStep(6)}
+                className="w-full sm:w-auto px-7 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-2xl text-xs font-bold transition-all shadow-md cursor-pointer"
+              >
+                Continue to Other Information
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -2007,7 +2333,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
                 type="text"
                 value={applicantInfo.fullName}
                 onChange={(e) => setApplicantInfo({ ...applicantInfo, fullName: e.target.value })}
-                className="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 font-bold"
+                className="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500"
                 required
               />
             </div>
@@ -2023,7 +2349,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
                 placeholder="09171234567"
                 value={applicantInfo.mobile}
                 onChange={(e) => setApplicantInfo({ ...applicantInfo, mobile: e.target.value.replace(/\D/g, '').slice(0, 11) })}
-                className="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 font-mono font-bold"
+                className="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 font-mono"
                 required
               />
               {applicantInfo.mobile && applicantInfo.mobile.length !== 11 && (
@@ -2174,11 +2500,11 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
             </button>
             <button
               type="button"
-              disabled={!isStep6Valid}
+              disabled={!isStep6Valid || isSubmitting}
               onClick={() => setWizardStep(7)}
               className="px-7 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-2xl text-xs font-bold transition-all shadow-md cursor-pointer"
             >
-              Continue to Summary Page
+              <span>Continue to Submit Page</span>
             </button>
           </div>
         </div>
@@ -2186,545 +2512,64 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
 
 
       {/* ========================================================================= */}
-      {/* STEP 7: SUMMARY PAGE (REVIEW, ASSESSMENT TARIFF, SWORN CERTIFICATION) */}
+      {/* STEP 7: SUBMIT PAGE & QC BPLO ASSESSMENT (EXACT REPLICA OF PICTURE 1)     */}
       {/* ========================================================================= */}
-      {wizardStep === 7 && !submittedApp && (
-        <div className="space-y-6 animate-in fade-in">
-          <div>
-            <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
-              <CheckCircle2 size={20} className="text-blue-600" />
-              <span>Step 7: Summary & Application Review</span>
-            </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-              Review all details and verified documents before final submission.
-            </p>
+      {wizardStep === 7 && (
+        <div className="space-y-5 animate-in fade-in">
+          <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block pb-2 border-b border-slate-200 dark:border-slate-800">
+            Step 7 of 7: Submit Page & Official Assessment of Regulatory Fees
+          </span>
+
+          {/* Summary Overview Cards Matching Picture 1 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2">
+              <div className="flex items-center space-x-2 text-[#0c4a60] dark:text-sky-400 font-bold">
+                <Calendar size={15} />
+                <span>Event Particulars</span>
+              </div>
+              <p><strong>Title:</strong> {businessInfo.businessName || 'N/A'}</p>
+              <p><strong>Venue:</strong> {businessInfo.businessAddress}, Brgy. {businessInfo.businessBarangay}, QC</p>
+              <p><strong>Dates:</strong> CY 2026 Annual Registration</p>
+              <p><strong>Category:</strong> {businessInfo.businessType} Permit • {activityInfo.lineOfBusiness || businessInfo.natureOfBusiness || 'Commercial Enterprise'}</p>
+              <p><strong>Booths & Scale:</strong> ₱{operationInfo.capitalInvestment || '100,000.00'} • {operationInfo.floorAreaSqm || '50'} sqm</p>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2">
+              <div className="flex items-center space-x-2 text-[#0c4a60] dark:text-sky-400 font-bold">
+                <Building2 size={15} />
+                <span>Entity & Promoter</span>
+              </div>
+              <p><strong>Entity:</strong> {businessInfo.businessName || 'N/A'}</p>
+              <p><strong>TIN / SEC:</strong> {businessInfo.businessContact || 'Registered'} • {propertyTenure}</p>
+              <p><strong>Promoter / Head:</strong> {applicantInfo.fullName || 'Business Owner'} ({applicantType === 'OWNER' ? 'Proprietor' : 'Representative'})</p>
+              <p><strong>Contact:</strong> {applicantInfo.mobile} • {applicantInfo.email}</p>
+              <p><strong>Safety Lead:</strong> {applicantInfo.repFullName || applicantInfo.fullName || 'Proprietor'}</p>
+            </div>
           </div>
 
-          {/* 11. REVIEW APPLICATION DETAILS */}
-          <div className="space-y-4">
-            
-            {/* APPLICATION DETAILS CARD */}
-            <div className="p-5 rounded-3xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700/80 space-y-3 text-xs">
-              <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-2">
-                <h4 className="font-black uppercase text-slate-800 dark:text-slate-200">
-                  APPLICATION DETAILS
-                </h4>
-                <button
-                  type="button"
-                  onClick={() => setWizardStep(2)}
-                  className="px-3 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:bg-blue-50 cursor-pointer flex items-center space-x-1"
-                >
-                  <Edit2 size={11} />
-                  <span>EDIT</span>
-                </button>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div>
-                  <span className="text-[10px] font-bold uppercase text-slate-400 block">Applicant:</span>
-                  <p className="font-extrabold text-slate-900 dark:text-white text-sm">{applicantInfo.fullName}</p>
-                  <p className="text-slate-500 font-mono text-[11px]">{applicantInfo.mobile}</p>
-                </div>
-
-                <div>
-                  <span className="text-[10px] font-bold uppercase text-slate-400 block">Business:</span>
-                  <p className="font-extrabold text-slate-900 dark:text-white text-sm">{businessInfo.businessName}</p>
-                  <p className="text-slate-500 text-[11px]">{businessInfo.natureOfBusiness}</p>
-                </div>
-
-                <div>
-                  <span className="text-[10px] font-bold uppercase text-slate-400 block">Business Type:</span>
-                  <p className="font-bold text-slate-800 dark:text-slate-200">{businessInfo.businessType}</p>
-                  <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">
-                    {appType} PERMIT
-                  </span>
-                </div>
-
-                <div>
-                  <span className="text-[10px] font-bold uppercase text-slate-400 block">Business Address:</span>
-                  <p className="font-semibold text-slate-800 dark:text-slate-200">
-                    {businessInfo.businessAddress}, {businessInfo.businessBarangay}
-                  </p>
-                  <p className="text-slate-400 text-[10px]">Quezon City • Right: {propertyTenure}</p>
-                </div>
-              </div>
-            </div>
-
-            {/* DOCUMENTS REVIEW CARD */}
-            <div className="p-5 rounded-3xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700/80 space-y-3 text-xs">
-              <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-2">
-                <h4 className="font-black uppercase text-slate-800 dark:text-slate-200">
-                  DOCUMENTS
-                </h4>
-                <button
-                  type="button"
-                  onClick={() => setWizardStep(6)}
-                  className="px-3 py-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:bg-blue-50 cursor-pointer flex items-center space-x-1"
-                >
-                  <Edit2 size={11} />
-                  <span>[ EDIT ]</span>
-                </button>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {documents.filter(d => d.fileName || d.fileUrl).map((d) => (
-                  <div key={d.id} className="p-3 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 flex items-center justify-between">
-                    <div className="flex items-center space-x-3 overflow-hidden">
-                      {d.fileUrl && (
-                        <img src={d.fileUrl} alt={d.name} className="w-10 h-10 rounded-lg object-cover flex-shrink-0" />
-                      )}
-                      <div className="overflow-hidden">
-                        <p className="font-bold text-slate-900 dark:text-white truncate">✓ {d.name}</p>
-                        <p className="text-[10px] text-slate-400 font-mono truncate">{d.fileName}</p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-1.5 flex-shrink-0">
-                      <button
-                        type="button"
-                        onClick={() => setPreviewModalUrl({ url: d.fileUrl || '/New Application.jpg', title: d.name })}
-                        className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 rounded-lg text-[10px] font-bold cursor-pointer"
-                      >
-                        [ VIEW ]
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setActiveUploadDocId(d.id);
-                          setIsUploadModalOpen(true);
-                        }}
-                        className="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg text-[10px] font-bold cursor-pointer"
-                      >
-                        [ REPLACE ]
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Assessment Tariff Breakdown */}
-            <div className="p-5 rounded-3xl bg-blue-50/50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900 space-y-2 text-xs">
-              <div className="flex items-center justify-between pb-2 border-b border-blue-200 dark:border-blue-900 font-bold text-slate-900 dark:text-white">
-                <span className="flex items-center gap-1.5">
-                  <Receipt size={16} className="text-blue-600" />
-                  <span>Applicable Business Assessment (Tariff Schedule)</span>
-                </span>
-                <span className="font-mono text-blue-600 dark:text-blue-400 font-black text-sm">₱4,450.00</span>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] text-slate-600 dark:text-slate-300">
-                <div>Mayor's Permit Fee: ₱2,000</div>
-                <div>Local Business Tax: ₱1,250</div>
-                <div>Sanitary Clearance: ₱400</div>
-                <div>Fire & Environmental: ₱800</div>
-              </div>
-            </div>
-
-            {/* 12. SWORN CERTIFICATION */}
-            <div className="p-4 rounded-2xl bg-white dark:bg-slate-800 border-2 border-blue-400 dark:border-blue-800 flex items-start space-x-3 shadow-xs">
-              <input
-                type="checkbox"
-                id="swornCertificationCheck"
-                checked={certifiedTruth}
-                onChange={(e) => setCertifiedTruth(e.target.checked)}
-                className="mt-1 w-4 h-4 rounded text-blue-600 cursor-pointer"
-              />
-              <label htmlFor="swornCertificationCheck" className="text-xs text-slate-800 dark:text-slate-200 leading-relaxed cursor-pointer font-semibold">
-                I certify that the information and documents submitted are true and correct.
-              </label>
-            </div>
-
-          </div>
-
-          <div className="pt-4 flex justify-between items-center">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-slate-200 dark:border-slate-800">
             <button
               type="button"
               onClick={() => setWizardStep(6)}
-              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+              className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-bold transition-colors cursor-pointer"
             >
               Back to Other Information
             </button>
+
             <button
               type="button"
-              disabled={!certifiedTruth || isSubmitting}
+              disabled={isSubmitting}
               onClick={handleSubmitApplication}
-              className="px-8 py-3.5 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white rounded-2xl text-xs font-black shadow-lg shadow-blue-600/30 transition-all cursor-pointer"
+              className="w-full sm:w-auto px-7 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center justify-center space-x-2 cursor-pointer disabled:opacity-50"
             >
-              {isSubmitting ? (
-                <span>Submitting Application...</span>
-              ) : (
-                <span>SUBMIT APPLICATION</span>
-              )}
+              <FileCheck size={16} />
+              <span>{isSubmitting ? 'Submitting Application...' : 'Submit Business Permit Application to QC BPLO'}</span>
             </button>
           </div>
         </div>
       )}
-
-
-{/* ========================================================================= */}
-      {/* STEP 5: SUBMIT (APPLICATION NUMBER, APPLICATION TRACKING, CORRECTION, PAYMENT, RELEASE) */}
-      {/* ========================================================================= */}
-      {wizardStep === 7 && submittedApp && (
-        <div className="space-y-7 animate-in fade-in">
-          
-          {/* 13. APPLICATION NUMBER BANNER */}
-          <div className="text-center space-y-2 py-3 bg-emerald-50/50 dark:bg-emerald-950/30 rounded-3xl border border-emerald-200 dark:border-emerald-800/80 p-6">
-            <div className="w-14 h-14 mx-auto rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-md">
-              <CheckCircle2 size={32} />
-            </div>
-            
-            <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
-              APPLICATION SUBMITTED
-            </h3>
-
-            <div className="inline-block mt-2 px-4 py-2 rounded-xl bg-white dark:bg-slate-900 border border-emerald-300 dark:border-emerald-800 shadow-xs">
-              <span className="text-xs text-slate-500 dark:text-slate-400 mr-2">Application Number:</span>
-              <span className="font-mono font-black text-blue-600 dark:text-blue-400 text-base">
-                {submittedApp.id}
-              </span>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-slate-600 dark:text-slate-300 pt-1">
-              <span>Date Submitted: <strong className="text-slate-900 dark:text-white">September 24, 2026</strong></span>
-              <span>•</span>
-              <span>Status: <strong className="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-black uppercase">{trackingStatus}</strong></span>
-            </div>
-
-            {/* Buttons: [ TRACK APPLICATION ], [ VIEW APPLICATION ] */}
-            <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
-              <button
-                type="button"
-                onClick={() => setActiveTrackingTab('tracking')}
-                className={`px-5 py-2.5 rounded-xl text-xs font-black shadow-xs transition-all cursor-pointer ${
-                  activeTrackingTab === 'tracking'
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700'
-                }`}
-              >
-                TRACK APPLICATION
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveTrackingTab('application')}
-                className={`px-5 py-2.5 rounded-xl text-xs font-black shadow-xs transition-all cursor-pointer ${
-                  activeTrackingTab === 'application'
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700'
-                }`}
-              >
-                VIEW APPLICATION
-              </button>
-            </div>
-          </div>
-
-          {/* 14. APPLICATION TRACKING VIEW */}
-          {activeTrackingTab === 'tracking' && (
-            <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-7 shadow-xs space-y-6">
-              
-              {/* Top Details Summary */}
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 pb-4 border-b border-slate-100 dark:border-slate-800 text-xs">
-                <div>
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Application Number:</span>
-                  <span className="font-mono font-bold text-blue-600 dark:text-blue-400">{submittedApp.id}</span>
-                </div>
-                <div>
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Business Name:</span>
-                  <span className="font-bold text-slate-900 dark:text-white truncate block">{businessInfo.businessName}</span>
-                </div>
-                <div>
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Application Type:</span>
-                  <span className="font-medium text-slate-700 dark:text-slate-300">
-                    {appType === 'NEW' ? 'New Business Permit' : appType === 'RENEWAL' ? 'Renewal' : 'Amendment'}
-                  </span>
-                </div>
-                <div>
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Date Submitted:</span>
-                  <span className="font-medium text-slate-700 dark:text-slate-300">September 24, 2026</span>
-                </div>
-                <div>
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Current Status:</span>
-                  <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase ${
-                    trackingStatus === 'PERMIT READY' || trackingStatus === 'APPROVED'
-                      ? 'bg-emerald-100 text-emerald-800'
-                      : trackingStatus === 'NEEDS CORRECTION'
-                      ? 'bg-amber-100 text-amber-800 animate-pulse'
-                      : 'bg-blue-100 text-blue-800'
-                  }`}>
-                    {trackingStatus}
-                  </span>
-                </div>
-              </div>
-
-              {/* Evaluator Simulation Control */}
-              <div className="flex items-center justify-between text-xs bg-slate-50 dark:bg-slate-800/60 p-3 rounded-2xl">
-                <span className="text-slate-500 font-medium">Evaluator Demonstration Tool:</span>
-                <button
-                  type="button"
-                  onClick={handleSimulateCorrection}
-                  className="px-3 py-1 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-[10px] font-bold cursor-pointer transition-colors"
-                >
-                  ⚡ Simulate Correction Request
-                </button>
-              </div>
-
-              {/* 15. NEEDS CORRECTION SECTION */}
-              {trackingStatus === 'NEEDS CORRECTION' && (
-                <div className="p-5 rounded-3xl bg-amber-50 dark:bg-amber-950/40 border-2 border-amber-400 dark:border-amber-800 space-y-3 animate-in fade-in">
-                  <div className="flex items-center space-x-2 text-amber-900 dark:text-amber-200">
-                    <AlertCircle size={20} className="text-amber-600" />
-                    <h4 className="font-black text-sm uppercase">
-                      DOCUMENT NEEDS CORRECTION
-                    </h4>
-                  </div>
-                  <p className="text-xs text-amber-800 dark:text-amber-300">
-                    Your application is safe and has NOT been deleted. Please replace only the affected document:
-                  </p>
-
-                  {documents.filter(d => d.status === 'NEEDS CORRECTION').map(doc => (
-                    <div key={doc.id} className="p-4 bg-white dark:bg-slate-900 rounded-2xl border border-amber-300 dark:border-amber-800 space-y-2">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                        <div>
-                          <span className="font-extrabold text-xs text-slate-900 dark:text-white block">
-                            Document: {doc.name}
-                          </span>
-                          <p className="text-xs text-rose-600 dark:text-rose-400 font-bold mt-0.5">
-                            Reason: "{doc.comment || 'Please upload a clearer image.'}"
-                          </p>
-                        </div>
-
-                        <label className="px-5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-black shadow-xs cursor-pointer inline-flex items-center space-x-1.5 flex-shrink-0">
-                          <Camera size={14} />
-                          <span>[ UPLOAD NEW PHOTO ]</span>
-                          <input
-                            type="file"
-                            accept=".jpg,.jpeg,.png,.pdf"
-                            capture="environment"
-                            onChange={(e) => handleReplacementUpload(e, doc.id)}
-                            className="hidden"
-                          />
-                        </label>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {/* 14. 7-STAGE APPLICATION TIMELINE */}
-              <div className="space-y-3">
-                <h5 className="font-black text-xs uppercase tracking-wider text-slate-400">
-                  Application Processing Timeline
-                </h5>
-
-                <div className="grid grid-cols-1 sm:grid-cols-7 gap-2.5 text-xs">
-                  {[
-                    { id: 1, title: 'Application Submitted', done: true, active: trackingStatus === 'SUBMITTED' },
-                    { id: 2, title: 'Initial Evaluation', done: trackingStatus !== 'SUBMITTED', active: trackingStatus === 'UNDER INITIAL REVIEW' },
-                    { id: 3, title: 'Document Evaluation', done: ['FOR ASSESSMENT', 'FOR APPROVAL', 'APPROVED', 'FOR PAYMENT', 'PAYMENT VERIFIED', 'PERMIT READY', 'COMPLETED'].includes(trackingStatus), active: trackingStatus === 'UNDER REVIEW' || trackingStatus === 'NEEDS CORRECTION', alert: trackingStatus === 'NEEDS CORRECTION' },
-                    { id: 4, title: 'Assessment', done: ['FOR APPROVAL', 'APPROVED', 'FOR PAYMENT', 'PAYMENT VERIFIED', 'PERMIT READY', 'COMPLETED'].includes(trackingStatus), active: trackingStatus === 'FOR ASSESSMENT' },
-                    { id: 5, title: 'Approval', done: ['FOR PAYMENT', 'PAYMENT VERIFIED', 'PERMIT READY', 'COMPLETED'].includes(trackingStatus), active: trackingStatus === 'APPROVED' },
-                    { id: 6, title: 'Payment', done: ['PAYMENT VERIFIED', 'PERMIT READY', 'COMPLETED'].includes(trackingStatus), active: trackingStatus === 'FOR PAYMENT' || paymentDone },
-                    { id: 7, title: 'Permit Release', done: trackingStatus === 'PERMIT READY' || trackingStatus === 'COMPLETED', active: trackingStatus === 'PERMIT READY' }
-                  ].map((stage) => (
-                    <div 
-                      key={stage.id}
-                      className={`p-3 rounded-2xl border space-y-1 transition-all ${
-                        stage.alert
-                          ? 'bg-amber-50 dark:bg-amber-950/40 border-amber-300 dark:border-amber-800'
-                          : stage.done
-                          ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800'
-                          : stage.active
-                          ? 'bg-blue-50 dark:bg-blue-950/40 border-blue-400 ring-2 ring-blue-500/20'
-                          : 'bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700 opacity-60'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className={`font-black text-[11px] ${
-                          stage.alert ? 'text-amber-700' : stage.done ? 'text-emerald-700 dark:text-emerald-300' : stage.active ? 'text-blue-600' : 'text-slate-500'
-                        }`}>
-                          {stage.done ? '✓' : stage.active ? '●' : '○'}
-                        </span>
-                        <span className="text-[10px] font-mono text-slate-400">0{stage.id}</span>
-                      </div>
-                      <p className="font-bold text-[11px] text-slate-800 dark:text-slate-200 leading-tight">
-                        {stage.title}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* 20. PAYMENT SECTION */}
-              <div className="p-5 rounded-3xl bg-blue-50/50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="space-y-1 text-xs">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block">Assessment & Payment:</span>
-                  <div className="flex items-center space-x-3">
-                    <span className="font-mono font-black text-blue-600 dark:text-blue-400 text-lg">₱4,450.00</span>
-                    <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                      paymentDone ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
-                    }`}>
-                      Payment Status: {paymentDone ? 'PAID / VERIFIED' : 'PENDING PAYMENT'}
-                    </span>
-                  </div>
-                  <p className="text-slate-500 text-[11px]">
-                    {paymentDone ? `Payment Reference: ${paymentOrNumber}` : 'Payable via GCash, Maya, Landbank, or Card'}
-                  </p>
-                </div>
-
-                {!paymentDone ? (
-                  <button
-                    type="button"
-                    onClick={handleProcessPayment}
-                    className="px-6 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-black shadow-md cursor-pointer transition-colors flex items-center space-x-2"
-                  >
-                    <CreditCard size={15} />
-                    <span>Pay Assessment Online (₱4,450.00)</span>
-                  </button>
-                ) : (
-                  <span className="px-4 py-2 bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 rounded-xl text-xs font-bold border border-emerald-300 flex items-center gap-1.5">
-                    <CheckCircle2 size={16} /> Payment Confirmed
-                  </span>
-                )}
-              </div>
-
-              {/* 21. PERMIT RELEASE SECTION (WHEN PERMIT READY) */}
-              {(trackingStatus === 'PERMIT READY' || releasedPermit) && (
-                <div className="p-6 rounded-3xl border-2 border-emerald-500 bg-emerald-50/40 dark:bg-emerald-950/20 space-y-4 animate-in fade-in">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div className="flex items-center space-x-4">
-                      <div className="w-16 h-16 bg-white p-1 rounded-2xl border shadow-sm flex items-center justify-center flex-shrink-0">
-                        <QrCode size={54} className="text-slate-900" />
-                      </div>
-                      <div>
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-600 text-white">
-                          STATUS: PERMIT READY
-                        </span>
-                        <h4 className="font-black text-base text-slate-900 dark:text-white mt-1">
-                          Official Mayor's Business Permit #{releasedPermit?.permitNumber || `MP-2026-${submittedApp.id.replace('BP-2026-', '')}`}
-                        </h4>
-                        <p className="text-xs text-slate-500">
-                          BIN: {releasedPermit?.bin || 'BIN-QC-2026-48190'} • Valid until: December 31, 2026
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Buttons: [ VIEW PERMIT ], [ DOWNLOAD PERMIT ], [ PRINT PERMIT ] */}
-                    <div className="flex flex-wrap items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={() => setPermitModalOpen(true)}
-                        className="px-4 py-2 bg-white dark:bg-slate-900 border border-emerald-300 dark:border-emerald-700 hover:bg-emerald-50 text-emerald-800 dark:text-emerald-200 rounded-xl text-xs font-bold shadow-xs cursor-pointer flex items-center space-x-1.5"
-                      >
-                        <Eye size={14} />
-                        <span>[ VIEW PERMIT ]</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => alert(`Permit PDF downloaded for ${businessInfo.businessName}`)}
-                        className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold shadow-md cursor-pointer flex items-center space-x-1.5"
-                      >
-                        <Download size={14} />
-                        <span>[ DOWNLOAD PERMIT ]</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => window.print()}
-                        className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold shadow-xs cursor-pointer flex items-center space-x-1.5"
-                      >
-                        <Printer size={14} />
-                        <span>[ PRINT PERMIT ]</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-            </div>
-          )}
-
-          {/* VIEW APPLICATION TAB */}
-          {activeTrackingTab === 'application' && (
-            <div className="p-6 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-5 animate-in fade-in">
-              <h4 className="font-black text-sm uppercase text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800 pb-2">
-                Submitted Application Record ({submittedApp.id})
-              </h4>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
-                <div>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">Applicant Full Name:</span>
-                  <p className="font-bold text-slate-900 dark:text-white">{applicantInfo.fullName}</p>
-                </div>
-                <div>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">Mobile Number:</span>
-                  <p className="font-mono font-bold text-slate-900 dark:text-white">{applicantInfo.mobile}</p>
-                </div>
-                <div>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">Email Address:</span>
-                  <p className="font-mono text-slate-700 dark:text-slate-300">{applicantInfo.email}</p>
-                </div>
-                <div>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">Business Name:</span>
-                  <p className="font-bold text-slate-900 dark:text-white">{businessInfo.businessName}</p>
-                </div>
-                <div>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">Business Type:</span>
-                  <p className="font-medium text-slate-700 dark:text-slate-300">{businessInfo.businessType}</p>
-                </div>
-                <div>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">Nature of Business:</span>
-                  <p className="font-medium text-slate-700 dark:text-slate-300">{businessInfo.natureOfBusiness}</p>
-                </div>
-                <div className="sm:col-span-2">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">Business Address:</span>
-                  <p className="font-medium text-slate-700 dark:text-slate-300">
-                    {businessInfo.businessAddress}, {businessInfo.businessBarangay}, Quezon City
-                  </p>
-                </div>
-                <div>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">Right to Use Location:</span>
-                  <p className="font-medium text-slate-700 dark:text-slate-300">{propertyTenure}</p>
-                </div>
-              </div>
-
-              {/* Uploaded Documents List */}
-              <div className="pt-3 border-t border-slate-200 dark:border-slate-800 space-y-3">
-                <span className="text-[10px] font-bold text-slate-400 uppercase">Submitted Documents:</span>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                  {documents.filter(d => d.fileName || d.fileUrl).map((d) => (
-                    <div key={d.id} className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center justify-between">
-                      <div className="flex items-center space-x-2 truncate">
-                        <span className="text-emerald-600 font-bold">✓</span>
-                        <span className="font-bold text-slate-800 dark:text-slate-200 truncate">{d.name}</span>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => setPreviewModalUrl({ url: d.fileUrl || '/New Application.jpg', title: d.name })}
-                        className="text-[10px] font-bold text-blue-600 hover:underline flex-shrink-0"
-                      >
-                        [ VIEW ]
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Bottom Navigation Control */}
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <button
-              type="button"
-              onClick={onBack}
-              className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-md cursor-pointer transition-all"
-            >
-              Return to Business One-Stop-Shop
-            </button>
-          </div>
-
-        </div>
-      )}
+      </>
+    )}
 
       {/* ========================================================================= */}
       {/* 5. UPLOAD EXPERIENCE MODAL (TAKE PHOTO OR UPLOAD FROM DEVICE) */}

@@ -1606,7 +1606,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
                       className="text-blue-600 dark:text-blue-400 font-bold hover:underline cursor-pointer flex items-center space-x-1"
                     >
                       <Bot size={13} />
-                      <span>Run AI OCR Scanner →</span>
+                      <span>Run AI OCR Scanner</span>
                     </button>
                   </div>
 

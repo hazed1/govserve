@@ -12,8 +12,6 @@ import {
   CheckCircle2, 
   ShieldCheck, 
   AlertCircle, 
-  ArrowRight, 
-  ArrowLeft, 
   FileCheck, 
   Layers, 
   Clock, 
@@ -775,9 +773,9 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
   const [amendOrNo, setAmendOrNo] = useState<string>('');
   const [amendRecord, setAmendRecord] = useState<any>(null);
   const [amendmentType, setAmendmentType] = useState<'trade_name' | 'address' | 'line_of_business' | 'ownership'>('trade_name');
-  const [amendedValue, setAmendedValue] = useState<string>('Apex Global Tech & Retail Enterprise');
+  const [amendedValue, setAmendedValue] = useState<string>('');
   const [amendBarangay, setAmendBarangay] = useState<string>('Barangay San Antonio');
-  const [amendReason, setAmendReason] = useState<string>('Corporate expansion and addition of electronic hardware distribution line in Quezon City.');
+  const [amendReason, setAmendReason] = useState<string>('');
   // Document 1: Primary Registration (DTI / SEC / CDA)
   const [amendProofFile, setAmendProofFile] = useState<string | null>(null);
   const [amendProofFileSize, setAmendProofFileSize] = useState<string>('');
@@ -873,35 +871,35 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
   const [specialStep, setSpecialStep] = useState<number>(1);
   const [specialTermsAccepted, setSpecialTermsAccepted] = useState<boolean>(false);
   const [specialData, setSpecialData] = useState({
-    businessName: 'Apex Media & Events Entertainment Inc.',
-    tin: '008-912-345-000',
-    dtiSecNumber: 'SEC CS2022091234',
+    businessName: '',
+    tin: '',
+    dtiSecNumber: '',
     entityClassification: 'Corporation',
-    registeredAddress: 'Unit 402 QC Hall of Justice Annex, Elliptical Road, Diliman, Quezon City',
-    organizerName: 'Juan Dela Cruz',
-    organizerContact: '+63 917 888 1234',
-    organizerEmail: 'events@apexqc.ph',
-    operationType: 'Promotional Events & Product Activations',
-    operatingHours: '08:00 AM - 10:00 PM',
-    expectedAttendees: '2,500 visitors / day',
-    venueArea: '1,500 sq.m.',
-    soundAmplification: true,
-    ingressDate: '2026-10-14 06:00 AM',
-    egressDate: '2026-10-19 11:00 PM',
-    commercialActivity: 'Commercial Exhibitions, Tech Demos & Food Stalls',
-    boothCount: '35 booths',
+    registeredAddress: '',
+    organizerName: '',
+    organizerContact: '',
+    organizerEmail: '',
+    operationType: '',
+    operatingHours: '',
+    expectedAttendees: '',
+    venueArea: '',
+    soundAmplification: false,
+    ingressDate: '',
+    egressDate: '',
+    commercialActivity: '',
+    boothCount: '',
     admissionType: 'Free Admission',
-    foodSelling: true,
+    foodSelling: false,
     generatorEquipment: false,
-    bannerSignage: true,
-    eventTitle: 'QC Mid-Year Tech Expo & Food Festival 2026',
-    venue: 'Quezon City Memorial Circle Grand Pavilion',
-    venueAddress: 'Elliptical Road, Diliman, Quezon City',
+    bannerSignage: false,
+    eventTitle: '',
+    venue: '',
+    venueAddress: '',
     barangay: 'Central',
-    startDate: '2026-10-15',
-    endDate: '2026-10-18',
-    safetyOfficer: 'Capt. Ricardo Gomez (Accredited Safety Marshall)',
-    wasteManagementPlan: true
+    startDate: '',
+    endDate: '',
+    safetyOfficer: '',
+    wasteManagementPlan: false
   });
   const [specialSubmitted, setSpecialSubmitted] = useState<boolean>(false);
   const [specialSwornUndertaking, setSpecialSwornUndertaking] = useState<boolean>(true);
@@ -1150,7 +1148,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
       organizerName: '',
       organizerContact: '',
       organizerEmail: '',
-      operationType: 'Promotional Events & Product Activations',
+      operationType: '',
       operatingHours: '',
       expectedAttendees: '',
       venueArea: '',
@@ -1166,7 +1164,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
       eventTitle: '',
       venue: '',
       venueAddress: '',
-      barangay: '',
+      barangay: 'Central',
       startDate: '',
       endDate: '',
       safetyOfficer: '',
@@ -1518,7 +1516,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                         }}
                         className="w-full py-3.5 px-5 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-blue-600/40 hover:shadow-blue-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
                       >
-                        <span>Apply for Business Permit →</span>
+                        <span>Apply for Business Permit</span>
                       </button>
 
                       
@@ -1639,7 +1637,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                       }}
                       className="w-full py-3.5 px-5 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-emerald-600/40 hover:shadow-emerald-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      <span>Apply for Work Permit →</span>
+                      <span>Apply for Work Permit</span>
                     </button>
 
                     
@@ -1768,7 +1766,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                       }}
                       className="w-full py-3.5 px-5 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-purple-600/40 hover:shadow-purple-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
                     >
-                      <span>Request CTC Online →</span>
+                      <span>Request CTC Online</span>
                     </button>
 
                     
@@ -1917,7 +1915,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                       className="w-full py-3.5 px-5 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 active:scale-[0.99] text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-amber-600/40 transition-all flex items-center justify-center gap-2 cursor-pointer"
                     >
                       <Search size={16} />
-                      <span>Verify Business Permit Now (100% Free) →</span>
+                      <span>Verify Business Permit Now (100% Free)</span>
                     </button>
 
                     
@@ -1931,7 +1929,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                           <Camera size={15} />
                           <span>3 Simple Steps to Verify</span>
                         </div>
-                        <span className="text-[10px] text-amber-700 dark:text-amber-300 font-extrabold group-hover:translate-x-0.5 transition-transform">Verify Here →</span>
+                        <span className="text-[10px] text-amber-700 dark:text-amber-300 font-extrabold group-hover:translate-x-0.5 transition-transform">Verify Here</span>
                       </div>
 
                       {/* 3 Step Pills */}
@@ -2040,7 +2038,6 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   <span className="text-[#0e5c7a] dark:text-sky-400 font-extrabold text-base sm:text-lg tracking-wider uppercase group-hover:translate-x-1 transition-transform">
                     NEW
                   </span>
-                  <ArrowRight size={18} className="text-slate-300 dark:text-slate-600 group-hover:text-blue-600 dark:group-hover:text-sky-400 group-hover:translate-x-1 transition-all" />
                 </div>
 
                 {/* 2. RENEWAL */}
@@ -2057,7 +2054,6 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   <span className="text-[#0e5c7a] dark:text-sky-400 font-extrabold text-base sm:text-lg tracking-wider uppercase group-hover:translate-x-1 transition-transform">
                     RENEWAL
                   </span>
-                  <ArrowRight size={18} className="text-slate-300 dark:text-slate-600 group-hover:text-blue-600 dark:group-hover:text-sky-400 group-hover:translate-x-1 transition-all" />
                 </div>
 
                 {/* 3. AMENDMENT */}
@@ -2072,7 +2068,6 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   <span className="text-[#0e5c7a] dark:text-sky-400 font-extrabold text-base sm:text-lg tracking-wider uppercase group-hover:translate-x-1 transition-transform">
                     AMENDMENT
                   </span>
-                  <ArrowRight size={18} className="text-slate-300 dark:text-slate-600 group-hover:text-blue-600 dark:group-hover:text-sky-400 group-hover:translate-x-1 transition-all" />
                 </div>
 
                 {/* 4. SPECIAL PERMIT */}
@@ -2086,7 +2081,6 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   <span className="text-[#0e5c7a] dark:text-[#00c0f9] font-extrabold text-base sm:text-lg tracking-wider uppercase group-hover:translate-x-1 transition-transform">
                     SPECIAL PERMIT
                   </span>
-                  <ArrowRight size={18} className="text-slate-300 dark:text-slate-500 group-hover:text-blue-600 dark:group-hover:text-[#00c0f9] group-hover:translate-x-1 transition-all" />
                 </div>
               </div>
             </div>
@@ -2156,67 +2150,190 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
       {/* ========================================================================= */}
       {/* SUB-VIEW 2: RENEWAL */}
       {/* ========================================================================= */}
-      {currentView === 'renewal' && (
-        <div 
-          className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto cursor-pointer animate-in fade-in duration-200"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              resetRenewalForm();
-              setCurrentView('select_type');
-            }
-          }}
-        >
+      {currentView === 'renewal' && (() => {
+        const cleaned = (renewalGrossSales || '').replace(/[^0-9.]/g, '');
+        const grossNum = parseFloat(cleaned) || 2850000;
+        const lbtTax = grossNum * 0.015;
+        const promptDiscount = renewalPaymentPlan === 'annual' ? lbtTax * 0.10 : 0;
+        const netLbtTax = lbtTax - promptDiscount;
+        const mayorPermitFee = 4500;
+        const sanitaryFee = 1200;
+        const garbageFee = 2500;
+        const fsicFee = 3500;
+        const signboardFee = 850;
+        const docStamp = 200;
+        const regulatoryTotal = mayorPermitFee + sanitaryFee + garbageFee + fsicFee + signboardFee + docStamp;
+        const grandTotal = netLbtTax + regulatoryTotal;
+        const quarterlyFirstPayment = grandTotal / 4;
+
+        return (
           <div 
-            onClick={(e) => e.stopPropagation()}
-            className="bg-white dark:bg-slate-900 w-full max-w-5xl rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 animate-in fade-in zoom-in-95 my-auto cursor-default flex flex-col max-h-[92vh]"
+            className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto cursor-pointer animate-in fade-in duration-200"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                resetRenewalForm();
+                setCurrentView('select_type');
+              }
+            }}
           >
-            {/* Modal Header Matching Picture 1 */}
-            <div className="p-5 sm:p-6 bg-white dark:bg-slate-900 flex items-center justify-between border-b border-slate-200 dark:border-slate-800 shrink-0">
-              <div className="space-y-1">
-                <h3 className="text-base sm:text-xl font-black tracking-wide uppercase text-slate-900 dark:text-white flex items-center gap-2">
-                  <span>Application for Business Permit Renewal</span>
-                </h3>
-                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                  Quezon City E-Services Citizen's Charter Compliant • Renewal &amp; Verification System
-                </p>
-              </div>
-              <button 
-                type="button"
-                onClick={() => {
-                  resetRenewalForm();
-                  setCurrentView('select_type');
-                }}
-                className="text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white p-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer shrink-0"
-                title="Close"
+            {renewalSubmitted ? (
+              /* DEDICATED STANDALONE PAGE FOR OFFICIAL ELECTRONIC TAX ORDER OF PAYMENT (e-TOP) */
+              <div 
+                onClick={(e) => e.stopPropagation()}
+                className="w-full max-w-5xl animate-in zoom-in-95 my-auto cursor-default"
               >
-                <X size={20} />
-              </button>
-            </div>
+                <div className="bg-white dark:bg-slate-900 rounded-3xl border-2 border-emerald-500/60 p-6 sm:p-8 shadow-2xl space-y-6">
+                  {/* Header with Seal & Tracking */}
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-5 border-b border-emerald-100 dark:border-emerald-900/60">
+                    <div className="flex items-center gap-3.5 text-center sm:text-left">
+                      <div className="w-14 h-14 rounded-2xl bg-emerald-700 text-white flex items-center justify-center font-black text-xl shadow-md border-2 border-amber-400 shrink-0">
+                        QC
+                      </div>
+                      <div>
+                        <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">
+                          Republic of the Philippines • City Government of Quezon City
+                        </span>
+                        <h3 className="text-base sm:text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                          Official Electronic Tax Order of Payment (e-TOP)
+                        </h3>
+                        <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                          Business Permits &amp; Licensing Department (BPLD) • CY 2026 Assessment
+                        </span>
+                      </div>
+                    </div>
 
-            {/* Modal Body */}
-            <div className="p-5 sm:p-7 overflow-y-auto">
-              <div className="space-y-6 animate-in fade-in max-w-5xl mx-auto">
-                {/* ======================================================================= */}
-                {/* ENHANCED BPLO ANNUAL RENEWAL PORTAL                                     */}
-                {/* ======================================================================= */}
-                {(() => {
-              const cleaned = (renewalGrossSales || '').replace(/[^0-9.]/g, '');
-              const grossNum = parseFloat(cleaned) || 2850000;
-              const lbtTax = grossNum * 0.015;
-              const promptDiscount = renewalPaymentPlan === 'annual' ? lbtTax * 0.10 : 0;
-              const netLbtTax = lbtTax - promptDiscount;
-              const mayorPermitFee = 4500;
-              const sanitaryFee = 1200;
-              const garbageFee = 2500;
-              const fsicFee = 3500;
-              const signboardFee = 850;
-              const docStamp = 200;
-              const regulatoryTotal = mayorPermitFee + sanitaryFee + garbageFee + fsicFee + signboardFee + docStamp;
-              const grandTotal = netLbtTax + regulatoryTotal;
-              const quarterlyFirstPayment = grandTotal / 4;
+                    <div className="text-center sm:text-right shrink-0">
+                      <div className="w-20 h-20 mx-auto sm:ml-auto p-1.5 bg-white rounded-xl border border-slate-300 shadow-xs flex flex-col items-center justify-center">
+                        <QrCode size={56} className="text-slate-900" />
+                        <span className="text-[7.5px] font-mono font-bold text-slate-600 uppercase">QC e-Pay</span>
+                      </div>
+                    </div>
+                  </div>
 
-              return (
-                <div className="space-y-5 text-xs text-left animate-in fade-in duration-200">
+                  {/* Assessment Reference & Due Date Bar */}
+                  <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
+                    <div>
+                      <span className="text-[10px] font-bold text-emerald-800 dark:text-emerald-300 uppercase block">Assessment Bill Reference</span>
+                      <span className="font-mono font-black text-sm text-emerald-950 dark:text-emerald-200">{renewalTrackingNo}</span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-bold text-emerald-800 dark:text-emerald-300 uppercase block">Assessment Status</span>
+                      <span className="font-bold text-emerald-700 dark:text-emerald-300">✓ Assessed &amp; Ready for Payment</span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-bold text-emerald-800 dark:text-emerald-300 uppercase block">Payment Due Date</span>
+                      <span className="font-bold text-amber-700 dark:text-amber-300">January 20, 2026 (Prompt Window)</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-[10px] font-bold text-slate-500 uppercase block">Net Amount Due</span>
+                      <span className="font-mono font-black text-base text-emerald-700 dark:text-emerald-300">
+                        ₱{(renewalPaymentPlan === 'annual' ? grandTotal : quarterlyFirstPayment).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Business Details Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs">
+                    <div>
+                      <span className="text-[10px] font-bold text-slate-400 uppercase block">Registered Business</span>
+                      <span className="font-extrabold text-slate-900 dark:text-white">{oldPermitData.businessName || renewalRecord?.businessName}</span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-bold text-slate-400 uppercase block">Permit Reference Number</span>
+                      <span className="font-mono font-bold text-blue-600 dark:text-sky-400">{oldPermitData.permitNo || renewalRecord?.permitNo || 'BP-2025-00123'}</span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-bold text-slate-400 uppercase block">Taxpayer / Signatory</span>
+                      <span className="font-bold text-slate-800 dark:text-slate-200">{oldPermitData.owner || renewalRecord?.owner}</span>
+                    </div>
+                  </div>
+
+                  {/* Payment Channels */}
+                  <div className="space-y-2">
+                    <span className="font-bold text-xs text-slate-700 dark:text-slate-300 block">Accepted Quezon City Official Payment Options:</span>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                      <div className="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1">
+                        <span className="font-bold text-blue-600 dark:text-sky-400 block">1. GCash / Maya (e-Wallet)</span>
+                        <p className="text-[10.5px] text-slate-500 leading-tight">Instant confirmation with electronic Official Receipt (e-OR).</p>
+                      </div>
+                      <div className="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1">
+                        <span className="font-bold text-emerald-600 dark:text-emerald-400 block">2. Landbank Link.Biz Portal</span>
+                        <p className="text-[10.5px] text-slate-500 leading-tight">Select Quezon City BPLO • Input Bill Ref: {renewalTrackingNo}.</p>
+                      </div>
+                      <div className="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1">
+                        <span className="font-bold text-purple-600 dark:text-purple-400 block">3. City Hall Treasury Counter</span>
+                        <p className="text-[10.5px] text-slate-500 leading-tight">Cash, Manager's Check, or POS Debit at QC Hall of Justice.</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex flex-col sm:flex-row items-center justify-end gap-2.5 pt-3 border-t border-slate-100 dark:border-slate-800">
+                    <button
+                      type="button"
+                      onClick={() => alert(`Downloading Official Tax Order of Payment (TOP) ${renewalTrackingNo}...`)}
+                      className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold flex items-center justify-center gap-2 shadow-md cursor-pointer transition-colors text-xs"
+                    >
+                      <Download size={14} />
+                      <span>Download Official TOP (PDF)</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => window.print()}
+                      className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-colors text-xs"
+                    >
+                      <Printer size={14} />
+                      <span>Print Assessment Bill</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRenewalSubmitted(false);
+                        setRenewalRecord(null);
+                        setCurrentView('select_type');
+                      }}
+                      className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold cursor-pointer transition-colors text-xs"
+                    >
+                      Return to Portal
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div 
+                onClick={(e) => e.stopPropagation()}
+                className="bg-white dark:bg-slate-900 w-full max-w-5xl rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 animate-in fade-in zoom-in-95 my-auto cursor-default flex flex-col max-h-[92vh]"
+              >
+                {/* Modal Header Matching Picture 1 */}
+                <div className="p-5 sm:p-6 bg-white dark:bg-slate-900 flex items-center justify-between border-b border-slate-200 dark:border-slate-800 shrink-0">
+                  <div className="space-y-1">
+                    <h3 className="text-base sm:text-xl font-black tracking-wide uppercase text-slate-900 dark:text-white flex items-center gap-2">
+                      <span>Application for Business Permit Renewal</span>
+                    </h3>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                      Quezon City E-Services Citizen's Charter Compliant • Renewal &amp; Verification System
+                    </p>
+                  </div>
+                  <button 
+                    type="button"
+                    onClick={() => {
+                      resetRenewalForm();
+                      setCurrentView('select_type');
+                    }}
+                    className="text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white p-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer shrink-0"
+                    title="Close"
+                  >
+                    <X size={20} />
+                  </button>
+                </div>
+
+                {/* Modal Body */}
+                <div className="p-5 sm:p-7 overflow-y-auto">
+                  <div className="space-y-6 animate-in fade-in max-w-5xl mx-auto">
+                    {/* ======================================================================= */}
+                    {/* ENHANCED BPLO ANNUAL RENEWAL PORTAL                                     */}
+                    {/* ======================================================================= */}
+                    <div className="space-y-5 text-xs text-left animate-in fade-in duration-200">
                   {/* CARD 1: OLD BUSINESS PERMIT RECORD */}
                   <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 shadow-xs space-y-4">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 gap-2">
@@ -2598,145 +2715,25 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   </div>
 
                   {/* 6. SUBMISSION AREA & ACTION BAR */}
-                  {!renewalSubmitted ? (
-                    <div className="flex items-center justify-center p-5 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                      <button
-                        type="button"
-                        disabled={!renewalAgreed || !renewalDocs.gross_statement || !renewalDocs.brgy_clearance || !renewalDocs.prior_permit}
-                        onClick={() => {
-                          if (!renewalAgreed || !renewalDocs.gross_statement || !renewalDocs.brgy_clearance || !renewalDocs.prior_permit) {
-                            return;
-                          }
-                          setRenewalSubmitted(true);
-                          setRenewalStep(4);
-                          if (onAddNewApplication && renewalRecord) {
-                            onAddNewApplication(oldPermitData.businessName || renewalRecord.businessName, 'Business Permit (Renewal)');
-                          }
-                        }}
-                        className="w-full sm:w-auto px-8 py-3 rounded-xl bg-blue-700 hover:bg-blue-800 active:scale-95 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-md shadow-blue-700/25 transition-all cursor-pointer flex items-center justify-center"
-                      >
-                        <span>Submit Renewal Application</span>
-                      </button>
-                    </div>
-                  ) : (
-                    /* SUCCESS VIEW: OFFICIAL ELECTRONIC TAX ORDER OF PAYMENT (e-TOP) */
-                    <div className="bg-white dark:bg-slate-900 rounded-3xl border-2 border-emerald-500/60 p-6 sm:p-8 shadow-2xl space-y-6 animate-in zoom-in-95">
-                      {/* Header with Seal & Tracking */}
-                      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pb-5 border-b border-emerald-100 dark:border-emerald-900/60">
-                        <div className="flex items-center gap-3.5 text-center sm:text-left">
-                          <div className="w-14 h-14 rounded-2xl bg-emerald-700 text-white flex items-center justify-center font-black text-xl shadow-md border-2 border-amber-400 shrink-0">
-                            QC
-                          </div>
-                          <div>
-                            <span className="text-[10px] font-black uppercase tracking-wider text-slate-400 block">
-                              Republic of the Philippines • City Government of Quezon City
-                            </span>
-                            <h3 className="text-base sm:text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
-                              Official Electronic Tax Order of Payment (e-TOP)
-                            </h3>
-                            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                              Business Permits &amp; Licensing Department (BPLD) • CY 2026 Assessment
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="text-center sm:text-right shrink-0">
-                          <div className="w-20 h-20 mx-auto sm:ml-auto p-1.5 bg-white rounded-xl border border-slate-300 shadow-xs flex flex-col items-center justify-center">
-                            <QrCode size={56} className="text-slate-900" />
-                            <span className="text-[7.5px] font-mono font-bold text-slate-600 uppercase">QC e-Pay</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Assessment Reference & Due Date Bar */}
-                      <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
-                        <div>
-                          <span className="text-[10px] font-bold text-emerald-800 dark:text-emerald-300 uppercase block">Assessment Bill Reference</span>
-                          <span className="font-mono font-black text-sm text-emerald-950 dark:text-emerald-200">{renewalTrackingNo}</span>
-                        </div>
-                        <div>
-                          <span className="text-[10px] font-bold text-emerald-800 dark:text-emerald-300 uppercase block">Assessment Status</span>
-                          <span className="font-bold text-emerald-700 dark:text-emerald-300">✓ Assessed &amp; Ready for Payment</span>
-                        </div>
-                        <div>
-                          <span className="text-[10px] font-bold text-emerald-800 dark:text-emerald-300 uppercase block">Payment Due Date</span>
-                          <span className="font-bold text-amber-700 dark:text-amber-300">January 20, 2026 (Prompt Window)</span>
-                        </div>
-                        <div className="text-right">
-                          <span className="text-[10px] font-bold text-slate-500 uppercase block">Net Amount Due</span>
-                          <span className="font-mono font-black text-base text-emerald-700 dark:text-emerald-300">
-                            ₱{(renewalPaymentPlan === 'annual' ? grandTotal : quarterlyFirstPayment).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Business Details Grid */}
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 bg-slate-50 dark:bg-slate-800/60 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs">
-                        <div>
-                          <span className="text-[10px] font-bold text-slate-400 uppercase block">Registered Business</span>
-                          <span className="font-extrabold text-slate-900 dark:text-white">{oldPermitData.businessName || renewalRecord.businessName}</span>
-                        </div>
-                        <div>
-                          <span className="text-[10px] font-bold text-slate-400 uppercase block">Permit Reference Number</span>
-                          <span className="font-mono font-bold text-blue-600 dark:text-sky-400">{oldPermitData.permitNo || renewalRecord.permitNo || 'BP-2025-00123'}</span>
-                        </div>
-                        <div>
-                          <span className="text-[10px] font-bold text-slate-400 uppercase block">Taxpayer / Signatory</span>
-                          <span className="font-bold text-slate-800 dark:text-slate-200">{oldPermitData.owner || renewalRecord.owner}</span>
-                        </div>
-                      </div>
-
-                      {/* Payment Channels */}
-                      <div className="space-y-2">
-                        <span className="font-bold text-xs text-slate-700 dark:text-slate-300 block">Accepted Quezon City Official Payment Options:</span>
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                          <div className="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1">
-                            <span className="font-bold text-blue-600 dark:text-sky-400 block">1. GCash / Maya (e-Wallet)</span>
-                            <p className="text-[10.5px] text-slate-500 leading-tight">Instant confirmation with electronic Official Receipt (e-OR).</p>
-                          </div>
-                          <div className="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1">
-                            <span className="font-bold text-emerald-600 dark:text-emerald-400 block">2. Landbank Link.Biz Portal</span>
-                            <p className="text-[10.5px] text-slate-500 leading-tight">Select Quezon City BPLO • Input Bill Ref: {renewalTrackingNo}.</p>
-                          </div>
-                          <div className="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 space-y-1">
-                            <span className="font-bold text-purple-600 dark:text-purple-400 block">3. City Hall Treasury Counter</span>
-                            <p className="text-[10.5px] text-slate-500 leading-tight">Cash, Manager's Check, or POS Debit at QC Hall of Justice.</p>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Action Buttons */}
-                      <div className="flex flex-col sm:flex-row items-center justify-end gap-2.5 pt-3 border-t border-slate-100 dark:border-slate-800">
-                        <button
-                          type="button"
-                          onClick={() => alert(`Downloading Official Tax Order of Payment (TOP) ${renewalTrackingNo}...`)}
-                          className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold flex items-center justify-center gap-2 shadow-md cursor-pointer transition-colors text-xs"
-                        >
-                          <Download size={14} />
-                          <span>Download Official TOP (PDF)</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => window.print()}
-                          className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-colors text-xs"
-                        >
-                          <Printer size={14} />
-                          <span>Print Assessment Bill</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setRenewalSubmitted(false);
-                            setRenewalRecord(null);
-                            setCurrentView('select_type');
-                          }}
-                          className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold cursor-pointer transition-colors text-xs"
-                        >
-                          Return to Portal
-                        </button>
-                      </div>
-                    </div>
-                  )}
+                  <div className="flex items-center justify-center p-5 bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <button
+                      type="button"
+                      disabled={!renewalAgreed || !renewalDocs.gross_statement || !renewalDocs.brgy_clearance || !renewalDocs.prior_permit}
+                      onClick={() => {
+                        if (!renewalAgreed || !renewalDocs.gross_statement || !renewalDocs.brgy_clearance || !renewalDocs.prior_permit) {
+                          return;
+                        }
+                        setRenewalSubmitted(true);
+                        setRenewalStep(4);
+                        if (onAddNewApplication && renewalRecord) {
+                          onAddNewApplication(oldPermitData.businessName || renewalRecord.businessName, 'Business Permit (Renewal)');
+                        }
+                      }}
+                      className="w-full sm:w-auto px-8 py-3 rounded-xl bg-blue-700 hover:bg-blue-800 active:scale-95 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-md shadow-blue-700/25 transition-all cursor-pointer flex items-center justify-center"
+                    >
+                      <span>Submit Renewal Application</span>
+                    </button>
+                  </div>
 
                   {/* Uploaded Picture Full Preview Modal */}
                   {renewalPreviewImage && (
@@ -2780,72 +2777,146 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                     </div>
                   )}
                 </div>
-              );
-            })()}
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
+    );
+  })()}
 
       {/* ========================================================================= */}
       {/* SUB-VIEW 3: AMENDMENT */}
       {/* ========================================================================= */}
-      {currentView === 'amendment' && (
-        <div 
-          className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto cursor-pointer animate-in fade-in duration-200"
-          onClick={(e) => {
-            if (e.target === e.currentTarget) {
-              resetAmendForm();
-              setCurrentView('select_type');
-            }
-          }}
-        >
+      {currentView === 'amendment' && (() => {
+        const activeAmendRecord = amendRecord || {
+          permitNo: amendPermitNo.trim() || 'BP-2025-004819',
+          orNo: amendOrNo.trim() || `OR-QC-${new Date().getFullYear()}-008219`,
+          businessName: 'Apex Innovations Retail Hub',
+          owner: 'Juan Dela Cruz',
+          address: 'Unit 402, 4th Floor, 123 Quezon Avenue, Barangay San Antonio, Quezon City',
+          tin: '284-918-301-000',
+          lineOfBusiness: 'Retail Sale of Consumer Electronics & General Merchandise',
+          psicCode: '4741',
+          validUntil: `December 31, ${new Date().getFullYear()}`,
+          status: `Active / Paid ${new Date().getFullYear()} Annual Business Tax`
+        };
+
+        return (
           <div 
-            onClick={(e) => e.stopPropagation()}
-            className="bg-white dark:bg-slate-900 w-full max-w-5xl rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 animate-in fade-in zoom-in-95 my-auto cursor-default flex flex-col max-h-[92vh]"
+            className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto cursor-pointer animate-in fade-in duration-200"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                resetAmendForm();
+                setCurrentView('select_type');
+              }
+            }}
           >
-            {/* Modal Header Matching Picture 1 */}
-            <div className="p-5 sm:p-6 bg-white dark:bg-slate-900 flex items-center justify-between border-b border-slate-200 dark:border-slate-800 shrink-0">
-              <div className="space-y-1">
-                <h3 className="text-base sm:text-xl font-black tracking-wide uppercase text-slate-900 dark:text-white flex items-center gap-2">
-                  <span>Application for Business Permit Amendment</span>
-                </h3>
-                <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                  Quezon City E-Services Citizen's Charter Compliant • Municipal Amendment Registry
-                </p>
-              </div>
-              <button 
-                type="button"
-                onClick={() => {
-                  resetAmendForm();
-                  setCurrentView('select_type');
-                }}
-                className="text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white p-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer shrink-0"
-                title="Close"
+            {amendSubmitted ? (
+              /* DEDICATED STANDALONE PAGE FOR AMENDMENT SUBMISSION (MATCHING PICTURE 2) */
+              <div 
+                onClick={(e) => e.stopPropagation()}
+                className="w-full max-w-4xl animate-in zoom-in-95 my-auto cursor-default"
               >
-                <X size={20} />
-              </button>
-            </div>
+                <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-2xl space-y-5">
+                  {/* Sworn Undertaking Checkbox */}
+                  <div className="pt-1">
+                    <label className="flex items-start space-x-3 cursor-default">
+                      <input
+                        type="checkbox"
+                        checked={true}
+                        readOnly
+                        className="mt-0.5 rounded text-blue-600 focus:ring-blue-500 pointer-events-none"
+                      />
+                      <span className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                        I, <strong>{activeAmendRecord.owner}</strong>, hereby declare under oath and under penalty of perjury that all declarations and supporting documents submitted herein for Quezon City Mayor's Permit Amendment are true and correct pursuant to Republic Act No. 8792 (Electronic Commerce Act) and Quezon City Citizen's Charter standards.
+                      </span>
+                    </label>
+                  </div>
 
-            {/* Modal Body */}
-            <div className="p-5 sm:p-7 overflow-y-auto">
-              <div className="space-y-6 animate-in fade-in max-w-4xl mx-auto">
-                {(() => {
-                  const activeAmendRecord = amendRecord || {
-                    permitNo: amendPermitNo.trim() || 'BP-2025-004819',
-                    orNo: amendOrNo.trim() || `OR-QC-${new Date().getFullYear()}-008219`,
-                    businessName: 'Apex Innovations Retail Hub',
-                    owner: 'Juan Dela Cruz',
-                    address: 'Unit 402, 4th Floor, 123 Quezon Avenue, Barangay San Antonio, Quezon City',
-                    tin: '284-918-301-000',
-                    lineOfBusiness: 'Retail Sale of Consumer Electronics & General Merchandise',
-                    psicCode: '4741',
-                    validUntil: `December 31, ${new Date().getFullYear()}`,
-                    status: `Active / Paid ${new Date().getFullYear()} Annual Business Tax`
-                  };
+                  {/* Submission State Card */}
+                  <div className="p-6 bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-400 rounded-2xl text-emerald-900 dark:text-emerald-200 space-y-3">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold">
+                        <CheckCircle2 size={22} />
+                      </div>
+                      <div>
+                        <h4 className="font-black text-sm uppercase">Amendment Application Submitted Successfully!</h4>
+                        <p className="text-xs text-emerald-700 dark:text-emerald-300">
+                          Application Tracking Reference: <strong className="font-mono">{amendRefNo}</strong>
+                        </p>
+                      </div>
+                    </div>
 
-                  return (
+                    <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-emerald-200 dark:border-emerald-800 text-[11px] text-slate-600 dark:text-slate-300">
+                      Your amendment request has been forwarded to the <strong>Quezon City Business Permits and Licensing Department (BPLD) Assessment Section</strong>. You may track this application using reference <strong>{amendRefNo}</strong> or proceed to fee payment of <strong>₱1,100.00</strong>.
+                    </div>
+
+                    <div className="flex flex-wrap gap-2.5 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => alert(`Official QC BPLO Amendment Filing Slip generated for ${amendRefNo}.`)}
+                        className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl font-bold text-xs flex items-center space-x-1.5 cursor-pointer shadow-sm"
+                      >
+                        <Download size={14} />
+                        <span>Download Filing Summary (PDF)</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => setCurrentView('pay_tax')}
+                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs flex items-center space-x-1.5 cursor-pointer shadow-sm"
+                      >
+                        <CreditCard size={14} />
+                        <span>Proceed to Pay (₱1,100.00)</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setAmendSubmitted(false);
+                          setAmendRecord(null);
+                          setCurrentView('select_type');
+                        }}
+                        className="px-4 py-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 text-slate-700 dark:text-slate-200 rounded-xl font-bold text-xs cursor-pointer"
+                      >
+                        Return to Permit Types
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div 
+                onClick={(e) => e.stopPropagation()}
+                className="bg-white dark:bg-slate-900 w-full max-w-5xl rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 animate-in fade-in zoom-in-95 my-auto cursor-default flex flex-col max-h-[92vh]"
+              >
+                {/* Modal Header Matching Picture 1 */}
+                <div className="p-5 sm:p-6 bg-white dark:bg-slate-900 flex items-center justify-between border-b border-slate-200 dark:border-slate-800 shrink-0">
+                  <div className="space-y-1">
+                    <h3 className="text-base sm:text-xl font-black tracking-wide uppercase text-slate-900 dark:text-white flex items-center gap-2">
+                      <span>Application for Business Permit Amendment</span>
+                    </h3>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                      Quezon City E-Services Citizen's Charter Compliant • Municipal Amendment Registry
+                    </p>
+                  </div>
+                  <button 
+                    type="button"
+                    onClick={() => {
+                      resetAmendForm();
+                      setCurrentView('select_type');
+                    }}
+                    className="text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white p-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer shrink-0"
+                    title="Close"
+                  >
+                    <X size={20} />
+                  </button>
+                </div>
+
+                {/* Modal Body */}
+                <div className="p-5 sm:p-7 overflow-y-auto">
+                  <div className="space-y-6 animate-in fade-in max-w-4xl mx-auto">
                     <div className="space-y-6">
               
 
@@ -2905,7 +2976,6 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   <div
                     onClick={() => {
                       setAmendmentType('trade_name');
-                      setAmendedValue('Apex Global Tech & Retail Enterprise');
                     }}
                     className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
                       amendmentType === 'trade_name'
@@ -2928,7 +2998,6 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   <div
                     onClick={() => {
                       setAmendmentType('address');
-                      setAmendedValue('Unit 802, Cyber Tower 1, Commonwealth Avenue, Brgy. Batasan Hills, Quezon City');
                     }}
                     className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
                       amendmentType === 'address'
@@ -2951,7 +3020,6 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   <div
                     onClick={() => {
                       setAmendmentType('line_of_business');
-                      setAmendedValue('Wholesale & Retail of IT Equipment, Computer Networking & Software Solutions (PSIC 4651)');
                     }}
                     className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
                       amendmentType === 'line_of_business'
@@ -2974,7 +3042,6 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   <div
                     onClick={() => {
                       setAmendmentType('ownership');
-                      setAmendedValue('Maria Clara Santos (New Managing General Partner)');
                     }}
                     className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
                       amendmentType === 'ownership'
@@ -3019,6 +3086,12 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                       type="text"
                       value={amendedValue}
                       onChange={(e) => setAmendedValue(e.target.value)}
+                      placeholder={
+                        amendmentType === 'trade_name' ? 'Enter new proposed business / trade name...' :
+                        amendmentType === 'address' ? 'Enter new physical address in Quezon City...' :
+                        amendmentType === 'line_of_business' ? 'Enter new / additional line of business...' :
+                        'Enter new registered owner / legal representative name...'
+                      }
                       className="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white font-semibold text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-colors"
                     />
                   </div>
@@ -3068,6 +3141,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                       rows={2}
                       value={amendReason}
                       onChange={(e) => setAmendReason(e.target.value)}
+                      placeholder="State the operational reason or legal justification for amendment..."
                       className="w-full p-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white text-xs focus:ring-2 focus:ring-blue-500/20 focus:border-blue-600 transition-colors"
                     />
                   </div>
@@ -3514,6 +3588,19 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   </div>
                 )}
 
+                {/* Missing Particulars Warning */}
+                {(!amendedValue?.trim() || !amendReason?.trim()) && (
+                  <div className="p-3.5 bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800 rounded-2xl flex items-start space-x-2.5 text-amber-900 dark:text-amber-200">
+                    <AlertTriangle size={18} className="text-amber-600 shrink-0 mt-0.5" />
+                    <div className="space-y-0.5 text-xs">
+                      <strong className="block font-bold">Incomplete Amended Particulars</strong>
+                      <p className="text-[11px] text-amber-800 dark:text-amber-300">
+                        Please provide both the new amended details and operational reason / justification in Section 3 before submitting.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
                 {/* Sworn Undertaking Checkbox */}
                 <div className="pt-2">
                   <label className="flex items-start space-x-3 cursor-pointer">
@@ -3529,90 +3616,43 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   </label>
                 </div>
 
-                {/* Submission State */}
-                {amendSubmitted ? (
-                  <div className="p-6 bg-emerald-50 dark:bg-emerald-950/40 border-2 border-emerald-400 rounded-2xl text-emerald-900 dark:text-emerald-200 space-y-3 animate-in zoom-in-95">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold">
-                        <CheckCircle2 size={22} />
-                      </div>
-                      <div>
-                        <h4 className="font-black text-sm uppercase">Amendment Application Submitted Successfully!</h4>
-                        <p className="text-xs text-emerald-700 dark:text-emerald-300">
-                          Application Tracking Reference: <strong className="font-mono">{amendRefNo}</strong>
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-emerald-200 dark:border-emerald-800 text-[11px] text-slate-600 dark:text-slate-300">
-                      Your amendment request has been forwarded to the <strong>Quezon City Business Permits and Licensing Department (BPLD) Assessment Section</strong>. You may track this application using reference <strong>{amendRefNo}</strong> or proceed to fee payment of <strong>₱1,100.00</strong>.
-                    </div>
-
-                    <div className="flex flex-wrap gap-2.5 pt-1">
-                      <button
-                        type="button"
-                        onClick={() => alert(`Official QC BPLO Amendment Filing Slip generated for ${amendRefNo}.`)}
-                        className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl font-bold text-xs flex items-center space-x-1.5 cursor-pointer shadow-sm"
-                      >
-                        <Download size={14} />
-                        <span>Download Filing Summary (PDF)</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => setCurrentView('pay_tax')}
-                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs flex items-center space-x-1.5 cursor-pointer shadow-sm"
-                      >
-                        <CreditCard size={14} />
-                        <span>Proceed to Pay (₱1,100.00)</span>
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setAmendSubmitted(false);
-                          setAmendRecord(null);
-                          setCurrentView('select_type');
-                        }}
-                        className="px-4 py-2 bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 text-slate-700 dark:text-slate-200 rounded-xl font-bold text-xs cursor-pointer"
-                      >
-                        Return to Permit Types
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="pt-2 flex justify-center">
-                    <button
-                      type="button"
-                      disabled={!amendSworn || !amendProofFile || !amendBarangayFile || !amendLegalFile}
-                      onClick={() => {
-                        if (!amendSworn || !amendProofFile || !amendBarangayFile || !amendLegalFile) {
-                          return;
-                        }
-                        setAmendSubmitted(true);
-                        if (onAddNewApplication) {
-                          onAddNewApplication(activeAmendRecord.businessName, 'Business Permit (Amendment)', {
-                            type: amendmentType,
-                            value: amendedValue,
-                            refNo: amendRefNo
-                          });
-                        }
-                      }}
-                      className="w-full sm:w-auto px-8 py-3 rounded-xl bg-blue-700 hover:bg-blue-800 active:scale-95 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-md shadow-blue-700/25 transition-all cursor-pointer flex items-center justify-center"
-                    >
-                      <span>Submit Amendment Application</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          );
-        })()}
+                {/* Submit Action */}
+                <div className="pt-2 flex flex-col items-center justify-center space-y-2">
+                  <button
+                    type="button"
+                    disabled={!amendSworn || !amendProofFile || !amendBarangayFile || !amendLegalFile || !amendedValue?.trim() || !amendReason?.trim()}
+                    onClick={() => {
+                      if (!amendSworn || !amendProofFile || !amendBarangayFile || !amendLegalFile || !amendedValue?.trim() || !amendReason?.trim()) {
+                        return;
+                      }
+                      setAmendSubmitted(true);
+                      if (onAddNewApplication) {
+                        onAddNewApplication(activeAmendRecord.businessName, 'Business Permit (Amendment)', {
+                          type: amendmentType,
+                          value: amendedValue,
+                          refNo: amendRefNo
+                        });
+                      }
+                    }}
+                    className="w-full sm:w-auto px-8 py-3 rounded-xl bg-blue-700 hover:bg-blue-800 active:scale-95 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider shadow-md shadow-blue-700/25 transition-all cursor-pointer flex items-center justify-center"
+                  >
+                    <span>Submit Amendment Application</span>
+                  </button>
+                  {(!amendedValue?.trim() || !amendReason?.trim()) && (
+                    <p className="text-[11px] text-amber-600 dark:text-amber-400 font-medium text-center">
+                      * Please fill out the Amended Particulars & Declaration fields above to enable submission.
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      )}
+      </div>
+    )}
+  </div>
+);
+})()}
 
       {/* ========================================================================= */}
       {/* SUB-VIEW 4: PAY BUSINESS TAX (REVENUE & QR) */}
@@ -3795,98 +3835,164 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
 
             {/* Modal Body */}
             <div className="p-5 sm:p-7 overflow-y-auto space-y-6">
-              
-          {/* Top navigation */}
-          <div className="flex items-center justify-between">
-            
-
-          </div>
-
-          {/* ========================================================================= */}
-          {/* 7-STEP SEGMENTED STEPPER BANNER (EXACT REPLICA OF PICTURE 1) */}
-          {/* ========================================================================= */}
-          <div className="w-full overflow-x-auto pb-1">
-            <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 min-w-[700px] border border-slate-300 dark:border-slate-700 rounded-xl overflow-hidden shadow-xs">
-              {[
-                { step: 1, label: 'General' },
-                { step: 2, label: 'Basic Documentary Requirements' },
-                { step: 3, label: 'Business information' },
-                { step: 4, label: 'Business Operation' },
-                { step: 5, label: 'Business Activity' },
-                { step: 6, label: 'Event Information' },
-                { step: 7, label: 'Summary Page' },
-              ].map((s, idx) => {
-                const isActive = specialStep === s.step;
-                const isCompleted = specialStep > s.step;
-                return (
-                  <button
-                    key={s.step}
-                    type="button"
-                    onClick={() => setSpecialStep(s.step)}
-                    className={`py-3.5 px-2 flex flex-col items-center justify-center text-center transition-all cursor-pointer relative border-b md:border-b-0 ${
-                      idx < 6 ? 'md:border-r border-slate-300 dark:border-slate-700' : ''
-                    } ${
-                      isActive
-                        ? 'bg-[#0c4a60] text-white'
-                        : isCompleted
-                        ? 'bg-[#0e5c77] hover:bg-[#0c4a60] text-white'
-                        : 'bg-[#b2b5ba] dark:bg-slate-700/80 hover:bg-[#a6a9af] text-slate-800 dark:text-slate-100'
-                    }`}
-                  >
-                    {/* Circle Badge with Step Number */}
-                    <div
-                      className={`w-7 h-7 rounded-full flex items-center justify-center font-bold text-xs shadow-xs mb-1.5 ${
-                        isActive
-                          ? 'bg-white text-[#0c4a60]'
-                          : isCompleted
-                          ? 'bg-white text-[#0e5c77]'
-                          : 'bg-white text-slate-700 dark:text-slate-800'
-                      }`}
-                    >
-                      {s.step}
+              {specialSubmitted ? (
+                /* Dedicated Standalone Page for Submitted Application */
+                <div className="space-y-7 animate-in fade-in">
+                  {/* Top Green Banner */}
+                  <div className="text-center space-y-2 py-3 bg-emerald-50/50 dark:bg-emerald-950/30 rounded-3xl border border-emerald-200 dark:border-emerald-800/80 p-6">
+                    <div className="w-14 h-14 mx-auto rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-md">
+                      <CheckCircle2 size={32} />
                     </div>
 
-                    {/* Status Text (INCOMPLETE / COMPLETED) */}
-                    <span
-                      className={`text-[9.5px] font-bold tracking-wider uppercase mb-0.5 ${
-                        isActive || isCompleted
-                          ? 'text-white/95'
-                          : 'text-slate-700 dark:text-slate-200'
-                      }`}
+                    <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
+                      SHORT TERM / SPECIAL PERMIT - APPLICATION SUBMITTED
+                    </h3>
+
+                    <div className="inline-block mt-2 px-4 py-2 rounded-xl bg-white dark:bg-slate-900 border border-emerald-300 dark:border-emerald-800 shadow-xs">
+                      <span className="text-xs text-slate-500 dark:text-slate-400 mr-2">Application Number:</span>
+                      <span className="font-mono font-black text-blue-600 dark:text-blue-400 text-base">
+                        {specialRefNumber}
+                      </span>
+                    </div>
+
+                    <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-slate-600 dark:text-slate-300 pt-1">
+                      <span>Date Submitted: <strong className="text-slate-900 dark:text-white">September 24, 2026</strong></span>
+                      <span>•</span>
+                      <span>Status: <strong className="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-black uppercase">SUBMITTED</strong></span>
+                    </div>
+                  </div>
+
+                  {/* Card with Details & Timeline */}
+                  <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-7 shadow-xs space-y-6">
+                    {/* Top Details Summary */}
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 pb-4 border-b border-slate-100 dark:border-slate-800 text-xs">
+                      <div>
+                        <span className="text-[10px] uppercase font-bold text-slate-400 block">Application Number:</span>
+                        <span className="font-mono font-bold text-blue-600 dark:text-blue-400">{specialRefNumber}</span>
+                      </div>
+                      <div>
+                        <span className="text-[10px] uppercase font-bold text-slate-400 block">Business Name:</span>
+                        <span className="font-bold text-slate-900 dark:text-white truncate block">{specialData.eventTitle || specialData.businessName || 'Special Event'}</span>
+                      </div>
+                      <div>
+                        <span className="text-[10px] uppercase font-bold text-slate-400 block">Application Type:</span>
+                        <span className="font-medium text-slate-700 dark:text-slate-300">Short Term / Special Permit</span>
+                      </div>
+                      <div>
+                        <span className="text-[10px] uppercase font-bold text-slate-400 block">Date Submitted:</span>
+                        <span className="font-medium text-slate-700 dark:text-slate-300">September 24, 2026</span>
+                      </div>
+                      <div>
+                        <span className="text-[10px] uppercase font-bold text-slate-400 block">Current Status:</span>
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-blue-100 text-blue-800">
+                          SUBMITTED
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Timeline */}
+                    <div className="space-y-3">
+                      <h5 className="font-black text-xs uppercase tracking-wider text-slate-400">
+                        Application Processing Timeline
+                      </h5>
+                      <div className="grid grid-cols-1 sm:grid-cols-7 gap-2.5 text-xs">
+                        {[
+                          { id: 1, title: 'Application Submitted', done: true, active: true },
+                          { id: 2, title: 'Initial Evaluation', done: false, active: false },
+                          { id: 3, title: 'Document Evaluation', done: false, active: false },
+                          { id: 4, title: 'Assessment', done: false, active: false },
+                          { id: 5, title: 'Approval', done: false, active: false },
+                          { id: 6, title: 'Payment', done: false, active: false },
+                          { id: 7, title: 'Permit Release', done: false, active: false }
+                        ].map((stage) => (
+                          <div
+                            key={stage.id}
+                            className={`p-3 rounded-2xl border space-y-1 transition-all ${
+                              stage.done
+                                ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-800'
+                                : 'bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700 opacity-60'
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <span className={`font-black text-[11px] ${
+                                stage.done ? 'text-emerald-700 dark:text-emerald-300' : 'text-slate-500'
+                              }`}>
+                                {stage.done ? '✓' : '○'}
+                              </span>
+                              <span className="text-[10px] font-mono text-slate-400">0{stage.id}</span>
+                            </div>
+                            <p className="font-bold text-[11px] text-slate-800 dark:text-slate-200 leading-tight">
+                              {stage.title}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Return Button */}
+                  <div className="flex justify-center pt-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        resetSpecialPermitForm();
+                        setCurrentView('preview');
+                        setShowSpecialPermitModal(true);
+                      }}
+                      className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-md cursor-pointer transition-all"
                     >
-                      {isCompleted ? 'COMPLETED' : 'INCOMPLETE'}
-                    </span>
-
-                    {/* Step Title */}
-                    <span
-                      className={`text-[11px] font-bold leading-tight px-1 ${
-                        isActive || isCompleted
-                          ? 'text-white'
-                          : 'text-slate-900 dark:text-slate-100'
-                      }`}
-                    >
-                      {s.label}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* ========================================================================= */}
-          {/* HEADER TITLES (MATCHING PICTURE 1) */}
-          {/* ========================================================================= */}
-          <div className="text-center pt-2 pb-1">
-            <h2 className="text-lg sm:text-2xl font-bold text-[#0c4a60] dark:text-sky-300 tracking-tight">
-              Welcome To Unified Online Business Permit Application
-            </h2>
-          </div>
-
-          <div className="border-b border-slate-200 dark:border-slate-800 pb-2">
-            <h3 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 tracking-wider uppercase">
-              SHORT TERM / SPECIAL PERMIT APPLICATION
-            </h3>
-          </div>
+                      Return to Special Permit Application
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  {/* ========================================================================= */}
+                  {/* 7-STEP SEGMENTED STEPPER BANNER (EXACT REPLICA OF PICTURE 1) */}
+                  {/* ========================================================================= */}
+                  <div className="w-full overflow-x-auto pb-1">
+                    <div className="grid grid-cols-7 min-w-[700px] border border-slate-300 dark:border-slate-700 rounded-t-xl overflow-hidden shadow-xs">
+                      {[
+                        { step: 1, label: 'General' },
+                        { step: 2, label: 'Basic Documentary Requirements' },
+                        { step: 3, label: 'Business information' },
+                        { step: 4, label: 'Business Operation' },
+                        { step: 5, label: 'Business Activity' },
+                        { step: 6, label: 'Event Information' },
+                        { step: 7, label: 'Submit Page' },
+                      ].map((item) => {
+                        const isActive = specialStep === item.step;
+                        const isPassed = specialStep > item.step;
+                        return (
+                          <div
+                            key={item.step}
+                            className={`py-3 px-1 sm:px-2 border-r last:border-r-0 border-white/50 dark:border-slate-700/60 flex flex-col items-center justify-center text-center transition-all cursor-default select-none ${
+                              isActive
+                                ? 'bg-[#154760] text-white shadow-inner'
+                                : isPassed
+                                ? 'bg-[#82929e] text-white'
+                                : 'bg-[#b6bec5] dark:bg-slate-800 text-slate-800 dark:text-slate-300'
+                            }`}
+                          >
+                            <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm mb-1 shadow-xs ${
+                              isActive 
+                                ? 'bg-white text-[#154760] ring-2 ring-white/60' 
+                                : isPassed
+                                ? 'bg-white text-[#154760]'
+                                : 'bg-white text-slate-700'
+                            }`}>
+                              {item.step}
+                            </div>
+                            <span className={`text-[9px] sm:text-[11px] leading-tight block max-w-[120px] line-clamp-2 sm:line-clamp-none ${
+                              isActive ? 'font-bold text-white' : 'font-medium'
+                            }`}>
+                              {item.label}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
 
           {/* Hidden File Input for Basic Documentary Requirements (allowed: .jpeg, .jpg, .png, .pdf, .doc, .docx) */}
           <input
@@ -3993,19 +4099,18 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                 <button
                   type="button"
                   onClick={() => setCurrentView('select_type')}
-                  className="w-full sm:w-auto px-8 py-2.5 rounded-xl border border-slate-300 dark:border-blue-600/40 bg-white dark:bg-[#0b1424] hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-white text-xs sm:text-sm font-bold uppercase tracking-wider transition-all cursor-pointer shadow-xs active:scale-[0.98]"
+                  className="w-full sm:w-auto px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
                 >
-                  BACK
+                  Back to Permit Selection
                 </button>
 
                 <button
                   type="button"
                   disabled={!specialTermsAccepted}
                   onClick={() => setSpecialStep(2)}
-                  className="w-full sm:w-auto px-6 py-2.5 bg-[#0c4a60] hover:bg-[#093747] disabled:opacity-50 text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center justify-center space-x-2 cursor-pointer sm:ml-auto"
+                  className="w-full sm:w-auto px-7 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-2xl text-xs font-bold transition-all shadow-md cursor-pointer sm:ml-auto"
                 >
-                  <span>Proceed to Step 2: Basic Documentary Requirements</span>
-                  <ArrowRight size={14} />
+                  <span>Continue to Basic Documentary Requirements</span>
                 </button>
               </div>
             </div>
@@ -4026,146 +4131,164 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                 </p>
               </div>
 
-              {/* White Container Box with 8 Requirements */}
-              <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-7 shadow-xs space-y-2.5">
-                {basicDocItems.map((item) => (
-                  <div
-                    key={item.id}
-                    className="flex flex-col md:flex-row md:items-center justify-between gap-3 py-3 border-b border-slate-100 dark:border-slate-800/60 last:border-b-0 hover:bg-slate-50/50 dark:hover:bg-slate-800/30 px-2 rounded-xl transition-colors"
-                  >
-                    {/* Left: Requirement Label (No Checkbox) */}
-                    <div className="text-xs sm:text-[12.5px] leading-relaxed select-none max-w-xl">
-                      {item.hasAsterisk && <span className="text-red-500 font-bold mr-1">*</span>}
-                      <span className="text-slate-800 dark:text-slate-200 font-semibold">
-                        {item.label}
-                      </span>
-                      {item.parenthetical && (
-                        <span className="text-slate-700 dark:text-slate-300 ml-1">
-                          {item.parenthetical}
-                        </span>
-                      )}
-                      {item.badge === 'Required' && (
-                        <span className="text-red-500 font-semibold ml-1.5">(Required)</span>
-                      )}
-                      {item.badge === 'when applicable' && (
-                        <span className="text-slate-500 dark:text-slate-400 ml-1.5">(when applicable)</span>
-                      )}
+              {/* REQUIRED DOCUMENTS Container matching Picture 1 */}
+              <div className="space-y-3.5">
+                <div className="flex items-center justify-between px-1">
+                  <h3 className="text-xs font-black uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                    REQUIRED DOCUMENTS
+                  </h3>
+                </div>
+
+                {basicDocItems.map((item, idx) => {
+                  const isUploaded = Boolean(item.file);
+                  return (
+                    <div
+                      key={item.id}
+                      className={`p-5 rounded-3xl border transition-all ${
+                        isUploaded
+                          ? 'border-emerald-200 dark:border-emerald-900/60 bg-white dark:bg-slate-900 shadow-xs'
+                          : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs'
+                      }`}
+                    >
+                      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        {/* Left: Metadata */}
+                        <div className="space-y-1.5 max-w-xl">
+                          <div className="flex items-center space-x-2">
+                            <span className="text-xs font-black text-slate-400">
+                              {idx + 1}.
+                            </span>
+                            <span className={`px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase ${
+                              item.badge === 'Required'
+                                ? 'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300'
+                                : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
+                            }`}>
+                              {item.badge === 'Required' ? 'REQUIRED' : 'OPTIONAL'}
+                            </span>
+
+                            {/* Status Badge */}
+                            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                              isUploaded
+                                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300'
+                                : 'bg-slate-100 text-slate-500 dark:bg-slate-800'
+                            }`}>
+                              Status: {isUploaded ? 'UPLOADED' : 'NOT UPLOADED'}
+                            </span>
+                          </div>
+
+                          <h4 className="font-extrabold text-sm text-slate-900 dark:text-white">
+                            {item.label}
+                          </h4>
+                          {item.parenthetical && (
+                            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                              {item.parenthetical}
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Right: Upload Actions & Preview Box (Exact Style of Picture 1) */}
+                        <div className="flex flex-wrap items-center gap-2.5 flex-shrink-0">
+                          {isUploaded ? (
+                            <div className="w-full sm:w-64 space-y-1.5">
+                              {/* File Pill Matching Screenshot */}
+                              <div 
+                                onClick={() => setPreviewDocModal({
+                                  isOpen: true,
+                                  title: item.label,
+                                  fileName: item.file!.name,
+                                  fileSize: item.file!.size,
+                                  previewUrl: item.file!.previewUrl,
+                                  docCategory: 'QC BPLO Documentary Attachment',
+                                  date: item.file!.date,
+                                  docKey: item.id
+                                })}
+                                className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-sky-500 flex items-center justify-between cursor-pointer transition-all shadow-2xs group"
+                                title="Click to preview document"
+                              >
+                                <div className="flex items-center space-x-1.5 min-w-0 pr-1">
+                                  <FileText size={14} className="text-blue-600 dark:text-sky-400 shrink-0 group-hover:scale-110 transition-transform" />
+                                  <span className="font-mono text-[11px] text-blue-600 dark:text-sky-400 truncate max-w-[130px] font-semibold">
+                                    {item.file!.name}
+                                  </span>
+                                </div>
+                                <div className="flex items-center space-x-1 shrink-0">
+                                  <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono hidden md:inline">
+                                    {item.file!.size}
+                                  </span>
+                                  <span className="text-[10px] px-2 py-0.5 bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 rounded-full font-bold">
+                                    Attached
+                                  </span>
+                                </div>
+                              </div>
+
+                              {/* Action Buttons Row */}
+                              <div className="flex items-center gap-1.5 pt-0.5">
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setActiveUploadDocId(item.id);
+                                    basicDocFileInputRef.current?.click();
+                                  }}
+                                  className="flex-1 py-1.5 px-2 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-sky-400 text-[11px] font-semibold transition-colors flex items-center justify-center space-x-1 cursor-pointer"
+                                >
+                                  <Upload size={12} />
+                                  <span>Upload File</span>
+                                </button>
+
+                                <button
+                                  type="button"
+                                  onClick={() => setPreviewDocModal({
+                                    isOpen: true,
+                                    title: item.label,
+                                    fileName: item.file!.name,
+                                    fileSize: item.file!.size,
+                                    previewUrl: item.file!.previewUrl,
+                                    docCategory: 'QC BPLO Documentary Attachment',
+                                    date: item.file!.date,
+                                    docKey: item.id
+                                  })}
+                                  title="View Document Preview"
+                                  className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-950/50 hover:text-blue-600 dark:hover:text-sky-400 transition-colors cursor-pointer"
+                                >
+                                  <Eye size={13} />
+                                </button>
+
+                                <button
+                                  type="button"
+                                  onClick={() => handleDownloadDoc(item.file!.name, item.file!.previewUrl)}
+                                  title="Download Attached Document"
+                                  className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer"
+                                >
+                                  <Download size={13} />
+                                </button>
+
+                                <button
+                                  type="button"
+                                  onClick={() => removeDocFile(item.id)}
+                                  title="Remove File"
+                                  className="p-1.5 rounded-lg border border-red-200 dark:border-red-900/60 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/50 transition-colors cursor-pointer"
+                                >
+                                  <Trash2 size={13} />
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <div
+                              onClick={() => {
+                                setActiveUploadDocId(item.id);
+                                basicDocFileInputRef.current?.click();
+                              }}
+                              className="p-3.5 bg-white dark:bg-slate-900 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-blue-500 dark:hover:border-sky-500 flex flex-col items-center justify-center text-center gap-1 cursor-pointer transition-all w-full sm:w-64 shadow-2xs hover:shadow-xs group"
+                            >
+                              <UploadCloud size={20} className="text-slate-400 group-hover:text-blue-500 shrink-0 group-hover:scale-110 transition-transform" />
+                              <span className="text-[11px] font-bold text-slate-700 dark:text-slate-300">Click to upload picture</span>
+                              <span className="text-[9px] text-slate-400">JPG, PNG, PDF up to 10MB</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
-
-                    {/* Right: Upload Dropzone Matching Picture 1 or Uploaded Pill */}
-                    {item.file ? (
-                      <div className="w-full md:w-64 space-y-1.5 shrink-0">
-                        {/* File Pill Matching Screenshot */}
-                        <div 
-                          onClick={() => setPreviewDocModal({
-                            isOpen: true,
-                            title: item.label,
-                            fileName: item.file!.name,
-                            fileSize: item.file!.size,
-                            previewUrl: item.file!.previewUrl,
-                            docCategory: 'QC BPLO Documentary Attachment',
-                            date: item.file!.date,
-                            docKey: item.id
-                          })}
-                          className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-sky-500 flex items-center justify-between cursor-pointer transition-all shadow-2xs group"
-                          title="Click to preview document"
-                        >
-                          <div className="flex items-center space-x-1.5 min-w-0 pr-1">
-                            <FileText size={14} className="text-blue-600 dark:text-sky-400 shrink-0 group-hover:scale-110 transition-transform" />
-                            <span className="font-mono text-[11px] text-blue-600 dark:text-sky-400 truncate max-w-[130px] font-semibold">
-                              {item.file.name}
-                            </span>
-                          </div>
-                          <div className="flex items-center space-x-1 shrink-0">
-                            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono hidden md:inline">
-                              {item.file.size}
-                            </span>
-                            <span className="text-[10px] px-2 py-0.5 bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 rounded-full font-bold">
-                              Attached
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* Action Buttons Row */}
-                        <div className="flex items-center gap-1.5 pt-0.5">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              setActiveUploadDocId(item.id);
-                              basicDocFileInputRef.current?.click();
-                            }}
-                            className="flex-1 py-1.5 px-2 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-sky-400 text-[11px] font-semibold transition-colors flex items-center justify-center space-x-1 cursor-pointer"
-                          >
-                            <Upload size={12} />
-                            <span>Upload File</span>
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() => setPreviewDocModal({
-                              isOpen: true,
-                              title: item.label,
-                              fileName: item.file!.name,
-                              fileSize: item.file!.size,
-                              previewUrl: item.file!.previewUrl,
-                              docCategory: 'QC BPLO Documentary Attachment',
-                              date: item.file!.date,
-                              docKey: item.id
-                            })}
-                            title="View Document Preview"
-                            className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-950/50 hover:text-blue-600 dark:hover:text-sky-400 transition-colors cursor-pointer"
-                          >
-                            <Eye size={13} />
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() => handleDownloadDoc(item.file!.name, item.file!.previewUrl)}
-                            title="Download Attached Document"
-                            className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-                          >
-                            <Download size={13} />
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() => removeDocFile(item.id)}
-                            title="Remove File"
-                            className="p-1.5 rounded-lg border border-red-200 dark:border-red-900/60 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/50 transition-colors cursor-pointer"
-                          >
-                            <Trash2 size={13} />
-                          </button>
-                        </div>
-                      </div>
-                    ) : (
-                      <div
-                        onClick={() => {
-                          setActiveUploadDocId(item.id);
-                          basicDocFileInputRef.current?.click();
-                        }}
-                        className="w-full md:w-56 p-2.5 sm:p-3 border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-blue-500 dark:hover:border-sky-500 rounded-xl text-center cursor-pointer transition-colors bg-white/50 dark:bg-slate-900/50 flex flex-col items-center justify-center shrink-0 group space-y-0.5 shadow-2xs hover:shadow-xs"
-                      >
-                        <UploadCloud size={18} className="text-slate-400 group-hover:text-blue-500 transition-colors shrink-0 mb-0.5" />
-                        <span className="block font-bold text-slate-700 dark:text-slate-300 text-[11px] group-hover:text-blue-600 dark:group-hover:text-sky-400 transition-colors">
-                          Click or drag file here
-                        </span>
-                        <span className="block text-[9.5px] text-slate-400">PDF, PNG, JPG (Max 25MB)</span>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              {/* Quick Demo Helper Button */}
-              <div className="flex justify-end pt-1">
-                <button
-                  type="button"
-                  onClick={loadSampleDocAttachments}
-                  className="text-[11px] font-bold text-[#0c4a60] dark:text-sky-400 hover:underline inline-flex items-center space-x-1 cursor-pointer"
-                >
-                  <Sparkles size={12} />
-                  <span>Auto-attach Sample QC Required Documents</span>
-                </button>
+                  );
+                })}
               </div>
 
               {/* Navigation Action Buttons */}
@@ -4173,18 +4296,21 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                 <button
                   type="button"
                   onClick={() => setSpecialStep(1)}
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 text-xs font-bold transition-colors cursor-pointer"
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-bold transition-colors cursor-pointer"
                 >
-                  ← Back to Step 1: General
+                  Back to General
                 </button>
 
                 <button
                   type="button"
-                  onClick={() => setSpecialStep(3)}
-                  className="w-full sm:w-auto px-6 py-2.5 bg-[#0c4a60] hover:bg-[#093747] text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center justify-center space-x-2 cursor-pointer"
+                  disabled={!basicDocItems.filter(item => item.badge === 'Required').every(item => Boolean(item.file))}
+                  onClick={() => {
+                    if (!basicDocItems.filter(item => item.badge === 'Required').every(item => Boolean(item.file))) return;
+                    setSpecialStep(3);
+                  }}
+                  className="w-full sm:w-auto px-7 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-2xl text-xs font-bold transition-all shadow-md cursor-pointer"
                 >
-                  <span>Proceed to Step 3: Business Information</span>
-                  <ArrowRight size={14} />
+                  <span>Continue to Business Information</span>
                 </button>
               </div>
             </div>
@@ -4199,24 +4325,6 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                 <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
                   Step 3 of 7: Business & Event Organizer Information
                 </span>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSpecialData(prev => ({
-                      ...prev,
-                      businessName: 'Apex Media & Events Entertainment Inc.',
-                      tin: '008-912-345-000',
-                      dtiSecNumber: 'SEC CS2022091234',
-                      registeredAddress: 'Unit 402 QC Hall of Justice Annex, Elliptical Road, Diliman, Quezon City',
-                      organizerName: user?.name || 'Juan Dela Cruz',
-                      organizerEmail: user?.email || 'events@apexqc.ph'
-                    }));
-                  }}
-                  className="text-[11px] font-bold text-[#0c4a60] dark:text-sky-400 hover:underline flex items-center space-x-1 cursor-pointer"
-                >
-                  <Sparkles size={12} />
-                  <span>Auto-fill QC Citizen Profile</span>
-                </button>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
@@ -4228,7 +4336,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                     type="text"
                     value={specialData.businessName}
                     onChange={(e) => setSpecialData({ ...specialData, businessName: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl"
                   />
                 </div>
 
@@ -4285,11 +4393,22 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                     Contact Mobile Number <span className="text-red-500">*</span>
                   </label>
                   <input
-                    type="text"
+                    type="tel"
+                    inputMode="numeric"
+                    maxLength={11}
+                    placeholder="e.g. 09171234567 (11 digits)"
                     value={specialData.organizerContact}
-                    onChange={(e) => setSpecialData({ ...specialData, organizerContact: e.target.value })}
+                    onChange={(e) => {
+                      const digits = e.target.value.replace(/\D/g, '').slice(0, 11);
+                      setSpecialData({ ...specialData, organizerContact: digits });
+                    }}
                     className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl"
                   />
+                  {specialData.organizerContact && specialData.organizerContact.length < 11 && (
+                    <p className="text-[10px] text-amber-600 dark:text-amber-400 mt-1 font-medium">
+                      Must be exactly 11 digits ({specialData.organizerContact.length}/11)
+                    </p>
+                  )}
                 </div>
 
                 <div className="sm:col-span-2">
@@ -4310,18 +4429,37 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                 <button
                   type="button"
                   onClick={() => setSpecialStep(2)}
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 text-xs font-bold transition-colors cursor-pointer"
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-bold transition-colors cursor-pointer"
                 >
-                  ← Back to Step 2
+                  Back to Basic Documentary Requirements
                 </button>
 
                 <button
                   type="button"
-                  onClick={() => setSpecialStep(4)}
-                  className="w-full sm:w-auto px-6 py-2.5 bg-[#0c4a60] hover:bg-[#093747] text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center justify-center space-x-2 cursor-pointer"
+                  disabled={!(
+                    specialData.businessName?.trim() &&
+                    specialData.tin?.trim() &&
+                    specialData.dtiSecNumber?.trim() &&
+                    specialData.registeredAddress?.trim() &&
+                    specialData.organizerName?.trim() &&
+                    specialData.organizerContact?.replace(/\D/g, '').length === 11 &&
+                    specialData.organizerEmail?.trim()
+                  )}
+                  onClick={() => {
+                    if (!(
+                      specialData.businessName?.trim() &&
+                      specialData.tin?.trim() &&
+                      specialData.dtiSecNumber?.trim() &&
+                      specialData.registeredAddress?.trim() &&
+                      specialData.organizerName?.trim() &&
+                      specialData.organizerContact?.replace(/\D/g, '').length === 11 &&
+                      specialData.organizerEmail?.trim()
+                    )) return;
+                    setSpecialStep(4);
+                  }}
+                  className="w-full sm:w-auto px-7 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-2xl text-xs font-bold transition-all shadow-md cursor-pointer"
                 >
-                  <span>Proceed to Step 4: Business Operation</span>
-                  <ArrowRight size={14} />
+                  <span>Continue to Business Operation</span>
                 </button>
               </div>
             </div>
@@ -4379,8 +4517,10 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   </label>
                   <input
                     type="text"
+                    inputMode="numeric"
+                    placeholder="e.g. 8"
                     value={specialData.operatingHours}
-                    onChange={(e) => setSpecialData({ ...specialData, operatingHours: e.target.value })}
+                    onChange={(e) => setSpecialData({ ...specialData, operatingHours: e.target.value.replace(/\D/g, '') })}
                     className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl"
                   />
                 </div>
@@ -4391,8 +4531,10 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   </label>
                   <input
                     type="text"
+                    inputMode="numeric"
+                    placeholder="e.g. 2500"
                     value={specialData.expectedAttendees}
-                    onChange={(e) => setSpecialData({ ...specialData, expectedAttendees: e.target.value })}
+                    onChange={(e) => setSpecialData({ ...specialData, expectedAttendees: e.target.value.replace(/\D/g, '') })}
                     className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl"
                   />
                 </div>
@@ -4403,8 +4545,10 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   </label>
                   <input
                     type="text"
+                    inputMode="numeric"
+                    placeholder="e.g. 1500"
                     value={specialData.venueArea}
-                    onChange={(e) => setSpecialData({ ...specialData, venueArea: e.target.value })}
+                    onChange={(e) => setSpecialData({ ...specialData, venueArea: e.target.value.replace(/\D/g, '') })}
                     className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl"
                   />
                 </div>
@@ -4428,18 +4572,31 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                 <button
                   type="button"
                   onClick={() => setSpecialStep(3)}
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 text-xs font-bold transition-colors cursor-pointer"
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-bold transition-colors cursor-pointer"
                 >
-                  ← Back to Step 3
+                  Back to Business Information
                 </button>
 
                 <button
                   type="button"
-                  onClick={() => setSpecialStep(5)}
-                  className="w-full sm:w-auto px-6 py-2.5 bg-[#0c4a60] hover:bg-[#093747] text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center justify-center space-x-2 cursor-pointer"
+                  disabled={!(
+                    specialData.operationType?.trim() &&
+                    specialData.operatingHours?.trim() &&
+                    specialData.expectedAttendees?.trim() &&
+                    specialData.venueArea?.trim()
+                  )}
+                  onClick={() => {
+                    if (!(
+                      specialData.operationType?.trim() &&
+                      specialData.operatingHours?.trim() &&
+                      specialData.expectedAttendees?.trim() &&
+                      specialData.venueArea?.trim()
+                    )) return;
+                    setSpecialStep(5);
+                  }}
+                  className="w-full sm:w-auto px-7 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-2xl text-xs font-bold transition-all shadow-md cursor-pointer"
                 >
-                  <span>Proceed to Step 5: Business Activity</span>
-                  <ArrowRight size={14} />
+                  <span>Continue to Business Activity</span>
                 </button>
               </div>
             </div>
@@ -4473,8 +4630,10 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   </label>
                   <input
                     type="text"
+                    inputMode="numeric"
+                    placeholder="e.g. 10"
                     value={specialData.boothCount}
-                    onChange={(e) => setSpecialData({ ...specialData, boothCount: e.target.value })}
+                    onChange={(e) => setSpecialData({ ...specialData, boothCount: e.target.value.replace(/\D/g, '') })}
                     className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl"
                   />
                 </div>
@@ -4522,18 +4681,27 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                 <button
                   type="button"
                   onClick={() => setSpecialStep(4)}
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 text-xs font-bold transition-colors cursor-pointer"
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-bold transition-colors cursor-pointer"
                 >
-                  ← Back to Step 4
+                  Back to Business Operation
                 </button>
 
                 <button
                   type="button"
-                  onClick={() => setSpecialStep(6)}
-                  className="w-full sm:w-auto px-6 py-2.5 bg-[#0c4a60] hover:bg-[#093747] text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center justify-center space-x-2 cursor-pointer"
+                  disabled={!(
+                    specialData.commercialActivity?.trim() &&
+                    specialData.boothCount?.trim()
+                  )}
+                  onClick={() => {
+                    if (!(
+                      specialData.commercialActivity?.trim() &&
+                      specialData.boothCount?.trim()
+                    )) return;
+                    setSpecialStep(6);
+                  }}
+                  className="w-full sm:w-auto px-7 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-2xl text-xs font-bold transition-all shadow-md cursor-pointer"
                 >
-                  <span>Proceed to Step 6: Event Information</span>
-                  <ArrowRight size={14} />
+                  <span>Continue to Event Information</span>
                 </button>
               </div>
             </div>
@@ -4613,9 +4781,21 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   </label>
                   <input
                     type="date"
+                    min="1900-01-01"
+                    max="2099-12-31"
                     value={specialData.startDate}
-                    onChange={(e) => setSpecialData({ ...specialData, startDate: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold"
+                    onChange={(e) => {
+                      let val = e.target.value;
+                      if (val) {
+                        const parts = val.split('-');
+                        if (parts[0] && parts[0].length > 4) {
+                          parts[0] = parts[0].slice(0, 4);
+                          val = parts.join('-');
+                        }
+                      }
+                      setSpecialData({ ...specialData, startDate: val });
+                    }}
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl"
                   />
                 </div>
 
@@ -4625,9 +4805,21 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   </label>
                   <input
                     type="date"
+                    min="1900-01-01"
+                    max="2099-12-31"
                     value={specialData.endDate}
-                    onChange={(e) => setSpecialData({ ...specialData, endDate: e.target.value })}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl font-bold"
+                    onChange={(e) => {
+                      let val = e.target.value;
+                      if (val) {
+                        const parts = val.split('-');
+                        if (parts[0] && parts[0].length > 4) {
+                          parts[0] = parts[0].slice(0, 4);
+                          val = parts.join('-');
+                        }
+                      }
+                      setSpecialData({ ...specialData, endDate: val });
+                    }}
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl"
                   />
                 </div>
 
@@ -4649,30 +4841,49 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                 <button
                   type="button"
                   onClick={() => setSpecialStep(5)}
-                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 text-xs font-bold transition-colors cursor-pointer"
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-bold transition-colors cursor-pointer"
                 >
-                  ← Back to Step 5
+                  Back to Business Activity
                 </button>
 
                 <button
                   type="button"
-                  onClick={() => setSpecialStep(7)}
-                  className="w-full sm:w-auto px-6 py-2.5 bg-[#0c4a60] hover:bg-[#093747] text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center justify-center space-x-2 cursor-pointer"
+                  disabled={!(
+                    specialData.eventTitle?.trim() &&
+                    specialData.venue?.trim() &&
+                    specialData.barangay?.trim() &&
+                    specialData.venueAddress?.trim() &&
+                    specialData.startDate?.trim() &&
+                    specialData.endDate?.trim() &&
+                    specialData.safetyOfficer?.trim()
+                  )}
+                  onClick={() => {
+                    if (!(
+                      specialData.eventTitle?.trim() &&
+                      specialData.venue?.trim() &&
+                      specialData.barangay?.trim() &&
+                      specialData.venueAddress?.trim() &&
+                      specialData.startDate?.trim() &&
+                      specialData.endDate?.trim() &&
+                      specialData.safetyOfficer?.trim()
+                    )) return;
+                    setSpecialStep(7);
+                  }}
+                  className="w-full sm:w-auto px-7 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-2xl text-xs font-bold transition-all shadow-md cursor-pointer"
                 >
-                  <span>Proceed to Step 7: Summary Page</span>
-                  <ArrowRight size={14} />
+                  <span>Continue to Submit Page</span>
                 </button>
               </div>
             </div>
           )}
 
           {/* ========================================================================= */}
-          {/* STEP 7: SUMMARY PAGE & QC BPLO ASSESSMENT */}
+          {/* STEP 7: SUBMIT PAGE & QC BPLO ASSESSMENT */}
           {/* ========================================================================= */}
           {specialStep === 7 && (
             <div className="space-y-5 animate-in fade-in">
               <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block pb-2 border-b border-slate-200 dark:border-slate-800">
-                Step 7 of 7: Application Summary & Official Assessment of Regulatory Fees
+                Step 7 of 7: Submit Page & Official Assessment of Regulatory Fees
               </span>
 
               {/* Summary Overview Cards */}
@@ -4702,105 +4913,36 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                 </div>
               </div>
 
-              {/* Attached Documents Checklist Status */}
-              <div className="p-4 rounded-2xl bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs space-y-2">
-                <span className="font-bold text-slate-900 dark:text-white block">
-                  Documentary Requirements Checklist Status (Quezon City BPLO)
-                </span>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
-                  {basicDocItems.slice(0, 5).map((doc, idx) => (
-                    <div key={doc.id} className="flex items-center space-x-1.5 text-slate-700 dark:text-slate-300">
-                      <CheckCircle2 size={13} className={doc.file ? "text-emerald-500 shrink-0" : "text-slate-400 shrink-0"} />
-                      <span className="truncate">
-                        {idx + 1}. {doc.label}: {doc.file ? `Attached (${doc.file.name})` : doc.checked ? 'File Pending' : 'Certified Not Applicable / Optional'}
-                      </span>
-                    </div>
-                  ))}
-                </div>
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-slate-200 dark:border-slate-800">
+                <button
+                  type="button"
+                  onClick={() => setSpecialStep(6)}
+                  className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-bold transition-colors cursor-pointer"
+                >
+                  Back to Event Information
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSpecialSubmitted(true);
+                    if (onAddNewApplication) {
+                      onAddNewApplication(
+                        specialData.businessName || specialData.organizerName || user?.name || 'Event Organizer',
+                        'Special Mayor\'s Permit'
+                      );
+                    }
+                  }}
+                  className="w-full sm:w-auto px-7 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center justify-center space-x-2 cursor-pointer"
+                >
+                  <FileCheck size={16} />
+                  <span>Submit Special Permit Application to QC BPLO</span>
+                </button>
               </div>
-
-              {/* Sworn Declaration with Checkbox */}
-              <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
-                <label className="flex items-start gap-3 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    checked={specialSwornUndertaking}
-                    onChange={(e) => setSpecialSwornUndertaking(e.target.checked)}
-                    className="mt-0.5 w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer shrink-0"
-                  />
-                  <span>
-                    <strong>Sworn Undertaking:</strong> I hereby declare under the penalty of perjury that all information, schedules, and documents submitted herein are true, correct, and in strict compliance with the Quezon City Revenue Code (Ordinance SP-2958, S-2020) and applicable national safety regulations.
-                  </span>
-                </label>
-              </div>
-
-              {/* Submission State / Results */}
-              {specialSubmitted ? (
-                <div className="p-5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200 space-y-3 animate-in fade-in">
-                  <div className="flex items-center space-x-2 text-sm font-bold text-emerald-700 dark:text-emerald-300">
-                    <CheckCircle2 size={18} />
-                    <span>Special Permit Application Successfully Lodged!</span>
-                  </div>
-                  <p className="text-xs">
-                    Ang iyong aplikasyon para sa Short-Term / Special Mayor's Permit ay naitala na sa Quezon City BPLO Electronic Tracking System.
-                  </p>
-                  <div className="flex flex-wrap items-center gap-3 pt-1 text-xs">
-                    <span className="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-900 border border-emerald-300 font-mono font-bold">
-                      Tracking No.: {specialRefNumber}
-                    </span>
-                    <span className="px-3 py-1.5 rounded-lg bg-emerald-100 dark:bg-emerald-900/60 font-semibold">
-                      Status: Transmitted to QC BPLO & OBO
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 pt-2">
-                    <button
-                      type="button"
-                      onClick={() => handleDownloadDoc('QC_Special_Permit_Payment_Order.pdf', '/Special Permit.jpg')}
-                      className="px-4 py-2 bg-emerald-700 hover:bg-emerald-600 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer flex items-center space-x-1.5"
-                    >
-                      <Download size={13} />
-                      <span>Download Order of Payment (₱4,200.00)</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setCurrentView('select_type')}
-                      className="px-4 py-2 bg-white dark:bg-slate-800 border border-slate-300 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold transition-colors cursor-pointer"
-                    >
-                      Return to Permit Types
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-slate-200 dark:border-slate-800">
-                  <button
-                    type="button"
-                    onClick={() => setSpecialStep(6)}
-                    className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 text-xs font-bold transition-colors cursor-pointer"
-                  >
-                    ← Back to Step 6
-                  </button>
-
-                  <button
-                    type="button"
-                    disabled={!specialSwornUndertaking}
-                    onClick={() => {
-                      setSpecialSubmitted(true);
-                      if (onAddNewApplication) {
-                        onAddNewApplication(
-                          specialData.businessName || specialData.organizerName || user?.name || 'Event Organizer',
-                          'Special Mayor\'s Permit'
-                        );
-                      }
-                    }}
-                    className="w-full sm:w-auto px-7 py-3 bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:cursor-not-allowed text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center justify-center space-x-2 cursor-pointer"
-                  >
-                    <FileCheck size={16} />
-                    <span>Submit Special Permit Application to QC BPLO</span>
-                  </button>
-                </div>
-              )}
             </div>
           )}
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -5023,7 +5165,6 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   className="px-6 py-2.5 bg-purple-600 disabled:opacity-50 hover:bg-purple-500 text-white rounded-xl text-xs font-bold flex items-center space-x-1.5 cursor-pointer shadow-md shadow-purple-600/25"
                 >
                   <span>Submit Request for Admin Review</span>
-                  <ArrowRight size={14} />
                 </button>
               </div>
             </div>
@@ -5122,7 +5263,6 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   onClick={() => setCtcStep(1)}
                   className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl font-semibold flex items-center space-x-1.5 cursor-pointer"
                 >
-                  <ArrowLeft size={13} />
                   <span>Modify Request</span>
                 </button>
 
@@ -5131,7 +5271,6 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   className="px-6 py-2.5 bg-purple-600 hover:bg-purple-500 text-white rounded-xl text-xs font-bold shadow-md shadow-purple-600/30 flex items-center space-x-2 cursor-pointer"
                 >
                   <span>Proceed to Payment Linkage</span>
-                  <ArrowRight size={14} />
                 </button>
               </div>
 
@@ -5260,7 +5399,6 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   onClick={() => setCtcStep(2)}
                   className="px-4 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 rounded-xl font-semibold flex items-center space-x-1.5 cursor-pointer"
                 >
-                  <ArrowLeft size={13} />
                   <span>Back to Assessment</span>
                 </button>
               </div>
@@ -5604,7 +5742,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
       {/* ========================================================================= */}
       {showRenewalModal && (
         <div 
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in cursor-pointer"
+          className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto animate-in fade-in duration-200 cursor-pointer"
           onClick={(e) => {
             if (e.target === e.currentTarget) {
               resetRenewalForm();
@@ -5615,7 +5753,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-4xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh] cursor-default"
+            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-4xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh] my-auto cursor-default"
           >
             {/* Modal Header (Matching Exact Picture: Circular Info Icon, Bold Title, Clean X) */}
             <div className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-6 py-4 flex items-center justify-between">
@@ -5808,7 +5946,6 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                       className="px-8 py-3 bg-[#1976d2] hover:bg-[#1565c0] disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-2xl text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-xs transition-colors cursor-pointer"
                     >
                       <span>Next</span>
-                      <ArrowRight size={16} />
                     </button>
                   </div>
                 </div>
@@ -5823,7 +5960,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
       {/* ========================================================================= */}
       {showAmendModal && (
         <div 
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in cursor-pointer"
+          className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto animate-in fade-in duration-200 cursor-pointer"
           onClick={(e) => {
             if (e.target === e.currentTarget) {
               resetAmendForm();
@@ -5834,7 +5971,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-4xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh] cursor-default"
+            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-4xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh] my-auto cursor-default"
           >
             {/* Modal Header (Matching Exact Picture: Circular Info Icon, Bold Title, Clean X) */}
             <div className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-6 py-4 flex items-center justify-between">
@@ -6003,7 +6140,6 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                       className="px-8 py-3 bg-[#1976d2] hover:bg-[#1565c0] disabled:bg-slate-300 dark:disabled:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-2xl text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-xs transition-colors cursor-pointer"
                     >
                       <span>Next</span>
-                      <ArrowRight size={16} />
                     </button>
                   </div>
                 </div>
@@ -6018,7 +6154,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
       {/* ========================================================================= */}
       {showNewAppModal && (
         <div 
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in cursor-pointer"
+          className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto animate-in fade-in duration-200 cursor-pointer"
           onClick={(e) => {
             if (e.target === e.currentTarget) {
               setNewAppKey(prev => prev + 1);
@@ -6029,7 +6165,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-4xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh] cursor-default"
+            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-4xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh] my-auto cursor-default"
           >
             {/* Modal Header */}
             <div className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-6 py-4 flex items-center justify-between">
@@ -6146,7 +6282,6 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                       className="px-8 py-3 bg-[#1976d2] hover:bg-[#1565c0] text-white font-bold rounded-2xl text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-xs transition-colors cursor-pointer"
                     >
                       <span>New Registration</span>
-                      <ArrowRight size={16} />
                     </button>
                   </div>
                 </div>
@@ -6161,7 +6296,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
       {/* ========================================================================= */}
       {showSpecialPermitModal && (
         <div 
-          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in cursor-pointer"
+          className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 overflow-y-auto animate-in fade-in duration-200 cursor-pointer"
           onClick={(e) => {
             if (e.target === e.currentTarget) {
               resetSpecialPermitForm();
@@ -6172,7 +6307,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
         >
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-4xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh] cursor-default"
+            className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-4xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh] my-auto cursor-default"
           >
             {/* Modal Header */}
             <div className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-6 py-4 flex items-center justify-between">
@@ -6280,7 +6415,6 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                       className="px-8 py-3 bg-[#1976d2] hover:bg-[#1565c0] text-white font-bold rounded-2xl text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-xs transition-colors cursor-pointer"
                     >
                       <span>New Registration</span>
-                      <ArrowRight size={16} />
                     </button>
                   </div>
                 </div>
@@ -6295,7 +6429,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
       {/* ========================================================================= */}
       {showExemptionModal && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-in fade-in duration-200"
           onClick={() => setShowExemptionModal(false)}
         >
           <div 
@@ -6655,7 +6789,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   }}
                   className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-black shadow-md shadow-blue-600/20 cursor-pointer flex items-center space-x-1.5"
                 >
-                  <span>Start Upload-First Application →</span>
+                  <span>Start Upload-First Application</span>
                 </button>
               </div>
             </div>
@@ -7063,100 +7197,141 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                       ].map((item, index) => (
                         <div 
                           key={item.id}
-                          className={`p-3.5 sm:p-4 rounded-2xl border transition-all ${
-                            item.file 
-                              ? 'bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-400 dark:border-emerald-700/60 shadow-xs' 
-                              : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-slate-300'
-                          }`}
+                          className="p-4 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all shadow-xs"
                         >
-                          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-                            {/* Left: Info */}
-                            <div className="flex-1 space-y-1">
+                          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            {/* Left: Info (Matching Picture 1 with number, blue REQUIRED badge, Status badge, bold title, notes) */}
+                            <div className="flex-1 space-y-1.5">
                               <div className="flex items-center gap-2 flex-wrap">
-                                <span className="font-bold text-slate-800 dark:text-slate-100 text-xs sm:text-[13px]">
-                                  {index + 1}. {item.title}
+                                <span className="text-slate-500 dark:text-slate-400 font-bold text-xs sm:text-sm">
+                                  {index + 1}.
                                 </span>
                                 {item.required ? (
-                                  <span className="px-2 py-0.5 rounded-full text-[9.5px] font-black uppercase bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-300">
-                                    Required
+                                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
+                                    REQUIRED
                                   </span>
                                 ) : (
-                                  <span className="px-2 py-0.5 rounded-full text-[9.5px] font-bold uppercase bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
-                                    Optional
+                                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
+                                    OPTIONAL
                                   </span>
                                 )}
+                                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                                  item.file
+                                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300'
+                                    : 'bg-slate-100 text-slate-500 dark:bg-slate-800'
+                                }`}>
+                                  Status: {item.file ? 'UPLOADED' : 'NOT UPLOADED'}
+                                </span>
                               </div>
-                              <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                                {item.note}
-                              </p>
+
+                              <h4 className="font-extrabold text-sm sm:text-base text-slate-900 dark:text-white leading-snug">
+                                {item.title}
+                              </h4>
+                              {item.note && (
+                                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                                  {item.note}
+                                </p>
+                              )}
                             </div>
 
-                            {/* Right: Upload Trigger or Uploaded State */}
-                            <div className="shrink-0 flex items-center gap-2">
+                            {/* Right: Upload Actions & Preview Box (Exact Style of Picture 1) */}
+                            <div className="shrink-0 flex items-center">
                               {item.file ? (
-                                <div className="flex items-center gap-2 bg-white dark:bg-slate-800 p-2 rounded-xl border border-emerald-300 dark:border-emerald-700 shadow-2xs">
-                                  <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0 font-mono text-[10px] font-bold">
-                                    PDF
-                                  </div>
-                                  <div className="max-w-[130px] sm:max-w-[180px] overflow-hidden">
-                                    <span className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block truncate" title={item.file.name}>
-                                      {item.file.name}
-                                    </span>
-                                    <span className="text-[9.5px] text-emerald-600 font-bold block">
-                                      ✓ Attached ({item.file.size})
-                                    </span>
+                                <div className="w-full sm:w-60 md:w-64 space-y-1.5 shrink-0">
+                                  {/* File Pill Matching Screenshot */}
+                                  <div 
+                                    onClick={() => setPreviewDocModal({
+                                      isOpen: true,
+                                      title: item.title,
+                                      fileName: item.file!.name,
+                                      fileSize: item.file!.size,
+                                      previewUrl: item.file!.previewUrl,
+                                      docCategory: 'QC Occupational Clearance',
+                                      date: item.file!.date,
+                                      docKey: item.id
+                                    })}
+                                    className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-sky-500 flex items-center justify-between cursor-pointer transition-all shadow-2xs group"
+                                    title="Click to preview document"
+                                  >
+                                    <div className="flex items-center space-x-1.5 min-w-0 pr-1">
+                                      <FileText size={14} className="text-blue-600 dark:text-sky-400 shrink-0 group-hover:scale-110 transition-transform" />
+                                      <span className="font-mono text-[11px] text-blue-600 dark:text-sky-400 truncate max-w-[120px] font-semibold">
+                                        {item.file.name}
+                                      </span>
+                                    </div>
+                                    <div className="flex items-center space-x-1 shrink-0">
+                                      <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono hidden sm:inline">
+                                        {item.file.size}
+                                      </span>
+                                      <span className="text-[10px] px-2 py-0.5 bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 rounded-full font-bold">
+                                        Attached
+                                      </span>
+                                    </div>
                                   </div>
 
-                                  <div className="flex items-center gap-1 border-l pl-1.5 border-slate-200 dark:border-slate-700">
+                                  {/* Action Buttons Row */}
+                                  <div className="flex items-center gap-1.5 pt-0.5">
                                     <button
                                       type="button"
                                       onClick={() => {
-                                        setPreviewDocModal({
-                                          isOpen: true,
-                                          title: item.title,
-                                          fileName: item.file!.name,
-                                          fileSize: item.file!.size,
-                                          previewUrl: item.file!.previewUrl,
-                                          docCategory: 'QC Occupational Clearance',
-                                          date: item.file!.date,
-                                          docKey: item.id
-                                        });
+                                        setOccActiveUploadId(item.id);
+                                        occFileInputRef.current?.click();
                                       }}
-                                      title="Preview Document"
-                                      className="p-1.5 rounded-lg text-blue-600 dark:text-sky-400 hover:bg-blue-50 dark:hover:bg-slate-700 cursor-pointer"
+                                      className="flex-1 py-1.5 px-2 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-sky-400 text-[11px] font-semibold transition-colors flex items-center justify-center space-x-1 cursor-pointer"
+                                    >
+                                      <Upload size={12} />
+                                      <span>Re-upload</span>
+                                    </button>
+
+                                    <button
+                                      type="button"
+                                      onClick={() => setPreviewDocModal({
+                                        isOpen: true,
+                                        title: item.title,
+                                        fileName: item.file!.name,
+                                        fileSize: item.file!.size,
+                                        previewUrl: item.file!.previewUrl,
+                                        docCategory: 'QC Occupational Clearance',
+                                        date: item.file!.date,
+                                        docKey: item.id
+                                      })}
+                                      title="View Document Preview"
+                                      className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-950/50 hover:text-blue-600 dark:hover:text-sky-400 transition-colors cursor-pointer"
                                     >
                                       <Eye size={13} />
                                     </button>
+
                                     <button
                                       type="button"
                                       onClick={() => handleDownloadDoc(item.file!.name, item.file!.previewUrl)}
-                                      title="Download Document"
-                                      className="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer"
+                                      title="Download Attached Document"
+                                      className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer"
                                     >
                                       <Download size={13} />
                                     </button>
+
                                     <button
                                       type="button"
                                       onClick={() => removeOccFile(item.id)}
-                                      title="Remove Document"
-                                      className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-slate-700 cursor-pointer"
+                                      title="Remove File"
+                                      className="p-1.5 rounded-lg border border-red-200 dark:border-red-900/60 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/50 transition-colors cursor-pointer"
                                     >
                                       <Trash2 size={13} />
                                     </button>
                                   </div>
                                 </div>
                               ) : (
-                                <button
-                                  type="button"
+                                <div
                                   onClick={() => {
                                     setOccActiveUploadId(item.id);
                                     occFileInputRef.current?.click();
                                   }}
-                                  className="px-4 py-2 rounded-xl border border-emerald-600 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 text-xs font-bold flex items-center gap-2 cursor-pointer transition-colors shadow-2xs"
+                                  className="p-3.5 sm:p-4 bg-white dark:bg-slate-900 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-blue-500 dark:hover:border-sky-500 flex flex-col items-center justify-center text-center gap-1 cursor-pointer transition-all w-full sm:w-60 md:w-64 shadow-2xs hover:shadow-xs group"
                                 >
-                                  <Upload size={13} />
-                                  <span>Choose File / Upload Photo</span>
-                                </button>
+                                  <UploadCloud size={24} className="text-slate-400 group-hover:text-blue-500 shrink-0 group-hover:scale-110 transition-transform" />
+                                  <span className="text-[11px] font-bold text-slate-700 dark:text-slate-300">Click to upload picture</span>
+                                  <span className="text-[9px] text-slate-400">JPG, PNG, PDF up to 10MB</span>
+                                </div>
                               )}
                             </div>
                           </div>
@@ -7183,7 +7358,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   }}
                   className="px-8 py-3 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white rounded-xl font-black shadow-md shadow-emerald-600/30 flex items-center justify-center gap-2 cursor-pointer transition-all text-xs sm:text-sm"
                 >
-                  <span>Submit Work Permit Application →</span>
+                  <span>Submit Work Permit Application</span>
                 </button>
               )}
             </div>
@@ -7550,100 +7725,141 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                       ].map((item, index) => (
                         <div 
                           key={item.id}
-                          className={`p-3.5 sm:p-4 rounded-2xl border transition-all ${
-                            item.file 
-                              ? 'bg-purple-50/50 dark:bg-purple-950/20 border-purple-400 dark:border-purple-700/60 shadow-xs' 
-                              : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-slate-300'
-                          }`}
+                          className="p-4 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all shadow-xs"
                         >
-                          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-                            {/* Left: Info */}
-                            <div className="flex-1 space-y-1">
+                          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            {/* Left: Info (Matching Picture 1 with number, blue REQUIRED badge, Status badge, bold title, notes) */}
+                            <div className="flex-1 space-y-1.5">
                               <div className="flex items-center gap-2 flex-wrap">
-                                <span className="font-bold text-slate-800 dark:text-slate-100 text-xs sm:text-[13px]">
-                                  {index + 1}. {item.title}
+                                <span className="text-slate-500 dark:text-slate-400 font-bold text-xs sm:text-sm">
+                                  {index + 1}.
                                 </span>
                                 {item.required ? (
-                                  <span className="px-2 py-0.5 rounded-full text-[9.5px] font-black uppercase bg-red-100 text-red-700 dark:bg-red-950/60 dark:text-red-300">
-                                    Required
+                                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
+                                    REQUIRED
                                   </span>
                                 ) : (
-                                  <span className="px-2 py-0.5 rounded-full text-[9.5px] font-bold uppercase bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
-                                    Optional / Conditional
+                                  <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
+                                    OPTIONAL / CONDITIONAL
                                   </span>
                                 )}
+                                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                                  item.file
+                                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300'
+                                    : 'bg-slate-100 text-slate-500 dark:bg-slate-800'
+                                }`}>
+                                  Status: {item.file ? 'UPLOADED' : 'NOT UPLOADED'}
+                                </span>
                               </div>
-                              <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                                {item.note}
-                              </p>
+
+                              <h4 className="font-extrabold text-sm sm:text-base text-slate-900 dark:text-white leading-snug">
+                                {item.title}
+                              </h4>
+                              {item.note && (
+                                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                                  {item.note}
+                                </p>
+                              )}
                             </div>
 
-                            {/* Right: Upload Trigger or Uploaded State */}
-                            <div className="shrink-0 flex items-center gap-2">
+                            {/* Right: Upload Actions & Preview Box (Exact Style of Picture 1) */}
+                            <div className="shrink-0 flex items-center">
                               {item.file ? (
-                                <div className="flex items-center gap-2 bg-white dark:bg-slate-800 p-2 rounded-xl border border-purple-300 dark:border-purple-700 shadow-2xs">
-                                  <div className="w-8 h-8 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center shrink-0 font-mono text-[10px] font-bold">
-                                    PDF
-                                  </div>
-                                  <div className="max-w-[130px] sm:max-w-[180px] overflow-hidden">
-                                    <span className="text-[11px] font-bold text-slate-800 dark:text-slate-200 block truncate" title={item.file.name}>
-                                      {item.file.name}
-                                    </span>
-                                    <span className="text-[9.5px] text-purple-600 dark:text-purple-400 font-bold block">
-                                      ✓ Attached ({item.file.size})
-                                    </span>
+                                <div className="w-full sm:w-60 md:w-64 space-y-1.5 shrink-0">
+                                  {/* File Pill Matching Screenshot */}
+                                  <div 
+                                    onClick={() => setPreviewDocModal({
+                                      isOpen: true,
+                                      title: item.title,
+                                      fileName: item.file!.name,
+                                      fileSize: item.file!.size,
+                                      previewUrl: item.file!.previewUrl,
+                                      docCategory: 'QC BIS / CTC Attachment',
+                                      date: item.file!.date,
+                                      docKey: item.id
+                                    })}
+                                    className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-sky-500 flex items-center justify-between cursor-pointer transition-all shadow-2xs group"
+                                    title="Click to preview document"
+                                  >
+                                    <div className="flex items-center space-x-1.5 min-w-0 pr-1">
+                                      <FileText size={14} className="text-blue-600 dark:text-sky-400 shrink-0 group-hover:scale-110 transition-transform" />
+                                      <span className="font-mono text-[11px] text-blue-600 dark:text-sky-400 truncate max-w-[120px] font-semibold">
+                                        {item.file.name}
+                                      </span>
+                                    </div>
+                                    <div className="flex items-center space-x-1 shrink-0">
+                                      <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono hidden sm:inline">
+                                        {item.file.size}
+                                      </span>
+                                      <span className="text-[10px] px-2 py-0.5 bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 rounded-full font-bold">
+                                        Attached
+                                      </span>
+                                    </div>
                                   </div>
 
-                                  <div className="flex items-center gap-1 border-l pl-1.5 border-slate-200 dark:border-slate-700">
+                                  {/* Action Buttons Row */}
+                                  <div className="flex items-center gap-1.5 pt-0.5">
                                     <button
                                       type="button"
                                       onClick={() => {
-                                        setPreviewDocModal({
-                                          isOpen: true,
-                                          title: item.title,
-                                          fileName: item.file!.name,
-                                          fileSize: item.file!.size,
-                                          previewUrl: item.file!.previewUrl,
-                                          docCategory: 'QC BIS / CTC Attachment',
-                                          date: item.file!.date,
-                                          docKey: item.id
-                                        });
+                                        setBisActiveUploadId(item.id);
+                                        bisFileInputRef.current?.click();
                                       }}
-                                      title="Preview Document"
-                                      className="p-1.5 rounded-lg text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-slate-700 cursor-pointer"
+                                      className="flex-1 py-1.5 px-2 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-sky-400 text-[11px] font-semibold transition-colors flex items-center justify-center space-x-1 cursor-pointer"
+                                    >
+                                      <Upload size={12} />
+                                      <span>Re-upload</span>
+                                    </button>
+
+                                    <button
+                                      type="button"
+                                      onClick={() => setPreviewDocModal({
+                                        isOpen: true,
+                                        title: item.title,
+                                        fileName: item.file!.name,
+                                        fileSize: item.file!.size,
+                                        previewUrl: item.file!.previewUrl,
+                                        docCategory: 'QC BIS / CTC Attachment',
+                                        date: item.file!.date,
+                                        docKey: item.id
+                                      })}
+                                      title="View Document Preview"
+                                      className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-950/50 hover:text-blue-600 dark:hover:text-sky-400 transition-colors cursor-pointer"
                                     >
                                       <Eye size={13} />
                                     </button>
+
                                     <button
                                       type="button"
                                       onClick={() => handleDownloadDoc(item.file!.name, item.file!.previewUrl)}
-                                      title="Download Document"
-                                      className="p-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer"
+                                      title="Download Attached Document"
+                                      className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer"
                                     >
                                       <Download size={13} />
                                     </button>
+
                                     <button
                                       type="button"
                                       onClick={() => removeBisFile(item.id)}
-                                      title="Remove Document"
-                                      className="p-1.5 rounded-lg text-red-500 hover:bg-red-50 dark:hover:bg-slate-700 cursor-pointer"
+                                      title="Remove File"
+                                      className="p-1.5 rounded-lg border border-red-200 dark:border-red-900/60 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/50 transition-colors cursor-pointer"
                                     >
                                       <Trash2 size={13} />
                                     </button>
                                   </div>
                                 </div>
                               ) : (
-                                <button
-                                  type="button"
+                                <div
                                   onClick={() => {
                                     setBisActiveUploadId(item.id);
                                     bisFileInputRef.current?.click();
                                   }}
-                                  className="px-4 py-2 rounded-xl border border-purple-600 text-purple-700 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-purple-950/40 text-xs font-bold flex items-center gap-2 cursor-pointer transition-colors shadow-2xs"
+                                  className="p-3.5 sm:p-4 bg-white dark:bg-slate-900 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-blue-500 dark:hover:border-sky-500 flex flex-col items-center justify-center text-center gap-1 cursor-pointer transition-all w-full sm:w-60 md:w-64 shadow-2xs hover:shadow-xs group"
                                 >
-                                  <Upload size={13} />
-                                  <span>Choose File / Upload Scan</span>
-                                </button>
+                                  <UploadCloud size={24} className="text-slate-400 group-hover:text-blue-500 shrink-0 group-hover:scale-110 transition-transform" />
+                                  <span className="text-[11px] font-bold text-slate-700 dark:text-slate-300">Click to upload picture</span>
+                                  <span className="text-[9px] text-slate-400">JPG, PNG, PDF up to 10MB</span>
+                                </div>
                               )}
                             </div>
                           </div>
@@ -7668,7 +7884,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                   }}
                   className="px-8 py-3 bg-purple-700 hover:bg-purple-600 active:bg-purple-800 text-white rounded-xl font-black shadow-md shadow-purple-700/30 flex items-center justify-center gap-2 cursor-pointer transition-all text-xs sm:text-sm"
                 >
-                  <span>Submit CTC Request & Authenticate →</span>
+                  <span>Submit CTC Request & Authenticate</span>
                 </button>
               )}
             </div>

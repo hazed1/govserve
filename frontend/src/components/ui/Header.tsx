@@ -360,7 +360,7 @@ export const Header: React.FC<HeaderProps> = ({
                           </p>
                           {n.applicationId && (
                             <span className="inline-block mt-1 text-[10px] text-blue-600 dark:text-blue-400 font-bold hover:underline">
-                              View {n.applicationId} →
+                              View {n.applicationId}
                             </span>
                           )}
                         </div>

@@ -5,7 +5,6 @@ import {
   Mail, 
   User, 
   Building2, 
-  ArrowRight, 
   CheckCircle2, 
   Sparkles, 
   KeyRound, 
@@ -22,9 +21,7 @@ import {
   Send,
   Inbox,
   Clock,
-  X,
-  Sun,
-  Moon
+  X
 } from 'lucide-react';
 import { 
   useAuth, 
@@ -114,6 +111,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   // Login Lockout & Cooldown State (3 failed attempts limit, 60s cooldown)
   const [loginCooldown, setLoginCooldown] = useState<number>(0);
   const [remainingAttempts, setRemainingAttempts] = useState<number | null>(null);
+
+  // Permanently maintain dark mode appearance on login/auth page
+  useEffect(() => {
+    document.documentElement.classList.add('dark');
+    document.documentElement.style.colorScheme = 'dark';
+  }, []);
 
   // Check lockout when identifier changes
   useEffect(() => {
@@ -516,12 +519,12 @@ export const LoginPage: React.FC<LoginPageProps> = ({
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col lg:flex-row font-sans antialiased overflow-x-hidden bg-white dark:bg-slate-950 transition-colors duration-200">
+    <div className="dark min-h-screen w-full flex flex-col lg:flex-row font-sans antialiased overflow-x-hidden bg-[#0B192C] text-slate-100 transition-colors duration-200">
       
       {/* ========================================================================= */}
       {/* LEFT COLUMN: Clean White in Light Mode / Pure Navy Blue in Dark Mode */}
       {/* ========================================================================= */}
-      <div className={`w-full ${authMode === 'signup' ? 'lg:w-[35%]' : 'lg:w-1/2'} p-8 lg:p-14 flex flex-col justify-between relative bg-white dark:bg-[#0B192C] text-slate-800 dark:text-slate-100 border-b lg:border-b-0 lg:border-r border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-2xl overflow-hidden transition-all duration-300`}>
+      <div className={`w-full ${authMode === 'signup' ? 'lg:w-[35%]' : 'lg:w-1/2'} p-8 lg:p-14 flex flex-col justify-between relative bg-[#0B192C] text-slate-100 border-b lg:border-b-0 lg:border-r border-slate-800 shadow-2xl overflow-hidden transition-all duration-300`}>
 
         {/* Perfectly Centered Official Government Seal Watermark Background */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden select-none z-0">
@@ -581,7 +584,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
       {/* RIGHT COLUMN: Authentication Card */}
       {/* ========================================================================= */}
       <div 
-        className={`w-full ${authMode === 'signup' ? 'lg:w-[65%]' : 'lg:w-1/2'} p-4 sm:p-8 lg:p-10 flex flex-col justify-center items-center relative bg-white text-slate-900 login-right-light transition-all duration-300 min-h-screen`}
+        className={`w-full ${authMode === 'signup' ? 'lg:w-[65%]' : 'lg:w-1/2'} p-4 sm:p-8 lg:p-10 flex flex-col justify-center items-center relative bg-[#0B192C] text-slate-100 transition-all duration-300 min-h-screen`}
       >
         <div className={`w-full ${authMode === 'signup' ? 'max-w-[760px]' : 'max-w-[440px]'} transition-all duration-300`}>
           <div className="mb-3 flex items-center justify-between gap-2">
@@ -589,22 +592,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               <button
                 type="button"
                 onClick={onNavigateToLanding}
-                className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-600 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 transition-colors cursor-pointer"
+                className="inline-flex items-center space-x-1.5 text-xs font-bold text-slate-400 hover:text-blue-400 transition-colors cursor-pointer"
               >
-                <span>← {language === 'tl' ? 'Bumalik sa Tahanan' : 'Back to Public Home'}</span>
+                <span>{language === 'tl' ? 'Bumalik sa Tahanan' : 'Back to Public Home'}</span>
               </button>
             ) : <div />}
 
             <div className="flex items-center space-x-2 ml-auto">
-              <button
-                type="button"
-                onClick={toggleTheme}
-                className="p-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-                title={theme === 'dark' ? t('theme_light', 'Switch to Light Mode') : t('theme_dark', 'Switch to Dark Mode')}
-                aria-label="Toggle Theme"
-              >
-                {theme === 'dark' ? <Sun size={15} className="text-amber-400" /> : <Moon size={15} />}
-              </button>
               <LanguageToggle />
               {authMode !== 'signin' && (
                 <button
@@ -614,16 +608,16 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                     setErrorMessage(null);
                     setSuccessMessage(null);
                   }}
-                  className="inline-flex items-center space-x-1 text-xs font-bold text-slate-600 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 transition-colors cursor-pointer"
+                  className="inline-flex items-center space-x-1 text-xs font-bold text-slate-400 hover:text-blue-400 transition-colors cursor-pointer"
                 >
-                  <span>← {t('back_to_login', 'Sign In')}</span>
+                  <span>{t('back_to_login', 'Sign In')}</span>
                 </button>
               )}
             </div>
           </div>
 
           {/* MAIN AUTH CARD */}
-          <div className="border border-slate-200 rounded-2xl p-6 sm:p-7 shadow-xl relative overflow-hidden bg-white text-slate-900">
+          <div className="border border-slate-700/60 rounded-2xl p-6 sm:p-7 shadow-2xl relative overflow-hidden bg-[#071322]/95 text-slate-100">
 
             {/* Error / Success Toast Banner */}
             {errorMessage && (
@@ -715,7 +709,6 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       <>
                         <ShieldCheck size={16} />
                         <span>{language === 'tl' ? 'I-beripika ang Code' : 'Verify Code'}</span>
-                        <ArrowRight size={15} />
                       </>
                     )}
                   </button>
@@ -751,11 +744,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({
               <div className="space-y-5">
                 
                 {/* Header */}
-                <div className="pb-2.5 border-b border-slate-100">
-                  <h2 className="text-xl font-black tracking-tight text-slate-900">
+                <div className="pb-2.5 border-b border-slate-800">
+                  <h2 className="text-xl font-black tracking-tight text-white">
                     {t('sign_in', 'Sign In')}
                   </h2>
-                  <p className="text-xs text-slate-500 mt-1">
+                  <p className="text-xs text-slate-400 mt-1">
                     {language === 'tl' ? 'I-access ang iyong permit sa negosyo o officer workspace' : 'Access your business permit or officer workspace'}
                   </p>
                 </div>
@@ -763,7 +756,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                 <form onSubmit={handleSignInSubmit} className="space-y-4">
                   {/* Identifier Input */}
                   <div>
-                    <label className="block text-xs font-bold mb-1.5 text-slate-700">
+                    <label className="block text-xs font-bold mb-1.5 text-slate-300">
                       {language === 'tl' ? 'Email Address o Citizen / LGU ID' : 'Email Address or Citizen / LGU ID'}
                     </label>
                     <div className="relative">
@@ -775,7 +768,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                         value={identifier}
                         onChange={(e) => setIdentifier(e.target.value)}
                         placeholder="e.g. your.email@example.com or PH-CITIZEN-100234"
-                        className="w-full pl-10 pr-10 py-2.5 rounded-xl text-xs transition-all font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-slate-50 border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:bg-white"
+                        className="w-full pl-10 pr-10 py-2.5 rounded-xl text-xs transition-all font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-[#08101e] border border-slate-700/80 text-white placeholder:text-slate-500 focus:bg-[#0c172a]"
                         required
                       />
                       {identifier && (
@@ -783,7 +776,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                           type="button"
                           tabIndex={-1}
                           onClick={() => setIdentifier('')}
-                          className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 transition-colors cursor-pointer"
+                          className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
                           title="Clear input"
                         >
                           <X size={15} />
@@ -794,7 +787,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
 
                   {/* Password Input */}
                   <div>
-                    <label className="block text-xs font-bold mb-1.5 text-slate-700">
+                    <label className="block text-xs font-bold mb-1.5 text-slate-300">
                       Password
                     </label>
                     <div className="relative">
@@ -806,13 +799,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="••••••••••••"
-                        className="w-full pl-10 pr-10 py-2.5 rounded-xl text-xs transition-all font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-slate-50 border border-slate-300 text-slate-900 placeholder:text-slate-400 focus:bg-white"
+                        className="w-full pl-10 pr-10 py-2.5 rounded-xl text-xs transition-all font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-[#08101e] border border-slate-700/80 text-white placeholder:text-slate-500 focus:bg-[#0c172a]"
                         required
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
+                        className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-200 transition-colors"
                       >
                         {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                       </button>
@@ -846,16 +839,13 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                         <span>{language === 'tl' ? 'Sinusuri ang Kredensyal...' : 'Authenticating Credentials...'}</span>
                       </>
                     ) : (
-                      <>
-                        <span>{language === 'tl' ? 'Mag-sign In' : 'Sign In'}</span>
-                        <ArrowRight size={16} className={loginCooldown > 0 ? '' : 'group-hover:translate-x-1 transition-transform'} />
-                      </>
+                      <span>{language === 'tl' ? 'Mag-sign In' : 'Sign In'}</span>
                     )}
                   </button>
                 </form>
 
                 {/* Switch to Register Note */}
-                <div className="pt-3 text-center text-xs text-slate-500">
+                <div className="pt-3 text-center text-xs text-slate-400">
                   <span>{language === 'tl' ? 'Unang beses mag-apply para sa permit? ' : 'First time applying for a business permit? '}</span>
                   <button
                     type="button"
@@ -863,7 +853,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({
                       setAuthMode('signup');
                       setErrorMessage(null);
                     }}
-                    className="text-blue-500 hover:text-blue-400 font-bold transition-colors cursor-pointer"
+                    className="text-blue-400 hover:text-blue-300 font-bold transition-colors cursor-pointer"
                   >
                     {language === 'tl' ? 'Gumawa ng Citizen Account' : 'Create Citizen Account'}
                   </button>

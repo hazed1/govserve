@@ -4,7 +4,6 @@ import {
   Building, 
   Bus, 
   ShieldCheck, 
-  ArrowRight, 
   Sparkles, 
   CheckCircle2, 
   Clock, 
@@ -64,6 +63,18 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
   const [selectedReqCategory, setSelectedReqCategory] = useState<'business' | 'building' | 'transport' | 'barangay' | 'tracking' | null>(null);
   const [profileDropdownOpen, setProfileDropdownOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Synchronize document theme with user's selected portal theme (Light or Dark)
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+      root.style.colorScheme = 'dark';
+    } else {
+      root.classList.remove('dark');
+      root.style.colorScheme = 'light';
+    }
+  }, [theme]);
 
   // Close profile dropdown on outside click
   useEffect(() => {
@@ -939,10 +950,9 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                     <div className="mt-7 pt-4 border-t border-slate-100 dark:border-slate-800 space-y-2.5">
                       <button
                         onClick={() => onNavigateToTab(service.primaryTab)}
-                        className={`w-full py-3.5 ${service.accent.primaryBtn} rounded-2xl text-xs font-bold transition-all flex items-center justify-center space-x-2 group/btn cursor-pointer`}
+                        className={`w-full py-3.5 ${service.accent.primaryBtn} rounded-2xl text-xs font-bold transition-all flex items-center justify-center cursor-pointer`}
                       >
                         <span>{service.primaryBtnText.replace(/→\s*$/, '').trim()}</span>
-                        <ArrowRight size={15} className="group-hover/btn:translate-x-1 transition-transform" />
                       </button>
 
 
@@ -1057,10 +1067,9 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                   setSelectedReqCategory(null);
                   onNavigateToTab(targetTab);
                 }} 
-                className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/20 cursor-pointer flex items-center space-x-1.5"
+                className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/20 cursor-pointer flex items-center justify-center"
               >
                 <span>{t('proceed_application', 'Proceed to Service')}</span>
-                <ArrowRight size={14} />
               </button>
             </div>
           </div>
