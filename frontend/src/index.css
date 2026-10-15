@@ -42,48 +42,105 @@ html:not(.dark) .bg-white {
   color-scheme: dark;
 }
 
-/* Background surfaces in dark mode */
+/* Background surfaces in dark mode - Midnight Slate (#0B1220) Theme */
 .dark body {
-  background-color: #030712;
+  background-color: #0B1220;
   color: #f8fafc;
 }
 
 .dark main {
-  background-color: #030712 !important;
+  background-color: transparent !important;
 }
 
 
 
 /* Cards, Modals, Panels & Dropdowns */
-.dark .bg-white:not(.login-override-light) {
-  background-color: #0f172a !important;
+.dark .bg-white:not(.login-override-light):not(.glass-card) {
+  background-color: #112d4e !important;
   color: #f8fafc;
 }
 
+/* ==========================================================================
+   FROSTED GLASSMORPHISM CARD SYSTEM
+   ========================================================================== */
+.glass-card {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+html:not(.dark) .glass-card {
+  background-image: none !important;
+  background-color: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
+}
+
+.dark .glass-card {
+  background-image: none !important;
+  background-color: rgba(255, 255, 255, 0.045) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.35), inset 0 1px 1px 0 rgba(255, 255, 255, 0.15) !important;
+}
+
+.dark .glass-card:hover {
+  background-color: rgba(255, 255, 255, 0.075) !important;
+  border-color: rgba(255, 255, 255, 0.28) !important;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.55), 0 0 25px 0 rgba(59, 130, 246, 0.15), inset 0 1px 1px 0 rgba(255, 255, 255, 0.25) !important;
+  transform: translateY(-3px);
+}
+
+.dark .glass-card .border-t {
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+.dark .glass-card .group\/item:hover {
+  background-color: rgba(255, 255, 255, 0.065) !important;
+}
+
+/* Frosted Search Input */
+.dark .glass-input {
+  background-color: rgba(255, 255, 255, 0.04) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+
+.dark .glass-input:focus {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(96, 165, 250, 0.6) !important;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.25) !important;
+}
+
 .dark .bg-slate-50 {
-  background-color: #020617 !important;
+  background-color: #0B1220 !important;
 }
 
 .dark .bg-slate-50\/70,
 .dark .bg-slate-50\/80,
 .dark .bg-slate-50\/90 {
-  background-color: #0b1324 !important;
+  background-color: #0f1c32 !important;
 }
 
 .dark .bg-slate-100 {
-  background-color: #1e293b !important;
+  background-color: #142542 !important;
 }
 
 .dark .bg-slate-200 {
-  background-color: #334155 !important;
+  background-color: #1a3156 !important;
 }
 
 .dark .bg-slate-800 {
-  background-color: #0f172a !important;
+  background-color: #13223c !important;
 }
 
 .dark .bg-slate-900 {
-  background-color: #020617 !important;
+  background-color: #0f1c32 !important;
+}
+
+.dark .bg-slate-950 {
+  background-color: #0B1220 !important;
 }
 
 /* Text color adaptations */

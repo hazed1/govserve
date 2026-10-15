@@ -391,7 +391,7 @@ Digital Security Hash   : ${item.qrHash}
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
+    <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-800 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
       
       {/* Toast */}
       {toastMessage && (
@@ -405,7 +405,7 @@ Digital Security Hash   : ${item.qrHash}
       {/* 1. STANDALONE TOP HEADER BAR (Hidden in Admin Console Mode) */}
       {/* ========================================================================= */}
       {!isAdmin && (
-        <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-xs px-4 sm:px-8 py-3.5 transition-colors">
+        <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#0B1220]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/10 shadow-xs px-4 sm:px-8 py-3.5 transition-colors">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
             
             {/* Left: Branding & Back to Portal */}
@@ -497,31 +497,24 @@ Digital Security Hash   : ${item.qrHash}
       )}
 
       {/* ========================================================================= */}
-      {/* 2. FULL-WIDTH HERO SECTION */}
+      {/* 2. FULL-WIDTH HERO SECTION (CENTERED HERO LAYOUT) */}
       {/* ========================================================================= */}
-      <section className="w-full bg-white dark:bg-gradient-to-r dark:from-[#071326] dark:via-[#161233] dark:to-[#0A1A2F] text-slate-900 dark:text-white py-7 sm:py-9 px-4 sm:px-8 border-b border-slate-200 dark:border-slate-800 relative overflow-hidden transition-colors">
-        <div className="hidden dark:block absolute top-0 right-0 w-[500px] h-[500px] bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="hidden dark:block absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-indigo-600/15 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto relative z-10 space-y-3">
-
-
-          <div className="space-y-2 max-w-4xl">
-            <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
-              {isAdmin && currentView === 'admin_grid'
-                ? '24-Barangay Interconnection Network Grid & Node Monitor'
-                : isAdmin && currentView === 'admin_registry'
-                ? 'Barangay Clearance Registry & Inter-LGU Validation Workspace'
-                : 'Barangay Clearance & Community Services Portal'}
-            </h1>
-            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-3xl leading-relaxed">
-              {isAdmin && currentView === 'admin_grid'
-                ? 'Monitor real-time cluster telemetry, automated Lupon blotter sync, and inter-barangay cross-clearance routing across all 24 local government units.'
-                : isAdmin && currentView === 'admin_registry'
-                ? 'Validate commercial clearances, query Lupon Tagapamayapa dispute databases, verify Cedula calculations, and issue digital authenticated clearances.'
-                : 'Review official barangay clearance tariffs, Cedula schedules, and documentary prerequisites before filing across all 24 Quezon City barangays.'}
-            </p>
-          </div>
+      <section className="w-full bg-transparent text-slate-900 dark:text-white pt-8 pb-4 px-4 sm:px-8 relative transition-colors">
+        <div className="max-w-4xl mx-auto relative z-10 text-center space-y-2">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+            {isAdmin && currentView === 'admin_grid'
+              ? '24-Barangay Interconnection Network Grid & Node Monitor'
+              : isAdmin && currentView === 'admin_registry'
+              ? 'Barangay Clearance Registry & Inter-LGU Validation Workspace'
+              : 'Barangay Clearance & Community Services Portal'}
+          </h1>
+          <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed">
+            {isAdmin && currentView === 'admin_grid'
+              ? 'Monitor real-time cluster telemetry, automated Lupon blotter sync, and inter-barangay cross-clearance routing across all 24 local government units.'
+              : isAdmin && currentView === 'admin_registry'
+              ? 'Validate commercial clearances, query Lupon Tagapamayapa dispute databases, verify Cedula calculations, and issue digital authenticated clearances.'
+              : 'Request official barangay clearances, residency certificates, and instant Cedula CTC online.'}
+          </p>
         </div>
       </section>
 
@@ -1127,134 +1120,125 @@ Digital Security Hash   : ${item.qrHash}
         {/* ========================================================================= */}
         {(currentView === 'preview' || (!isAdmin && (currentView === 'admin_registry' || currentView === 'admin_grid'))) && (
           <div className="space-y-10 animate-in fade-in pb-10">
-            
-
 
             {/* ========================================================================= */}
-            {/* 4 SERVICE CARDS (PICTURE 5 UNIFIED LAYOUT) */}
+            {/* 4 SERVICE CARDS (2-COLUMN COMPACT GRID) */}
             {/* ========================================================================= */}
-            <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 max-w-4xl mx-auto pt-2">
 
               {/* ======================================================================= */}
               {/* CARD 1: BARANGAY PERMIT INTEGRATION - SKY / BLUE THEME */}
               {/* ======================================================================= */}
               <div 
-                className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-sky-50/70 to-blue-50/50 dark:from-[#061426] dark:via-[#091e38] dark:to-[#030914] border border-sky-200 dark:border-sky-500/40 p-6 sm:p-8 shadow-xl shadow-sky-900/5 dark:shadow-2xl dark:shadow-sky-950/40 group transition-all duration-300 select-text"
+                className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
               >
-                {/* Ambient glow effects */}
-                <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-sky-400/10 dark:bg-sky-500/10 blur-3xl pointer-events-none" />
-                <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-blue-500/10 dark:bg-blue-600/10 blur-3xl pointer-events-none" />
-
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
-                  {/* Left Column: Info & Details */}
-                  <div className="flex-1 space-y-4">
-                    {/* Title */}
+                <div className="flex flex-col justify-between gap-3.5 relative z-10 flex-1">
+                  {/* Info & Details */}
+                  <div className="space-y-2 min-w-0">
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                      <h3 className="text-xs sm:text-[13px] font-black text-slate-900 dark:text-white tracking-tight leading-snug uppercase">
                         Barangay Permit Integration
                       </h3>
                     </div>
 
                     {/* 5 Information Rows with Circular Icons */}
-                    <div className="space-y-2.5 pt-1">
+                    <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <Users size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <Users size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TARGET USERS</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Residents, business locators, and applicants across the 24 LGU Barangays</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TARGET USERS</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Residents, business locators, and applicants across 24 Barangays</p>
                         </div>
                       </div>
 
                       {/* Row 2: Service Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <ShieldCheck size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <ShieldCheck size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">SERVICE METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Online application through GovServe</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">SERVICE METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Online application through GovServe</p>
                         </div>
                       </div>
 
                       {/* Row 3: Time Period */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <Clock size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <Clock size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TIME PERIOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Instant digital endorsement &amp; 24 to 48 hours for Punong Barangay seal</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TIME PERIOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Instant endorsement &amp; 24-48 hrs for Punong Barangay seal</p>
                         </div>
                       </div>
 
                       {/* Row 4: Charges & Payment */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <Banknote size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <Banknote size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">CHARGES &amp; PAYMENT</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">₱150.00 - ₱500.00 standard barangay clearance tariff + Cedula CTC</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">CHARGES &amp; PAYMENT</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">₱150.00 - ₱500.00 standard tariff + Cedula CTC</p>
                         </div>
                       </div>
 
                       {/* Row 5: Payment Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <CreditCard size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <CreditCard size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">PAYMENT METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Via GovServe online portal</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">PAYMENT METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Via GovServe online portal</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right Column: Actions & Document Upload Callout */}
-                  <div className="w-full lg:w-[400px] xl:w-[450px] shrink-0 flex flex-col justify-between space-y-3">
-                    <div className="space-y-2.5">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setPurpose('New Business Permit');
-                          setNewSubmitted(false);
-                          setCurrentView('new_clearance');
-                        }}
-                        className="w-full py-3.5 px-5 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-blue-600/40 hover:shadow-blue-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
-                      >
-                        <span>Request Barangay Clearance →</span>
-                      </button>
-
-
-                    </div>
-
-                    <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-sky-200 dark:border-sky-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-sky-700 dark:text-sky-400">
-                        <Camera size={14} />
+                  {/* Document Upload & Action Section */}
+                  <div className="w-full flex flex-col space-y-2 pt-0.5">
+                    {/* Document Upload Box */}
+                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-sky-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
+                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-sky-700 dark:text-sky-400">
+                        <Camera size={12} />
                         <span>Residency Proof &amp; Cedula Upload Active</span>
                       </div>
-                      <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Upload clear photos or pictures of your Valid Government ID, Proof of Residency, Cedula (CTC), and Barangay endorsement.
+                      <p className="text-[9.5px] text-slate-600 dark:text-slate-400 leading-snug">
+                        Upload clear photos: Valid Gov ID, Proof of Residency, Cedula CTC.
                       </p>
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        <span className="px-2.5 py-1 rounded-md bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-sky-400"></span>Valid Gov ID
+                      <div className="flex flex-wrap gap-1 pt-0.5">
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Valid Gov ID
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-sky-400"></span>Proof of Residency
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Proof of Residency
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-sky-400"></span>Cedula / CTC
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Cedula / CTC
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-sky-400"></span>Barangay Endorsement
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Barangay Endorsement
                         </span>
                       </div>
                     </div>
+
+                    {/* Action Button */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPurpose('New Business Permit');
+                        setNewSubmitted(false);
+                        setCurrentView('new_clearance');
+                      }}
+                      className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <span>Request Barangay Clearance →</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1263,120 +1247,113 @@ Digital Security Hash   : ${item.qrHash}
               {/* CARD 2: BARANGAY CONSTRUCTION ENDORSEMENT - AMBER / ORANGE THEME */}
               {/* ======================================================================= */}
               <div 
-                className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-amber-50/70 to-orange-50/50 dark:from-[#261604] dark:via-[#361e04] dark:to-[#170a00] border border-amber-200 dark:border-amber-500/40 p-6 sm:p-8 shadow-xl shadow-amber-900/5 dark:shadow-2xl dark:shadow-amber-950/40 group transition-all duration-300 select-text"
+                className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
               >
-                {/* Ambient glow effects */}
-                <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-amber-400/10 dark:bg-amber-500/10 blur-3xl pointer-events-none" />
-                <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-orange-500/10 dark:bg-orange-600/10 blur-3xl pointer-events-none" />
-
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
-                  {/* Left Column: Info & Details */}
-                  <div className="flex-1 space-y-4">
-                    {/* Title */}
+                <div className="flex flex-col justify-between gap-3.5 relative z-10 flex-1">
+                  {/* Info & Details */}
+                  <div className="space-y-2 min-w-0">
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                      <h3 className="text-xs sm:text-[13px] font-black text-slate-900 dark:text-white tracking-tight leading-snug uppercase">
                         Barangay Construction Endorsement
                       </h3>
                     </div>
 
                     {/* 5 Information Rows with Circular Icons */}
-                    <div className="space-y-2.5 pt-1">
+                    <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <Users size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <Users size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TARGET USERS</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Property owners, building contractors, structural developers, and engineers</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TARGET USERS</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Property owners, building contractors, developers, and engineers</p>
                         </div>
                       </div>
 
                       {/* Row 2: Service Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <Building size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <Building size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">SERVICE METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Online application through GovServe</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">SERVICE METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Online application through GovServe</p>
                         </div>
                       </div>
 
                       {/* Row 3: Time Period */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <Clock size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <Clock size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TIME PERIOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">1 to 2 days upon Barangay Lupon &amp; Kagawad site inspection</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TIME PERIOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">1 to 2 days upon Barangay Lupon &amp; Kagawad site inspection</p>
                         </div>
                       </div>
 
                       {/* Row 4: Charges & Payment */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <Banknote size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <Banknote size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">CHARGES &amp; PAYMENT</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">₱800.00 Barangay Construction Regulatory Fee</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">CHARGES &amp; PAYMENT</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">₱800.00 Barangay Construction Regulatory Fee</p>
                         </div>
                       </div>
 
                       {/* Row 5: Payment Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <CreditCard size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <CreditCard size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">PAYMENT METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Via GovServe online portal</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">PAYMENT METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Via GovServe online portal</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right Column: Actions & Document Upload Callout */}
-                  <div className="w-full lg:w-[400px] xl:w-[450px] shrink-0 flex flex-col justify-between space-y-3">
-                    <div className="space-y-2.5">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setCurrentView('construction');
-                        }}
-                        className="w-full py-3.5 px-5 bg-[#d96b00] hover:bg-[#c25e00] active:bg-[#a85200] text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-orange-600/30 hover:shadow-orange-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
-                      >
-                        <span>Apply for Construction Endorsement →</span>
-                      </button>
-
-
-                    </div>
-
-                    <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-amber-200 dark:border-amber-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-amber-700 dark:text-amber-400">
-                        <Camera size={14} />
+                  {/* Document Upload & Action Section */}
+                  <div className="w-full flex flex-col space-y-2 pt-0.5">
+                    {/* Document Upload Box */}
+                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-amber-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
+                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-amber-700 dark:text-amber-400">
+                        <Camera size={12} />
                         <span>Site Plans &amp; Neighbor Concurrence Active</span>
                       </div>
-                      <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Upload sketch plan of construction site, lot title / tax declaration, neighbor consent forms, and contractor ID.
+                      <p className="text-[9.5px] text-slate-600 dark:text-slate-400 leading-snug">
+                        Upload sketch plan, lot title / tax dec, neighbor consent, contractor ID.
                       </p>
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        <span className="px-2.5 py-1 rounded-md bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400"></span>Site Sketch Plan
+                      <div className="flex flex-wrap gap-1 pt-0.5">
+                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>Site Sketch Plan
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400"></span>Lot Title / TCT
+                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>Lot Title / TCT
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400"></span>Neighbor Consent
+                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>Neighbor Consent
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400"></span>Contractor ID
+                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>Contractor ID
                         </span>
                       </div>
                     </div>
+
+                    {/* Action Button */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCurrentView('construction');
+                      }}
+                      className="w-full py-2 px-3 bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-white rounded-xl text-xs font-bold shadow-md shadow-amber-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <span>Apply for Construction Endorsement →</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1385,120 +1362,113 @@ Digital Security Hash   : ${item.qrHash}
               {/* CARD 3: COMMUNITY TAX CERTIFICATE (CEDULA CTC) - EMERALD / TEAL THEME */}
               {/* ======================================================================= */}
               <div 
-                className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-emerald-50/70 to-teal-50/50 dark:from-[#06241a] dark:via-[#093527] dark:to-[#03140f] border border-emerald-200 dark:border-emerald-500/40 p-6 sm:p-8 shadow-xl shadow-emerald-900/5 dark:shadow-2xl dark:shadow-emerald-950/40 group transition-all duration-300 select-text"
+                className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
               >
-                {/* Ambient glow effects */}
-                <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-emerald-400/10 dark:bg-emerald-500/10 blur-3xl pointer-events-none" />
-                <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-teal-500/10 dark:bg-teal-600/10 blur-3xl pointer-events-none" />
-
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
-                  {/* Left Column: Info & Details */}
-                  <div className="flex-1 space-y-4">
-                    {/* Title */}
+                <div className="flex flex-col justify-between gap-3.5 relative z-10 flex-1">
+                  {/* Info & Details */}
+                  <div className="space-y-2 min-w-0">
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                      <h3 className="text-xs sm:text-[13px] font-black text-slate-900 dark:text-white tracking-tight leading-snug uppercase">
                         Community Tax Certificate (Cedula CTC)
                       </h3>
                     </div>
 
                     {/* 5 Information Rows with Circular Icons */}
-                    <div className="space-y-2.5 pt-1">
+                    <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <Users size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                          <Users size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TARGET USERS</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Employed individuals, business proprietors, real property owners, and professionals</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TARGET USERS</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Employed individuals, business owners, property owners, professionals</p>
                         </div>
                       </div>
 
                       {/* Row 2: Service Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <FileText size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                          <FileText size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">SERVICE METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Online application through GovServe</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">SERVICE METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Online application through GovServe</p>
                         </div>
                       </div>
 
                       {/* Row 3: Time Period */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <Clock size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                          <Clock size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TIME PERIOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Instant computation &amp; immediate digital receipt issuance</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TIME PERIOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Instant computation &amp; immediate digital receipt issuance</p>
                         </div>
                       </div>
 
                       {/* Row 4: Charges & Payment */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <Banknote size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                          <Banknote size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">CHARGES &amp; PAYMENT</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">₱55.00 Basic + ₱1.00 per ₱1,000 Gross Income Assessment</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">CHARGES &amp; PAYMENT</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">₱55.00 Basic + ₱1.00 per ₱1,000 Gross Income Assessment</p>
                         </div>
                       </div>
 
                       {/* Row 5: Payment Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <CreditCard size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                          <CreditCard size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">PAYMENT METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Via GovServe online portal</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">PAYMENT METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Via GovServe online portal</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right Column: Actions & Document Upload Callout */}
-                  <div className="w-full lg:w-[400px] xl:w-[450px] shrink-0 flex flex-col justify-between space-y-3">
-                    <div className="space-y-2.5">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setCurrentView('cedula');
-                        }}
-                        className="w-full py-3.5 px-5 bg-emerald-700 hover:bg-emerald-600 active:bg-emerald-800 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-emerald-700/30 hover:shadow-emerald-600/40 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
-                      >
-                        <span>File Instant Cedula (CTC) →</span>
-                      </button>
-
-
-                    </div>
-
-                    <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-emerald-200 dark:border-emerald-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-400">
-                        <Camera size={14} />
+                  {/* Document Upload & Action Section */}
+                  <div className="w-full flex flex-col space-y-2 pt-0.5">
+                    {/* Document Upload Box */}
+                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-emerald-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
+                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-emerald-700 dark:text-emerald-400">
+                        <Camera size={12} />
                         <span>Income Declaration &amp; Tax Proof Upload Active</span>
                       </div>
-                      <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Upload valid government ID, proof of gross earnings or payslip, or previous year Cedula receipt.
+                      <p className="text-[9.5px] text-slate-600 dark:text-slate-400 leading-snug">
+                        Upload valid gov ID, proof of gross earnings / payslip, or prior Cedula receipt.
                       </p>
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Valid Govt ID
+                      <div className="flex flex-wrap gap-1 pt-0.5">
+                        <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Valid Govt ID
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Proof of Income
+                        <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Proof of Income
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Prior Cedula CTC
+                        <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Prior Cedula CTC
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>BIR Form 2316
+                        <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>BIR Form 2316
                         </span>
                       </div>
                     </div>
+
+                    {/* Action Button */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCurrentView('cedula');
+                      }}
+                      className="w-full py-2 px-3 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-md shadow-emerald-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <span>File Instant Cedula (CTC) →</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1507,126 +1477,115 @@ Digital Security Hash   : ${item.qrHash}
               {/* CARD 4: BARANGAY RESIDENCY & EVENT CLEARANCE - PURPLE / FUCHSIA THEME */}
               {/* ======================================================================= */}
               <div 
-                className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-purple-50/70 to-fuchsia-50/50 dark:from-[#1b0826] dark:via-[#280c38] dark:to-[#12031a] border border-purple-200 dark:border-purple-500/40 p-6 sm:p-8 shadow-xl shadow-purple-900/5 dark:shadow-2xl dark:shadow-purple-950/40 group transition-all duration-300 select-text"
+                className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
               >
-                {/* Ambient glow effects */}
-                <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-purple-400/10 dark:bg-purple-500/10 blur-3xl pointer-events-none" />
-                <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-fuchsia-500/10 dark:bg-fuchsia-600/10 blur-3xl pointer-events-none" />
-
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
-                  {/* Left Column: Info & Details */}
-                  <div className="flex-1 space-y-4">
-                    {/* Title */}
+                <div className="flex flex-col justify-between gap-3.5 relative z-10 flex-1">
+                  {/* Info & Details */}
+                  <div className="space-y-2 min-w-0">
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                      <h3 className="text-xs sm:text-[13px] font-black text-slate-900 dark:text-white tracking-tight leading-snug uppercase">
                         Barangay Residency Clearance
                       </h3>
                     </div>
 
                     {/* 5 Information Rows with Circular Icons */}
-                    <div className="space-y-2.5 pt-1">
+                    <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
-                          <Users size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                          <Users size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TARGET USERS</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Barangay residents, scholarship applicants, and jobseekers</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TARGET USERS</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Barangay residents, scholarship applicants, and jobseekers</p>
                         </div>
                       </div>
 
                       {/* Row 2: Service Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
-                          <Award size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                          <Award size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">SERVICE METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Online application through GovServe</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">SERVICE METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Online application through GovServe</p>
                         </div>
                       </div>
 
                       {/* Row 3: Time Period */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
-                          <Clock size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                          <Clock size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TIME PERIOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Same-day release upon Lupon records &amp; voter check</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TIME PERIOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Same-day release upon Lupon records &amp; voter check</p>
                         </div>
                       </div>
 
                       {/* Row 4: Charges & Payment */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
-                          <Banknote size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                          <Banknote size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">CHARGES &amp; PAYMENT</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">₱150.00 Standard Barangay Certification Fee (Free for Indigents)</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">CHARGES &amp; PAYMENT</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">₱150.00 Standard Fee (Free for Indigents under RA 11261)</p>
                         </div>
                       </div>
 
                       {/* Row 5: Payment Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
-                          <CreditCard size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                          <CreditCard size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">PAYMENT METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Via GovServe online portal</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">PAYMENT METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Via GovServe online portal</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right Column: Actions & Document Upload Callout */}
-                  <div className="w-full lg:w-[400px] xl:w-[450px] shrink-0 flex flex-col justify-between space-y-3">
-                    <div className="space-y-2.5">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setCurrentView('residency_event');
-                        }}
-                        className="w-full py-3.5 px-5 bg-[#8b00e8] hover:bg-[#7b00cc] active:bg-[#6800ad] text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-purple-600/30 hover:shadow-purple-500/40 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
-                      >
-                        <span>Request Residency Clearance →</span>
-                      </button>
-
-
-                    </div>
-
-                    <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-purple-200 dark:border-purple-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-purple-700 dark:text-purple-400">
-                        <Camera size={14} />
+                  {/* Document Upload & Action Section */}
+                  <div className="w-full flex flex-col space-y-2 pt-0.5">
+                    {/* Document Upload Box */}
+                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-purple-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
+                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-purple-700 dark:text-purple-400">
+                        <Camera size={12} />
                         <span>Proof of Address &amp; Lupon Verification Active</span>
                       </div>
-                      <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Upload proof of address (utility bill / lease), valid government ID, and 6-month residency affirmation.
+                      <p className="text-[9.5px] text-slate-600 dark:text-slate-400 leading-snug">
+                        Upload proof of address (utility bill / lease), valid gov ID, residency affirmation.
                       </p>
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        <span className="px-2.5 py-1 rounded-md bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-purple-500 dark:bg-purple-400"></span>Utility Bill Proof
+                      <div className="flex flex-wrap gap-1 pt-0.5">
+                        <span className="px-1.5 py-0.5 rounded bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-purple-500 dark:bg-purple-400"></span>Utility Bill Proof
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-purple-500 dark:bg-purple-400"></span>Valid ID
+                        <span className="px-1.5 py-0.5 rounded bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-purple-500 dark:bg-purple-400"></span>Valid ID
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-purple-500 dark:bg-purple-400"></span>Residency Proof
+                        <span className="px-1.5 py-0.5 rounded bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-purple-500 dark:bg-purple-400"></span>Residency Proof
                         </span>
                       </div>
                     </div>
+
+                    {/* Action Button */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setCurrentView('residency_event');
+                      }}
+                      className="w-full py-2 px-3 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white rounded-xl text-xs font-bold shadow-md shadow-purple-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <span>Request Residency Clearance →</span>
+                    </button>
                   </div>
                 </div>
               </div>
 
-
             </div>
-
-
-
           </div>
         )}
 

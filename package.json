@@ -7,7 +7,7 @@
   "scripts": {
     "build": "npm --prefix backend install && npm --prefix frontend install && npm --prefix frontend run build",
     "start": "node backend/index.js",
-    "dev": "npx -y concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
     "dev:backend": "npm --prefix backend run dev",
     "dev:frontend": "npm --prefix frontend run dev",
     "start:backend": "node backend/index.js",
@@ -16,5 +16,8 @@
   "dependencies": {
     "dotenv": "^17.4.2",
     "pg": "^8.22.0"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6"
   }
 }

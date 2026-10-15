@@ -1260,13 +1260,13 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex flex-col font-sans selection:bg-blue-500 selection:text-white transition-colors duration-200">
+    <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-800 dark:text-slate-100 flex flex-col font-sans selection:bg-blue-500 selection:text-white transition-colors duration-200">
       
       {/* ========================================================================= */}
       {/* 1. STANDALONE TOP HEADER BAR (Hidden in Admin Mode) */}
       {/* ========================================================================= */}
       {!isAdmin && (
-        <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-xs px-4 sm:px-8 py-3.5 transition-colors">
+        <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#0B1220]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/10 shadow-xs px-4 sm:px-8 py-3.5 transition-colors">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
             
             {/* Left: Branding & Back to Portal */}
@@ -1387,23 +1387,16 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
       )}
 
       {/* ========================================================================= */}
-      {/* 2. FULL-WIDTH HERO SECTION */}
+      {/* 2. FULL-WIDTH HERO SECTION (CENTERED HERO LAYOUT) */}
       {/* ========================================================================= */}
-      <section className="w-full bg-white dark:bg-gradient-to-r dark:from-[#071326] dark:via-[#0E2744] dark:to-[#0A1A2F] text-slate-900 dark:text-white py-7 sm:py-9 px-4 sm:px-8 border-b border-slate-200 dark:border-slate-800 relative overflow-hidden transition-colors">
-        <div className="hidden dark:block absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="hidden dark:block absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-emerald-600/10 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto relative z-10 space-y-3">
-          
-
-          <div className="space-y-2 max-w-4xl">
-            <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
-              Business Permits & Licensing Portal
-            </h1>
-            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-3xl leading-relaxed">
-              Review official business regulatory fee schedules, municipal tax tariffs, and documentary prerequisites before filing your enterprise application.
-            </p>
-          </div>
+      <section className="w-full bg-transparent text-slate-900 dark:text-white pt-8 pb-4 px-4 sm:px-8 relative transition-colors">
+        <div className="max-w-4xl mx-auto relative z-10 text-center space-y-2">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+            Business Permits & Licensing Portal
+          </h1>
+          <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed">
+            Apply for or renew your Mayor's business permit, occupational clearances, and commercial licenses online.
+          </p>
         </div>
       </section>
 
@@ -1423,128 +1416,123 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
             {/* ========================================================================= */}
             {/* 4 CORE SERVICES (RICH HORIZONTAL CARDS WITH BALANCED ZERO-WASTE LAYOUT) */}
             {/* ========================================================================= */}
-            <div className="space-y-5 sm:space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 max-w-4xl mx-auto">
               
               {/* ======================================================================= */}
               {/* CARD 1: APPLY FOR MAYOR'S PERMIT (BUSINESS) - BLUE / SKY THEME */}
               {/* ======================================================================= */}
               <div 
-                className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-sky-50/70 to-blue-50/50 dark:from-[#061426] dark:via-[#091e38] dark:to-[#030914] border border-sky-200 dark:border-sky-500/40 p-6 sm:p-8 shadow-xl shadow-sky-900/5 dark:shadow-2xl dark:shadow-sky-950/40 group transition-all duration-300 select-text"
+                className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
               >
-                {/* Ambient glow effects */}
-                <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-sky-400/10 dark:bg-sky-500/10 blur-3xl pointer-events-none" />
-                <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-blue-500/10 dark:bg-blue-600/10 blur-3xl pointer-events-none" />
 
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
-                  {/* Left Column: Info & Details */}
-                  <div className="flex-1 space-y-4">
+                <div className="flex flex-col justify-between gap-3.5 relative z-10 flex-1">
+                  {/* Info & Details */}
+                  <div className="space-y-2 min-w-0">
                     {/* Title */}
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                      <h3 className="text-xs sm:text-[13px] font-black text-slate-900 dark:text-white tracking-tight leading-snug">
                         APPLY FOR MAYOR'S PERMIT (BUSINESS)
                       </h3>
                     </div>
 
                     {/* 5 Information Rows with Circular Icons */}
-                    <div className="space-y-2.5 pt-1">
+                    <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <Users size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <Users size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TARGET USERS</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Business owners and applicants</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TARGET USERS</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Business owners and applicants</p>
                         </div>
                       </div>
 
                       {/* Row 2: Service Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <Briefcase size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <Briefcase size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">SERVICE METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Online Business Permit Application</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">SERVICE METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Online Business Permit Application</p>
                         </div>
                       </div>
 
                       {/* Row 3: Time Period */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <Clock size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <Clock size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TIME PERIOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Subject to document evaluation and approval</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TIME PERIOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Subject to evaluation and approval</p>
                         </div>
                       </div>
 
                       {/* Row 4: Charges & Payment */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <Banknote size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <Banknote size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">CHARGES & PAYMENT</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Based on the applicable business assessment</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">CHARGES & PAYMENT</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Based on applicable business assessment</p>
                         </div>
                       </div>
 
                       {/* Row 5: Payment Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <CreditCard size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <CreditCard size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">PAYMENT METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Online payment / available payment method</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">PAYMENT METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Online payment / available payment method</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right Column: Actions & Document Upload Callout (Zero Wasted Space) */}
-                  <div className="w-full lg:w-[400px] xl:w-[450px] shrink-0 flex flex-col justify-between space-y-3">
-                    {/* Action Buttons */}
-                    <div className="space-y-2.5">
+                  {/* Document Upload & Action Section (Placed directly below payment method) */}
+                  <div className="w-full flex flex-col space-y-2 pt-0.5">
+                    {/* Document Upload Box */}
+                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-sky-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
+                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-sky-700 dark:text-sky-400">
+                        <Camera size={12} />
+                        <span>Document Upload Active</span>
+                      </div>
+                      <p className="text-[9.5px] text-slate-600 dark:text-slate-400 leading-snug">
+                        Upload live photos of Valid ID, DTI/SEC/CDA, Location Proof & Storefront.
+                      </p>
+                      <div className="flex flex-wrap gap-1 pt-0.5">
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Valid Gov ID
+                        </span>
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>DTI / SEC
+                        </span>
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Location Proof
+                        </span>
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Storefront
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Action Button */}
+                    <div>
                       <button
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
                           setCurrentView('select_type');
                         }}
-                        className="w-full py-3.5 px-5 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-blue-600/40 hover:shadow-blue-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
+                        className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                       >
                         <span>Apply for Business Permit</span>
                       </button>
-
-                      
-                    </div>
-
-                    {/* Picture 3 Moved to Right: Document Photo & Picture Upload Active */}
-                    <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-sky-200 dark:border-sky-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-sky-700 dark:text-sky-400">
-                        <Camera size={14} />
-                        <span>Document Photo & Picture Upload Active</span>
-                      </div>
-                      <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Upload live photos or pictures of your Valid ID, Business Registration (DTI/SEC/CDA), Location Proof, and Storefront Photo.
-                      </p>
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        <span className="px-2.5 py-1 rounded-md bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-sky-400"></span>Valid Gov ID
-                        </span>
-                        <span className="px-2.5 py-1 rounded-md bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-sky-400"></span>DTI / SEC / CDA
-                        </span>
-                        <span className="px-2.5 py-1 rounded-md bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-sky-400"></span>Location Proof
-                        </span>
-                        <span className="px-2.5 py-1 rounded-md bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-sky-400"></span>Storefront Photo
-                        </span>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -1553,126 +1541,118 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
               {/* ======================================================================= */}
               {/* CARD 2: APPLY FOR OCCUPATIONAL / WORK PERMIT - GREEN / EMERALD THEME */}
               {/* ======================================================================= */}
-              <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-emerald-50/70 to-teal-50/50 dark:from-[#051b13] dark:via-[#07291d] dark:to-[#020e0a] border border-emerald-200 dark:border-emerald-500/40 p-6 sm:p-8 shadow-xl shadow-emerald-900/5 dark:shadow-2xl dark:shadow-emerald-950/40 group transition-all duration-300">
-                {/* Ambient glow effects */}
-                <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-emerald-400/10 dark:bg-emerald-500/10 blur-3xl pointer-events-none" />
-                <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-teal-500/10 dark:bg-teal-600/10 blur-3xl pointer-events-none" />
+              <div 
+                className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
+              >
 
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
-                  {/* Left Column: Info & Details */}
-                  <div className="flex-1 space-y-4">
+                <div className="flex flex-col justify-between gap-3.5 relative z-10 flex-1">
+                  {/* Info & Details */}
+                  <div className="space-y-2 min-w-0">
                     {/* Title */}
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                      <h3 className="text-xs sm:text-[13px] font-black text-slate-900 dark:text-white tracking-tight leading-snug">
                         APPLY FOR OCCUPATIONAL / WORK PERMIT
                       </h3>
                     </div>
 
                     {/* 5 Information Rows with Circular Icons */}
-                    <div className="space-y-2.5 pt-1">
+                    <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <Users size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                          <Users size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TARGET USERS</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Non-professional commercial staff, food handlers, cashiers, salon/spa, security & service employees in QC <span className="text-slate-500 dark:text-slate-400 italic">(Exempt: Supervisors & PTR-licensed professionals)</span></p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TARGET USERS</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Commercial staff, cashiers, security & service employees</p>
                         </div>
                       </div>
 
                       {/* Row 2: Service Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <Briefcase size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                          <Briefcase size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">SERVICE METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Online clearance & document filing via QC E-Services with digital validation</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">SERVICE METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Online clearance & document filing via QC E-Services</p>
                         </div>
                       </div>
 
                       {/* Row 3: Time Period */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <Clock size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                          <Clock size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TIME PERIOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">1 to 2 working days upon submission of complete health & police clearances</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TIME PERIOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">1 to 2 working days upon submission of clearances</p>
                         </div>
                       </div>
 
                       {/* Row 4: Charges & Payment */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <Banknote size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                          <Banknote size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">CHARGES & PAYMENT</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">₱170.00 Standard QC BPLD Tariff <span className="text-emerald-700 dark:text-emerald-400 font-bold">(₱0.00 Free for First-Time Jobseekers under RA 11261)</span></p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">CHARGES & PAYMENT</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">₱170.00 Standard Tariff <span className="text-emerald-700 dark:text-emerald-400 font-bold">(₱0 Free for 1st Time)</span></p>
                         </div>
                       </div>
 
                       {/* Row 5: Payment Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <CreditCard size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                          <CreditCard size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">PAYMENT METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">QC Pay Easy (e-Wallets, Maya, GCash, Landbank Link.Biz, Credit/Debit)</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">PAYMENT METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">QC Pay Easy (Maya, GCash, Landbank Link.Biz, Cards)</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right Column: Actions & Document Upload Callout */}
-                  <div className="w-full lg:w-[400px] xl:w-[450px] shrink-0 flex flex-col justify-between space-y-3">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        resetOccForm();
-                        setIsOccupationalModalOpen(true);
-                      }}
-                      className="w-full py-3.5 px-5 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-emerald-600/40 hover:shadow-emerald-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
-                    >
-                      <span>Apply for Work Permit</span>
-                    </button>
-
-                    
-
-                    {/* Right: Clearance Upload Portal Info */}
-                    <div 
-                      className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-emerald-200 dark:border-emerald-500/30 backdrop-blur-xs space-y-2 select-text shadow-xs dark:shadow-none"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-400">
-                          <Camera size={14} />
-                          <span>Clearance & Document Upload Portal Active</span>
-                        </div>
-                        
+                  {/* Document Upload & Action Section (Placed directly below payment method) */}
+                  <div className="w-full flex flex-col space-y-2 pt-0.5">
+                    {/* Clearance Upload Portal Info */}
+                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-emerald-200 dark:border-white/10 backdrop-blur-md space-y-1 select-text shadow-xs dark:shadow-none">
+                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-emerald-700 dark:text-emerald-400">
+                        <Camera size={12} />
+                        <span>Clearance Upload Active</span>
                       </div>
-                      <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Fast-track online processing: Upload clear photos or PDF scans of your QC Health Card, Police/NBI Clearance, Barangay Clearance, and Photo ID.
+                      <p className="text-[9.5px] text-slate-600 dark:text-slate-400 leading-snug">
+                        Fast-track processing: Upload Health Card, Police/NBI & Barangay Clearances.
                       </p>
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>QC Health / Sanitary Card
+                      <div className="flex flex-wrap gap-1 pt-0.5">
+                        <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>Health Card
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>Police or NBI Clearance
+                        <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>Police/NBI
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>Barangay Work Clearance
+                        <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>Barangay
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>Valid Government Photo ID
-                        </span>
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>Cedula / RA 11261 PESO Cert
+                        <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-emerald-600 dark:bg-emerald-400"></span>Photo ID
                         </span>
                       </div>
+                    </div>
+
+                    {/* Action Button */}
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          resetOccForm();
+                          setIsOccupationalModalOpen(true);
+                        }}
+                        className="w-full py-2 px-3 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-md shadow-emerald-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                      >
+                        <span>Apply for Work Permit</span>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -1681,127 +1661,119 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
               {/* ======================================================================= */}
               {/* CARD 3: BUSINESS INFORMATION SYSTEM - PURPLE / FUCHSIA THEME */}
               {/* ======================================================================= */}
-              <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-purple-50/70 to-fuchsia-50/50 dark:from-[#1c0c28] dark:via-[#281039] dark:to-[#0e0415] border border-purple-200 dark:border-purple-500/40 p-6 sm:p-8 shadow-xl shadow-purple-900/5 dark:shadow-2xl dark:shadow-purple-950/40 group transition-all duration-300">
-                {/* Ambient glow effects */}
-                <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-purple-400/10 dark:bg-purple-500/10 blur-3xl pointer-events-none" />
-                <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-fuchsia-500/10 dark:bg-fuchsia-600/10 blur-3xl pointer-events-none" />
+              <div 
+                className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
+              >
 
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
-                  {/* Left Column: Info & Details */}
-                  <div className="flex-1 space-y-4">
+                <div className="flex flex-col justify-between gap-3.5 relative z-10 flex-1">
+                  {/* Info & Details */}
+                  <div className="space-y-2 min-w-0">
                     {/* Title */}
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                      <h3 className="text-xs sm:text-[13px] font-black text-slate-900 dark:text-white tracking-tight leading-snug">
                         BUSINESS INFORMATION SYSTEM
                       </h3>
                     </div>
 
                     {/* 5 Information Rows with Circular Icons */}
-                    <div className="space-y-2.5 pt-1">
+                    <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
-                          <Users size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                          <Users size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TARGET USERS</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Registered business owners, corporate officers, legal counsel, and authorized representatives in QC</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TARGET USERS</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Registered business owners, officers & legal counsel</p>
                         </div>
                       </div>
 
                       {/* Row 2: Service Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
-                          <Briefcase size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                          <Briefcase size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">SERVICE METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Online business registry verification & document upload via QC E-Services with digital certification</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">SERVICE METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Online business registry verification & CTC request</p>
                         </div>
                       </div>
 
                       {/* Row 3: Time Period */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
-                          <Clock size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                          <Clock size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TIME PERIOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">1 to 2 working days (Instant verified preview / Authenticated electronic CTC with QR code)</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TIME PERIOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">1 to 2 working days (Electronic CTC with QR code)</p>
                         </div>
                       </div>
 
                       {/* Row 4: Charges & Payment */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
-                          <Banknote size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                          <Banknote size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">CHARGES & PAYMENT</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">₱220.00 Official QC BPLD Tariff <span className="text-purple-700 dark:text-purple-300 font-bold">(₱200.00 CTC Fee + ₱20.00 Legal Research & Documentary Stamp)</span></p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">CHARGES & PAYMENT</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">₱220.00 Official QC BPLD Tariff <span className="text-purple-700 dark:text-purple-300 font-bold">(CTC + Legal Doc Stamp)</span></p>
                         </div>
                       </div>
 
                       {/* Row 5: Payment Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
-                          <CreditCard size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                          <CreditCard size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">PAYMENT METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">QC Pay Easy (e-Wallets, Maya, GCash, Landbank Link.Biz, Credit/Debit)</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">PAYMENT METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">QC Pay Easy (e-Wallets, Maya, GCash, Cards)</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right Column: Actions & Document Upload Callout */}
-                  <div className="w-full lg:w-[400px] xl:w-[450px] shrink-0 flex flex-col justify-between space-y-3">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        resetBisForm();
-                        setBisRecordFound(true);
-                        setIsBisModalOpen(true);
-                      }}
-                      className="w-full py-3.5 px-5 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-purple-600/40 hover:shadow-purple-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
-                    >
-                      <span>Request CTC Online</span>
-                    </button>
-
-                    
-
-                    {/* Right: Document Upload Info */}
-                    <div 
-                      className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-purple-200 dark:border-purple-500/30 backdrop-blur-xs space-y-2 select-text shadow-xs dark:shadow-none"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-1.5 text-xs font-bold text-purple-700 dark:text-purple-400">
-                          <Camera size={14} />
-                          <span>Clearance & Document Upload Portal Active</span>
-                        </div>
-                        
+                  {/* Document Upload & Action Section (Placed directly below payment method) */}
+                  <div className="w-full flex flex-col space-y-2 pt-0.5">
+                    {/* Document Upload Info */}
+                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-purple-200 dark:border-white/10 backdrop-blur-md space-y-1 select-text shadow-xs dark:shadow-none">
+                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-purple-700 dark:text-purple-400">
+                        <Camera size={12} />
+                        <span>Clearance Upload Active</span>
                       </div>
-                      <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Fast-track CTC processing: Upload clear photos or PDF scans of your Valid Owner ID, Copy of Mayor's Permit / OR, DTI/SEC Registration, and SPA.
+                      <p className="text-[9.5px] text-slate-600 dark:text-slate-400 leading-snug">
+                        Fast-track CTC processing: Upload Owner ID, Copy of Permit / OR & SPA.
                       </p>
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        <span className="px-2.5 py-1 rounded-md bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-purple-600 dark:bg-purple-400"></span>Valid Government Photo ID
+                      <div className="flex flex-wrap gap-1 pt-0.5">
+                        <span className="px-1.5 py-0.5 rounded bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-purple-600 dark:bg-purple-400"></span>Gov ID
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-purple-600 dark:bg-purple-400"></span>Copy of Mayor's Permit / OR
+                        <span className="px-1.5 py-0.5 rounded bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-purple-600 dark:bg-purple-400"></span>Permit / OR
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-purple-600 dark:bg-purple-400"></span>DTI / SEC Registration
+                        <span className="px-1.5 py-0.5 rounded bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-purple-600 dark:bg-purple-400"></span>DTI / SEC
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-purple-600 dark:bg-purple-400"></span>Letter of Authority / SPA
-                        </span>
-                        <span className="px-2.5 py-1 rounded-md bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-purple-600 dark:bg-purple-400"></span>Affidavit of Loss (if lost)
+                        <span className="px-1.5 py-0.5 rounded bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-purple-600 dark:bg-purple-400"></span>SPA
                         </span>
                       </div>
+                    </div>
+
+                    {/* Action Button */}
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          resetBisForm();
+                          setBisRecordFound(true);
+                          setIsBisModalOpen(true);
+                        }}
+                        className="w-full py-2 px-3 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white rounded-xl text-xs font-bold shadow-md shadow-purple-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                      >
+                        <span>Request CTC Online</span>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -1810,158 +1782,132 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
               {/* ======================================================================= */}
               {/* CARD 4: MAYOR'S PERMIT VERIFICATION - AMBER / ORANGE THEME */}
               {/* ======================================================================= */}
-              <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-amber-50/70 to-orange-50/50 dark:from-[#231405] dark:via-[#331c07] dark:to-[#120a02] border border-amber-200 dark:border-amber-500/40 p-6 sm:p-8 shadow-xl shadow-amber-900/5 dark:shadow-2xl dark:shadow-amber-950/40 group transition-all duration-300">
-                {/* Ambient glow effects */}
-                <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-amber-400/10 dark:bg-amber-500/10 blur-3xl pointer-events-none" />
-                <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-orange-500/10 dark:bg-orange-600/10 blur-3xl pointer-events-none" />
+              <div 
+                className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
+              >
 
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
-                  {/* Left Column: Info & Details */}
-                  <div className="flex-1 space-y-4">
+                <div className="flex flex-col justify-between gap-3.5 relative z-10 flex-1">
+                  {/* Info & Details */}
+                  <div className="space-y-2 min-w-0">
                     {/* Title */}
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                      <h3 className="text-xs sm:text-[13px] font-black text-slate-900 dark:text-white tracking-tight leading-snug">
                         MAYOR'S PERMIT VERIFICATION
                       </h3>
                     </div>
 
                     {/* 5 Information Rows with Circular Icons */}
-                    <div className="space-y-2.5 pt-1">
+                    <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <Users size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <Users size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">
-                            TARGET USERS
-                          </span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">
-                            General public, commercial partners, financial institutions, property owners, and official city inspectors
-                          </p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TARGET USERS</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">General public, partners & city inspectors</p>
                         </div>
                       </div>
 
                       {/* Row 2: Service Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <Briefcase size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <Briefcase size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">
-                            SERVICE METHOD
-                          </span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">
-                            100% Online public verification via Permit No., Business Trade Name, or QR Code photo upload
-                          </p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">SERVICE METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Online verification via Permit No., Trade Name, or QR</p>
                         </div>
                       </div>
 
                       {/* Row 3: Time Period */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <Clock size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <Clock size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">
-                            TIME PERIOD
-                          </span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">
-                            Instantaneous (0 seconds • Real-time live database validation • No waiting time)
-                          </p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TIME PERIOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Instantaneous (Real-time live database validation)</p>
                         </div>
                       </div>
 
                       {/* Row 4: Charges & Payment */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <Banknote size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <Banknote size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">
-                            CHARGES & PAYMENT
-                          </span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">
-                            Free Public Government Service - <span className="text-emerald-700 dark:text-emerald-400 font-bold">₱0.00 No Charge</span>
-                          </p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">CHARGES & PAYMENT</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Free Public Service - <span className="text-emerald-700 dark:text-emerald-400 font-bold">₱0.00 No Charge</span></p>
                         </div>
                       </div>
 
                       {/* Row 5: Payment Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-8 h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <CreditCard size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <CreditCard size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">
-                            PAYMENT METHOD
-                          </span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">
-                            Open Public Access (Free of charge / No payment or subscription required)
-                          </p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">PAYMENT METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Open Public Access (No payment required)</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right Column: Actions & Easy Step-by-Step Callout */}
-                  <div className="w-full lg:w-[420px] xl:w-[460px] shrink-0 flex flex-col justify-between space-y-3">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        resetVerification();
-                        setIsVerificationModalOpen(true);
-                      }}
-                      className="w-full py-3.5 px-5 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 active:scale-[0.99] text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-amber-600/40 transition-all flex items-center justify-center gap-2 cursor-pointer"
-                    >
-                      <Search size={16} />
-                      <span>Verify Business Permit Now (100% Free)</span>
-                    </button>
-
-                    
-
-                    {/* Right: User-Friendly 3-Step Interactive Container */}
-                    <div 
-                      className="p-4 rounded-2xl bg-white/90 dark:bg-black/55 border border-amber-200 dark:border-amber-500/40 backdrop-blur-sm space-y-2.5 select-text shadow-xs dark:shadow-none"
-                    >
+                  {/* Document Upload & Action Section (Placed directly below payment method) */}
+                  <div className="w-full flex flex-col space-y-2 pt-0.5">
+                    {/* User-Friendly 3-Step Interactive Container */}
+                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-amber-200 dark:border-white/10 backdrop-blur-md space-y-1 select-text shadow-xs dark:shadow-none">
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-2 text-xs font-bold text-amber-800 dark:text-amber-300">
-                          <Camera size={15} />
-                          <span>3 Simple Steps to Verify</span>
+                        <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-amber-800 dark:text-amber-300">
+                          <Camera size={12} />
+                          <span>3 Steps to Verify</span>
                         </div>
-                        <span className="text-[10px] text-amber-700 dark:text-amber-300 font-extrabold group-hover:translate-x-0.5 transition-transform">Verify Here</span>
                       </div>
 
                       {/* 3 Step Pills */}
-                      <div className="grid grid-cols-3 gap-1.5 text-center text-[10px]">
-                        <div className="p-1.5 rounded-lg bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-slate-700 dark:text-slate-200">
-                          <span className="font-bold text-amber-700 dark:text-amber-400 block">1. Enter</span>
-                          <span className="text-[9.5px] text-slate-600 dark:text-slate-400">Permit No. or QR</span>
+                      <div className="grid grid-cols-3 gap-1 text-center text-[8.5px]">
+                        <div className="p-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-slate-700 dark:text-slate-200">
+                          <span className="font-bold text-amber-700 dark:text-amber-400 block text-[9px]">1. Enter</span>
+                          <span className="text-[8px] text-slate-600 dark:text-slate-400">Permit/QR</span>
                         </div>
-                        <div className="p-1.5 rounded-lg bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-slate-700 dark:text-slate-200">
-                          <span className="font-bold text-amber-700 dark:text-amber-400 block">2. Check</span>
-                          <span className="text-[9.5px] text-slate-600 dark:text-slate-400">QC Database</span>
+                        <div className="p-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-slate-700 dark:text-slate-200">
+                          <span className="font-bold text-amber-700 dark:text-amber-400 block text-[9px]">2. Check</span>
+                          <span className="text-[8px] text-slate-600 dark:text-slate-400">Database</span>
                         </div>
-                        <div className="p-1.5 rounded-lg bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-slate-700 dark:text-slate-200">
-                          <span className="font-bold text-amber-700 dark:text-amber-400 block">3. Result</span>
-                          <span className="text-[9.5px] text-slate-600 dark:text-slate-400">Official Status</span>
+                        <div className="p-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-slate-700 dark:text-slate-200">
+                          <span className="font-bold text-amber-700 dark:text-amber-400 block text-[9px]">3. Result</span>
+                          <span className="text-[8px] text-slate-600 dark:text-slate-400">Status</span>
                         </div>
                       </div>
 
-                      <div className="flex flex-wrap gap-1.5 pt-0.5">
-                        <span className="px-2 py-0.5 rounded-md bg-amber-100/60 dark:bg-amber-500/10 border border-amber-300 dark:border-amber-400/20 text-[9.5px] font-semibold text-amber-800 dark:text-amber-200 flex items-center gap-1">
-                          <CheckCircle2 size={10} className="text-amber-600 dark:text-amber-400" /> Active Mayor's Permit
+                      <div className="flex flex-wrap gap-1 pt-0.5">
+                        <span className="px-1.5 py-0.5 rounded bg-amber-100/60 dark:bg-amber-500/10 border border-amber-300 dark:border-amber-400/20 text-[8.5px] font-semibold text-amber-800 dark:text-amber-200 flex items-center gap-1">
+                          <CheckCircle2 size={8.5} className="text-amber-600 dark:text-amber-400" /> Active Permit
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-amber-100/60 dark:bg-amber-500/10 border border-amber-300 dark:border-amber-400/20 text-[9.5px] font-semibold text-amber-800 dark:text-amber-200 flex items-center gap-1">
-                          <CheckCircle2 size={10} className="text-amber-600 dark:text-amber-400" /> Sanitary & Health
+                        <span className="px-1.5 py-0.5 rounded bg-amber-100/60 dark:bg-amber-500/10 border border-amber-300 dark:border-amber-400/20 text-[8.5px] font-semibold text-amber-800 dark:text-amber-200 flex items-center gap-1">
+                          <CheckCircle2 size={8.5} className="text-amber-600 dark:text-amber-400" /> Sanitary
                         </span>
-                        <span className="px-2 py-0.5 rounded-md bg-amber-100/60 dark:bg-amber-500/10 border border-amber-300 dark:border-amber-400/20 text-[9.5px] font-semibold text-amber-800 dark:text-amber-200 flex items-center gap-1">
-                          <CheckCircle2 size={10} className="text-amber-600 dark:text-amber-400" /> BFP Fire Safety
-                        </span>
-                        <span className="px-2 py-0.5 rounded-md bg-amber-100/60 dark:bg-amber-500/10 border border-amber-300 dark:border-amber-400/20 text-[9.5px] font-semibold text-amber-800 dark:text-amber-200 flex items-center gap-1">
-                          <CheckCircle2 size={10} className="text-amber-600 dark:text-amber-400" /> Zoning & Environmental
+                        <span className="px-1.5 py-0.5 rounded bg-amber-100/60 dark:bg-amber-500/10 border border-amber-300 dark:border-amber-400/20 text-[8.5px] font-semibold text-amber-800 dark:text-amber-200 flex items-center gap-1">
+                          <CheckCircle2 size={8.5} className="text-amber-600 dark:text-amber-400" /> Fire Safety
                         </span>
                       </div>
+                    </div>
+
+                    {/* Action Button */}
+                    <div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          resetVerification();
+                          setIsVerificationModalOpen(true);
+                        }}
+                        className="w-full py-2 px-3 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 active:scale-[0.99] text-white rounded-xl text-xs font-bold shadow-md shadow-amber-600/30 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                      >
+                        <Search size={13} />
+                        <span>Verify Permit Now (Free)</span>
+                      </button>
                     </div>
                   </div>
                 </div>

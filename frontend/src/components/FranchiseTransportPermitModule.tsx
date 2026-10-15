@@ -648,7 +648,7 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
   });
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
+    <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-800 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
       
       {/* Toast Notification */}
       {toastMessage && (
@@ -662,7 +662,7 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
       {/* 1. STANDALONE TOP HEADER BAR (Hidden in Admin Mode) */}
       {/* ========================================================================= */}
       {!isAdmin && (
-        <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-xs px-4 sm:px-8 py-3.5 transition-colors">
+        <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#0B1220]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/10 shadow-xs px-4 sm:px-8 py-3.5 transition-colors">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
             
             {/* Left: Branding & Back to Portal */}
@@ -784,25 +784,20 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
       )}
 
       {/* ========================================================================= */}
-      {/* 2. FULL-WIDTH HERO SECTION */}
+      {/* 2. FULL-WIDTH HERO SECTION (CENTERED HERO LAYOUT) */}
       {/* ========================================================================= */}
-      <section className="w-full bg-white dark:bg-gradient-to-r dark:from-[#071326] dark:via-[#0E2744] dark:to-[#0A1A2F] text-slate-900 dark:text-white py-7 sm:py-9 px-4 sm:px-8 border-b border-slate-200 dark:border-slate-800 relative overflow-hidden transition-colors">
-        <div className="hidden dark:block absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-600/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="hidden dark:block absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto relative z-10 space-y-3">
-          <div className="space-y-2 max-w-4xl">
-            <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
-              {isAdmin && currentView === 'admin_reviews'
-                ? 'Franchise Permit Review & Fleet Dispatch Workspace'
-                : 'Franchise & Transportation Portal'}
-            </h1>
-            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-3xl leading-relaxed">
-              {isAdmin && currentView === 'admin_reviews'
-                ? 'Review transport franchise applications, evaluate driver credentials, verify LTO OR/CR documents, check route quotas, and issue certified digital QR decals.'
-                : 'Review the official regulatory fee schedule, requirements, and legal bases before proceeding to file your public transport franchise, MTOP, PUV, bus, van, or commercial vehicle permits.'}
-            </p>
-          </div>
+      <section className="w-full bg-transparent text-slate-900 dark:text-white pt-8 pb-4 px-4 sm:px-8 relative transition-colors">
+        <div className="max-w-4xl mx-auto relative z-10 text-center space-y-2">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+            {isAdmin && currentView === 'admin_reviews'
+              ? 'Franchise Permit Review & Fleet Dispatch Workspace'
+              : 'Franchise & Transportation Portal'}
+          </h1>
+          <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed">
+            {isAdmin && currentView === 'admin_reviews'
+              ? 'Review transport franchise applications, evaluate driver credentials, verify LTO OR/CR documents, check route quotas, and issue certified digital QR decals.'
+              : 'Apply for or renew your tricycle MTOP, transport franchise, and route clearance online.'}
+          </p>
         </div>
       </section>
 
@@ -1427,492 +1422,472 @@ Digital Security Cryptographic Hash    : SHA256-MTOP-${f.id}-OFFICIALLY-SEALED
 
 
             {/* ========================================================================= */}
-            {/* 4 INTERACTIVE SERVICE CATEGORY CARDS (MATCHING PICTURE 5 DESIGN) */}
+            {/* 4 INTERACTIVE SERVICE CATEGORY CARDS (2-COLUMN COMPACT GRID) */}
             {/* ========================================================================= */}
-            <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 max-w-4xl mx-auto pt-2">
 
               {/* ======================================================================= */}
-              {/* CARD 1: APPLY FOR MTOP FRANCHISE - BLUE / SKY THEME */}
+              {/* CARD 1: APPLY FOR TRANSPORT & VEHICLE PERMIT (BLUE / SKY THEME) */}
               {/* ======================================================================= */}
               <div 
-                className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-sky-50/70 to-blue-50/50 dark:from-[#061426] dark:via-[#091e38] dark:to-[#030914] border border-sky-200 dark:border-sky-500/40 p-6 sm:p-8 shadow-xl shadow-sky-900/5 dark:shadow-2xl dark:shadow-sky-950/40 group transition-all duration-300 select-text"
+                className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
               >
-                {/* Ambient glow effects */}
-                <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-sky-400/10 dark:bg-sky-500/10 blur-3xl pointer-events-none" />
-                <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-blue-500/10 dark:bg-blue-600/10 blur-3xl pointer-events-none" />
-
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
-                  {/* Left Column: Info & Details */}
-                  <div className="flex-1 space-y-4">
-                    {/* Title */}
+                <div className="flex flex-col justify-between gap-3.5 relative z-10 flex-1">
+                  {/* Info & Details */}
+                  <div className="space-y-2 min-w-0">
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
+                      <h3 className="text-xs sm:text-[13px] font-black text-slate-900 dark:text-white tracking-tight leading-snug">
                         APPLY FOR TRANSPORT & VEHICLE PERMIT
                       </h3>
                     </div>
 
                     {/* 5 Information Rows with Circular Icons */}
-                    <div className="space-y-2.5 pt-1">
+                    <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <Users size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <Users size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TARGET USERS</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">PUV operators, transport cooperatives, fleet owners, MTOP, and commercial vehicle drivers</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TARGET USERS</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">PUV operators, transport cooperatives, fleet owners, MTOP, and commercial drivers</p>
                         </div>
                       </div>
 
                       {/* Row 2: Service Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <Bus size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <Bus size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">SERVICE METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Online application through GovServe</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">SERVICE METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Online application through GovServe</p>
                         </div>
                       </div>
 
                       {/* Row 3: Time Period */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <Clock size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <Clock size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TIME PERIOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">2 to 3 days upon route verification &amp; roadworthiness audit</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TIME PERIOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">2 to 3 days upon route verification &amp; roadworthiness audit</p>
                         </div>
                       </div>
 
                       {/* Row 4: Charges & Payment */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <Banknote size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <Banknote size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">CHARGES &amp; PAYMENT</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">₱1,350.00 Base Regulatory Franchise Tariff + Route Clearance &amp; Verification</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">CHARGES &amp; PAYMENT</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">₱1,350.00 Base Regulatory Franchise Tariff + Route Clearance</p>
                         </div>
                       </div>
 
                       {/* Row 5: Payment Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <CreditCard size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <CreditCard size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">PAYMENT METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Via GovServe online portal</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">PAYMENT METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Via GovServe online portal</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right Column: Actions & Document Upload Callout */}
-                  <div className="w-full lg:w-[400px] xl:w-[450px] shrink-0 flex flex-col justify-between space-y-3">
-                    <div className="space-y-2.5">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setWizardStep(1);
-                          setNewFranchiseSubmitted(false);
-                          setApplicationType('New');
-                          setCurrentView('new_franchise_wizard');
-                        }}
-                        className="w-full py-3.5 px-5 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-blue-600/40 hover:shadow-blue-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
-                      >
-                        <span>Apply for Transport & Vehicle Permit →</span>
-                      </button>
-                    </div>
-
-                    <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-sky-200 dark:border-sky-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-sky-700 dark:text-sky-400">
-                        <Camera size={14} />
+                  {/* Document Upload & Action Section */}
+                  <div className="w-full flex flex-col space-y-2 pt-0.5">
+                    {/* Document Upload Box */}
+                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-sky-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
+                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-sky-700 dark:text-sky-400">
+                        <Camera size={12} />
                         <span>Document Photo &amp; Vehicle Upload Active</span>
                       </div>
-                      <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Upload live photos or clear scans of your LTO OR/CR, Professional Driver's License, transport cooperative/route endorsement, and unit inspection pictures.
+                      <p className="text-[9.5px] text-slate-600 dark:text-slate-400 leading-snug">
+                        Upload live photos or clear scans: LTO OR/CR, Driver's License, route endorsement.
                       </p>
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        <span className="px-2.5 py-1 rounded-md bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-sky-400"></span>LTO OR / CR
+                      <div className="flex flex-wrap gap-1 pt-0.5">
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>LTO OR / CR
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-sky-400"></span>Driver's License
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Driver's License
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-sky-400"></span>Route Endorsement
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Route Endorsement
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-sky-400"></span>Unit Vehicle Photo
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Unit Vehicle Photo
                         </span>
                       </div>
                     </div>
+
+                    {/* Action Button */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setWizardStep(1);
+                        setNewFranchiseSubmitted(false);
+                        setApplicationType('New');
+                        setCurrentView('new_franchise_wizard');
+                      }}
+                      className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <span>Apply for Transport & Vehicle Permit →</span>
+                    </button>
                   </div>
                 </div>
               </div>
 
               {/* ======================================================================= */}
-              {/* CARD 2: ANNUAL FRANCHISE RENEWAL - EMERALD / TEAL THEME */}
+              {/* CARD 2: ANNUAL FRANCHISE RENEWAL (EMERALD / TEAL THEME) */}
               {/* ======================================================================= */}
               <div 
-                className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-emerald-50/70 to-teal-50/50 dark:from-[#06241a] dark:via-[#093527] dark:to-[#03140f] border border-emerald-200 dark:border-emerald-500/40 p-6 sm:p-8 shadow-xl shadow-emerald-900/5 dark:shadow-2xl dark:shadow-emerald-950/40 group transition-all duration-300 select-text"
+                className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
               >
-                {/* Ambient glow effects */}
-                <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-emerald-400/10 dark:bg-emerald-500/10 blur-3xl pointer-events-none" />
-                <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-teal-500/10 dark:bg-teal-600/10 blur-3xl pointer-events-none" />
-
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
-                  {/* Left Column: Info & Details */}
-                  <div className="flex-1 space-y-4">
-                    {/* Title */}
+                <div className="flex flex-col justify-between gap-3.5 relative z-10 flex-1">
+                  {/* Info & Details */}
+                  <div className="space-y-2 min-w-0">
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
+                      <h3 className="text-xs sm:text-[13px] font-black text-slate-900 dark:text-white tracking-tight leading-snug">
                         FRANCHISE RENEWAL
                       </h3>
                     </div>
 
                     {/* 5 Information Rows with Circular Icons */}
-                    <div className="space-y-2.5 pt-1">
+                    <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <Users size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                          <Users size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TARGET USERS</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Registered franchise holders, PUV/MTOP operators, and transport cooperative fleet members</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TARGET USERS</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Registered franchise holders, PUV/MTOP operators, and transport fleet members</p>
                         </div>
                       </div>
 
                       {/* Row 2: Service Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <RefreshCw size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                          <RefreshCw size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">SERVICE METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Online application through GovServe</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">SERVICE METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Online application through GovServe</p>
                         </div>
                       </div>
 
                       {/* Row 3: Time Period */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <Clock size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                          <Clock size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TIME PERIOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">1 to 2 business days upon fleet validation &amp; record audit</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TIME PERIOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">1 to 2 business days upon fleet validation &amp; record audit</p>
                         </div>
                       </div>
 
                       {/* Row 4: Charges & Payment */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <Banknote size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                          <Banknote size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">CHARGES &amp; PAYMENT</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">₱1,250.00 Annual Vehicle Franchise Renewal Regulatory Tariff</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">CHARGES &amp; PAYMENT</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">₱1,250.00 Annual Vehicle Franchise Renewal Regulatory Tariff</p>
                         </div>
                       </div>
 
                       {/* Row 5: Payment Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <CreditCard size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                          <CreditCard size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">PAYMENT METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Via GovServe online portal</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">PAYMENT METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Via GovServe online portal</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right Column: Actions & Document Upload Callout */}
-                  <div className="w-full lg:w-[400px] xl:w-[450px] shrink-0 flex flex-col justify-between space-y-3">
-                    <div className="space-y-2.5">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setRenewalSubmitted(false);
-                          setCurrentView('renewal');
-                        }}
-                        className="w-full py-3.5 px-5 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-emerald-600/40 hover:shadow-emerald-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
-                      >
-                        <span>Renew Transport Franchise →</span>
-                      </button>
-                    </div>
-
-                    <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-emerald-200 dark:border-emerald-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-400">
-                        <Camera size={14} />
+                  {/* Document Upload & Action Section */}
+                  <div className="w-full flex flex-col space-y-2 pt-0.5">
+                    {/* Document Upload Box */}
+                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-emerald-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
+                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-emerald-700 dark:text-emerald-400">
+                        <Camera size={12} />
                         <span>Renewal Documents &amp; QR Sticker Verification Active</span>
                       </div>
-                      <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Upload updated LTO OR/CR, updated Barangay Clearance, Route/Coop validation receipt, and previous Franchise certificate.
+                      <p className="text-[9.5px] text-slate-600 dark:text-slate-400 leading-snug">
+                        Upload updated LTO OR/CR, Barangay Clearance, route/coop receipt, previous franchise.
                       </p>
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>LTO OR / CR
+                      <div className="flex flex-wrap gap-1 pt-0.5">
+                        <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>LTO OR / CR
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Coop / Route Clearance
+                        <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Coop / Route Clearance
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Barangay Clearance
+                        <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Barangay Clearance
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Franchise Decal
+                        <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Franchise Decal
                         </span>
                       </div>
                     </div>
+
+                    {/* Action Button */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setRenewalSubmitted(false);
+                        setCurrentView('renewal');
+                      }}
+                      className="w-full py-2 px-3 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-md shadow-emerald-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <span>Renew Transport Franchise →</span>
+                    </button>
                   </div>
                 </div>
               </div>
 
               {/* ======================================================================= */}
-              {/* CARD 3: AMENDMENT & SUBSTITUTION - PURPLE / FUCHSIA THEME */}
+              {/* CARD 3: AMENDMENT & SUBSTITUTION (PURPLE / FUCHSIA THEME) */}
               {/* ======================================================================= */}
               <div 
-                className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-purple-50/70 to-fuchsia-50/50 dark:from-[#1e0a2e] dark:via-[#2b0f42] dark:to-[#12051c] border border-purple-200 dark:border-purple-500/40 p-6 sm:p-8 shadow-xl shadow-purple-900/5 dark:shadow-2xl dark:shadow-purple-950/40 group transition-all duration-300 select-text"
+                className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
               >
-                {/* Ambient glow effects */}
-                <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-purple-400/10 dark:bg-purple-500/10 blur-3xl pointer-events-none" />
-                <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-fuchsia-500/10 dark:bg-fuchsia-600/10 blur-3xl pointer-events-none" />
-
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
-                  {/* Left Column: Info & Details */}
-                  <div className="flex-1 space-y-4">
-                    {/* Title */}
+                <div className="flex flex-col justify-between gap-3.5 relative z-10 flex-1">
+                  {/* Info & Details */}
+                  <div className="space-y-2 min-w-0">
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
+                      <h3 className="text-xs sm:text-[13px] font-black text-slate-900 dark:text-white tracking-tight leading-snug">
                         AMENDMENT &amp; SUBSTITUTION
                       </h3>
                     </div>
 
                     {/* 5 Information Rows with Circular Icons */}
-                    <div className="space-y-2.5 pt-1">
+                    <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
-                          <Users size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                          <Users size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TARGET USERS</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Franchise holders changing vehicle unit, engine, plate number, or transfer of ownership</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TARGET USERS</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Franchise holders changing vehicle unit, engine, plate number, or transfer of ownership</p>
                         </div>
                       </div>
 
                       {/* Row 2: Service Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
-                          <FileText size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                          <FileText size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">SERVICE METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Online application through GovServe</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">SERVICE METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Online application through GovServe</p>
                         </div>
                       </div>
 
                       {/* Row 3: Time Period */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
-                          <Clock size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                          <Clock size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TIME PERIOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">2 to 3 days upon Legal Office &amp; Traffic Board review</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TIME PERIOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">2 to 3 days upon Legal Office &amp; Traffic Board review</p>
                         </div>
                       </div>
 
                       {/* Row 4: Charges & Payment */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
-                          <Banknote size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                          <Banknote size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">CHARGES &amp; PAYMENT</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">₱900.00 Legal Tariff &amp; Vehicle Unit Substitution Fee</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">CHARGES &amp; PAYMENT</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">₱900.00 Legal Tariff &amp; Vehicle Unit Substitution Fee</p>
                         </div>
                       </div>
 
                       {/* Row 5: Payment Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
-                          <CreditCard size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                          <CreditCard size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">PAYMENT METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Via GovServe online portal</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">PAYMENT METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Via GovServe online portal</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right Column: Actions & Document Upload Callout */}
-                  <div className="w-full lg:w-[400px] xl:w-[450px] shrink-0 flex flex-col justify-between space-y-3">
-                    <div className="space-y-2.5">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setAmendSubmitted(false);
-                          setCurrentView('amendment');
-                        }}
-                        className="w-full py-3.5 px-5 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-purple-600/40 hover:shadow-purple-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
-                      >
-                        <span>File Unit Substitution →</span>
-                      </button>
-                    </div>
-
-                    <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-purple-200 dark:border-purple-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-purple-700 dark:text-purple-400">
-                        <Camera size={14} />
+                  {/* Document Upload & Action Section */}
+                  <div className="w-full flex flex-col space-y-2 pt-0.5">
+                    {/* Document Upload Box */}
+                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-purple-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
+                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-purple-700 dark:text-purple-400">
+                        <Camera size={12} />
                         <span>Legal Deeds &amp; Vehicle Inspection Documents Active</span>
                       </div>
-                      <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Upload notarized Deed of Sale, new engine LTO certificate, physical vehicle inspection photos, and Route/Coop concurrence.
+                      <p className="text-[9.5px] text-slate-600 dark:text-slate-400 leading-snug">
+                        Upload notarized Deed of Sale, new engine LTO certificate, physical vehicle inspection photos.
                       </p>
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        <span className="px-2.5 py-1 rounded-md bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-purple-500 dark:bg-purple-400"></span>Deed of Sale
+                      <div className="flex flex-wrap gap-1 pt-0.5">
+                        <span className="px-1.5 py-0.5 rounded bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-purple-500 dark:bg-purple-400"></span>Deed of Sale
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-purple-500 dark:bg-purple-400"></span>New Engine LTO
+                        <span className="px-1.5 py-0.5 rounded bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-purple-500 dark:bg-purple-400"></span>New Engine LTO
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-purple-500 dark:bg-purple-400"></span>Vehicle Inspection
+                        <span className="px-1.5 py-0.5 rounded bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-purple-500 dark:bg-purple-400"></span>Vehicle Inspection
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-purple-500 dark:bg-purple-400"></span>Route Endorsement
+                        <span className="px-1.5 py-0.5 rounded bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-purple-500 dark:bg-purple-400"></span>Route Endorsement
                         </span>
                       </div>
                     </div>
+
+                    {/* Action Button */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setAmendSubmitted(false);
+                        setCurrentView('amendment');
+                      }}
+                      className="w-full py-2 px-3 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white rounded-xl text-xs font-bold shadow-md shadow-purple-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <span>File Unit Substitution →</span>
+                    </button>
                   </div>
                 </div>
               </div>
 
               {/* ======================================================================= */}
-              {/* CARD 4: SPECIAL TRIP CLEARANCE - AMBER / ORANGE THEME */}
+              {/* CARD 4: SPECIAL TRIP CLEARANCE (AMBER / ORANGE THEME) */}
               {/* ======================================================================= */}
               <div 
-                className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-amber-50/70 to-orange-50/50 dark:from-[#1c1303] dark:via-[#291c05] dark:to-[#0d0902] border border-amber-200 dark:border-amber-500/40 p-6 sm:p-8 shadow-xl shadow-amber-900/5 dark:shadow-2xl dark:shadow-amber-950/40 group transition-all duration-300 select-text"
+                className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
               >
-                {/* Ambient glow effects */}
-                <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-amber-400/10 dark:bg-amber-500/10 blur-3xl pointer-events-none" />
-                <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-orange-500/10 dark:bg-orange-600/10 blur-3xl pointer-events-none" />
-
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
-                  {/* Left Column: Info & Details */}
-                  <div className="flex-1 space-y-4">
-                    {/* Title */}
+                <div className="flex flex-col justify-between gap-3.5 relative z-10 flex-1">
+                  {/* Info & Details */}
+                  <div className="space-y-2 min-w-0">
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight uppercase">
+                      <h3 className="text-xs sm:text-[13px] font-black text-slate-900 dark:text-white tracking-tight leading-snug">
                         SPECIAL TRIP CLEARANCE
                       </h3>
                     </div>
 
                     {/* 5 Information Rows with Circular Icons */}
-                    <div className="space-y-2.5 pt-1">
+                    <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <Users size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <Users size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TARGET USERS</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Operators and groups requesting temporary out-of-zone transit clearance</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TARGET USERS</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Operators and groups requesting temporary out-of-zone transit clearance</p>
                         </div>
                       </div>
 
                       {/* Row 2: Service Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <MapPin size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <MapPin size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">SERVICE METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Online application through GovServe</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">SERVICE METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Online application through GovServe</p>
                         </div>
                       </div>
 
                       {/* Row 3: Time Period */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <Clock size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <Clock size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TIME PERIOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Same-day or within 24 hours approval</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TIME PERIOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Same-day or within 24 hours approval</p>
                         </div>
                       </div>
 
                       {/* Row 4: Charges & Payment */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <Banknote size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <Banknote size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">CHARGES &amp; PAYMENT</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">₱350.00 Standard Pass Fee</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">CHARGES &amp; PAYMENT</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">₱350.00 Standard Pass Fee</p>
                         </div>
                       </div>
 
                       {/* Row 5: Payment Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <CreditCard size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <CreditCard size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">PAYMENT METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Via GovServe online portal</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">PAYMENT METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Via GovServe online portal</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right Column: Actions & Document Upload Callout */}
-                  <div className="w-full lg:w-[400px] xl:w-[450px] shrink-0 flex flex-col justify-between space-y-3">
-                    <div className="space-y-2.5">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setSpecialTripSubmitted(false);
-                          setCurrentView('special_trip');
-                        }}
-                        className="w-full py-3.5 px-5 bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-amber-600/40 hover:shadow-amber-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
-                      >
-                        <span>Request Special Trip Pass →</span>
-                      </button>
-                    </div>
-
-                    <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-amber-200 dark:border-amber-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-amber-700 dark:text-amber-400">
-                        <Camera size={14} />
+                  {/* Document Upload & Action Section */}
+                  <div className="w-full flex flex-col space-y-2 pt-0.5">
+                    {/* Document Upload Box */}
+                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-amber-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
+                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-amber-700 dark:text-amber-400">
+                        <Camera size={12} />
                         <span>Route Itinerary &amp; Special Transit Pass Active</span>
                       </div>
-                      <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Upload special trip destination itinerary, driver identification, passenger manifest, and dispatch clearance.
+                      <p className="text-[9.5px] text-slate-600 dark:text-slate-400 leading-snug">
+                        Upload special trip destination itinerary, driver identification, passenger manifest.
                       </p>
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        <span className="px-2.5 py-1 rounded-md bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400"></span>Trip Itinerary
+                      <div className="flex flex-wrap gap-1 pt-0.5">
+                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>Trip Itinerary
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400"></span>Passenger Manifest
+                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>Passenger Manifest
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400"></span>Driver ID
+                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>Driver ID
                         </span>
-                        <span className="px-2.5 py-1 rounded-md bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400"></span>Dispatch Slip
+                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>Dispatch Slip
                         </span>
                       </div>
                     </div>
+
+                    {/* Action Button */}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSpecialTripSubmitted(false);
+                        setCurrentView('special_trip');
+                      }}
+                      className="w-full py-2 px-3 bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-white rounded-xl text-xs font-bold shadow-md shadow-amber-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                    >
+                      <span>Request Special Trip Pass →</span>
+                    </button>
                   </div>
                 </div>
               </div>

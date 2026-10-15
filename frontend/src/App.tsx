@@ -345,12 +345,23 @@ function GovServePortal() {
     permitTypeParam: string = 'Business Permit',
     extraDetails?: Partial<CreateApplicationPayload>
   ) => {
+    let applicantName: string = user?.name || 'Citizen Applicant';
+    let businessName: string = applicantName;
+    let permitType: string = permitTypeParam;
+    let address: string = 'Poblacion District, Laguna';
+    let contact: string = '+63 917 000 0000';
     const isObject = typeof applicantOrData === 'object' && applicantOrData !== null;
-    const applicantName = isObject ? (applicantOrData.applicant || user?.name || 'Citizen Applicant') : (applicantOrData || user?.name || 'Citizen Applicant');
-    const businessName = isObject ? (applicantOrData.businessName || applicantName) : (applicantName);
-    const permitType = isObject ? (applicantOrData.type || permitTypeParam) : permitTypeParam;
-    const address = isObject ? (applicantOrData.address || 'Poblacion District, Laguna') : 'Poblacion District, Laguna';
-    const contact = isObject ? (applicantOrData.contact || '+63 917 000 0000') : '+63 917 000 0000';
+
+    if (typeof applicantOrData === 'string') {
+      applicantName = applicantOrData || applicantName;
+      businessName = applicantName;
+    } else if (isObject) {
+      applicantName = applicantOrData.applicant || user?.name || 'Citizen Applicant';
+      businessName = applicantOrData.businessName || applicantName;
+      permitType = applicantOrData.type || permitTypeParam;
+      address = applicantOrData.address || address;
+      contact = applicantOrData.contact || contact;
+    }
 
     const randomNum = Math.floor(10000 + Math.random() * 90000);
     const prefix = permitType.includes('Building') ? 'BC' : 
@@ -874,7 +885,7 @@ function GovServePortal() {
     activeTab === 'Application Status Tracking'
   )) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
+      <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
         <CitizenPermitPortal 
           onNavigateToTab={(tab) => setActiveTab(tab)}
           applications={applications}

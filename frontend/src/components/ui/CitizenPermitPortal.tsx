@@ -442,12 +442,12 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
   });
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-100 flex flex-col font-sans selection:bg-blue-500 selection:text-white transition-colors duration-200">
+    <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-800 dark:text-slate-100 flex flex-col font-sans selection:bg-blue-500 selection:text-white transition-colors duration-200">
       
       {/* ========================================================================= */}
       {/* 1. STANDALONE PORTAL TOP HEADER BAR */}
       {/* ========================================================================= */}
-      <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-xs px-4 sm:px-8 py-3.5 transition-colors">
+      <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#0B1220]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/10 shadow-xs px-4 sm:px-8 py-3.5 transition-colors">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
           
           {/* Left: LGU Portal Branding */}
@@ -537,125 +537,82 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
       </header>
 
       {/* ========================================================================= */}
-      {/* 2. FULL-WIDTH HERO SECTION (COMPACT & SLEEK HEIGHT) */}
+      {/* 2. FULL-WIDTH HERO SECTION (CENTERED HERO LAYOUT) */}
       {/* ========================================================================= */}
-      <section className="w-full bg-white dark:bg-gradient-to-r dark:from-[#071326] dark:via-[#0E2744] dark:to-[#0A1A2F] text-slate-900 dark:text-white py-7 sm:py-9 px-4 sm:px-8 border-b border-slate-200 dark:border-slate-800 relative overflow-hidden transition-colors">
-        <div className="hidden dark:block absolute top-0 right-0 w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="hidden dark:block absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-emerald-600/10 rounded-full blur-3xl pointer-events-none" />
+      <section className="w-full bg-transparent text-slate-900 dark:text-white pt-8 pb-4 px-4 sm:px-8 relative transition-colors">
+        <div className="max-w-4xl mx-auto text-center space-y-2.5">
+          {/* Centered Main Heading */}
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+            {language === 'tl' ? 'Maligayang pagdating sa E-Permit Portal,' : 'Welcome to the E-Permit Portal,'}{' '}
+            <span className="text-blue-600 dark:text-blue-400">{user?.name || (language === 'tl' ? 'Mamamayan' : 'Citizen')}</span>!
+          </h1>
 
-        <div className="max-w-7xl mx-auto relative z-10 space-y-4 sm:space-y-5">
-          {/* Heading & Subtitle */}
-          <div className="space-y-2 max-w-4xl">
-            <h1 className="text-2xl sm:text-4xl lg:text-[40px] font-black tracking-tight text-slate-900 dark:text-white leading-tight">
-              {t('hero_welcome', 'Welcome to the LGU E-Permit Portal,')} <span className="text-blue-600 dark:text-blue-400">{user?.name || (language === 'tl' ? 'Mamamayan' : 'Citizen')}</span>!
-            </h1>
-            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-3xl leading-relaxed">
-              {t('hero_description', 'Select your required government permit category below to start a new application, submit required documents, schedule inspections, or renew an existing license.')}
-            </p>
-          </div>
-
-          {/* Compact Search & Action Controls */}
-          <div className="pt-1 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-3xl">
-            <div className="relative flex-1">
-              <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input
-                type="text"
-                placeholder={t('search_placeholder', 'Search permit type (e.g. Business Permit, Building Clearances, MTOP)...')}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 sm:py-3 bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-700 rounded-2xl text-xs text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white dark:focus:bg-slate-900 transition-colors shadow-xs"
-              />
-              {searchQuery && (
-                <button onClick={() => setSearchQuery('')} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 dark:hover:text-white cursor-pointer">
-                  <X size={15} />
-                </button>
-              )}
-            </div>
-
-
-          </div>
+          {/* Centered Concise Subtitle */}
+          <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed">
+            {language === 'tl'
+              ? 'Pumili ng permit category sa ibaba upang magsumite ng bagong aplikasyon, mag-upload ng requirements, o mag-track ng lisensya.'
+              : 'Select your required government permit category below to start a new application, submit required documents, schedule inspections, or renew an existing license.'}
+          </p>
         </div>
       </section>
 
       {/* ========================================================================= */}
       {/* 3. MAIN PORTAL BODY CONTAINER */}
       {/* ========================================================================= */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-10 space-y-4 bg-transparent">
 
         {/* ========================================================================= */}
-        {/* PERMIT MODULE CARDS WITH REAL-TIME LIVE FILTERING */}
+        {/* PERMIT MODULE CARDS */}
         {/* ========================================================================= */}
-        <div className="space-y-5">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <div>
-              <div className="flex items-center space-x-2.5">
-                <h2 className="text-sm sm:text-base font-extrabold uppercase tracking-wider text-slate-900 dark:text-white">
-                  {t('services_heading', 'Permit & Clearance Services')}
-                </h2>
-                {searchQuery && (
-                  <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
-                    {filteredServices.length} {filteredServices.length === 1 ? (language === 'tl' ? 'serbisyo ang nahanap' : 'result found') : (language === 'tl' ? 'mga serbisyo ang nahanap' : 'results found')}
-                  </span>
-                )}
-              </div>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                {searchQuery 
-                  ? (language === 'tl' ? `Ipinapakita ang mga permit na tumutugma sa "${searchQuery}"` : `Showing permit services matching "${searchQuery}"`) 
-                  : t('services_subheading', 'Choose a permit category to launch the interactive application filing wizard')}
-              </p>
-            </div>
-
-            {searchQuery && (
-              <button
-                onClick={() => setSearchQuery('')}
-                className="self-start sm:self-auto text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline flex items-center space-x-1 cursor-pointer"
-              >
-                <X size={13} />
-                <span>{t('clear_search', 'Clear search')}</span>
-              </button>
-            )}
+        <div className="space-y-4">
+          <div className="flex items-center justify-between px-1">
+            <h2 className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-400">
+              {t('services_heading', 'Permit & Clearance Services')}
+            </h2>
+            <span className="text-[11px] font-semibold text-blue-600 dark:text-blue-300 bg-blue-50 dark:bg-white/[0.06] border border-blue-200 dark:border-white/10 px-2.5 py-0.5 rounded-full shadow-xs">
+              {filteredServices.length} {language === 'tl' ? 'mga serbisyo' : 'services available'}
+            </span>
           </div>
 
           {filteredServices.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="flex flex-wrap justify-center gap-3.5 sm:gap-4">
               {filteredServices.map((service) => {
                 const IconComponent = service.icon;
                 return (
                   <div
                     key={service.id}
-                    className={`bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-md hover:shadow-xl ${service.accent.borderHover} transition-all p-7 flex flex-col justify-between group relative overflow-hidden`}
+                    className="glass-card w-full md:w-[calc((100%-1rem)/2)] lg:w-[calc((100%-2rem)/3)] rounded-2xl p-4 sm:p-5 flex flex-col justify-between group relative overflow-hidden"
                   >
-                    <div className={`absolute top-0 right-0 w-36 h-36 ${service.accent.bgGlow} rounded-full blur-2xl pointer-events-none transition-all`} />
 
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <div className={`w-14 h-14 rounded-2xl ${service.accent.iconBox} flex items-center justify-center border shadow-xs group-hover:scale-105 transition-transform`}>
-                          <IconComponent size={28} />
+                        <div className={`w-10 h-10 rounded-xl ${service.accent.iconBox} flex items-center justify-center border shadow-xs group-hover:scale-105 transition-transform`}>
+                          <IconComponent size={20} />
                         </div>
-                        <span className={`px-3 py-1 rounded-full text-[10px] font-bold ${service.accent.badge}`}>
+                        <span className={`px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wide uppercase ${service.accent.badge}`}>
                           {service.category}
                         </span>
                       </div>
 
                       <div>
-                        <h3 className={`text-xl font-black text-slate-900 dark:text-white ${service.accent.titleHover} tracking-tight transition-colors`}>
+                        <h3 className={`text-base font-bold text-slate-900 dark:text-white ${service.accent.titleHover} tracking-tight transition-colors`}>
                           {service.title}
                         </h3>
                       </div>
 
                       {service.id === 'business' ? (
                         /* 4 Core Business Permitting Services */
-                        <div className="space-y-3.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                        <div className="space-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
                           {/* 1. APPLY FOR MAYOR'S PERMIT (BUSINESS) */}
                           <div 
                             onClick={() => onNavigateToTab('Business Permit Application')}
-                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <Building2 size={18} />
+                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <Building2 size={14} />
                             </div>
-                            <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                            <div className="select-text min-w-0">
+                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
                                 APPLY FOR MAYOR'S PERMIT (BUSINESS)
                               </h4>
                             </div>
@@ -664,13 +621,13 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                           {/* 2. APPLY FOR OCCUPATIONAL / WORK PERMIT */}
                           <div 
                             onClick={() => onNavigateToTab('Business Permit Application')}
-                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <Users size={18} />
+                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <Users size={14} />
                             </div>
-                            <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                            <div className="select-text min-w-0">
+                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
                                 APPLY FOR OCCUPATIONAL / WORK PERMIT
                               </h4>
                             </div>
@@ -679,13 +636,13 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                           {/* 3. BUSINESS INFORMATION SYSTEM */}
                           <div 
                             onClick={() => onNavigateToTab('Business Permit Application')}
-                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <FileText size={18} />
+                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <FileText size={14} />
                             </div>
-                            <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                            <div className="select-text min-w-0">
+                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
                                 BUSINESS INFORMATION SYSTEM
                               </h4>
                             </div>
@@ -694,31 +651,31 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                           {/* 4. MAYOR'S PERMIT VERIFICATION */}
                           <div 
                             onClick={() => onNavigateToTab('Business Permit Application')}
-                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <ShieldCheck size={18} />
+                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <ShieldCheck size={14} />
                             </div>
-                            <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                            <div className="select-text min-w-0">
+                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
                                 MAYOR'S PERMIT VERIFICATION
                               </h4>
                             </div>
                           </div>
                         </div>
                       ) : service.id === 'building' ? (
-                        /* 3 Core Building Permitting Services (Picture 2, 3, 4) */
-                        <div className="space-y-3.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                        /* 3 Core Building Permitting Services */
+                        <div className="space-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
                           {/* 1. APPLY FOR BUILDING PERMIT */}
                           <div 
                             onClick={() => onNavigateToTab('Building Permit Filing')}
-                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <Building size={18} />
+                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <Building size={14} />
                             </div>
-                            <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                            <div className="select-text min-w-0">
+                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
                                 APPLY FOR BUILDING PERMIT
                               </h4>
                             </div>
@@ -727,13 +684,13 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                           {/* 2. BUILDING PROFESSIONALS DASHBOARD */}
                           <div 
                             onClick={() => onNavigateToTab('Building Permit Filing')}
-                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <HardHat size={18} />
+                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <HardHat size={14} />
                             </div>
-                            <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                            <div className="select-text min-w-0">
+                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
                                 BUILDING PROFESSIONALS DASHBOARD
                               </h4>
                             </div>
@@ -742,13 +699,13 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                           {/* 3. CHECKLIST OF REQUIREMENTS */}
                           <div 
                             onClick={() => onNavigateToTab('Building Permit Filing')}
-                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <FileCheck size={18} />
+                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <FileCheck size={14} />
                             </div>
-                            <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                            <div className="select-text min-w-0">
+                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
                                 CHECKLIST OF REQUIREMENTS
                               </h4>
                             </div>
@@ -756,17 +713,17 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                         </div>
                       ) : service.id === 'transport' ? (
                         /* 4 Core Transport Permitting Services */
-                        <div className="space-y-3.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                        <div className="space-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
                           {/* 1. APPLY FOR TRANSPORT & VEHICLE PERMIT */}
                           <div 
                             onClick={() => onNavigateToTab('Franchise Permit Filing')}
-                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <Bus size={18} />
+                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <Bus size={14} />
                             </div>
-                            <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                            <div className="select-text min-w-0">
+                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
                                 APPLY FOR TRANSPORT &amp; VEHICLE PERMIT
                               </h4>
                             </div>
@@ -775,13 +732,13 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                           {/* 2. FRANCHISE RENEWAL */}
                           <div 
                             onClick={() => onNavigateToTab('Franchise Annual Renewal')}
-                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <RefreshCw size={18} />
+                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <RefreshCw size={14} />
                             </div>
-                            <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                            <div className="select-text min-w-0">
+                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
                                 FRANCHISE RENEWAL
                               </h4>
                             </div>
@@ -790,13 +747,13 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                           {/* 3. AMENDMENT & SUBSTITUTION */}
                           <div 
                             onClick={() => onNavigateToTab('Franchise Amendment')}
-                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <FileText size={18} />
+                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <FileText size={14} />
                             </div>
-                            <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                            <div className="select-text min-w-0">
+                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
                                 AMENDMENT &amp; SUBSTITUTION
                               </h4>
                             </div>
@@ -805,31 +762,31 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                           {/* 4. SPECIAL TRIP CLEARANCE */}
                           <div 
                             onClick={() => onNavigateToTab('Special Trip Clearance')}
-                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <ShieldCheck size={18} />
+                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <ShieldCheck size={14} />
                             </div>
-                            <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                            <div className="select-text min-w-0">
+                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
                                 SPECIAL TRIP CLEARANCE
                               </h4>
                             </div>
                           </div>
                         </div>
                       ) : service.id === 'barangay' ? (
-                        /* 4 Core Barangay Permitting Services (User Reference Cards) */
-                        <div className="space-y-3.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                        /* 4 Core Barangay Permitting Services */
+                        <div className="space-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
                           {/* 1. APPLY FOR BARANGAY CLEARANCE */}
                           <div 
                             onClick={() => onNavigateToTab('Barangay Permit Integration')}
-                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <ShieldCheck size={18} />
+                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <ShieldCheck size={14} />
                             </div>
-                            <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                            <div className="select-text min-w-0">
+                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
                                 APPLY FOR BARANGAY CLEARANCE
                               </h4>
                             </div>
@@ -838,13 +795,13 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                           {/* 2. BARANGAY CONSTRUCTION ENDORSEMENT */}
                           <div 
                             onClick={() => onNavigateToTab('Barangay Permit Integration')}
-                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <Building size={18} />
+                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <Building size={14} />
                             </div>
-                            <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                            <div className="select-text min-w-0">
+                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
                                 BARANGAY CONSTRUCTION ENDORSEMENT
                               </h4>
                             </div>
@@ -853,13 +810,13 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                           {/* 3. COMMUNITY TAX CERTIFICATE (CEDULA CTC) */}
                           <div 
                             onClick={() => onNavigateToTab('Barangay Permit Integration')}
-                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <FileText size={18} />
+                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <FileText size={14} />
                             </div>
-                            <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                            <div className="select-text min-w-0">
+                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
                                 COMMUNITY TAX CERTIFICATE (CEDULA CTC)
                               </h4>
                             </div>
@@ -868,13 +825,13 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                           {/* 4. BARANGAY RESIDENCY CLEARANCE */}
                           <div 
                             onClick={() => onNavigateToTab('Barangay Permit Integration')}
-                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <Users size={18} />
+                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <Users size={14} />
                             </div>
-                            <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                            <div className="select-text min-w-0">
+                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
                                 BARANGAY RESIDENCY CLEARANCE
                               </h4>
                             </div>
@@ -882,17 +839,17 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                         </div>
                       ) : (
                         /* 4 Core Permit Tracker Services */
-                        <div className="space-y-3.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                        <div className="space-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
                           {/* 1. BUSINESS PERMIT TRACKER */}
                           <div 
                             onClick={() => onNavigateToTab('E-Permit Tracker')}
-                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <Building2 size={18} />
+                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <Building2 size={14} />
                             </div>
-                            <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                            <div className="select-text min-w-0">
+                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
                                 BUSINESS PERMIT TRACKER
                               </h4>
                             </div>
@@ -901,13 +858,13 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                           {/* 2. BUILDING & CONSTRUCTION PERMIT TRACKER */}
                           <div 
                             onClick={() => onNavigateToTab('E-Permit Tracker')}
-                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <Building size={18} />
+                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <Building size={14} />
                             </div>
-                            <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                            <div className="select-text min-w-0">
+                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
                                 BUILDING &amp; CONSTRUCTION PERMIT TRACKER
                               </h4>
                             </div>
@@ -916,13 +873,13 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                           {/* 3. FRANCHISE & TRANSPORT PERMIT TRACKER */}
                           <div 
                             onClick={() => onNavigateToTab('E-Permit Tracker')}
-                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <Bus size={18} />
+                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <Bus size={14} />
                             </div>
-                            <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                            <div className="select-text min-w-0">
+                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
                                 FRANCHISE &amp; TRANSPORT PERMIT TRACKER
                               </h4>
                             </div>
@@ -931,13 +888,13 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                           {/* 4. BARANGAY PERMIT TRACKER */}
                           <div 
                             onClick={() => onNavigateToTab('E-Permit Tracker')}
-                            className="flex items-center space-x-3.5 cursor-pointer group/item"
+                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
-                            <div className="w-10 h-10 rounded-full bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <ShieldCheck size={18} />
+                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
+                              <ShieldCheck size={14} />
                             </div>
-                            <div className="select-text">
-                              <h4 className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors">
+                            <div className="select-text min-w-0">
+                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
                                 BARANGAY PERMIT TRACKER
                               </h4>
                             </div>
@@ -947,15 +904,13 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                     </div>
 
                     {/* Actions */}
-                    <div className="mt-7 pt-4 border-t border-slate-100 dark:border-slate-800 space-y-2.5">
+                    <div className="mt-3.5 pt-2.5 border-t border-slate-100 dark:border-slate-800">
                       <button
                         onClick={() => onNavigateToTab(service.primaryTab)}
-                        className={`w-full py-3.5 ${service.accent.primaryBtn} rounded-2xl text-xs font-bold transition-all flex items-center justify-center cursor-pointer`}
+                        className={`w-full py-2.5 ${service.accent.primaryBtn} rounded-xl text-xs font-bold transition-all flex items-center justify-center cursor-pointer shadow-xs active:scale-[0.99]`}
                       >
                         <span>{service.primaryBtnText.replace(/→\s*$/, '').trim()}</span>
                       </button>
-
-
                     </div>
                   </div>
                 );

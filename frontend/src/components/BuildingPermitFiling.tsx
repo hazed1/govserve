@@ -1486,7 +1486,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
   });
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
+    <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-200">
       
       {/* Toast Notification */}
       {toastMessage && (
@@ -1500,7 +1500,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
       {/* 1. CITIZEN STANDALONE TOP HEADER BAR (Hidden in Admin Mode to prevent duplicate headers) */}
       {/* ========================================================================= */}
       {!isAdmin && (
-        <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-xs px-4 sm:px-8 py-3.5 transition-colors">
+        <header className="sticky top-0 z-40 bg-white/90 dark:bg-[#0B1220]/90 backdrop-blur-md border-b border-slate-200 dark:border-white/10 shadow-xs px-4 sm:px-8 py-3.5 transition-colors">
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
             
             {/* Left: Branding & Back to Portal */}
@@ -1610,15 +1610,12 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
       )}
 
       {/* ========================================================================= */}
-      {/* 2. FULL-WIDTH HERO SECTION */}
+      {/* 2. FULL-WIDTH HERO SECTION (CENTERED HERO LAYOUT) */}
       {/* ========================================================================= */}
-      <section className="w-full bg-white dark:bg-gradient-to-r dark:from-[#071326] dark:via-[#0E2744] dark:to-[#0A1A2F] text-slate-900 dark:text-white py-7 sm:py-8 px-4 sm:px-8 border-b border-slate-200 dark:border-slate-800 relative overflow-hidden transition-colors">
-        <div className="hidden dark:block absolute top-0 right-0 w-[500px] h-[500px] bg-amber-600/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="hidden dark:block absolute bottom-0 left-1/4 w-[400px] h-[400px] bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto relative z-10 space-y-3">
+      <section className="w-full bg-transparent text-slate-900 dark:text-white pt-8 pb-4 px-4 sm:px-8 relative transition-colors">
+        <div className="max-w-4xl mx-auto relative z-10 space-y-3">
           {currentView !== 'preview' && currentView !== 'admin_reviews' && (
-            <div className="flex justify-end">
+            <div className="flex justify-start sm:justify-end">
               <button
                 onClick={() => setCurrentView('preview')}
                 className="px-4 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shadow-md"
@@ -1629,19 +1626,17 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
             </div>
           )}
 
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="space-y-1.5 max-w-3xl">
-              <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
-                {currentView === 'admin_reviews' 
-                  ? 'Building Permit Reviews' 
-                  : 'Building Permit & Construction Portal'}
-              </h1>
-              <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed">
-                {currentView === 'admin_reviews'
-                  ? 'Engineering and architectural compliance review queue for submitted building permits.'
-                  : 'Review the official regulatory fee schedule, engineering clearance assessments, and mandatory documentary requirements under the National Building Code of the Philippines (P.D. 1096).'}
-              </p>
-            </div>
+          <div className="text-center space-y-2">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+              {currentView === 'admin_reviews' 
+                ? 'Building Permit Reviews' 
+                : 'Building Permit & Construction Portal'}
+            </h1>
+            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed">
+              {currentView === 'admin_reviews'
+                ? 'Engineering and architectural compliance review queue for submitted building permits.'
+                : 'Apply for building permits, submit architectural blueprints, and review official engineering fee schedules.'}
+            </p>
           </div>
         </div>
       </section>
@@ -1658,92 +1653,113 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
           <div className="space-y-8 animate-in fade-in pb-12">
             
             {/* ========================================================================= */}
-            {/* 3 CORE SERVICES (RICH HORIZONTAL CARDS MATCHING PICTURE 2 DESIGN) */}
+            {/* 3 CORE SERVICES (2-COLUMN COMPACT GRID) */}
             {/* ========================================================================= */}
-            <div className="space-y-5 sm:space-y-6 max-w-6xl mx-auto pt-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 max-w-4xl mx-auto pt-2">
               
               {/* ======================================================================= */}
-              {/* CARD 1: APPLY FOR BUILDING PERMIT (PERMIT APPLICATIONS) - BLUE / SKY THEME */}
+              {/* CARD 1: APPLY FOR BUILDING PERMIT (BLUE / SKY THEME) */}
               {/* ======================================================================= */}
               <div 
-                className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-sky-50/70 to-blue-50/50 dark:from-[#061426] dark:via-[#091e38] dark:to-[#030914] border border-sky-200 dark:border-sky-500/40 p-6 sm:p-8 shadow-xl shadow-sky-900/5 dark:shadow-2xl dark:shadow-sky-950/40 group transition-all duration-300 select-text"
+                className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
               >
-                {/* Ambient glow effects */}
-                <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-sky-400/10 dark:bg-sky-500/10 blur-3xl pointer-events-none" />
-                <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-blue-500/10 dark:bg-blue-600/10 blur-3xl pointer-events-none" />
-
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
-                  {/* Left Column: Info & Details */}
-                  <div className="flex-1 space-y-4">
-                    {/* Title */}
+                <div className="flex flex-col justify-between gap-3.5 relative z-10 flex-1">
+                  {/* Info & Details */}
+                  <div className="space-y-2 min-w-0">
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                      <h3 className="text-xs sm:text-[13px] font-black text-slate-900 dark:text-white tracking-tight leading-snug">
                         APPLY FOR BUILDING PERMIT
                       </h3>
                     </div>
 
                     {/* 5 Information Rows with Circular Icons */}
-                    <div className="space-y-2.5 pt-1">
+                    <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <Users size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <Users size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TARGET USERS</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Property Owners, Real Estate Developers, &amp; Authorized Representatives</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TARGET USERS</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Property Owners, Real Estate Developers &amp; Representatives</p>
                         </div>
                       </div>
 
                       {/* Row 2: Service Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <Briefcase size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <Briefcase size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">SERVICE METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Online application through GovServe</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">SERVICE METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Online application through GovServe</p>
                         </div>
                       </div>
 
                       {/* Row 3: Time Period */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <Clock size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <Clock size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TIME PERIOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">5 to 7 days upon joint engineering &amp; FSEC review</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TIME PERIOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">5 to 7 days upon joint engineering &amp; FSEC review</p>
                         </div>
                       </div>
 
                       {/* Row 4: Charges & Payment */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <Banknote size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <Banknote size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">CHARGES &amp; PAYMENT</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Assessed per total floor area (sqm) under National Building Code</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">CHARGES &amp; PAYMENT</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Assessed per sqm under National Building Code</p>
                         </div>
                       </div>
 
                       {/* Row 5: Payment Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <CreditCard size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
+                          <CreditCard size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">PAYMENT METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Via GovServe online portal</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">PAYMENT METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Via GovServe online portal</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right Column: Actions & Document Upload Callout */}
-                  <div className="w-full lg:w-[400px] xl:w-[450px] shrink-0 flex flex-col justify-between space-y-3">
-                    <div className="space-y-2.5">
+                  {/* Document Upload & Action Section */}
+                  <div className="w-full flex flex-col space-y-2 pt-0.5">
+                    {/* Document Upload Box */}
+                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-sky-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
+                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-sky-700 dark:text-sky-400">
+                        <Camera size={12} />
+                        <span>Document Photo &amp; Blueprint Upload Active</span>
+                      </div>
+                      <p className="text-[9.5px] text-slate-600 dark:text-slate-400 leading-snug">
+                        Upload live photos or blueprints: Architectural, Structural, Lot TCT.
+                      </p>
+                      <div className="flex flex-wrap gap-1 pt-0.5">
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Architectural
+                        </span>
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Structural
+                        </span>
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Lot TCT
+                        </span>
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Barangay
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Action Button */}
+                    <div>
                       <button
                         type="button"
                         onClick={(e) => {
@@ -1752,121 +1768,118 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                           setPermitModalActiveView('catalog');
                           setSelectedPermitForModal(null);
                         }}
-                        className="w-full py-3.5 px-5 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-blue-600/40 hover:shadow-blue-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
+                        className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                       >
-                        <span>Apply for Building Permit →</span>
+                        <span>Apply for Building Permit</span>
                       </button>
-                    </div>
-
-                    <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-sky-200 dark:border-sky-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-sky-700 dark:text-sky-400">
-                        <Camera size={14} />
-                        <span>Document Photo &amp; Blueprint Upload Active</span>
-                      </div>
-                      <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Upload live photos or blueprints of your Architectural Plans, Structural Computations, Sanitary/Plumbing, and Lot TCT.
-                      </p>
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        <span className="px-2.5 py-1 rounded-md bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-sky-400"></span>Architectural Plan
-                        </span>
-                        <span className="px-2.5 py-1 rounded-md bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-sky-400"></span>Structural Specs
-                        </span>
-                        <span className="px-2.5 py-1 rounded-md bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-sky-400"></span>Lot TCT / Tax Dec
-                        </span>
-                        <span className="px-2.5 py-1 rounded-md bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-sky-500 dark:bg-sky-400"></span>Barangay Clearance
-                        </span>
-                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* ======================================================================= */}
-              {/* CARD 2: PROFESSIONALS DASHBOARD - AMBER / GOLD THEME */}
+              {/* CARD 2: PROFESSIONALS DASHBOARD (AMBER / GOLD THEME) */}
               {/* ======================================================================= */}
               <div 
-                className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-amber-50/70 to-orange-50/50 dark:from-[#1a1204] dark:via-[#291d07] dark:to-[#0d0902] border border-amber-200 dark:border-amber-500/40 p-6 sm:p-8 shadow-xl shadow-amber-900/5 dark:shadow-2xl dark:shadow-amber-950/40 group transition-all duration-300 select-text"
+                className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
               >
-                {/* Ambient glow effects */}
-                <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-amber-400/10 dark:bg-amber-500/10 blur-3xl pointer-events-none" />
-                <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-orange-500/10 dark:bg-orange-600/10 blur-3xl pointer-events-none" />
-
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
-                  {/* Left Column: Info & Details */}
-                  <div className="flex-1 space-y-4">
-                    {/* Title */}
+                <div className="flex flex-col justify-between gap-3.5 relative z-10 flex-1">
+                  {/* Info & Details */}
+                  <div className="space-y-2 min-w-0">
                     <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                      <h3 className="text-xs sm:text-[13px] font-black text-slate-900 dark:text-white tracking-tight leading-snug">
                         BUILDING PROFESSIONALS DASHBOARD
                       </h3>
                     </div>
 
                     {/* 5 Information Rows with Circular Icons */}
-                    <div className="space-y-2.5 pt-1">
+                    <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <Users size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <Users size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TARGET USERS</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Licensed Architects, Civil Engineers, Master Plumbers, PEE, PME, &amp; PRC Professionals</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TARGET USERS</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Licensed Architects, Civil Engineers, Master Plumbers &amp; PRC</p>
                         </div>
                       </div>
 
                       {/* Row 2: Service Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <Briefcase size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <Briefcase size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">SERVICE METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Online accreditation &amp; registry through GovServe</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">SERVICE METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Online accreditation &amp; registry through GovServe</p>
                         </div>
                       </div>
 
                       {/* Row 3: Time Period */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <Clock size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <Clock size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TIME PERIOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Real-time validation against the GovServe Accredited Professionals Directory</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TIME PERIOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Real-time validation against Accredited Directory</p>
                         </div>
                       </div>
 
                       {/* Row 4: Charges & Payment */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <Banknote size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <Banknote size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">CHARGES &amp; PAYMENT</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Free enrollment and digital registry verification</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">CHARGES &amp; PAYMENT</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Free enrollment and digital registry verification</p>
                         </div>
                       </div>
 
                       {/* Row 5: Payment Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
-                          <CreditCard size={14} />
+                      <div className="flex items-start gap-2.5">
+                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                          <CreditCard size={11} />
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">PAYMENT METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Via GovServe online portal (Free official service)</p>
+                        <div className="min-w-0">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">PAYMENT METHOD</span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Via GovServe online portal (Free service)</p>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right Column: Actions & Document Upload Callout */}
-                  <div className="w-full lg:w-[400px] xl:w-[450px] shrink-0 flex flex-col justify-between space-y-3">
-                    <div className="space-y-2.5">
+                  {/* Document Upload & Action Section */}
+                  <div className="w-full flex flex-col space-y-2 pt-0.5">
+                    {/* Document Upload Box */}
+                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-amber-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
+                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-amber-700 dark:text-amber-400">
+                        <HardHat size={12} />
+                        <span>PRC License &amp; Digital Seal Active</span>
+                      </div>
+                      <p className="text-[9.5px] text-slate-600 dark:text-slate-400 leading-snug">
+                        Verify PRC License Card, current year PTR, and digital dry seal.
+                      </p>
+                      <div className="flex flex-wrap gap-1 pt-0.5">
+                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>PRC Card
+                        </span>
+                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>Current PTR
+                        </span>
+                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>Signature
+                        </span>
+                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>Registry
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Action Button */}
+                    <div>
                       <button
                         type="button"
                         onClick={(e) => {
@@ -1874,154 +1887,129 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                           setProfModalView('landing');
                           setProfessionalsModalOpen(true);
                         }}
-                        className="w-full py-3.5 px-5 bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-amber-600/40 hover:shadow-amber-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
+                        className="w-full py-2 px-3 bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-white rounded-xl text-xs font-bold shadow-md shadow-amber-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                       >
-                        <span>Professionals Dashboard →</span>
+                        <span>Professionals Dashboard</span>
                       </button>
-                    </div>
-
-                    <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-amber-200 dark:border-amber-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-amber-700 dark:text-amber-400">
-                        <HardHat size={14} />
-                        <span>PRC License &amp; Digital Seal Verification Active</span>
-                      </div>
-                      <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Verify and link your PRC License Card, current year PTR Official Receipt, and digital dry seal accreditation.
-                      </p>
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        <span className="px-2.5 py-1 rounded-md bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400"></span>PRC License Card
-                        </span>
-                        <span className="px-2.5 py-1 rounded-md bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400"></span>Current Year PTR
-                        </span>
-                        <span className="px-2.5 py-1 rounded-md bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400"></span>Digital Signature
-                        </span>
-                        <span className="px-2.5 py-1 rounded-md bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-500 dark:bg-amber-400"></span>Verified Registry
-                        </span>
-                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* ======================================================================= */}
-              {/* CARD 3: CHECKLIST OF REQUIREMENTS - EMERALD / GREEN THEME */}
+              {/* CARD 3: CHECKLIST OF REQUIREMENTS (EMERALD / GREEN THEME) - CENTERED ON ROW 2 */}
               {/* ======================================================================= */}
-              <div 
-                className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-white via-emerald-50/70 to-teal-50/50 dark:from-[#051b13] dark:via-[#07291d] dark:to-[#020e0a] border border-emerald-200 dark:border-emerald-500/40 p-6 sm:p-8 shadow-xl shadow-emerald-900/5 dark:shadow-2xl dark:shadow-emerald-950/40 group transition-all duration-300 select-text"
-              >
-                {/* Ambient glow effects */}
-                <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-emerald-400/10 dark:bg-emerald-500/10 blur-3xl pointer-events-none" />
-                <div className="absolute -left-20 -bottom-20 w-80 h-80 rounded-full bg-teal-500/10 dark:bg-teal-600/10 blur-3xl pointer-events-none" />
-
-                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 sm:gap-8 relative z-10">
-                  {/* Left Column: Info & Details */}
-                  <div className="flex-1 space-y-4">
-                    {/* Title */}
-                    <div>
-                      <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
-                        CHECKLIST OF REQUIREMENTS
-                      </h3>
-                    </div>
-
-                    {/* 5 Information Rows with Circular Icons */}
-                    <div className="space-y-2.5 pt-1">
-                      {/* Row 1: Target Users */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <Users size={14} />
-                        </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TARGET USERS</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">All Applicants, Property Owners, Contractors, &amp; Building Engineers</p>
-                        </div>
+              <div className="md:col-span-2 flex justify-center">
+                <div 
+                  className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px]"
+                >
+                  <div className="flex flex-col justify-between gap-3.5 relative z-10 flex-1">
+                    {/* Info & Details */}
+                    <div className="space-y-2 min-w-0">
+                      <div>
+                        <h3 className="text-xs sm:text-[13px] font-black text-slate-900 dark:text-white tracking-tight leading-snug">
+                          CHECKLIST OF REQUIREMENTS
+                        </h3>
                       </div>
 
-                      {/* Row 2: Service Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <Briefcase size={14} />
+                      {/* 5 Information Rows with Circular Icons */}
+                      <div className="space-y-1.5 pt-0.5">
+                        {/* Row 1: Target Users */}
+                        <div className="flex items-start gap-2.5">
+                          <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                            <Users size={11} />
+                          </div>
+                          <div className="min-w-0">
+                            <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TARGET USERS</span>
+                            <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">All Applicants, Property Owners, Contractors &amp; Engineers</p>
+                          </div>
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">SERVICE METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Online application through GovServe</p>
-                        </div>
-                      </div>
 
-                      {/* Row 3: Time Period */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <Clock size={14} />
+                        {/* Row 2: Service Method */}
+                        <div className="flex items-start gap-2.5">
+                          <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                            <Briefcase size={11} />
+                          </div>
+                          <div className="min-w-0">
+                            <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">SERVICE METHOD</span>
+                            <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Online application through GovServe</p>
+                          </div>
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">TIME PERIOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">5 to 7 days upon joint engineering &amp; FSEC review</p>
-                        </div>
-                      </div>
 
-                      {/* Row 4: Charges & Payment */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-amber-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <Banknote size={14} />
+                        {/* Row 3: Time Period */}
+                        <div className="flex items-start gap-2.5">
+                          <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                            <Clock size={11} />
+                          </div>
+                          <div className="min-w-0">
+                            <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TIME PERIOD</span>
+                            <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">5 to 7 days upon joint engineering &amp; FSEC review</p>
+                          </div>
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">CHARGES &amp; PAYMENT</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Assessed per total floor area (sqm) under National Building Code</p>
-                        </div>
-                      </div>
 
-                      {/* Row 5: Payment Method */}
-                      <div className="flex items-start gap-3">
-                        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                          <CreditCard size={14} />
+                        {/* Row 4: Charges & Payment */}
+                        <div className="flex items-start gap-2.5">
+                          <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                            <Banknote size={11} />
+                          </div>
+                          <div className="min-w-0">
+                            <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">CHARGES &amp; PAYMENT</span>
+                            <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Assessed per sqm under National Building Code</p>
+                          </div>
                         </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">PAYMENT METHOD</span>
-                          <p className="text-xs text-slate-700 dark:text-slate-400 font-medium">Via GovServe online portal</p>
+
+                        {/* Row 5: Payment Method */}
+                        <div className="flex items-start gap-2.5">
+                          <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                            <CreditCard size={11} />
+                          </div>
+                          <div className="min-w-0">
+                            <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">PAYMENT METHOD</span>
+                            <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Via GovServe online portal</p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Right Column: Actions & Document Upload Callout */}
-                  <div className="w-full lg:w-[400px] xl:w-[450px] shrink-0 flex flex-col justify-between space-y-3">
-                    <div className="space-y-2.5">
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setChecklistModalOpen(true);
-                        }}
-                        className="w-full py-3.5 px-5 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-emerald-600/40 hover:shadow-emerald-500/50 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
-                      >
-                        <span>Checklist of Requirements →</span>
-                      </button>
-                    </div>
-
-                    <div className="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-white/90 dark:bg-black/45 border border-emerald-200 dark:border-emerald-500/30 backdrop-blur-xs space-y-2 shadow-xs dark:shadow-none">
-                      <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-700 dark:text-emerald-400">
-                        <FileCheck size={14} />
-                        <span>Master Documentary Requirements Active</span>
+                    {/* Document Upload & Action Section */}
+                    <div className="w-full flex flex-col space-y-2 pt-0.5">
+                      {/* Document Upload Box */}
+                      <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-emerald-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
+                        <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-emerald-700 dark:text-emerald-400">
+                          <FileCheck size={12} />
+                          <span>Master Requirements Active</span>
+                        </div>
+                        <p className="text-[9.5px] text-slate-600 dark:text-slate-400 leading-snug">
+                          Checklist for Admin/Legal, Architectural, Structural &amp; FSEC.
+                        </p>
+                        <div className="flex flex-wrap gap-1 pt-0.5">
+                          <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                            <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>TCT / Admin
+                          </span>
+                          <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                            <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Architectural
+                          </span>
+                          <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                            <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Trade Engr
+                          </span>
+                          <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                            <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>FSEC Fire
+                          </span>
+                        </div>
                       </div>
-                      <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Complete checklist for Administrative &amp; Legal, Architectural, Structural, Electrical, and Fire Clearances.
-                      </p>
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Administrative / TCT
-                        </span>
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Architectural &amp; Civil
-                        </span>
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Trade Engineering
-                        </span>
-                        <span className="px-2.5 py-1 rounded-md bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[10px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Fire Safety (FSEC)
-                        </span>
+
+                      {/* Action Button */}
+                      <div>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setChecklistModalOpen(true);
+                          }}
+                          className="w-full py-2 px-3 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-md shadow-emerald-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                        >
+                          <span>Checklist of Requirements</span>
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -2029,7 +2017,6 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
               </div>
 
             </div>
-
           </div>
         )}
 
