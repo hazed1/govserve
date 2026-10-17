@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { 
   Building2, 
+  ArrowLeft,
   Upload, 
   UploadCloud,
   CheckCircle2, 
@@ -131,8 +132,8 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
   const [isUploadModalOpen, setIsUploadModalOpen] = useState<boolean>(false);
 
   // STEP 1: APPLICATION TYPE & APPLICANT INFORMATION
-  const [appType, setAppType] = useState<'NEW' | 'RENEWAL' | 'AMENDMENT'>(initialAppType);
-  const [applicantType, setApplicantType] = useState<'OWNER' | 'REPRESENTATIVE'>('OWNER');
+  const [appType, setAppType] = useState<'NEW' | 'RENEWAL' | 'AMENDMENT' | ''>('');
+  const [applicantType, setApplicantType] = useState<'OWNER' | 'REPRESENTATIVE' | ''>('');
   const [applicantInfo, setApplicantInfo] = useState({
     fullName: '',
     mobile: '',
@@ -149,7 +150,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
   // STEP 2: BUSINESS INFORMATION (minimal manual fields)
   const [businessInfo, setBusinessInfo] = useState({
     businessName: '',
-    businessType: 'Sole Proprietorship' as 'Sole Proprietorship' | 'Partnership' | 'Corporation' | 'Cooperative' | 'Other',
+    businessType: '' as 'Sole Proprietorship' | 'Partnership' | 'Corporation' | 'Cooperative' | 'Other' | '',
     natureOfBusiness: '',
     businessAddress: '',
     businessBarangay: '',
@@ -157,7 +158,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
   });
 
   // Property / Right to Use Location
-  const [propertyTenure, setPropertyTenure] = useState<'LEASED' | 'OWNED' | 'GOVERNMENT_PROPERTY' | 'OTHER'>('LEASED');
+  const [propertyTenure, setPropertyTenure] = useState<'LEASED' | 'OWNED' | 'GOVERNMENT_PROPERTY' | 'OTHER' | ''>('');
 
   // STEP 3: DOCUMENT UPLOAD CHECKLIST (Upload-First Experience)
   const [documents, setDocuments] = useState<UploadedDocItem[]>([
@@ -714,14 +715,14 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
       return;
     }
 
-    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
-    if (!validTypes.includes(file.type.toLowerCase()) && !file.name.match(/\.(jpg|jpeg|png|pdf)$/i)) {
-      setUploadError(`File type "${file.type}" is not supported. Supported formats: JPG, PNG, PDF.`);
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'application/pdf'];
+    if (!validTypes.includes(file.type.toLowerCase()) && !file.name.match(/\.(jpg|jpeg|png|webp|pdf)$/i)) {
+      setUploadError(`File type "${file.type}" is not supported. Supported formats: JPG, PNG, WEBP.`);
       return;
     }
 
     let previewUrl: string | null = null;
-    if (file.type.startsWith('image/') || file.name.match(/\.(jpg|jpeg|png)$/i)) {
+    if (file.type.startsWith('image/') || file.name.match(/\.(jpg|jpeg|png|webp)$/i)) {
       try {
         previewUrl = URL.createObjectURL(file);
       } catch (err) {
@@ -825,10 +826,12 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
   // Step validation rules: cannot continue if required text fields are empty
   const isStep3Valid = Boolean(
     businessInfo.businessName?.trim() &&
+    businessInfo.businessType &&
     businessInfo.natureOfBusiness?.trim() &&
     businessInfo.businessContact?.replace(/\D/g, '').length === 11 &&
     businessInfo.businessAddress?.trim() &&
-    businessInfo.businessBarangay?.trim()
+    businessInfo.businessBarangay?.trim() &&
+    Boolean(propertyTenure)
   );
 
   const isStep4Valid = Boolean(
@@ -852,6 +855,8 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
   );
 
   const isStep6Valid = Boolean(
+    appType &&
+    applicantType &&
     applicantInfo.fullName?.trim() &&
     applicantInfo.mobile?.replace(/\D/g, '').length === 11 &&
     applicantInfo.email?.trim() &&
@@ -1374,7 +1379,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
           </div>
 
           {/* BOX 1: Application Requirements */}
-          <div className="p-4 sm:p-5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2.5">
+          <div className="p-4 sm:p-5 rounded-lg bg-white dark:bg-[#050A14] border border-slate-200 dark:border-slate-800/80 shadow-xs space-y-2.5">
             <div>
               <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
                 Application Requirements
@@ -1435,7 +1440,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
           </div>
 
           {/* BOX 2: General Instructions */}
-          <div className="p-4 sm:p-5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2">
+          <div className="p-4 sm:p-5 rounded-lg bg-white dark:bg-[#050A14] border border-slate-200 dark:border-slate-800/80 shadow-xs space-y-2">
             <h3 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
               General Instructions:
             </h3>
@@ -1504,9 +1509,10 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
             <button
               type="button"
               onClick={onBack}
-              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+              className="px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-white border border-slate-500/50 rounded-xl text-xs font-bold cursor-pointer transition-all shadow-xs inline-flex items-center gap-1.5"
             >
-              Back to New Business Permit Application
+              <ArrowLeft size={14} />
+              <span>Back to New Business Permit Application</span>
             </button>
 
             <button
@@ -1548,181 +1554,127 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
               return (
                 <div 
                   key={doc.id}
-                  className={`p-5 rounded-3xl border transition-all ${
+                  className={`p-5 sm:p-6 rounded-3xl border transition-all space-y-3.5 ${
                     isNeedsCorrection
                       ? 'border-amber-400 bg-amber-50/50 dark:bg-amber-950/30'
                       : isUploaded 
-                      ? 'border-emerald-200 dark:border-emerald-900/60 bg-white dark:bg-slate-900 shadow-xs' 
-                      : 'border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-850'
+                      ? 'border-emerald-500/40 bg-white dark:bg-[#050A14] shadow-xs' 
+                      : 'border-slate-200 dark:border-slate-800/80 bg-slate-50/60 dark:bg-[#050A14]'
                   }`}
                 >
-                  <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                    
-                    {/* Left: Metadata */}
-                    <div className="space-y-1.5 max-w-xl">
-                      <div className="flex items-center space-x-2">
-                        <span className="text-xs font-black text-slate-400">
-                          {idx + 1}.
-                        </span>
-                        <span className={`px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase ${
-                          doc.mandatory 
-                            ? 'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300' 
-                            : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
-                        }`}>
-                          {doc.mandatory ? 'Required' : 'Optional'}
-                        </span>
-
-                        {/* Status Badge */}
-                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
-                          doc.status === 'ACCEPTED'
-                            ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
-                            : doc.status === 'NEEDS CORRECTION'
-                            ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
-                            : isUploaded
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300'
-                            : 'bg-slate-100 text-slate-500 dark:bg-slate-800'
-                        }`}>
-                          Status: {doc.status === 'UPLOADED' ? 'Uploaded' : doc.status}
-                        </span>
-                      </div>
-
-                      <h4 className="font-extrabold text-sm text-slate-900 dark:text-white">
-                        {doc.name}
+                  {/* Top Bar: Title, Badges & Checkmark */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-3">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-xs font-black text-slate-400">
+                        {idx + 1}.
+                      </span>
+                      <span className={`px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase ${
+                        doc.mandatory 
+                          ? 'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300' 
+                          : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400'
+                      }`}>
+                        {doc.mandatory ? 'Required' : 'Optional'}
+                      </span>
+                      <h4 className="font-extrabold text-sm sm:text-base text-slate-900 dark:text-white uppercase tracking-tight flex items-center gap-1.5">
+                        <span>{doc.name} {doc.mandatory && '*'}</span>
+                        {isUploaded && (
+                          <CheckCircle2 size={16} className="text-emerald-500 fill-emerald-500/20 shrink-0" />
+                        )}
                       </h4>
-                      <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                        {doc.description}
-                      </p>
-
-                      {/* Needs correction reason note */}
-                      {doc.comment && (
-                        <div className="p-3 bg-amber-100/80 dark:bg-amber-950/80 rounded-xl text-xs text-amber-900 dark:text-amber-200 font-medium">
-                          <strong>Correction Notice:</strong> "{doc.comment}"
-                        </div>
-                      )}
                     </div>
 
-                    {/* Right: Upload Actions & Preview Box (Exact Style of Picture 1) */}
-                    <div className="flex flex-wrap items-center gap-2.5 flex-shrink-0">
-                      
-                      {/* Uploaded state: Matching Picture 1 (File pill + action buttons row) */}
-                      {isUploaded && !isNeedsCorrection && (
-                        <div className="w-full sm:w-64 space-y-1.5">
-                          {/* File Pill Matching Screenshot */}
+                    {/* Status Badge */}
+                    <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold self-start sm:self-auto ${
+                      doc.status === 'ACCEPTED'
+                        ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300'
+                        : doc.status === 'NEEDS CORRECTION'
+                        ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
+                        : isUploaded
+                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300'
+                        : 'bg-slate-100 text-slate-500 dark:bg-slate-800/80'
+                    }`}>
+                      Status: {doc.status === 'UPLOADED' ? 'Uploaded' : doc.status}
+                    </span>
+                  </div>
+
+                  {/* Description & Allowed File Types */}
+                  <div className="space-y-1">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                      {doc.description}
+                    </p>
+                    <p className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">
+                      Allowed file types: JPG, JPEG, PNG, WEBP
+                    </p>
+                  </div>
+
+                  {/* Needs correction reason note */}
+                  {doc.comment && (
+                    <div className="p-3 bg-amber-100/80 dark:bg-amber-950/80 rounded-xl text-xs text-amber-900 dark:text-amber-200 font-medium">
+                      <strong>Correction Notice:</strong> "{doc.comment}"
+                    </div>
+                  )}
+
+                  {/* Action Row: UPLOAD PHOTO button & Live Thumbnail Preview Card */}
+                  <div className="pt-1 flex flex-col gap-3">
+                    <div>
+                      <label
+                        htmlFor={`doc-upload-${doc.id}`}
+                        className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold text-xs uppercase tracking-wide rounded-xl shadow-xs transition-all cursor-pointer group shrink-0"
+                      >
+                        <Upload size={14} className="group-hover:-translate-y-0.5 transition-transform" />
+                        <span>UPLOAD PHOTO</span>
+                        <input
+                          id={`doc-upload-${doc.id}`}
+                          type="file"
+                          accept="image/jpeg,image/jpg,image/png,image/webp"
+                          onChange={(e) => handleDirectFileUpload(doc.id, e.target.files?.[0] || null)}
+                          className="hidden"
+                        />
+                      </label>
+                    </div>
+
+                    {/* When Uploaded: Matching user's reference photo preview card */}
+                    {isUploaded && (
+                      <div className="pt-1">
+                        <div className="relative group/thumb p-2.5 rounded-2xl bg-[#091524] border border-slate-700/80 shadow-md w-36 sm:w-40 flex flex-col items-center animate-in fade-in zoom-in-95">
+                          {/* Floating circular (X) button at top-right */}
+                          <button
+                            type="button"
+                            onClick={() => handleRemoveDoc(doc.id)}
+                            title="Remove Photo"
+                            className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-slate-700 hover:bg-rose-600 text-white flex items-center justify-center shadow transition-colors cursor-pointer z-10"
+                          >
+                            <X size={13} />
+                          </button>
+
+                          {/* Photo Thumbnail */}
                           <div 
                             onClick={() => setPreviewModalUrl({ url: doc.fileUrl || '/New Application.jpg', title: doc.name })}
-                            className="p-2.5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-sky-500 flex items-center justify-between cursor-pointer transition-all shadow-2xs group"
-                            title="Click to preview document"
+                            className="w-full h-24 sm:h-28 rounded-xl overflow-hidden bg-slate-900 border border-slate-700/60 cursor-pointer relative group-hover/thumb:border-blue-500 transition-colors flex items-center justify-center"
+                            title="Click to view full photo"
                           >
-                            <div className="flex items-center space-x-1.5 min-w-0 pr-1">
-                              <FileText size={14} className="text-blue-600 dark:text-sky-400 shrink-0 group-hover:scale-110 transition-transform" />
-                              <span className="font-mono text-[11px] text-blue-600 dark:text-sky-400 truncate max-w-[130px] font-semibold">
-                                {doc.fileName || doc.name}
-                              </span>
-                            </div>
-                            <div className="flex items-center space-x-1 shrink-0">
-                              <span className="text-[10px] text-slate-400 dark:text-slate-500 font-mono hidden md:inline">
-                                {doc.fileSize ? `${(doc.fileSize / 1024).toFixed(0)} KB` : '66 KB'}
-                              </span>
-                              <span className="text-[10px] px-2 py-0.5 bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 rounded-full font-bold">
-                                Attached
-                              </span>
+                            <img
+                              src={doc.fileUrl || '/New Application.jpg'}
+                              alt={doc.name}
+                              className="w-full h-full object-cover group-hover/thumb:scale-105 transition-transform duration-200"
+                            />
+                            <div className="absolute inset-0 bg-black/35 opacity-0 group-hover/thumb:opacity-100 flex items-center justify-center transition-opacity">
+                              <Eye size={18} className="text-white drop-shadow" />
                             </div>
                           </div>
 
-                          {/* Action Buttons Row */}
-                          <div className="flex items-center gap-1.5 pt-0.5">
-                            <label
-                              htmlFor={`doc-replace-${doc.id}`}
-                              className="flex-1 py-1.5 px-2 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 hover:text-blue-600 dark:hover:text-sky-400 text-[11px] font-semibold transition-colors flex items-center justify-center space-x-1 cursor-pointer"
-                            >
-                              <Upload size={12} />
-                              <span>Upload File</span>
-                              <input
-                                id={`doc-replace-${doc.id}`}
-                                type="file"
-                                accept=".jpg,.jpeg,.png,.pdf"
-                                onChange={(e) => handleDirectFileUpload(doc.id, e.target.files?.[0] || null)}
-                                className="hidden"
-                              />
-                            </label>
-
-                            <button
-                              type="button"
-                              onClick={() => setPreviewModalUrl({ url: doc.fileUrl || '/New Application.jpg', title: doc.name })}
-                              title="View Document Preview"
-                              className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-blue-50 dark:hover:bg-blue-950/50 hover:text-blue-600 dark:hover:text-sky-400 transition-colors cursor-pointer"
-                            >
-                              <Eye size={13} />
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={() => {
-                                const link = document.createElement('a');
-                                link.href = doc.fileUrl || '/New Application.jpg';
-                                link.download = doc.fileName || `${doc.name}.jpg`;
-                                document.body.appendChild(link);
-                                link.click();
-                                document.body.removeChild(link);
-                              }}
-                              title="Download Attached Document"
-                              className="p-1.5 rounded-lg border border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-                            >
-                              <Download size={13} />
-                            </button>
-
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveDoc(doc.id)}
-                              title="Remove File"
-                              className="p-1.5 rounded-lg border border-red-200 dark:border-red-900/60 text-red-500 hover:bg-red-50 dark:hover:bg-red-950/50 transition-colors cursor-pointer"
-                            >
-                              <Trash2 size={13} />
-                            </button>
+                          {/* File Info */}
+                          <div className="w-full text-center mt-2 px-1">
+                            <span className="font-mono text-[11px] font-semibold text-slate-200 block truncate" title={doc.fileName || doc.name}>
+                              {doc.fileName || `${doc.name}.png`}
+                            </span>
+                            <span className="text-[10px] text-slate-400 font-mono block mt-0.5">
+                              {doc.fileSize ? `${(doc.fileSize / 1024).toFixed(1)} KB` : '593.2 KB'}
+                            </span>
                           </div>
                         </div>
-                      )}
-
-                      {/* Not Uploaded: Dashed dropzone matching Picture 1 */}
-                      {!isUploaded && !isNeedsCorrection && (
-                        <label
-                          htmlFor={`doc-upload-${doc.id}`}
-                          className={`p-3.5 bg-white dark:bg-slate-900 rounded-2xl border-2 border-dashed border-slate-300 dark:border-slate-700 ${theme.hoverBorder} flex flex-col items-center justify-center text-center gap-1 cursor-pointer transition-all w-full sm:w-64 shadow-2xs hover:shadow-xs group`}
-                        >
-                          <UploadCloud size={20} className={`${theme.iconColor} shrink-0 group-hover:scale-110 transition-transform`} />
-                          <span className={`text-[11px] font-bold ${theme.textColor}`}>Click to upload picture</span>
-                          <span className="text-[9px] text-slate-400">JPG, PNG, PDF up to 10MB</span>
-                          <input
-                            id={`doc-upload-${doc.id}`}
-                            type="file"
-                            accept=".jpg,.jpeg,.png,.pdf"
-                            onChange={(e) => handleDirectFileUpload(doc.id, e.target.files?.[0] || null)}
-                            className="hidden"
-                          />
-                        </label>
-                      )}
-
-                      {/* Needs Correction: Re-upload dropzone */}
-                      {isNeedsCorrection && (
-                        <label
-                          htmlFor={`doc-reupload-${doc.id}`}
-                          className="p-3.5 bg-white dark:bg-slate-900 rounded-2xl border-2 border-dashed border-amber-400 hover:border-amber-500 flex flex-col items-center justify-center text-center gap-1 cursor-pointer transition-colors w-full sm:w-64 shadow-2xs group"
-                        >
-                          <UploadCloud size={20} className="text-amber-500 shrink-0 group-hover:scale-110 transition-transform" />
-                          <span className="text-[11px] font-bold text-amber-600 dark:text-amber-400">Click to upload picture</span>
-                          <span className="text-[9px] text-slate-400">JPG, PNG, PDF up to 10MB</span>
-                          <input
-                            id={`doc-reupload-${doc.id}`}
-                            type="file"
-                            accept=".jpg,.jpeg,.png,.pdf"
-                            onChange={(e) => handleDirectFileUpload(doc.id, e.target.files?.[0] || null)}
-                            className="hidden"
-                          />
-                        </label>
-                      )}
-
-                    </div>
-
+                      </div>
+                    )}
                   </div>
                 </div>
               );
@@ -1734,9 +1686,10 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
             <button
               type="button"
               onClick={() => setWizardStep(1)}
-              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+              className="px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-white border border-slate-500/50 rounded-xl text-xs font-bold cursor-pointer transition-all shadow-xs inline-flex items-center gap-1.5"
             >
-              Back to General Guidelines
+              <ArrowLeft size={14} />
+              <span>Back to General Guidelines</span>
             </button>
             <button
               type="button"
@@ -1756,42 +1709,14 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
       {/* ========================================================================= */}
       {wizardStep === 3 && (
         <div className="space-y-6 animate-in fade-in">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div>
-              <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
-                <Building2 size={20} className="text-blue-600" />
-                <span>Step 3: Business Information</span>
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                Essential commercial fields only. Detailed data will be retrieved from your uploaded document.
-              </p>
-            </div>
-
-            {/* Quick Sample Presets (Zero Typing) */}
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-bold text-slate-400 uppercase">Quick Samples:</span>
-              <button
-                type="button"
-                onClick={() => handleSelectSample('sole')}
-                className="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-slate-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 cursor-pointer"
-              >
-                Sole Prop
-              </button>
-              <button
-                type="button"
-                onClick={() => handleSelectSample('corp')}
-                className="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-slate-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 cursor-pointer"
-              >
-                Corporation
-              </button>
-              <button
-                type="button"
-                onClick={() => handleSelectSample('coop')}
-                className="px-2.5 py-1 rounded-lg text-[10px] font-bold bg-slate-100 dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 cursor-pointer"
-              >
-                Cooperative
-              </button>
-            </div>
+          <div className="border-b border-slate-100 dark:border-slate-800/80 pb-3">
+            <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
+              <Building2 size={20} className="text-blue-600" />
+              <span>Step 3: Business Information</span>
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+              Essential commercial fields only. Detailed data will be retrieved from your uploaded document.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
@@ -1819,6 +1744,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
                 onChange={(e) => setBusinessInfo({ ...businessInfo, businessType: e.target.value as any })}
                 className="w-full p-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-blue-500 font-bold cursor-pointer"
               >
+                <option value="" disabled>Select Business Type</option>
                 <option value="Sole Proprietorship">Sole Proprietorship</option>
                 <option value="Partnership">Partnership</option>
                 <option value="Corporation">Corporation</option>
@@ -1888,41 +1814,32 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
             </div>
           </div>
 
-          {/* Right to Use Business Location */}
-          <div className="space-y-2 pt-2">
-            <label className="block text-xs font-black uppercase text-slate-700 dark:text-slate-300">
-              Right to Use Business Location:
+          {/* Right to Use Business Location (Dropdown Selection) */}
+          <div className="space-y-1.5 pt-1">
+            <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300">
+              Right to Use Business Location *
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-              {[
-                { id: 'LEASED', label: 'Leased', desc: 'Contract of Lease' },
-                { id: 'OWNED', label: 'Owned', desc: 'Tax Dec / TCT' },
-                { id: 'GOVERNMENT_PROPERTY', label: 'Gov Property', desc: 'Award / Undertaking' },
-                { id: 'OTHER', label: 'Other', desc: 'Usufruct / Authorization' }
-              ].map(ten => (
-                <div
-                  key={ten.id}
-                  onClick={() => setPropertyTenure(ten.id as any)}
-                  className={`p-3.5 rounded-2xl border cursor-pointer transition-all ${
-                    propertyTenure === ten.id
-                      ? 'border-blue-600 bg-blue-50/50 dark:bg-blue-950/40 shadow-xs ring-1 ring-blue-500'
-                      : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 bg-slate-50/30 dark:bg-slate-850'
-                  }`}
-                >
-                  <span className="font-extrabold text-xs text-slate-900 dark:text-white block">{ten.label}</span>
-                  <span className="text-[10px] text-slate-400">{ten.desc}</span>
-                </div>
-              ))}
-            </div>
+            <select
+              value={propertyTenure}
+              onChange={(e) => setPropertyTenure(e.target.value as any)}
+              className="w-full max-w-md p-2.5 bg-slate-50 dark:bg-[#0a1424] border border-slate-200 dark:border-slate-700/80 rounded-xl focus:ring-2 focus:ring-blue-500 font-bold cursor-pointer text-slate-900 dark:text-white text-xs"
+            >
+              <option value="" disabled>Select Right to Use Location</option>
+              <option value="LEASED">Leased (Contract of Lease)</option>
+              <option value="OWNED">Owned (Tax Declaration / TCT)</option>
+              <option value="GOVERNMENT_PROPERTY">Gov Property (Award / Undertaking)</option>
+              <option value="OTHER">Other (Usufruct / Authorization)</option>
+            </select>
           </div>
 
           <div className="pt-4 flex justify-between">
             <button
               type="button"
               onClick={() => setWizardStep(2)}
-              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+              className="px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-white border border-slate-500/50 rounded-xl text-xs font-bold cursor-pointer transition-all shadow-xs inline-flex items-center gap-1.5"
             >
-              Back to Documentary Requirements
+              <ArrowLeft size={14} />
+              <span>Back to Documentary Requirements</span>
             </button>
             <button
               type="button"
@@ -2042,7 +1959,7 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700/80 space-y-3">
+          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-[#050A14] border border-slate-200 dark:border-slate-800/80 space-y-3">
             <h4 className="text-xs font-black uppercase text-slate-800 dark:text-slate-200">
               Commercial Premise Lease / Ownership Information
             </h4>
@@ -2091,9 +2008,10 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
             <button
               type="button"
               onClick={() => setWizardStep(3)}
-              className="w-full sm:w-auto px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+              className="w-full sm:w-auto px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-white border border-slate-500/50 rounded-xl text-xs font-bold cursor-pointer transition-all shadow-xs inline-flex items-center justify-center gap-1.5"
             >
-              Back to Business Information
+              <ArrowLeft size={14} />
+              <span>Back to Business Information</span>
             </button>
             <div className="flex flex-col sm:flex-row items-center gap-2 sm:ml-auto w-full sm:w-auto">
               {!isStep4Valid && (
@@ -2200,9 +2118,10 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
             <button
               type="button"
               onClick={() => setWizardStep(4)}
-              className="w-full sm:w-auto px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+              className="w-full sm:w-auto px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-white border border-slate-500/50 rounded-xl text-xs font-bold cursor-pointer transition-all shadow-xs inline-flex items-center justify-center gap-1.5"
             >
-              Back to Business Operation
+              <ArrowLeft size={14} />
+              <span>Back to Business Operation</span>
             </button>
             <div className="flex flex-col sm:flex-row items-center gap-2 sm:ml-auto w-full sm:w-auto">
               {!isStep5Valid && (
@@ -2239,87 +2158,39 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
           </div>
 
 
-          {/* Application Type Options */}
-          <div className="space-y-2">
-            <label className="block text-xs font-black uppercase text-slate-700 dark:text-slate-300">
-              Application Type:
-            </label>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              {[
-                { id: 'NEW', title: 'New Business Permit', desc: 'Default • First-time commercial registration' },
-                { id: 'RENEWAL', title: 'Renewal', desc: 'Annual permit renewal' },
-                { id: 'AMENDMENT', title: 'Amendment', desc: 'Change of line, address, or trade name' }
-              ].map(opt => (
-                <div
-                  key={opt.id}
-                  onClick={() => setAppType(opt.id as any)}
-                  className={`p-4 rounded-2xl border-2 cursor-pointer transition-all space-y-1.5 ${
-                    appType === opt.id
-                      ? 'border-blue-600 bg-blue-50/50 dark:bg-blue-950/40 shadow-xs ring-2 ring-blue-500/20'
-                      : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 bg-slate-50/40 dark:bg-slate-850'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="font-extrabold text-xs text-slate-900 dark:text-white">{opt.title}</span>
-                    <input 
-                      type="radio" 
-                      name="appType" 
-                      checked={appType === opt.id} 
-                      onChange={() => setAppType(opt.id as any)} 
-                      className="text-blue-600"
-                    />
-                  </div>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">{opt.desc}</p>
-                </div>
-              ))}
+          {/* Application Type & Applicant Type (Compact Dropdown Selections) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Application Type Selection */}
+            <div className="space-y-1.5">
+              <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300">
+                Application Type *
+              </label>
+              <select
+                value={appType}
+                onChange={(e) => setAppType(e.target.value as any)}
+                className="w-full p-2.5 bg-slate-50 dark:bg-[#0a1424] border border-slate-200 dark:border-slate-700/80 rounded-xl focus:ring-2 focus:ring-blue-500 font-bold cursor-pointer text-slate-900 dark:text-white text-xs"
+              >
+                <option value="" disabled>Select Application Type</option>
+                <option value="NEW">New Business Permit</option>
+                <option value="RENEWAL">Renewal</option>
+                <option value="AMENDMENT">Amendment</option>
+              </select>
             </div>
-          </div>
 
-          {/* Applicant Type Selection */}
-          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700/80 space-y-3">
-            <label className="block text-xs font-black uppercase text-slate-700 dark:text-slate-300">
-              Applicant Type:
-            </label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <label 
-                className={`flex items-center p-3 rounded-xl border cursor-pointer transition-all ${
-                  applicantType === 'OWNER'
-                    ? 'border-blue-600 bg-white dark:bg-slate-900 shadow-xs ring-1 ring-blue-500'
-                    : 'border-slate-200 dark:border-slate-700 hover:border-slate-300'
-                }`}
-              >
-                <input 
-                  type="radio" 
-                  name="applicantType" 
-                  checked={applicantType === 'OWNER'} 
-                  onChange={() => setApplicantType('OWNER')} 
-                  className="mr-3 text-blue-600"
-                />
-                <div>
-                  <span className="font-bold text-xs text-slate-900 dark:text-white block">Business Owner</span>
-                  <span className="text-[11px] text-slate-500">I am the registered business proprietor</span>
-                </div>
+            {/* Applicant Type Selection */}
+            <div className="space-y-1.5">
+              <label className="block text-[11px] font-bold text-slate-700 dark:text-slate-300">
+                Applicant Type *
               </label>
-
-              <label 
-                className={`flex items-center p-3 rounded-xl border cursor-pointer transition-all ${
-                  applicantType === 'REPRESENTATIVE'
-                    ? 'border-blue-600 bg-white dark:bg-slate-900 shadow-xs ring-1 ring-blue-500'
-                    : 'border-slate-200 dark:border-slate-700 hover:border-slate-300'
-                }`}
+              <select
+                value={applicantType}
+                onChange={(e) => setApplicantType(e.target.value as any)}
+                className="w-full p-2.5 bg-slate-50 dark:bg-[#0a1424] border border-slate-200 dark:border-slate-700/80 rounded-xl focus:ring-2 focus:ring-blue-500 font-bold cursor-pointer text-slate-900 dark:text-white text-xs"
               >
-                <input 
-                  type="radio" 
-                  name="applicantType" 
-                  checked={applicantType === 'REPRESENTATIVE'} 
-                  onChange={() => setApplicantType('REPRESENTATIVE')} 
-                  className="mr-3 text-blue-600"
-                />
-                <div>
-                  <span className="font-bold text-xs text-slate-900 dark:text-white block">Authorized Representative</span>
-                  <span className="text-[11px] text-slate-500">Filing with authorization from the owner</span>
-                </div>
-              </label>
+                <option value="" disabled>Select Applicant Type</option>
+                <option value="OWNER">Business Owner</option>
+                <option value="REPRESENTATIVE">Authorized Representative</option>
+              </select>
             </div>
           </div>
 
@@ -2416,75 +2287,270 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
                 </div>
               </div>
 
-              {/* 3 Required Uploads for Representative */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+              {/* 3 Required Uploads for Representative with Live Photo Preview */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-1">
                 {/* 1. Authorization Letter */}
-                <div className="p-3 bg-white dark:bg-slate-900 rounded-2xl border border-amber-200 dark:border-amber-900 space-y-2">
+                <div className="p-3.5 bg-white dark:bg-[#07101e] rounded-2xl border border-amber-300 dark:border-amber-500/30 space-y-2.5 flex flex-col justify-between shadow-xs">
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold text-slate-900 dark:text-white">Authorization Letter</span>
-                    <span className="text-[10px] font-bold text-emerald-600">{repAuthLetter?.status}</span>
+                    <span className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                      <FileText size={13} className="text-amber-500 dark:text-amber-400" />
+                      Authorization Letter
+                    </span>
+                    {repAuthLetter ? (
+                      <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/80 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+                        <Check size={10} />
+                        Uploaded
+                      </span>
+                    ) : (
+                      <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
+                        Required
+                      </span>
+                    )}
                   </div>
-                  <p className="text-[10px] text-slate-400 font-mono truncate">{repAuthLetter?.fileName || 'Not uploaded'}</p>
-                  <label className="w-full py-1.5 px-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 rounded-lg text-[10px] font-bold cursor-pointer flex items-center justify-center space-x-1">
-                    <Camera size={12} />
-                    <span>Upload Photo / File</span>
-                    <input 
-                      type="file" 
-                      accept=".jpg,.jpeg,.png,.pdf" 
-                      capture="environment"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) setRepAuthLetter({ fileName: file.name, fileUrl: URL.createObjectURL(file), status: '✓ Uploaded' });
-                      }}
-                      className="hidden" 
-                    />
-                  </label>
+
+                  {repAuthLetter ? (
+                    <div className="space-y-2">
+                      {/* Photo / Document Live Preview Box */}
+                      <div className="relative w-full h-28 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-center">
+                        {repAuthLetter.fileName.toLowerCase().endsWith('.pdf') ? (
+                          <div className="flex flex-col items-center justify-center text-rose-500 space-y-1">
+                            <FileText size={32} />
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">PDF Document</span>
+                          </div>
+                        ) : (
+                          <img 
+                            src={repAuthLetter.fileUrl} 
+                            alt="Authorization Letter Preview" 
+                            className="w-full h-full object-cover"
+                          />
+                        )}
+                        {/* Floating (X) Remove Button */}
+                        <button
+                          type="button"
+                          onClick={() => setRepAuthLetter(null)}
+                          className="absolute top-1.5 right-1.5 p-1 bg-rose-600 hover:bg-rose-500 text-white rounded-full shadow-md cursor-pointer transition-all"
+                          title="Remove uploaded file"
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+
+                      {/* File Details & Change button */}
+                      <div className="flex items-center justify-between text-[11px] pt-0.5">
+                        <span className="font-mono text-slate-600 dark:text-slate-300 truncate max-w-[150px]" title={repAuthLetter.fileName}>
+                          {repAuthLetter.fileName}
+                        </span>
+                        <label className="text-[10px] font-bold text-amber-600 dark:text-amber-400 hover:text-amber-500 cursor-pointer hover:underline">
+                          Change
+                          <input 
+                            type="file" 
+                            accept=".jpg,.jpeg,.png,.pdf" 
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) setRepAuthLetter({ fileName: file.name, fileUrl: URL.createObjectURL(file), status: '✓ Uploaded' });
+                            }}
+                            className="hidden" 
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  ) : (
+                    /* Empty Dropzone / Upload State */
+                    <label className="w-full py-6 px-3 border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-amber-500 dark:hover:border-amber-400/60 rounded-xl bg-slate-50/50 dark:bg-slate-950/50 hover:bg-slate-100 dark:hover:bg-slate-950 transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 text-center group">
+                      <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 group-hover:bg-amber-100 dark:group-hover:bg-amber-500/20 text-slate-600 dark:text-slate-300 group-hover:text-amber-600 dark:group-hover:text-amber-400 flex items-center justify-center transition-colors">
+                        <Upload size={14} />
+                      </div>
+                      <span className="text-[11px] font-bold text-slate-800 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-300 transition-colors">
+                        Upload Photo / File
+                      </span>
+                      <span className="text-[9px] text-slate-400">JPG, PNG, or PDF</span>
+                      <input 
+                        type="file" 
+                        accept=".jpg,.jpeg,.png,.pdf" 
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) setRepAuthLetter({ fileName: file.name, fileUrl: URL.createObjectURL(file), status: '✓ Uploaded' });
+                        }}
+                        className="hidden" 
+                      />
+                    </label>
+                  )}
                 </div>
 
                 {/* 2. Owner ID */}
-                <div className="p-3 bg-white dark:bg-slate-900 rounded-2xl border border-amber-200 dark:border-amber-900 space-y-2">
+                <div className="p-3.5 bg-white dark:bg-[#07101e] rounded-2xl border border-amber-300 dark:border-amber-500/30 space-y-2.5 flex flex-col justify-between shadow-xs">
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold text-slate-900 dark:text-white">Owner Valid ID</span>
-                    <span className="text-[10px] font-bold text-emerald-600">{repOwnerId?.status}</span>
+                    <span className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                      <FileText size={13} className="text-amber-500 dark:text-amber-400" />
+                      Owner Valid ID
+                    </span>
+                    {repOwnerId ? (
+                      <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/80 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+                        <Check size={10} />
+                        Uploaded
+                      </span>
+                    ) : (
+                      <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
+                        Required
+                      </span>
+                    )}
                   </div>
-                  <p className="text-[10px] text-slate-400 font-mono truncate">{repOwnerId?.fileName || 'Not uploaded'}</p>
-                  <label className="w-full py-1.5 px-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 rounded-lg text-[10px] font-bold cursor-pointer flex items-center justify-center space-x-1">
-                    <Camera size={12} />
-                    <span>Upload Photo / File</span>
-                    <input 
-                      type="file" 
-                      accept=".jpg,.jpeg,.png,.pdf" 
-                      capture="environment"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) setRepOwnerId({ fileName: file.name, fileUrl: URL.createObjectURL(file), status: '✓ Uploaded' });
-                      }}
-                      className="hidden" 
-                    />
-                  </label>
+
+                  {repOwnerId ? (
+                    <div className="space-y-2">
+                      {/* Photo / Document Live Preview Box */}
+                      <div className="relative w-full h-28 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-center">
+                        {repOwnerId.fileName.toLowerCase().endsWith('.pdf') ? (
+                          <div className="flex flex-col items-center justify-center text-rose-500 space-y-1">
+                            <FileText size={32} />
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">PDF Document</span>
+                          </div>
+                        ) : (
+                          <img 
+                            src={repOwnerId.fileUrl} 
+                            alt="Owner Valid ID Preview" 
+                            className="w-full h-full object-cover"
+                          />
+                        )}
+                        {/* Floating (X) Remove Button */}
+                        <button
+                          type="button"
+                          onClick={() => setRepOwnerId(null)}
+                          className="absolute top-1.5 right-1.5 p-1 bg-rose-600 hover:bg-rose-500 text-white rounded-full shadow-md cursor-pointer transition-all"
+                          title="Remove uploaded file"
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+
+                      {/* File Details & Change button */}
+                      <div className="flex items-center justify-between text-[11px] pt-0.5">
+                        <span className="font-mono text-slate-600 dark:text-slate-300 truncate max-w-[150px]" title={repOwnerId.fileName}>
+                          {repOwnerId.fileName}
+                        </span>
+                        <label className="text-[10px] font-bold text-amber-600 dark:text-amber-400 hover:text-amber-500 cursor-pointer hover:underline">
+                          Change
+                          <input 
+                            type="file" 
+                            accept=".jpg,.jpeg,.png,.pdf" 
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) setRepOwnerId({ fileName: file.name, fileUrl: URL.createObjectURL(file), status: '✓ Uploaded' });
+                            }}
+                            className="hidden" 
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  ) : (
+                    /* Empty Dropzone / Upload State */
+                    <label className="w-full py-6 px-3 border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-amber-500 dark:hover:border-amber-400/60 rounded-xl bg-slate-50/50 dark:bg-slate-950/50 hover:bg-slate-100 dark:hover:bg-slate-950 transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 text-center group">
+                      <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 group-hover:bg-amber-100 dark:group-hover:bg-amber-500/20 text-slate-600 dark:text-slate-300 group-hover:text-amber-600 dark:group-hover:text-amber-400 flex items-center justify-center transition-colors">
+                        <Upload size={14} />
+                      </div>
+                      <span className="text-[11px] font-bold text-slate-800 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-300 transition-colors">
+                        Upload Photo / File
+                      </span>
+                      <span className="text-[9px] text-slate-400">JPG, PNG, or PDF</span>
+                      <input 
+                        type="file" 
+                        accept=".jpg,.jpeg,.png,.pdf" 
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) setRepOwnerId({ fileName: file.name, fileUrl: URL.createObjectURL(file), status: '✓ Uploaded' });
+                        }}
+                        className="hidden" 
+                      />
+                    </label>
+                  )}
                 </div>
 
                 {/* 3. Representative ID */}
-                <div className="p-3 bg-white dark:bg-slate-900 rounded-2xl border border-amber-200 dark:border-amber-900 space-y-2">
+                <div className="p-3.5 bg-white dark:bg-[#07101e] rounded-2xl border border-amber-300 dark:border-amber-500/30 space-y-2.5 flex flex-col justify-between shadow-xs">
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold text-slate-900 dark:text-white">Representative ID</span>
-                    <span className="text-[10px] font-bold text-emerald-600">{repId?.status}</span>
+                    <span className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                      <FileText size={13} className="text-amber-500 dark:text-amber-400" />
+                      Representative ID
+                    </span>
+                    {repId ? (
+                      <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800/80 px-2 py-0.5 rounded-full inline-flex items-center gap-1">
+                        <Check size={10} />
+                        Uploaded
+                      </span>
+                    ) : (
+                      <span className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
+                        Required
+                      </span>
+                    )}
                   </div>
-                  <p className="text-[10px] text-slate-400 font-mono truncate">{repId?.fileName || 'Not uploaded'}</p>
-                  <label className="w-full py-1.5 px-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 rounded-lg text-[10px] font-bold cursor-pointer flex items-center justify-center space-x-1">
-                    <Camera size={12} />
-                    <span>Upload Photo / File</span>
-                    <input 
-                      type="file" 
-                      accept=".jpg,.jpeg,.png,.pdf" 
-                      capture="environment"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) setRepId({ fileName: file.name, fileUrl: URL.createObjectURL(file), status: '✓ Uploaded' });
-                      }}
-                      className="hidden" 
-                    />
-                  </label>
+
+                  {repId ? (
+                    <div className="space-y-2">
+                      {/* Photo / Document Live Preview Box */}
+                      <div className="relative w-full h-28 rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-center">
+                        {repId.fileName.toLowerCase().endsWith('.pdf') ? (
+                          <div className="flex flex-col items-center justify-center text-rose-500 space-y-1">
+                            <FileText size={32} />
+                            <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300">PDF Document</span>
+                          </div>
+                        ) : (
+                          <img 
+                            src={repId.fileUrl} 
+                            alt="Representative ID Preview" 
+                            className="w-full h-full object-cover"
+                          />
+                        )}
+                        {/* Floating (X) Remove Button */}
+                        <button
+                          type="button"
+                          onClick={() => setRepId(null)}
+                          className="absolute top-1.5 right-1.5 p-1 bg-rose-600 hover:bg-rose-500 text-white rounded-full shadow-md cursor-pointer transition-all"
+                          title="Remove uploaded file"
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+
+                      {/* File Details & Change button */}
+                      <div className="flex items-center justify-between text-[11px] pt-0.5">
+                        <span className="font-mono text-slate-600 dark:text-slate-300 truncate max-w-[150px]" title={repId.fileName}>
+                          {repId.fileName}
+                        </span>
+                        <label className="text-[10px] font-bold text-amber-600 dark:text-amber-400 hover:text-amber-500 cursor-pointer hover:underline">
+                          Change
+                          <input 
+                            type="file" 
+                            accept=".jpg,.jpeg,.png,.pdf" 
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) setRepId({ fileName: file.name, fileUrl: URL.createObjectURL(file), status: '✓ Uploaded' });
+                            }}
+                            className="hidden" 
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  ) : (
+                    /* Empty Dropzone / Upload State */
+                    <label className="w-full py-6 px-3 border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-amber-500 dark:hover:border-amber-400/60 rounded-xl bg-slate-50/50 dark:bg-slate-950/50 hover:bg-slate-100 dark:hover:bg-slate-950 transition-all cursor-pointer flex flex-col items-center justify-center gap-1.5 text-center group">
+                      <div className="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-800 group-hover:bg-amber-100 dark:group-hover:bg-amber-500/20 text-slate-600 dark:text-slate-300 group-hover:text-amber-600 dark:group-hover:text-amber-400 flex items-center justify-center transition-colors">
+                        <Upload size={14} />
+                      </div>
+                      <span className="text-[11px] font-bold text-slate-800 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-300 transition-colors">
+                        Upload Photo / File
+                      </span>
+                      <span className="text-[9px] text-slate-400">JPG, PNG, or PDF</span>
+                      <input 
+                        type="file" 
+                        accept=".jpg,.jpeg,.png,.pdf" 
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) setRepId({ fileName: file.name, fileUrl: URL.createObjectURL(file), status: '✓ Uploaded' });
+                        }}
+                        className="hidden" 
+                      />
+                    </label>
+                  )}
                 </div>
               </div>
             </div>
@@ -2494,9 +2560,10 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
             <button
               type="button"
               onClick={() => setWizardStep(5)}
-              className="px-5 py-2.5 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+              className="px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-white border border-slate-500/50 rounded-xl text-xs font-bold cursor-pointer transition-all shadow-xs inline-flex items-center gap-1.5"
             >
-              Back to Business Activity
+              <ArrowLeft size={14} />
+              <span>Back to Business Activity</span>
             </button>
             <button
               type="button"
@@ -2515,50 +2582,282 @@ export const BusinessPermitUploadWizard: React.FC<BusinessPermitUploadWizardProp
       {/* STEP 7: SUBMIT PAGE & QC BPLO ASSESSMENT (EXACT REPLICA OF PICTURE 1)     */}
       {/* ========================================================================= */}
       {wizardStep === 7 && (
-        <div className="space-y-5 animate-in fade-in">
-          <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block pb-2 border-b border-slate-200 dark:border-slate-800">
-            Step 7 of 7: Submit Page & Official Assessment of Regulatory Fees
-          </span>
+        <div className="space-y-6 animate-in fade-in">
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-3 border-b border-slate-200 dark:border-slate-800 gap-2">
+            <div>
+              <span className="text-xs font-bold text-blue-600 dark:text-sky-400 block uppercase tracking-wider">
+                Step 7 of 7: Final Application Review
+              </span>
+              <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white">
+                Review & Confirm Business Permit Filing
+              </h3>
+            </div>
+            <span className="text-[11px] font-bold px-3 py-1 bg-blue-100 dark:bg-blue-950/80 text-blue-700 dark:text-sky-300 rounded-full border border-blue-300 dark:border-blue-800 self-start sm:self-auto">
+              {appType === 'NEW' ? 'New Business Permit' : appType === 'RENEWAL' ? 'Renewal' : appType === 'AMENDMENT' ? 'Amendment' : 'Standard Permit'}
+            </span>
+          </div>
 
-          {/* Summary Overview Cards Matching Picture 1 */}
+          {/* Grid of Sections: Steps 3, 4, 5, 6 */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2">
-              <div className="flex items-center space-x-2 text-[#0c4a60] dark:text-sky-400 font-bold">
-                <Calendar size={15} />
-                <span>Event Particulars</span>
+            {/* Step 3: Business Information */}
+            <div className="p-4 rounded-2xl bg-white dark:bg-[#07101e] border border-slate-200 dark:border-slate-800 space-y-2.5 shadow-xs text-xs">
+              <div className="flex items-center space-x-2 text-slate-800 dark:text-white border-b border-slate-100 dark:border-slate-800/80 pb-2">
+                <Building2 size={15} className="text-blue-500 dark:text-sky-400" />
+                <span className="font-medium text-xs text-slate-900 dark:text-white">Step 3: Business Information</span>
               </div>
-              <p><strong>Title:</strong> {businessInfo.businessName || 'N/A'}</p>
-              <p><strong>Venue:</strong> {businessInfo.businessAddress}, Brgy. {businessInfo.businessBarangay}, QC</p>
-              <p><strong>Dates:</strong> CY 2026 Annual Registration</p>
-              <p><strong>Category:</strong> {businessInfo.businessType} Permit • {activityInfo.lineOfBusiness || businessInfo.natureOfBusiness || 'Commercial Enterprise'}</p>
-              <p><strong>Booths & Scale:</strong> ₱{operationInfo.capitalInvestment || '100,000.00'} • {operationInfo.floorAreaSqm || '50'} sqm</p>
+              <div className="space-y-1.5 text-slate-800 dark:text-white font-normal">
+                <p><span className="text-slate-500 dark:text-slate-400">Business Name:</span> {businessInfo.businessName || 'N/A'}</p>
+                <p><span className="text-slate-500 dark:text-slate-400">Business Type:</span> {businessInfo.businessType || 'N/A'}</p>
+                <p><span className="text-slate-500 dark:text-slate-400">Nature of Business:</span> {businessInfo.natureOfBusiness || 'N/A'}</p>
+                <p><span className="text-slate-500 dark:text-slate-400">Contact Number:</span> <span className="font-mono">{businessInfo.businessContact || 'N/A'}</span></p>
+                <p><span className="text-slate-500 dark:text-slate-400">Location Address:</span> {businessInfo.businessAddress}, Brgy. {businessInfo.businessBarangay}, Quezon City</p>
+                <p><span className="text-slate-500 dark:text-slate-400">Right to Use Location:</span> {propertyTenure === 'LEASED' ? 'Leased (Contract of Lease)' : propertyTenure === 'OWNED' ? 'Owned (Tax Declaration / TCT)' : propertyTenure === 'GOVERNMENT_PROPERTY' ? 'Government Property' : propertyTenure || 'N/A'}</p>
+              </div>
             </div>
 
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2">
-              <div className="flex items-center space-x-2 text-[#0c4a60] dark:text-sky-400 font-bold">
-                <Building2 size={15} />
-                <span>Entity & Promoter</span>
+            {/* Step 4: Business Operation */}
+            <div className="p-4 rounded-2xl bg-white dark:bg-[#07101e] border border-slate-200 dark:border-slate-800 space-y-2.5 shadow-xs text-xs">
+              <div className="flex items-center space-x-2 text-slate-800 dark:text-white border-b border-slate-100 dark:border-slate-800/80 pb-2">
+                <Briefcase size={15} className="text-blue-500 dark:text-sky-400" />
+                <span className="font-medium text-xs text-slate-900 dark:text-white">Step 4: Business Operation</span>
               </div>
-              <p><strong>Entity:</strong> {businessInfo.businessName || 'N/A'}</p>
-              <p><strong>TIN / SEC:</strong> {businessInfo.businessContact || 'Registered'} • {propertyTenure}</p>
-              <p><strong>Promoter / Head:</strong> {applicantInfo.fullName || 'Business Owner'} ({applicantType === 'OWNER' ? 'Proprietor' : 'Representative'})</p>
-              <p><strong>Contact:</strong> {applicantInfo.mobile} • {applicantInfo.email}</p>
-              <p><strong>Safety Lead:</strong> {applicantInfo.repFullName || applicantInfo.fullName || 'Proprietor'}</p>
+              <div className="space-y-1.5 text-slate-800 dark:text-white font-normal">
+                <p><span className="text-slate-500 dark:text-slate-400">Capital Investment:</span> ₱{Number(operationInfo.capitalInvestment || 0).toLocaleString()}</p>
+                <p><span className="text-slate-500 dark:text-slate-400">Floor Area:</span> {operationInfo.floorAreaSqm || '0'} sqm</p>
+                <p><span className="text-slate-500 dark:text-slate-400">Total Employees:</span> {operationInfo.totalEmployees || '0'} 
+                  {(operationInfo.maleEmployees || operationInfo.femaleEmployees || operationInfo.pwdEmployees) && (
+                    <span className="text-[11px] text-slate-400 ml-1">
+                      (Male: {operationInfo.maleEmployees || 0}, Female: {operationInfo.femaleEmployees || 0}, PWD: {operationInfo.pwdEmployees || 0})
+                    </span>
+                  )}
+                </p>
+                {operationInfo.deliveryVehicles && (
+                  <p><span className="text-slate-500 dark:text-slate-400">Delivery Vehicles:</span> {operationInfo.deliveryVehicles}</p>
+                )}
+                {/* Dependent on Property Tenure: Show Lessor details only if LEASED */}
+                {propertyTenure === 'LEASED' ? (
+                  <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 space-y-1 mt-1 text-slate-800 dark:text-white font-normal text-[11px]">
+                    <p className="text-slate-500 dark:text-slate-400">Lease Particulars:</p>
+                    <p><span className="text-slate-400">Monthly Rental:</span> ₱{Number(operationInfo.monthlyRental || 0).toLocaleString()}</p>
+                    <p><span className="text-slate-400">Lessor:</span> {operationInfo.lessorName || 'N/A'} ({operationInfo.lessorContact || 'N/A'})</p>
+                  </div>
+                ) : (
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 font-normal pt-1">
+                    Non-leased premise (Direct owner / government property)
+                  </p>
+                )}
+              </div>
             </div>
+
+            {/* Step 5: Business Activity */}
+            <div className="p-4 rounded-2xl bg-white dark:bg-[#07101e] border border-slate-200 dark:border-slate-800 space-y-2.5 shadow-xs text-xs">
+              <div className="flex items-center space-x-2 text-slate-800 dark:text-white border-b border-slate-100 dark:border-slate-800/80 pb-2">
+                <Sparkles size={15} className="text-blue-500 dark:text-sky-400" />
+                <span className="font-medium text-xs text-slate-900 dark:text-white">Step 5: Business Activity</span>
+              </div>
+              <div className="space-y-1.5 text-slate-800 dark:text-white font-normal">
+                <p><span className="text-slate-500 dark:text-slate-400">Line of Business:</span> {activityInfo.lineOfBusiness || 'N/A'}</p>
+                <p><span className="text-slate-500 dark:text-slate-400">PSIC Code:</span> <span className="font-mono">{activityInfo.psicCode || 'N/A'}</span></p>
+                <p><span className="text-slate-500 dark:text-slate-400">Products / Services:</span> {activityInfo.productsServices || 'N/A'}</p>
+                <p><span className="text-slate-500 dark:text-slate-400">Days Open:</span> {activityInfo.daysOpen || 'Monday - Saturday'}</p>
+                <p><span className="text-slate-500 dark:text-slate-400">Operating Hours:</span> {activityInfo.operatingHours || '8:00 AM - 5:00 PM'}</p>
+              </div>
+            </div>
+
+            {/* Step 6: Applicant Profile */}
+            <div className="p-4 rounded-2xl bg-white dark:bg-[#07101e] border border-slate-200 dark:border-slate-800 space-y-2.5 shadow-xs text-xs">
+              <div className="flex items-center space-x-2 text-slate-800 dark:text-white border-b border-slate-100 dark:border-slate-800/80 pb-2">
+                <User size={15} className="text-blue-500 dark:text-sky-400" />
+                <span className="font-medium text-xs text-slate-900 dark:text-white">Step 6: Applicant Profile</span>
+              </div>
+              <div className="space-y-1.5 text-slate-800 dark:text-white font-normal">
+                <p><span className="text-slate-500 dark:text-slate-400">Applicant Role:</span> {applicantType === 'OWNER' ? 'Business Owner' : 'Authorized Representative'}</p>
+                <p><span className="text-slate-500 dark:text-slate-400">Full Name:</span> {applicantInfo.fullName || 'N/A'}</p>
+                <p><span className="text-slate-500 dark:text-slate-400">Mobile Number:</span> <span className="font-mono">{applicantInfo.mobile || 'N/A'}</span></p>
+                <p><span className="text-slate-500 dark:text-slate-400">Email Address:</span> <span className="font-mono">{applicantInfo.email || 'N/A'}</span></p>
+
+                {/* Dependent on Applicant Type: Show Representative details only if REPRESENTATIVE */}
+                {applicantType === 'REPRESENTATIVE' && (
+                  <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 space-y-1 mt-1 text-slate-800 dark:text-white font-normal text-[11px]">
+                    <p className="text-slate-500 dark:text-slate-400">Representative Filing:</p>
+                    <p><span className="text-slate-400">Authorized Person:</span> {applicantInfo.repFullName || applicantInfo.fullName}</p>
+                    <p><span className="text-slate-400">Representative Contact:</span> {applicantInfo.repMobile || applicantInfo.mobile}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* ========================================================================= */}
+          {/* STEP 2 & STEP 6: UPLOADED ATTACHMENTS & PHOTOS GALLERY (LIVE PREVIEWS)    */}
+          {/* ========================================================================= */}
+          <div className="p-4 rounded-2xl bg-white dark:bg-[#07101e] border border-slate-200 dark:border-slate-800 space-y-3 shadow-xs">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80 pb-2.5">
+              <div className="flex items-center space-x-2 text-slate-800 dark:text-white">
+                <FileCheck size={16} className="text-blue-500 dark:text-sky-400" />
+                <span className="font-medium text-xs text-slate-900 dark:text-white">
+                  Documentary Attachments & Photo Gallery Review
+                </span>
+              </div>
+              <span className="text-[11px] font-normal text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800/80">
+                {documents.filter(d => d.fileUrl || d.status !== 'NOT UPLOADED').length} Uploaded Basic Document(s)
+              </span>
+            </div>
+
+            {/* Step 2 Documents Grid */}
+            <div className="space-y-2">
+              <span className="text-[11px] font-normal text-slate-500 dark:text-slate-400 block">
+                Basic Requirements (Step 2):
+              </span>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                {documents.map((doc) => {
+                  const isUp = Boolean(doc.fileUrl || doc.status !== 'NOT UPLOADED');
+                  return (
+                    <div 
+                      key={doc.id} 
+                      className={`p-2.5 rounded-xl border flex flex-col justify-between space-y-2 ${
+                        isUp 
+                          ? 'border-emerald-500/40 bg-emerald-50/20 dark:bg-emerald-950/20' 
+                          : 'border-slate-200 dark:border-slate-800 opacity-60'
+                      }`}
+                    >
+                      <div className="relative w-full h-20 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center">
+                        {doc.fileUrl ? (
+                          doc.fileName?.toLowerCase().endsWith('.pdf') ? (
+                            <div className="flex flex-col items-center text-rose-500">
+                              <FileText size={24} />
+                              <span className="text-[8px] font-normal">PDF</span>
+                            </div>
+                          ) : (
+                            <img 
+                              src={doc.fileUrl} 
+                              alt={doc.name} 
+                              className="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform"
+                              onClick={() => setPreviewModalUrl({ url: doc.fileUrl!, title: doc.name })}
+                            />
+                          )
+                        ) : (
+                          <span className="text-[10px] text-slate-400 font-normal">No File</span>
+                        )}
+                      </div>
+                      <div>
+                        <p className="text-[11px] font-normal text-slate-900 dark:text-white truncate" title={doc.name}>{doc.name}</p>
+                        <p className="text-[9px] text-emerald-600 dark:text-emerald-400 font-normal flex items-center gap-1 mt-0.5">
+                          {isUp ? <><Check size={10} /> Ready for BPLO</> : 'Not Attached'}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Dependent on Step 6: Representative Documents Photo Review */}
+            {applicantType === 'REPRESENTATIVE' && (repAuthLetter || repOwnerId || repId) && (
+              <div className="space-y-2 pt-3 border-t border-slate-100 dark:border-slate-800">
+                <span className="text-[11px] font-normal text-slate-500 dark:text-slate-400 block">
+                  Authorized Representative Uploaded Photos (Step 6):
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {repAuthLetter && (
+                    <div className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 flex items-center gap-3">
+                      <div className="w-14 h-14 rounded-lg overflow-hidden bg-slate-900 flex-shrink-0 border border-slate-700 flex items-center justify-center">
+                        {repAuthLetter.fileName.toLowerCase().endsWith('.pdf') ? (
+                          <FileText size={20} className="text-rose-400" />
+                        ) : (
+                          <img 
+                            src={repAuthLetter.fileUrl} 
+                            alt="Authorization Letter" 
+                            className="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform"
+                            onClick={() => setPreviewModalUrl({ url: repAuthLetter.fileUrl, title: 'Authorization Letter' })}
+                          />
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-xs font-normal text-slate-900 dark:text-white truncate">Authorization Letter</p>
+                        <p className="text-[10px] text-slate-400 font-mono truncate">{repAuthLetter.fileName}</p>
+                        <span className="text-[9px] font-normal text-emerald-600 dark:text-emerald-400">✓ Uploaded</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {repOwnerId && (
+                    <div className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 flex items-center gap-3">
+                      <div className="w-14 h-14 rounded-lg overflow-hidden bg-slate-900 flex-shrink-0 border border-slate-700 flex items-center justify-center">
+                        {repOwnerId.fileName.toLowerCase().endsWith('.pdf') ? (
+                          <FileText size={20} className="text-rose-400" />
+                        ) : (
+                          <img 
+                            src={repOwnerId.fileUrl} 
+                            alt="Owner Valid ID" 
+                            className="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform"
+                            onClick={() => setPreviewModalUrl({ url: repOwnerId.fileUrl, title: 'Owner Valid ID' })}
+                          />
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-xs font-normal text-slate-900 dark:text-white truncate">Owner Valid ID</p>
+                        <p className="text-[10px] text-slate-400 font-mono truncate">{repOwnerId.fileName}</p>
+                        <span className="text-[9px] font-normal text-emerald-600 dark:text-emerald-400">✓ Uploaded</span>
+                      </div>
+                    </div>
+                  )}
+
+                  {repId && (
+                    <div className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 flex items-center gap-3">
+                      <div className="w-14 h-14 rounded-lg overflow-hidden bg-slate-900 flex-shrink-0 border border-slate-700 flex items-center justify-center">
+                        {repId.fileName.toLowerCase().endsWith('.pdf') ? (
+                          <FileText size={20} className="text-rose-400" />
+                        ) : (
+                          <img 
+                            src={repId.fileUrl} 
+                            alt="Representative ID" 
+                            className="w-full h-full object-cover cursor-pointer hover:scale-105 transition-transform"
+                            onClick={() => setPreviewModalUrl({ url: repId.fileUrl, title: 'Representative ID' })}
+                          />
+                        )}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-xs font-normal text-slate-900 dark:text-white truncate">Representative ID</p>
+                        <p className="text-[10px] text-slate-400 font-mono truncate">{repId.fileName}</p>
+                        <span className="text-[9px] font-normal text-emerald-600 dark:text-emerald-400">✓ Uploaded</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Certification Declaration */}
+          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-[#07101e] border border-slate-200 dark:border-slate-800">
+            <label className="flex items-start gap-2.5 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={certifiedTruth}
+                onChange={(e) => setCertifiedTruth(e.target.checked)}
+                className="mt-0.5 rounded text-blue-600 focus:ring-blue-500 cursor-pointer"
+              />
+              <span className="text-[11px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                I hereby certify under penalty of perjury that all information, business particulars, and documentary attachments submitted herein are true, correct, and legally authenticated.
+              </span>
+            </label>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-slate-200 dark:border-slate-800">
             <button
               type="button"
               onClick={() => setWizardStep(6)}
-              className="w-full sm:w-auto px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-bold transition-colors cursor-pointer"
+              className="w-full sm:w-auto px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-white border border-slate-500/50 rounded-xl text-xs font-bold cursor-pointer transition-all shadow-xs inline-flex items-center justify-center gap-1.5"
             >
-              Back to Other Information
+              <ArrowLeft size={14} />
+              <span>Back to Other Information</span>
             </button>
 
             <button
               type="button"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !certifiedTruth}
               onClick={handleSubmitApplication}
               className="w-full sm:w-auto px-7 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center justify-center space-x-2 cursor-pointer disabled:opacity-50"
             >

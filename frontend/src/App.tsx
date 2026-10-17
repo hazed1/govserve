@@ -904,12 +904,12 @@ function GovServePortal() {
     activeTab === 'Renewal'
   )) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
+      <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
         <BusinessPermitModule 
           onNavigateToTab={(tab) => setActiveTab(tab)}
           onAddNewApplication={handleAddNewApplication}
           onNavigateToDashboard={handleNavigateToDashboard}
-          initialView={activeTab === 'Renewal' ? 'renewal' : (activeTab === 'New Registration' || activeTab === 'Business Permit Application') ? 'new_app' : 'preview'}
+          initialView={activeTab === 'Renewal' ? 'renewal' : (activeTab === 'New Registration' || activeTab === 'Business Permit Application') ? 'new_app_overview' : 'preview'}
         />
         {/* Global Floating AI Permit Assistant Widget */}
         <AIChatWidget onNavigateToTab={(tab) => setActiveTab(tab)} />
@@ -925,7 +925,7 @@ function GovServePortal() {
     activeTab === 'Building Permit Reviews'
   )) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
+      <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
         <BuildingPermitFiling 
           onNavigateToTab={(tab) => setActiveTab(tab as TabType)}
           onAddNewApplication={handleAddNewApplication}
@@ -945,7 +945,7 @@ function GovServePortal() {
     activeTab === 'Fleet Progress Monitoring'
   )) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
+      <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
         <FranchiseTransportPermitModule 
           currentTab={activeTab}
           onNavigateToTab={(tab) => setActiveTab(tab as TabType)}
@@ -971,7 +971,7 @@ function GovServePortal() {
     activeTab === 'Integration Status Tracking'
   )) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
+      <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
         <BarangayPermitIntegration 
           currentTab={activeTab}
           onNavigateToTab={(tab) => setActiveTab(tab as TabType)}
@@ -990,7 +990,7 @@ function GovServePortal() {
     activeTab === 'Inspection & Local Validation'
   )) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
+      <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
         <InspectionScheduling 
           onNavigateToTab={(tab) => setActiveTab(tab as TabType)}
           onAddNewApplication={handleAddNewApplication}
@@ -1012,7 +1012,7 @@ function GovServePortal() {
     activeTab === 'Digital Permit Download'
   )) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
+      <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
         <EPermitTrackerModule 
           currentTab={activeTab}
           applications={applications}
@@ -1038,7 +1038,7 @@ function GovServePortal() {
     activeTab === 'Report Fraudulent Permit'
   )) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
+      <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
         <TrackVerifyPermitModule 
           currentTab={activeTab}
           onNavigateToTab={(tab) => setActiveTab(tab as TabType)}

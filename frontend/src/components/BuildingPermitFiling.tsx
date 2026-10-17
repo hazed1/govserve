@@ -995,9 +995,9 @@ export const BuildingPermitFiling: React.FC<BuildingPermitFilingProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Current view controller:
-  // 'admin_reviews' | 'preview' | 'hub' | 'new_building_app' | 'ancillary' | 'occupancy' | 'pay_fees' | 'special_permit' | 'ctc_pulling' | 'verification' | 'green_seal'
+  // 'admin_reviews' | 'preview' | 'hub' | 'new_building_app' | 'ancillary' | 'occupancy' | 'pay_fees' | 'special_permit' | 'ctc_pulling' | 'verification' | 'green_seal' | 'permit_applications' | 'professionals'
   const [currentView, setCurrentView] = useState<
-    'admin_reviews' | 'preview' | 'hub' | 'new_building_app' | 'ancillary' | 'occupancy' | 'pay_fees' | 'special_permit' | 'ctc_pulling' | 'verification' | 'green_seal'
+    'admin_reviews' | 'preview' | 'hub' | 'new_building_app' | 'ancillary' | 'occupancy' | 'pay_fees' | 'special_permit' | 'ctc_pulling' | 'verification' | 'green_seal' | 'permit_applications' | 'professionals'
   >(isReviewsTab ? 'admin_reviews' : 'preview');
 
   // -------------------------------------------------------------
@@ -1614,18 +1614,6 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
       {/* ========================================================================= */}
       <section className="w-full bg-transparent text-slate-900 dark:text-white pt-8 pb-4 px-4 sm:px-8 relative transition-colors">
         <div className="max-w-4xl mx-auto relative z-10 space-y-3">
-          {currentView !== 'preview' && currentView !== 'admin_reviews' && (
-            <div className="flex justify-start sm:justify-end">
-              <button
-                onClick={() => setCurrentView('preview')}
-                className="px-4 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shadow-md"
-              >
-                <ArrowLeft size={13} />
-                <span>Return to Building Overview</span>
-              </button>
-            </div>
-          )}
-
           <div className="text-center space-y-2">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
               {currentView === 'admin_reviews' 
@@ -1758,12 +1746,25 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                       </div>
                     </div>
 
-                    {/* Action Button */}
-                    <div>
+                    {/* Action Buttons */}
+                    <div className="space-y-1.5">
                       <button
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
+                          setChecklistModalOpen(true);
+                        }}
+                        className="w-full py-2 px-3 bg-sky-50 hover:bg-sky-100 dark:bg-sky-500/10 dark:hover:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-300/80 dark:border-sky-400/30 rounded-xl text-xs font-bold hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                      >
+                        <FileCheck size={13} className="shrink-0" />
+                        <span>View Requirements Checklist</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setCurrentView('permit_applications');
                           setPermitApplicationsModalOpen(true);
                           setPermitModalActiveView('catalog');
                           setSelectedPermitForModal(null);
@@ -1778,7 +1779,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
               </div>
 
               {/* ======================================================================= */}
-              {/* CARD 2: PROFESSIONALS DASHBOARD (AMBER / GOLD THEME) */}
+              {/* CARD 2: PROFESSIONALS DASHBOARD (BLUE / SKY THEME) */}
               {/* ======================================================================= */}
               <div 
                 className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
@@ -1796,7 +1797,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                     <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Users size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1807,7 +1808,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
 
                       {/* Row 2: Service Method */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Briefcase size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1818,7 +1819,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
 
                       {/* Row 3: Time Period */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Clock size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1829,7 +1830,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
 
                       {/* Row 4: Charges & Payment */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Banknote size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1840,7 +1841,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
 
                       {/* Row 5: Payment Method */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <CreditCard size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1854,8 +1855,8 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                   {/* Document Upload & Action Section */}
                   <div className="w-full flex flex-col space-y-2 pt-0.5">
                     {/* Document Upload Box */}
-                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-amber-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
-                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-amber-700 dark:text-amber-400">
+                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-sky-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
+                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-sky-700 dark:text-sky-400">
                         <HardHat size={12} />
                         <span>PRC License &amp; Digital Seal Active</span>
                       </div>
@@ -1863,17 +1864,17 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                         Verify PRC License Card, current year PTR, and digital dry seal.
                       </p>
                       <div className="flex flex-wrap gap-1 pt-0.5">
-                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>PRC Card
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>PRC Card
                         </span>
-                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>Current PTR
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Current PTR
                         </span>
-                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>Signature
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Signature
                         </span>
-                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>Registry
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Registry
                         </span>
                       </div>
                     </div>
@@ -1884,10 +1885,11 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
+                          setCurrentView('professionals');
                           setProfModalView('landing');
                           setProfessionalsModalOpen(true);
                         }}
-                        className="w-full py-2 px-3 bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-white rounded-xl text-xs font-bold shadow-md shadow-amber-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                        className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                       >
                         <span>Professionals Dashboard</span>
                       </button>
@@ -1895,127 +1897,6 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                   </div>
                 </div>
               </div>
-
-              {/* ======================================================================= */}
-              {/* CARD 3: CHECKLIST OF REQUIREMENTS (EMERALD / GREEN THEME) - CENTERED ON ROW 2 */}
-              {/* ======================================================================= */}
-              <div className="md:col-span-2 flex justify-center">
-                <div 
-                  className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px]"
-                >
-                  <div className="flex flex-col justify-between gap-3.5 relative z-10 flex-1">
-                    {/* Info & Details */}
-                    <div className="space-y-2 min-w-0">
-                      <div>
-                        <h3 className="text-xs sm:text-[13px] font-black text-slate-900 dark:text-white tracking-tight leading-snug">
-                          CHECKLIST OF REQUIREMENTS
-                        </h3>
-                      </div>
-
-                      {/* 5 Information Rows with Circular Icons */}
-                      <div className="space-y-1.5 pt-0.5">
-                        {/* Row 1: Target Users */}
-                        <div className="flex items-start gap-2.5">
-                          <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                            <Users size={11} />
-                          </div>
-                          <div className="min-w-0">
-                            <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TARGET USERS</span>
-                            <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">All Applicants, Property Owners, Contractors &amp; Engineers</p>
-                          </div>
-                        </div>
-
-                        {/* Row 2: Service Method */}
-                        <div className="flex items-start gap-2.5">
-                          <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                            <Briefcase size={11} />
-                          </div>
-                          <div className="min-w-0">
-                            <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">SERVICE METHOD</span>
-                            <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Online application through GovServe</p>
-                          </div>
-                        </div>
-
-                        {/* Row 3: Time Period */}
-                        <div className="flex items-start gap-2.5">
-                          <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                            <Clock size={11} />
-                          </div>
-                          <div className="min-w-0">
-                            <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TIME PERIOD</span>
-                            <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">5 to 7 days upon joint engineering &amp; FSEC review</p>
-                          </div>
-                        </div>
-
-                        {/* Row 4: Charges & Payment */}
-                        <div className="flex items-start gap-2.5">
-                          <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                            <Banknote size={11} />
-                          </div>
-                          <div className="min-w-0">
-                            <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">CHARGES &amp; PAYMENT</span>
-                            <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Assessed per sqm under National Building Code</p>
-                          </div>
-                        </div>
-
-                        {/* Row 5: Payment Method */}
-                        <div className="flex items-start gap-2.5">
-                          <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
-                            <CreditCard size={11} />
-                          </div>
-                          <div className="min-w-0">
-                            <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">PAYMENT METHOD</span>
-                            <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Via GovServe online portal</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Document Upload & Action Section */}
-                    <div className="w-full flex flex-col space-y-2 pt-0.5">
-                      {/* Document Upload Box */}
-                      <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-emerald-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
-                        <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-emerald-700 dark:text-emerald-400">
-                          <FileCheck size={12} />
-                          <span>Master Requirements Active</span>
-                        </div>
-                        <p className="text-[9.5px] text-slate-600 dark:text-slate-400 leading-snug">
-                          Checklist for Admin/Legal, Architectural, Structural &amp; FSEC.
-                        </p>
-                        <div className="flex flex-wrap gap-1 pt-0.5">
-                          <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                            <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>TCT / Admin
-                          </span>
-                          <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                            <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Architectural
-                          </span>
-                          <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                            <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Trade Engr
-                          </span>
-                          <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                            <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>FSEC Fire
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Action Button */}
-                      <div>
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setChecklistModalOpen(true);
-                          }}
-                          className="w-full py-2 px-3 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-md shadow-emerald-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-                        >
-                          <span>Checklist of Requirements</span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
             </div>
           </div>
         )}
@@ -3273,36 +3154,50 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
 
       
         {/* ========================================================================= */}
-        {/* MODAL 1: PROFESSIONALS DASHBOARD MODAL */}
+        {/* INLINE VIEW: PROFESSIONALS DASHBOARD (CONTENT VIEW) */}
         {/* ========================================================================= */}
-        {professionalsModalOpen && (
-          <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-4xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-              {/* Modal Header (Matching Exact Picture: Mint/Green Tint, Circular Info Icon, Bold Title, Clean X) */}
-              <div className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-6 py-4 flex items-center justify-between">
-                <div className="flex items-center space-x-2.5">
-                  <Info size={24} className="text-[#1976d2] shrink-0" strokeWidth={2.2} />
-                  <h3 className="font-bold text-base sm:text-lg text-slate-800 dark:text-slate-100 tracking-tight">
-                    Professionals Dashboard
-                  </h3>
-                </div>
-                <button
-                  onClick={() => setProfessionalsModalOpen(false)}
-                  className="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 cursor-pointer p-1 rounded-lg hover:bg-black/5 dark:hover:bg-white/5 transition-colors"
-                >
-                  <X size={20} />
-                </button>
-              </div>
+        {(currentView === 'professionals' || professionalsModalOpen) && (
+          <div className="space-y-6 max-w-5xl mx-auto animate-in fade-in duration-200 pb-12">
+            
+            {/* Frameless Breadcrumb Navigation */}
+            <div className="flex flex-wrap items-center justify-between gap-3 pb-1">
+              <button
+                type="button"
+                onClick={() => {
+                  setCurrentView('preview');
+                  setProfessionalsModalOpen(false);
+                  setProfModalView('landing');
+                }}
+                className="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-sky-400 transition-colors cursor-pointer group"
+              >
+                <ArrowLeft size={14} className="group-hover:-translate-x-0.5 transition-transform" />
+                <span>Return to Building Overview / Professionals Dashboard</span>
+              </button>
 
-              {/* Modal Body */}
+              {profModalView !== 'landing' && (
+                <button
+                  type="button"
+                  onClick={() => setProfModalView('landing')}
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-sky-400 hover:underline cursor-pointer"
+                >
+                  <ArrowLeft size={13} />
+                  <span>Back to Professionals Menu</span>
+                </button>
+              )}
+            </div>
+
+            {/* Main Content Card Container */}
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-xl overflow-hidden flex flex-col">
+              
+              {/* View Body */}
               {profModalView === 'landing' ? (
-                /* Landing Screen Exactly Replicating User Picture: 2 Cards Side-by-Side */
-                <div className="p-6 sm:p-8 bg-white dark:bg-slate-900 overflow-y-auto">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-                    {/* Left Card: Renew my registration */}
-                    <div className="bg-white dark:bg-slate-850 rounded-2xl border border-slate-200 dark:border-slate-700/80 p-6 sm:p-7 flex flex-col justify-between shadow-xs hover:border-slate-300 dark:hover:border-slate-600 transition-all">
+                /* Landing Screen: Single seamless card container without inner nested boxes */
+                <div className="p-6 sm:p-10 bg-white dark:bg-slate-900">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-stretch divide-y md:divide-y-0 md:divide-x divide-slate-200 dark:divide-slate-800">
+                    {/* Left Column: Renew my registration */}
+                    <div className="flex flex-col justify-between space-y-6 md:pr-8">
                       <div className="space-y-6">
-                        <p className="text-center text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed max-w-xs mx-auto">
+                        <p className="text-center md:text-left text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed">
                           Access and review your registered professions, verify their current status, and process renewals as needed.
                         </p>
 
@@ -3312,29 +3207,30 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                           </p>
                           <div className="space-y-2 text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed">
                             <div className="flex items-start space-x-2">
-                              <span className="shrink-0 font-medium">1.</span>
+                              <span className="shrink-0 font-medium text-slate-400">1.</span>
                               <span>Click My Professions.</span>
                             </div>
                             <div className="flex items-start space-x-2">
-                              <span className="shrink-0 font-medium">2.</span>
+                              <span className="shrink-0 font-medium text-slate-400">2.</span>
                               <span>Select the profession you want to renew.</span>
                             </div>
                             <div className="flex items-start space-x-2">
-                              <span className="shrink-0 font-medium">3.</span>
+                              <span className="shrink-0 font-medium text-slate-400">3.</span>
                               <span>Review and update your information if needed.</span>
                             </div>
                             <div className="flex items-start space-x-2">
-                              <span className="shrink-0 font-medium">4.</span>
+                              <span className="shrink-0 font-medium text-slate-400">4.</span>
                               <span>Click Resubmit to complete your renewal.</span>
                             </div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="mt-8 flex justify-center">
+                      <div className="pt-6 flex justify-center">
                         <button
+                          type="button"
                           onClick={() => setProfModalView('my_professions')}
-                          className="px-8 py-3 bg-[#1976d2] hover:bg-[#1565c0] text-white font-bold rounded-2xl text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-xs transition-colors cursor-pointer"
+                          className="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-2xl text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-md shadow-blue-600/30 transition-all cursor-pointer hover:scale-[1.01] active:scale-[0.99]"
                         >
                           <span>My Professions</span>
                           <ArrowRight size={16} />
@@ -3342,10 +3238,10 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                       </div>
                     </div>
 
-                    {/* Right Card: Steps to Register */}
-                    <div className="bg-white dark:bg-slate-850 rounded-2xl border border-slate-200 dark:border-slate-700/80 p-6 sm:p-7 flex flex-col justify-between shadow-xs hover:border-slate-300 dark:hover:border-slate-600 transition-all">
+                    {/* Right Column: Steps to Register */}
+                    <div className="flex flex-col justify-between space-y-6 pt-6 md:pt-0 md:pl-8">
                       <div className="space-y-6">
-                        <p className="text-center text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed max-w-xs mx-auto">
+                        <p className="text-center md:text-left text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed">
                           Register your professional profile to enable clients to tag you in their applications.
                         </p>
 
@@ -3355,29 +3251,30 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                           </p>
                           <div className="space-y-2 text-xs sm:text-[13px] text-slate-600 dark:text-slate-300 leading-relaxed">
                             <div className="flex items-start space-x-2">
-                              <span className="shrink-0 font-medium">1.</span>
+                              <span className="shrink-0 font-medium text-slate-400">1.</span>
                               <span>Create an account or log in to QC Eservices.</span>
                             </div>
                             <div className="flex items-start space-x-2">
-                              <span className="shrink-0 font-medium">2.</span>
+                              <span className="shrink-0 font-medium text-slate-400">2.</span>
                               <span>Navigate to Building Permit: One-stop-shop &rarr; Building Professional Registration.</span>
                             </div>
                             <div className="flex items-start space-x-2">
-                              <span className="shrink-0 font-medium">3.</span>
+                              <span className="shrink-0 font-medium text-slate-400">3.</span>
                               <span>Complete the registration form and upload your PRC ID &amp; PTR.</span>
                             </div>
                             <div className="flex items-start space-x-2">
-                              <span className="shrink-0 font-medium">4.</span>
+                              <span className="shrink-0 font-medium text-slate-400">4.</span>
                               <span>Wait for verification of your submission.</span>
                             </div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="mt-8 flex justify-center">
+                      <div className="pt-6 flex justify-center">
                         <button
+                          type="button"
                           onClick={() => setProfModalView('new_registration')}
-                          className="px-8 py-3 bg-[#1c4b72] hover:bg-[#153a59] text-white font-bold rounded-2xl text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-xs transition-colors cursor-pointer"
+                          className="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-2xl text-xs sm:text-sm flex items-center justify-center space-x-2 shadow-md shadow-blue-600/30 transition-all cursor-pointer hover:scale-[1.01] active:scale-[0.99]"
                         >
                           <span>New Registration</span>
                           <ArrowRight size={16} />
@@ -3835,33 +3732,46 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
 
       
         {/* ========================================================================= */}
-        {/* MODAL: QC DBO PERMIT APPLICATIONS (PICTURES 1 & 2 APPLIED TO PICTURE 3) */}
+        {/* INLINE VIEW: QC DBO PERMIT APPLICATIONS (CONTENT VIEW) */}
         {/* ========================================================================= */}
-        {permitApplicationsModalOpen && (
-          <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 animate-in fade-in">
-            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-5xl w-full shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
-              
-              {/* Modal Top Bar matching Picture 1 */}
-              <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-white dark:bg-slate-900">
-                <div className="flex items-center space-x-2.5">
-                  <div className="text-[#1c64f2] dark:text-sky-400">
-                    <ListFilter size={22} />
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white tracking-tight">
-                    Permit Applications
-                  </h3>
-                </div>
+        {(currentView === 'permit_applications' || permitApplicationsModalOpen) && (
+          <div className="space-y-6 max-w-5xl mx-auto animate-in fade-in duration-200 pb-12">
+            
+            {/* Frameless Breadcrumb Navigation */}
+            <div className="flex flex-wrap items-center justify-between gap-3 pb-1">
+              <button
+                type="button"
+                onClick={() => {
+                  setCurrentView('preview');
+                  setPermitApplicationsModalOpen(false);
+                  setSelectedPermitForModal(null);
+                }}
+                className="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-sky-400 transition-colors cursor-pointer group"
+              >
+                <ArrowLeft size={14} className="group-hover:-translate-x-0.5 transition-transform" />
+                <span>Return to Building Overview / Permit Applications</span>
+              </button>
+
+              {permitModalActiveView !== 'catalog' && (
                 <button
                   type="button"
-                  onClick={() => setPermitApplicationsModalOpen(false)}
-                  className="w-8 h-8 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center justify-center cursor-pointer transition-colors"
+                  onClick={() => {
+                    setSelectedPermitForModal(null);
+                    setPermitModalActiveView('catalog');
+                  }}
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-600 dark:text-sky-400 hover:underline cursor-pointer"
                 >
-                  <X size={18} />
+                  <ArrowLeft size={13} />
+                  <span>Back to Categories Catalog</span>
                 </button>
-              </div>
+              )}
+            </div>
 
-              {/* Modal Body */}
-              <div id="permit-modal-scroll-container" className="p-6 sm:p-8 overflow-y-auto space-y-6 text-xs">
+            {/* Main Content Card Container */}
+            <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-xl overflow-hidden flex flex-col">
+              
+              {/* View Body */}
+              <div id="permit-modal-scroll-container" className="p-6 sm:p-8 space-y-6 text-xs">
                 
                 {/* Intro Explanatory Box matching Picture 1 */}
                 <div className="text-center max-w-3xl mx-auto space-y-4">
