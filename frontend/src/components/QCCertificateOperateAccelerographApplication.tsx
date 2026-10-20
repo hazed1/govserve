@@ -37,25 +37,25 @@ export const QCCertificateOperateAccelerographApplication: React.FC<QCCertificat
   showToast
 }) => {
   // Panel 1: Ownership & Applicant Details
-  const [typeOfOwnership, setTypeOfOwnership] = useState<string>('Corporation');
-  const [applicantLastName, setApplicantLastName] = useState<string>('Villanueva');
-  const [applicantFirstName, setApplicantFirstName] = useState<string>('Danilo');
-  const [applicantMI, setApplicantMI] = useState<string>('K.');
-  const [mobileNo, setMobileNo] = useState<string>('0920 444 8811');
-  const [applicantAddress, setApplicantAddress] = useState<string>('Commonwealth Avenue, Diliman, Quezon City');
+  const [typeOfOwnership, setTypeOfOwnership] = useState('');
+  const [applicantLastName, setApplicantLastName] = useState('');
+  const [applicantFirstName, setApplicantFirstName] = useState('');
+  const [applicantMI, setApplicantMI] = useState('');
+  const [mobileNo, setMobileNo] = useState('');
+  const [applicantAddress, setApplicantAddress] = useState('');
 
   // Panel 2: Lot Location
-  const [lotNo, setLotNo] = useState<string>('4-B');
-  const [blkNo, setBlkNo] = useState<string>('12');
-  const [tctNo, setTctNo] = useState<string>('TCT-004-2023009841');
-  const [taxDecNo, setTaxDecNo] = useState<string>('TD-E-042-01992-QC');
-  const [street, setStreet] = useState<string>('Commonwealth Avenue');
-  const [barangay, setBarangay] = useState<string>('Batasan Hills');
-  const [district, setDistrict] = useState<string>('District 2');
-  const [cityMunicipality] = useState<string>('QUEZON CITY');
+  const [lotNo, setLotNo] = useState('');
+  const [blkNo, setBlkNo] = useState('');
+  const [tctNo, setTctNo] = useState('');
+  const [taxDecNo, setTaxDecNo] = useState('');
+  const [street, setStreet] = useState('');
+  const [barangay, setBarangay] = useState('');
+  const [district, setDistrict] = useState('');
+  const [cityMunicipality, setCityMunicipality] = useState('');
 
   // Panel 3: Land Owner question matching Picture 1
-  const [isLandOwner, setIsLandOwner] = useState<string>('Yes');
+  const [isLandOwner, setIsLandOwner] = useState<string>('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -83,13 +83,15 @@ export const QCCertificateOperateAccelerographApplication: React.FC<QCCertificat
 
   return (
     <div className="w-full max-w-5xl mx-auto space-y-4">
-      <div className="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0c1629] shadow-xs">
-        {/* Top Header bar matching Picture 1 */}
-        <div className="bg-[#0c4366] text-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider">
-          Certificate to Operate (Accelerograph) Permit Application
+      <div className="space-y-4">
+        <div className="pb-2 border-b border-slate-200 dark:border-slate-800">
+          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-100 flex items-center gap-2">
+            <span className="w-1.5 h-3.5 bg-blue-600 rounded-full inline-block"></span>
+            Certificate to Operate (Accelerograph) Permit Application
+          </h4>
         </div>
 
-        <div className="p-4 sm:p-5">
+        <div className="space-y-4">
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* PANEL 1: TYPE OF OWNERSHIP & APPLICANT DETAILS */}
             <div className="p-4 sm:p-5 rounded-lg border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-[#0b1322] space-y-3.5 shadow-2xs">
@@ -103,10 +105,13 @@ export const QCCertificateOperateAccelerographApplication: React.FC<QCCertificat
                   onChange={(e) => setTypeOfOwnership(e.target.value)}
                   className="w-full px-3 py-2 rounded-xs border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0b1322] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#004280] focus:border-[#004280] cursor-pointer"
                 >
+                  <option value="">Select Type of Ownership...</option>
                   <option value="Corporation">Corporation</option>
                   <option value="Individual / Sole Proprietorship">Individual / Sole Proprietorship</option>
                   <option value="Partnership">Partnership</option>
                   <option value="Government">Government</option>
+                  <option value="Co-Ownership / Joint Venture">Co-Ownership / Joint Venture</option>
+                  <option value="Others / Non-Standard Ownership">Others / Non-Standard Ownership</option>
                 </select>
               </div>
 
@@ -161,8 +166,9 @@ export const QCCertificateOperateAccelerographApplication: React.FC<QCCertificat
                   <input
                     type="text"
                     value={mobileNo}
-                    onChange={(e) => setMobileNo(e.target.value)}
+                    onChange={(e) => setMobileNo(e.target.value.replace(/\D/g, '').slice(0, 11))}
                     required
+                    maxLength={11}
                     className="w-full px-3 py-2 rounded-xs border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#004280] focus:border-[#004280]"
                   />
                 </div>
@@ -264,6 +270,7 @@ export const QCCertificateOperateAccelerographApplication: React.FC<QCCertificat
                     required
                     className="w-full px-3 py-2 rounded-xs border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0b1322] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#004280] focus:border-[#004280] cursor-pointer"
                   >
+                    <option value="">Select Barangay...</option>
                     {QC_BARANGAYS_LIST.map((brgy) => (
                       <option key={brgy} value={brgy}>{brgy}</option>
                     ))}
@@ -290,9 +297,9 @@ export const QCCertificateOperateAccelerographApplication: React.FC<QCCertificat
                   <input
                     type="text"
                     value={cityMunicipality}
-                    readOnly
-                    disabled
-                    className="w-full px-3 py-2 rounded-xs border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs sm:text-sm cursor-not-allowed uppercase font-medium"
+                    onChange={(e) => setCityMunicipality(e.target.value)}
+                    placeholder="Quezon City"
+                    className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                   />
                 </div>
               </div>
@@ -300,51 +307,36 @@ export const QCCertificateOperateAccelerographApplication: React.FC<QCCertificat
 
             {/* PANEL 3: LAND OWNER QUESTION */}
             <div className="p-4 sm:p-5 rounded-lg border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-[#0b1322] shadow-2xs">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <span className="text-[11px] sm:text-xs text-slate-700 dark:text-slate-300 font-normal">
+              <div className="space-y-1">
+                <label className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 block font-normal">
                   Are you the land owner? <span className="text-red-500 font-bold">*</span>
-                </span>
-                <div className="flex items-center space-x-6 text-xs text-slate-700 dark:text-slate-300">
-                  <label className="inline-flex items-center space-x-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="cert_accelerograph_isLandOwner"
-                      value="Yes"
-                      checked={isLandOwner === 'Yes'}
-                      onChange={() => setIsLandOwner('Yes')}
-                      className="text-[#004280] focus:ring-[#004280]"
-                    />
-                    <span>Yes</span>
-                  </label>
-                  <label className="inline-flex items-center space-x-2 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="cert_accelerograph_isLandOwner"
-                      value="No"
-                      checked={isLandOwner === 'No'}
-                      onChange={() => setIsLandOwner('No')}
-                      className="text-[#004280] focus:ring-[#004280]"
-                    />
-                    <span>No</span>
-                  </label>
-                </div>
+                </label>
+                <select
+                  value={isLandOwner}
+                  onChange={(e) => setIsLandOwner(e.target.value)}
+                  className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0b1322] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68] cursor-pointer"
+                >
+                  <option value="">Select an option...</option>
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
               </div>
             </div>
 
             {/* Action Buttons */}
-            <div className="space-y-2 pt-2">
-              <button
-                type="submit"
-                className="w-full py-2.5 rounded-lg bg-[#004280] hover:bg-[#003366] active:bg-[#00284d] text-white font-semibold text-xs sm:text-sm tracking-wide transition-colors cursor-pointer shadow-md"
-              >
-                Submit
-              </button>
+            <div className="flex items-center justify-between pt-4">
               <button
                 type="button"
                 onClick={onCancel}
-                className="w-full py-2.5 rounded-lg bg-[#dc2626] hover:bg-[#b91c1c] active:bg-[#991b1b] text-white font-semibold text-xs sm:text-sm tracking-wide transition-colors cursor-pointer shadow-md"
+                className="px-8 py-2.5 rounded-lg bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
               >
                 Cancel
+              </button>
+              <button
+                type="submit"
+                className="px-8 py-2.5 rounded-lg bg-[#0047ba] hover:bg-[#003ca0] text-white font-bold text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+              >
+                Submit
               </button>
             </div>
           </form>

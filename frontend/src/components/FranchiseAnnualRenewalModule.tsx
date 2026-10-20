@@ -968,32 +968,47 @@ DIGITAL AUDIT SIGNATURE : QC-MTFRB-RENEWAL-${app.applicationNo}-VALIDATED
       {/* 5-STEP UPLOAD-BASED FRANCHISE RENEWAL WIZARD */}
       {/* ========================================================================= */}
       {currentMode === 'wizard' && (
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-10 shadow-sm space-y-8 animate-in fade-in">
-          
-          {/* Progress Indicator */}
-          <div className="space-y-3 pb-6 border-b border-slate-100 dark:border-slate-800">
-            <div className="flex items-center justify-between text-xs">
-              <div className="flex items-center space-x-2.5">
-                {isAdmin && (
-                  <button
-                    onClick={() => setCurrentMode('admin')}
-                    className="px-3.5 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer"
-                  >
-                    <ShieldCheck size={13} />
-                    <span>Admin Review</span>
-                  </button>
-                )}
-                <span className="font-black text-emerald-600 uppercase tracking-wider">
-                  Step {wizardStep} of 5
+        <div className="space-y-4 animate-in fade-in">
+          {/* Top Back Navigation (Outside of the card box) */}
+          {onBackToPortal && (
+            <div className="flex items-center justify-start -mb-1">
+              <button
+                type="button"
+                onClick={onBackToPortal}
+                className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-500 hover:text-emerald-600 dark:text-slate-400 dark:hover:text-emerald-400 transition-colors group cursor-pointer"
+              >
+                <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+                <span className="group-hover:underline">Back to Portal</span>
+              </button>
+            </div>
+          )}
+
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-10 shadow-sm space-y-8">
+            
+            {/* Progress Indicator */}
+            <div className="space-y-3 pb-6 border-b border-slate-100 dark:border-slate-800">
+              <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center space-x-2.5">
+                  {isAdmin && (
+                    <button
+                      onClick={() => setCurrentMode('admin')}
+                      className="px-3.5 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer"
+                    >
+                      <ShieldCheck size={13} />
+                      <span>Admin Review</span>
+                    </button>
+                  )}
+                </div>
+                <span className="font-black text-blue-600 dark:text-blue-400 uppercase tracking-wider">
+                  Step {Math.min(wizardStep, 4)} of 4
                 </span>
               </div>
-            </div>
 
             {/* Progress Bar */}
             <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
               <div
-                className="h-full bg-emerald-500 transition-all duration-300"
-                style={{ width: `${(wizardStep / 5) * 100}%` }}
+                className="h-full bg-blue-600 transition-all duration-300"
+                style={{ width: `${(Math.min(wizardStep, 4) / 4) * 100}%` }}
               />
             </div>
           </div>
@@ -1002,65 +1017,54 @@ DIGITAL AUDIT SIGNATURE : QC-MTFRB-RENEWAL-${app.applicationNo}-VALIDATED
           {/* STEP 1: START ANNUAL RENEWAL */}
           {/* ----------------------------------------------------------------------- */}
           {wizardStep === 1 && (
-            <div className="space-y-8 max-w-2xl mx-auto text-center py-6 animate-in fade-in">
-              <div className="w-20 h-20 rounded-3xl bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center shadow-lg shadow-emerald-500/10">
-                <RefreshCw size={40} className="stroke-[2.5]" />
+            <div className="space-y-4 max-w-xl mx-auto text-center py-2 animate-in fade-in">
+              <div className="w-14 h-14 rounded-2xl bg-blue-100 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 mx-auto flex items-center justify-center shadow-md shadow-blue-500/10">
+                <RefreshCw size={24} className="stroke-[2.5]" />
               </div>
 
-              <div className="space-y-3">
-                <h3 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+              <div className="space-y-1">
+                <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
                   Franchise Renewal Online
                 </h3>
-                <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-lg mx-auto font-medium">
+                <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-md mx-auto font-medium">
                   "Please prepare clear photos of your required documents before starting."
                 </p>
               </div>
 
               {/* Requirement Checklist Icons Preview */}
-              <div className="p-5 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700/60 text-left space-y-3">
-                <p className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">
+              <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-700/60 text-left space-y-2.5">
+                <p className="text-[11px] font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider">
                   Quick Checklist Before Starting:
                 </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 text-xs text-slate-600 dark:text-slate-400 font-medium">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-600 dark:text-slate-400 font-medium">
                   <div className="flex items-center space-x-2">
-                    <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
+                    <CheckCircle2 size={15} className="text-emerald-500 shrink-0" />
                     <span>Previous Franchise Permit (MTOP)</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
+                    <CheckCircle2 size={15} className="text-emerald-500 shrink-0" />
                     <span>Valid Government ID or Driver's License</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
+                    <CheckCircle2 size={15} className="text-emerald-500 shrink-0" />
                     <span>Official Receipt of Payment (Treasurer OR)</span>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
+                    <CheckCircle2 size={15} className="text-emerald-500 shrink-0" />
                     <span>LTO Official Receipt &amp; Certificate of Registration (OR/CR)</span>
                   </div>
                 </div>
               </div>
 
-              {/* Big START Button & Cancel Button */}
-              <div className="pt-4 flex flex-col items-center gap-3">
+              {/* Sleek START Button */}
+              <div className="pt-2 flex flex-col items-center gap-2.5">
                 <button
                   onClick={() => setWizardStep(2)}
-                  className="w-full sm:w-auto px-10 py-5 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white rounded-2xl text-base font-black shadow-xl shadow-emerald-600/30 hover:scale-105 active:scale-95 transition-all flex items-center justify-center space-x-3 mx-auto cursor-pointer"
+                  className="w-full sm:w-auto px-7 py-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs sm:text-sm font-bold shadow-lg shadow-blue-600/30 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center space-x-2 mx-auto cursor-pointer"
                 >
                   <span>START FRANCHISE RENEWAL</span>
-                  <ArrowRight size={20} />
+                  <ArrowRight size={16} />
                 </button>
-
-                {onBackToPortal && (
-                  <button
-                    type="button"
-                    onClick={onBackToPortal}
-                    className="px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 dark:hover:bg-slate-800 transition-all flex items-center gap-2 cursor-pointer"
-                  >
-                    <ArrowLeft size={16} />
-                    <span>Back to Portal</span>
-                  </button>
-                )}
               </div>
             </div>
           )}
@@ -1155,10 +1159,10 @@ DIGITAL AUDIT SIGNATURE : QC-MTFRB-RENEWAL-${app.applicationNo}-VALIDATED
                 <button
                   type="button"
                   onClick={() => setWizardStep(1)}
-                  className="px-5 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold hover:bg-slate-200 transition-all cursor-pointer flex items-center space-x-1"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 transition-colors group cursor-pointer"
                 >
-                  <ArrowLeft size={14} />
-                  <span>Back</span>
+                  <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+                  <span className="group-hover:underline">Back</span>
                 </button>
 
                 <button
@@ -1170,7 +1174,7 @@ DIGITAL AUDIT SIGNATURE : QC-MTFRB-RENEWAL-${app.applicationNo}-VALIDATED
                     }
                     setWizardStep(3);
                   }}
-                  className="px-7 py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-emerald-600/30 transition-all flex items-center space-x-2 cursor-pointer"
+                  className="px-7 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs sm:text-sm font-black shadow-lg shadow-blue-600/30 transition-all flex items-center space-x-2 cursor-pointer"
                 >
                   <span>Next: Upload Documents</span>
                   <ArrowRight size={16} />
@@ -1215,7 +1219,7 @@ DIGITAL AUDIT SIGNATURE : QC-MTFRB-RENEWAL-${app.applicationNo}-VALIDATED
                         </div>
                       )}
                       {/* Document frame viewfinder overlay */}
-                      <div className="absolute inset-6 border-2 border-dashed border-emerald-400/70 rounded-xl pointer-events-none flex items-end justify-center pb-2">
+                      <div className="absolute inset-6 border-2 border-dashed border-blue-400/70 rounded-xl pointer-events-none flex items-end justify-center pb-2">
                         <span className="text-[10px] bg-black/60 text-white px-2 py-0.5 rounded-full font-mono">
                           I-frame ang buong dokumento dito
                         </span>
@@ -1231,7 +1235,7 @@ DIGITAL AUDIT SIGNATURE : QC-MTFRB-RENEWAL-${app.applicationNo}-VALIDATED
                       </button>
                       <button
                         onClick={capturePhoto}
-                        className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center space-x-2 shadow-lg shadow-emerald-600/30"
+                        className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-bold flex items-center space-x-2 shadow-lg shadow-blue-600/30"
                       >
                         <Camera size={16} />
                         <span>Kumuha ng Larawan (Capture)</span>
@@ -1241,163 +1245,117 @@ DIGITAL AUDIT SIGNATURE : QC-MTFRB-RENEWAL-${app.applicationNo}-VALIDATED
                 </div>
               )}
 
-              {/* 5 Distinct Upload Boxes / Cards */}
+              {/* 4 Distinct Upload Boxes / Cards (Pic 1 / Unified Card Format) */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {Object.keys(uploadedDocs).map((key) => {
+                {Object.keys(uploadedDocs).map((key, index) => {
                   const item = uploadedDocs[key];
                   const hasFile = Boolean(item.previewUrl);
+                  const cleanTitle = item.title.replace(/^\d+\.\s*/, '');
 
                   return (
                     <div
                       key={key}
-                      className={`p-5 rounded-3xl border transition-all space-y-4 relative ${
-                        hasFile
-                          ? 'bg-white dark:bg-slate-900 border-emerald-300 dark:border-emerald-800 shadow-sm'
-                          : 'bg-slate-50/70 dark:bg-slate-800/40 border-slate-200 dark:border-slate-800'
-                      }`}
+                      className="bg-white dark:bg-slate-900 p-5 sm:p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4 flex flex-col justify-between"
                     >
-                      {/* Header */}
-                      <div className="flex items-start justify-between gap-2">
-                        <div>
-                          <h4 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white">
-                            {item.title}
-                          </h4>
-                          <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                      <div className="space-y-4">
+                        {/* Header: Number + REQUIRED badge + Title + CheckCircle2 & Status Pill */}
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="text-slate-400 font-bold text-sm">{index + 1}.</span>
+                            <span className="bg-blue-600 text-white font-black text-[10px] px-2 py-0.5 rounded uppercase tracking-wider">
+                              REQUIRED
+                            </span>
+                            <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight flex items-center gap-1.5">
+                              <span>{cleanTitle}</span>
+                              <span className="text-rose-500 font-bold">*</span>
+                              {hasFile && (
+                                <CheckCircle2 size={16} className="text-emerald-500 fill-emerald-500/20 shrink-0" />
+                              )}
+                            </h3>
+                          </div>
+
+                          {/* Status Pill Badge */}
+                          <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold self-start sm:self-auto border transition-colors ${
+                            hasFile
+                              ? 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800'
+                              : 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-slate-800/80 dark:text-slate-400 dark:border-slate-700'
+                          }`}>
+                            Status: {hasFile ? 'Uploaded' : 'Pending'}
+                          </span>
+                        </div>
+
+                        {/* Description & Allowed File Types */}
+                        <div className="space-y-1">
+                          <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
                             {item.subtitle}
                           </p>
+                          <p className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">
+                            Allowed file types: JPG, JPEG, PNG, WEBP, PDF
+                          </p>
                         </div>
-                        {!hasFile ? (
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
-                            <span className="w-2 h-2 rounded-full bg-slate-400"></span>
-                            ○ Not uploaded
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                            <CheckCircle2 size={13} />
-                            ✓ Uploaded
-                          </span>
-                        )}
                       </div>
 
-                      {/* File State: Already Uploaded with Preview */}
-                      {hasFile ? (
-                        <div className="space-y-3">
-                          <div className="relative aspect-16/9 bg-slate-900 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 group">
-                            <img
-                              src={item.previewUrl || ''}
-                              alt={item.title}
-                              className="w-full h-full object-cover"
-                            />
-                            {/* Hover overlay actions */}
-                            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                      {/* Action Area: Centered UPLOAD PHOTO button (when empty) OR Centered Enlarged Thumbnail Preview (when uploaded) */}
+                      <div className="pt-2 flex flex-col items-center justify-center gap-3 w-full">
+                        {!hasFile ? (
+                          <div className="flex items-center justify-center w-full py-4">
+                            <label
+                              htmlFor={`doc-upload-${key}`}
+                              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold text-xs uppercase tracking-wide rounded-xl shadow-md shadow-blue-600/25 transition-all cursor-pointer group shrink-0"
+                            >
+                              <Upload size={15} className="group-hover:-translate-y-0.5 transition-transform" />
+                              <span>UPLOAD PHOTO</span>
+                              <input
+                                id={`doc-upload-${key}`}
+                                type="file"
+                                accept="image/jpeg,image/jpg,image/png,image/webp,application/pdf"
+                                onChange={(e) => handleFileUpload(e, key)}
+                                className="hidden"
+                              />
+                            </label>
+                          </div>
+                        ) : (
+                          <div className="pt-1 w-full flex justify-center">
+                            <div className="relative group/thumb p-2.5 rounded-2xl bg-[#091524] border border-slate-700/80 shadow-md w-full max-w-[240px] sm:max-w-[260px] flex flex-col items-center animate-in fade-in zoom-in-95 mx-auto">
+                              {/* Circular (X) remove button at top-right */}
                               <button
                                 type="button"
-                                onClick={() => openZoomModal(item.previewUrl, item.title)}
-                                className="px-3 py-1.5 bg-white text-slate-900 rounded-xl text-[11px] font-bold flex items-center space-x-1 shadow-md cursor-pointer"
+                                onClick={() => handleRemoveFile(key)}
+                                title="Remove Photo"
+                                className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-slate-700 hover:bg-rose-600 text-white flex items-center justify-center shadow-md transition-colors cursor-pointer z-10"
                               >
-                                <Eye size={12} />
-                                <span>Preview</span>
+                                <X size={13} />
                               </button>
+
+                              {/* Photo Thumbnail */}
+                              <div 
+                                onClick={() => openZoomModal(item.previewUrl, item.title)}
+                                className="w-full h-32 sm:h-34 rounded-xl overflow-hidden bg-slate-900 border border-slate-700/60 cursor-pointer relative group-hover/thumb:border-blue-500 transition-colors flex items-center justify-center p-1"
+                                title="Click to view full photo"
+                              >
+                                <img
+                                  src={item.previewUrl || '/New Application.jpg'}
+                                  alt={item.title}
+                                  className="w-full h-full object-contain rounded-lg group-hover/thumb:scale-105 transition-transform duration-200"
+                                />
+                                <div className="absolute inset-0 bg-black/35 opacity-0 group-hover/thumb:opacity-100 flex items-center justify-center transition-opacity rounded-xl">
+                                  <Eye size={18} className="text-white drop-shadow" />
+                                </div>
+                              </div>
+
+                              {/* File Info */}
+                              <div className="w-full text-center mt-2 px-1.5">
+                                <span className="font-mono text-[11px] font-semibold text-slate-200 block truncate" title={item.fileName || ''}>
+                                  {item.fileName}
+                                </span>
+                                <span className="text-[10px] text-slate-400 font-mono block mt-0.5">
+                                  {item.fileSize ? `${(item.fileSize / 1024).toFixed(1)} KB` : 'Uploaded'}
+                                </span>
+                              </div>
                             </div>
                           </div>
-
-                          {/* File info bar & quality check notice */}
-                          <div className="flex items-center justify-between text-[11px] px-1">
-                            <span className="font-mono text-slate-600 dark:text-slate-300 truncate max-w-[180px]">
-                              {item.fileName}
-                            </span>
-                            <span className="text-emerald-600 font-bold flex items-center gap-1">
-                              <CheckCircle2 size={12} /> Ready
-                            </span>
-                          </div>
-
-                          {/* Smart Photo Quality Warning Banner */}
-                          {item.qualityStatus === 'warning_blur' && (
-                            <div className="p-3 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl text-[11px] text-amber-800 dark:text-amber-200 flex items-start space-x-2">
-                              <AlertTriangle size={14} className="shrink-0 mt-0.5" />
-                              <span>{item.qualityMessage || 'Malabo ang larawan. Paki-upload muli ang mas malinaw na picture.'}</span>
-                            </div>
-                          )}
-
-                          {item.qualityStatus === 'warning_crop' && (
-                            <div className="p-3 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 rounded-xl text-[11px] text-amber-800 dark:text-amber-200 flex items-start space-x-2">
-                              <AlertTriangle size={14} className="shrink-0 mt-0.5" />
-                              <span>Siguraduhing kita ang buong document bago mag-submit.</span>
-                            </div>
-                          )}
-
-                          {/* Action Buttons: Retake / Replace / Remove */}
-                          <div className="flex items-center justify-end gap-2 pt-1 border-t border-slate-100 dark:border-slate-800">
-                            <button
-                              type="button"
-                              onClick={() => startCamera(key)}
-                              className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-[11px] font-bold transition-all cursor-pointer flex items-center space-x-1"
-                            >
-                              <Camera size={12} />
-                              <span>Retake</span>
-                            </button>
-
-                            <label className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-[11px] font-bold transition-all cursor-pointer flex items-center space-x-1">
-                              <RefreshCw size={12} />
-                              <span>Replace</span>
-                              <input
-                                type="file"
-                                accept=".jpg,.jpeg,.png,.pdf"
-                                className="hidden"
-                                onChange={(e) => handleFileUpload(e, key)}
-                              />
-                            </label>
-
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveFile(key)}
-                              className="p-1.5 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/50 rounded-xl transition-all cursor-pointer"
-                              title="Remove"
-                            >
-                              <Trash2 size={14} />
-                            </button>
-                          </div>
-                        </div>
-                      ) : (
-                        /* Not Yet Uploaded: Large Upload Box */
-                        <div className="border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-emerald-500 rounded-2xl p-6 text-center space-y-3 transition-all bg-white dark:bg-slate-900/60">
-                          <div className="w-12 h-12 rounded-full bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center">
-                            <Camera size={22} />
-                          </div>
-
-                          <div className="space-y-1">
-                            <p className="text-xs font-bold text-slate-700 dark:text-slate-300">
-                              Take a photo or upload file
-                            </p>
-                            <p className="text-[11px] text-slate-400">
-                              Accepted: JPG, JPEG, PNG, PDF up to 25MB
-                            </p>
-                          </div>
-
-                          {/* Dual Action: Take Photo (Camera) OR Upload Photo */}
-                          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-                            <button
-                              type="button"
-                              onClick={() => startCamera(key)}
-                              className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/30 flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]"
-                            >
-                              <Camera size={15} />
-                              <span>📷 TAKE PHOTO</span>
-                            </button>
-
-                            <label className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-700 font-bold text-xs shadow-xs flex items-center gap-2 cursor-pointer transition-all">
-                              <Upload size={15} />
-                              <span>⬆ UPLOAD PHOTO</span>
-                              <input
-                                type="file"
-                                accept=".jpg,.jpeg,.png,.pdf"
-                                className="hidden"
-                                onChange={(e) => handleFileUpload(e, key)}
-                              />
-                            </label>
-                          </div>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
                   );
                 })}
@@ -1408,10 +1366,10 @@ DIGITAL AUDIT SIGNATURE : QC-MTFRB-RENEWAL-${app.applicationNo}-VALIDATED
                 <button
                   type="button"
                   onClick={() => setWizardStep(2)}
-                  className="px-5 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold hover:bg-slate-200 transition-all cursor-pointer flex items-center space-x-1"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 transition-colors group cursor-pointer"
                 >
-                  <ArrowLeft size={14} />
-                  <span>Back</span>
+                  <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+                  <span className="group-hover:underline">Back</span>
                 </button>
 
                 <button
@@ -1425,7 +1383,7 @@ DIGITAL AUDIT SIGNATURE : QC-MTFRB-RENEWAL-${app.applicationNo}-VALIDATED
                   }}
                   className={`px-7 py-3 rounded-xl text-xs sm:text-sm font-black shadow-lg transition-all flex items-center space-x-2 ${
                     ['franchisePermit', 'govId', 'paymentProof', 'vehicleDoc'].every(k => uploadedDocs[k]?.previewUrl)
-                      ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
+                      ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
                       : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed'
                   }`}
                 >
@@ -1440,28 +1398,46 @@ DIGITAL AUDIT SIGNATURE : QC-MTFRB-RENEWAL-${app.applicationNo}-VALIDATED
           {/* STEP 4: REVIEW APPLICATION */}
           {/* ----------------------------------------------------------------------- */}
           {wizardStep === 4 && (
-            <div className="space-y-6 max-w-2xl mx-auto animate-in fade-in">
+            <div className="space-y-6 max-w-3xl mx-auto animate-in fade-in">
               <div className="space-y-1">
                 <h3 className="text-lg sm:text-xl font-black text-slate-900 dark:text-white">
                   Franchise Renewal Application Review
                 </h3>
                 <p className="text-xs text-slate-500">
-                  Please verify that your franchise details are correct and all attached documents are complete.
+                  Please review your information from Step 2 and uploaded documents from Step 3 before submitting.
                 </p>
               </div>
 
-              {/* Summary Card */}
-              <div className="bg-slate-50 dark:bg-slate-800/50 rounded-3xl border border-slate-200 dark:border-slate-700 p-6 space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-4 border-b border-slate-200 dark:border-slate-700">
+              {/* Step 2 Information Card */}
+              <div className="bg-slate-50 dark:bg-slate-800/50 rounded-3xl border border-slate-200 dark:border-slate-700 p-5 sm:p-6 space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-700">
+                  <div className="flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-lg bg-blue-600/10 text-blue-600 dark:bg-blue-950 dark:text-blue-400 font-bold text-xs flex items-center justify-center">
+                      2
+                    </span>
+                    <h4 className="text-xs sm:text-sm font-black uppercase text-slate-900 dark:text-white tracking-wider">
+                      Franchise & Owner Information
+                    </h4>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setWizardStep(2)}
+                    className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
+                  >
+                    Edit Details
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <span className="text-[10px] font-bold uppercase text-slate-400 block">Franchise Number</span>
-                    <span className="text-base font-black font-mono text-emerald-600 dark:text-emerald-400">
+                    <span className="text-[10px] font-bold uppercase text-slate-400 block">Franchise / Permit Number</span>
+                    <span className="text-sm sm:text-base font-black font-mono text-blue-600 dark:text-blue-400">
                       {franchiseNo}
                     </span>
                   </div>
                   <div>
-                    <span className="text-[10px] font-bold uppercase text-slate-400 block">Owner Name</span>
-                    <span className="text-sm font-bold text-slate-900 dark:text-white">
+                    <span className="text-[10px] font-bold uppercase text-slate-400 block">Registered Owner Name</span>
+                    <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
                       {ownerName}
                     </span>
                   </div>
@@ -1473,52 +1449,109 @@ DIGITAL AUDIT SIGNATURE : QC-MTFRB-RENEWAL-${app.applicationNo}-VALIDATED
                   </div>
                   <div>
                     <span className="text-[10px] font-bold uppercase text-slate-400 block">Email Address</span>
-                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
+                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300 truncate block">
                       {email}
                     </span>
                   </div>
+                  {plateNo && (
+                    <div>
+                      <span className="text-[10px] font-bold uppercase text-slate-400 block">Vehicle Plate / Decal</span>
+                      <span className="text-xs font-mono font-bold text-slate-700 dark:text-slate-300">
+                        {plateNo} {vehicleType ? `(${vehicleType})` : ''}
+                      </span>
+                    </div>
+                  )}
+                  {todaAssociation && (
+                    <div>
+                      <span className="text-[10px] font-bold uppercase text-slate-400 block">TODA Association</span>
+                      <span className="text-xs font-bold text-slate-700 dark:text-slate-300">
+                        {todaAssociation}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Step 3 Uploaded Documents Card */}
+              <div className="bg-slate-50 dark:bg-slate-800/50 rounded-3xl border border-slate-200 dark:border-slate-700 p-5 sm:p-6 space-y-4">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-700">
+                  <div className="flex items-center gap-2">
+                    <span className="w-6 h-6 rounded-lg bg-blue-600/10 text-blue-600 dark:bg-blue-950 dark:text-blue-400 font-bold text-xs flex items-center justify-center">
+                      3
+                    </span>
+                    <h4 className="text-xs sm:text-sm font-black uppercase text-slate-900 dark:text-white tracking-wider">
+                      Uploaded Documents Review
+                    </h4>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setWizardStep(3)}
+                    className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
+                  >
+                    Manage Uploads
+                  </button>
                 </div>
 
-                {/* Documents Checklist Review */}
-                <div className="space-y-3">
-                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider block">
-                    Attached Documents Checklist:
-                  </span>
-                  <div className="space-y-2">
-                    {Object.keys(uploadedDocs).map(k => {
-                      const item = uploadedDocs[k];
-                      const isAttached = Boolean(item.previewUrl);
-                      if (!isAttached && !item.required) return null;
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  {Object.keys(uploadedDocs).map((k, index) => {
+                    const item = uploadedDocs[k];
+                    const isAttached = Boolean(item.previewUrl);
+                    const cleanTitle = item.title.replace(/^\d+\.\s*/, '');
 
-                      return (
-                        <div
-                          key={k}
-                          className="flex items-center justify-between p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 text-xs"
-                        >
-                          <div className="flex items-center space-x-2.5">
-                            {isAttached ? (
-                              <CheckCircle2 size={16} className="text-emerald-500" />
-                            ) : (
-                              <X size={16} className="text-rose-500" />
-                            )}
-                            <span className="font-bold text-slate-800 dark:text-slate-200">
-                              {item.title}
+                    return (
+                      <div
+                        key={k}
+                        className="p-3.5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-700 flex items-center gap-3.5 shadow-xs"
+                      >
+                        {/* Mini Thumbnail */}
+                        {isAttached ? (
+                          <div
+                            onClick={() => openZoomModal(item.previewUrl, item.title)}
+                            className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-slate-900 border border-slate-700 shrink-0 cursor-pointer relative group flex items-center justify-center p-0.5"
+                            title="Click to view full photo"
+                          >
+                            <img
+                              src={item.previewUrl || '/New Application.jpg'}
+                              alt={item.title}
+                              className="w-full h-full object-contain rounded-lg group-hover:scale-105 transition-transform"
+                            />
+                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity rounded-xl">
+                              <Eye size={16} className="text-white drop-shadow" />
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shrink-0 flex items-center justify-center text-slate-400">
+                            <X size={20} className="text-rose-400" />
+                          </div>
+                        )}
+
+                        {/* Document Info */}
+                        <div className="flex-1 min-w-0 space-y-1">
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="text-slate-400 font-bold text-xs">{index + 1}.</span>
+                            <span className="text-xs font-bold text-slate-900 dark:text-white truncate block max-w-full" title={cleanTitle}>
+                              {cleanTitle}
                             </span>
                           </div>
-                          {isAttached && (
-                            <button
-                              type="button"
-                              onClick={() => openZoomModal(item.previewUrl, item.title)}
-                              className="text-[11px] font-bold text-emerald-600 flex items-center space-x-1"
-                            >
-                              <Eye size={12} />
-                              <span>View</span>
-                            </button>
-                          )}
+
+                          <div className="flex items-center gap-2">
+                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                              isAttached
+                                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800'
+                                : 'bg-rose-50 text-rose-700 border border-rose-200 dark:bg-rose-950/60 dark:text-rose-300 dark:border-rose-800'
+                            }`}>
+                              {isAttached ? 'Uploaded' : 'Missing'}
+                            </span>
+                            {item.fileSize && (
+                              <span className="text-[10px] text-slate-400 font-mono">
+                                {(item.fileSize / 1024).toFixed(1)} KB
+                              </span>
+                            )}
+                          </div>
                         </div>
-                      );
-                    })}
-                  </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -1527,16 +1560,16 @@ DIGITAL AUDIT SIGNATURE : QC-MTFRB-RENEWAL-${app.applicationNo}-VALIDATED
                 <button
                   type="button"
                   onClick={() => setWizardStep(3)}
-                  className="px-5 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl text-xs font-bold hover:bg-slate-200 transition-all cursor-pointer flex items-center space-x-1"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 transition-colors group cursor-pointer"
                 >
-                  <ArrowLeft size={14} />
-                  <span>Back</span>
+                  <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+                  <span className="group-hover:underline">Back</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setConfirmSubmitOpen(true)}
-                  className="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs sm:text-sm font-black shadow-xl shadow-emerald-600/30 transition-all flex items-center space-x-2 cursor-pointer"
+                  className="px-8 py-3.5 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs sm:text-sm font-black shadow-xl shadow-blue-600/30 transition-all flex items-center space-x-2 cursor-pointer"
                 >
                   <Send size={16} />
                   <span>SUBMIT RENEWAL APPLICATION</span>
@@ -1547,7 +1580,7 @@ DIGITAL AUDIT SIGNATURE : QC-MTFRB-RENEWAL-${app.applicationNo}-VALIDATED
               {confirmSubmitOpen && (
                 <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in">
                   <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-8 max-w-md w-full space-y-5 text-center shadow-2xl">
-                    <div className="w-14 h-14 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 mx-auto flex items-center justify-center font-bold">
+                    <div className="w-14 h-14 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-600 mx-auto flex items-center justify-center font-bold">
                       <HelpCircle size={28} />
                     </div>
 
@@ -1569,7 +1602,7 @@ DIGITAL AUDIT SIGNATURE : QC-MTFRB-RENEWAL-${app.applicationNo}-VALIDATED
                       </button>
                       <button
                         onClick={handleConfirmSubmit}
-                        className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-black shadow-lg shadow-emerald-600/30 transition-all cursor-pointer"
+                        className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-xs font-black shadow-lg shadow-blue-600/30 transition-all cursor-pointer"
                       >
                         YES, SUBMIT
                       </button>
@@ -1641,6 +1674,7 @@ DIGITAL AUDIT SIGNATURE : QC-MTFRB-RENEWAL-${app.applicationNo}-VALIDATED
             </div>
           )}
         </div>
+      </div>
       )}
 
       {/* ========================================================================= */}

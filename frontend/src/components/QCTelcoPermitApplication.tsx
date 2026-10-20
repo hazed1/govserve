@@ -57,7 +57,7 @@ export const QCTelcoPermitApplication: React.FC<QCTelcoPermitApplicationProps> =
   const [street, setStreet] = useState<string>('');
   const [barangay, setBarangay] = useState<string>('');
   const [district, setDistrict] = useState<string>('');
-  const [cityMunicipality, setCityMunicipality] = useState<string>('QUEZON CITY');
+  const [cityMunicipality, setCityMunicipality] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,13 +88,15 @@ export const QCTelcoPermitApplication: React.FC<QCTelcoPermitApplicationProps> =
 
   return (
     <div className="w-full max-w-5xl mx-auto space-y-4">
-      <div className="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0c1629] shadow-xs">
-        {/* Top Header bar matching Picture 1 */}
-        <div className="bg-[#0c4366] text-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider">
-          TELCO Permit Application
+      <div className="space-y-4">
+        <div className="pb-2 border-b border-slate-200 dark:border-slate-800">
+          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-100 flex items-center gap-2">
+            <span className="w-1.5 h-3.5 bg-blue-600 rounded-full inline-block"></span>
+            TELCO Permit Application
+          </h4>
         </div>
 
-        <div className="p-4 sm:p-5">
+        <div className="space-y-4">
           <form onSubmit={handleSubmit} className="space-y-4">
           {/* ============================================================== */}
           {/* PANEL 1: TELCO PROVIDER & TYPE OF CONSTRUCTION */}
@@ -109,7 +111,7 @@ export const QCTelcoPermitApplication: React.FC<QCTelcoPermitApplicationProps> =
                 type="text"
                 value={telcoProvider}
                 onChange={(e) => setTelcoProvider(e.target.value)}
-                placeholder=""
+                placeholder="e.g. Globe Telecom, Smart Communications, Dito"
                 className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
               />
             </div>
@@ -124,7 +126,6 @@ export const QCTelcoPermitApplication: React.FC<QCTelcoPermitApplicationProps> =
                 onChange={(e) => setConstructionType(e.target.value)}
                 className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0b1322] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68] cursor-pointer"
               >
-                <option value=""></option>
                 <option value="Ground-Based Tower (Self-Supporting Lattice)">Ground-Based Tower (Self-Supporting Lattice)</option>
                 <option value="Monopole Cell Site Installation">Monopole Cell Site Installation</option>
                 <option value="Rooftop Antenna Mast & Pole Base Station">Rooftop Antenna Mast & Pole Base Station</option>
@@ -150,7 +151,6 @@ export const QCTelcoPermitApplication: React.FC<QCTelcoPermitApplicationProps> =
                 onChange={(e) => setOwnershipType(e.target.value)}
                 className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0b1322] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68] cursor-pointer"
               >
-                <option value=""></option>
                 <option value="Corporation / Commercial Telecommunication Carrier">Corporation / Commercial Telecommunication Carrier</option>
                 <option value="Private Landowner (Leasehold Agreement)">Private Landowner (Leasehold Agreement)</option>
                 <option value="Individual / Sole Proprietorship">Individual / Sole Proprietorship</option>
@@ -169,7 +169,7 @@ export const QCTelcoPermitApplication: React.FC<QCTelcoPermitApplicationProps> =
                   type="text"
                   value={applicantLastName}
                   onChange={(e) => setApplicantLastName(e.target.value)}
-                  placeholder=""
+                  placeholder="Last Name (e.g. Dela Cruz)"
                   className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                 />
               </div>
@@ -182,7 +182,7 @@ export const QCTelcoPermitApplication: React.FC<QCTelcoPermitApplicationProps> =
                   type="text"
                   value={applicantFirstName}
                   onChange={(e) => setApplicantFirstName(e.target.value)}
-                  placeholder=""
+                  placeholder="First Name (e.g. Juan)"
                   className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                 />
               </div>
@@ -196,7 +196,7 @@ export const QCTelcoPermitApplication: React.FC<QCTelcoPermitApplicationProps> =
                   maxLength={4}
                   value={applicantMI}
                   onChange={(e) => setApplicantMI(e.target.value)}
-                  placeholder=""
+                  placeholder="M.I."
                   className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                 />
               </div>
@@ -211,9 +211,10 @@ export const QCTelcoPermitApplication: React.FC<QCTelcoPermitApplicationProps> =
                 <input
                   type="text"
                   value={mobileNo}
-                  onChange={(e) => setMobileNo(e.target.value)}
-                  placeholder=""
-                  className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
+                  onChange={(e) => setMobileNo(e.target.value.replace(/\D/g, '').slice(0, 11))}
+                  placeholder="09XX XXX XXXX"
+                  maxLength={11}
+                    className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                 />
               </div>
 
@@ -225,7 +226,7 @@ export const QCTelcoPermitApplication: React.FC<QCTelcoPermitApplicationProps> =
                   type="text"
                   value={applicantAddress}
                   onChange={(e) => setApplicantAddress(e.target.value)}
-                  placeholder=""
+                  placeholder="e.g. Unit 501, Katipunan Ave., Diliman, Quezon City"
                   className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                 />
               </div>
@@ -251,7 +252,7 @@ export const QCTelcoPermitApplication: React.FC<QCTelcoPermitApplicationProps> =
                   type="text"
                   value={lotNo}
                   onChange={(e) => setLotNo(e.target.value)}
-                  placeholder=""
+                  placeholder="e.g. Lot 4-B"
                   className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                 />
               </div>
@@ -264,7 +265,7 @@ export const QCTelcoPermitApplication: React.FC<QCTelcoPermitApplicationProps> =
                   type="text"
                   value={blkNo}
                   onChange={(e) => setBlkNo(e.target.value)}
-                  placeholder=""
+                  placeholder="e.g. Block 12"
                   className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                 />
               </div>
@@ -277,7 +278,7 @@ export const QCTelcoPermitApplication: React.FC<QCTelcoPermitApplicationProps> =
                   type="text"
                   value={tctNo}
                   onChange={(e) => setTctNo(e.target.value)}
-                  placeholder=""
+                  placeholder="e.g. TCT-004-2023009841"
                   className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                 />
               </div>
@@ -290,7 +291,7 @@ export const QCTelcoPermitApplication: React.FC<QCTelcoPermitApplicationProps> =
                   type="text"
                   value={taxDecNo}
                   onChange={(e) => setTaxDecNo(e.target.value)}
-                  placeholder=""
+                  placeholder="e.g. TD-E-042-01992-QC"
                   className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                 />
               </div>
@@ -306,7 +307,7 @@ export const QCTelcoPermitApplication: React.FC<QCTelcoPermitApplicationProps> =
                   type="text"
                   value={street}
                   onChange={(e) => setStreet(e.target.value)}
-                  placeholder=""
+                  placeholder="Street / Avenue"
                   className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                 />
               </div>
@@ -320,8 +321,8 @@ export const QCTelcoPermitApplication: React.FC<QCTelcoPermitApplicationProps> =
                   onChange={(e) => setBarangay(e.target.value)}
                   className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0b1322] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68] cursor-pointer"
                 >
-                  <option value=""></option>
-                  {QC_BARANGAYS_LIST.map((b) => (
+                  <option value="">Select Barangay...</option>
+                    {QC_BARANGAYS_LIST.map((b) => (
                     <option key={b} value={b}>{b}</option>
                   ))}
                 </select>
@@ -335,7 +336,7 @@ export const QCTelcoPermitApplication: React.FC<QCTelcoPermitApplicationProps> =
                   type="text"
                   value={district}
                   onChange={(e) => setDistrict(e.target.value)}
-                  placeholder=""
+                  placeholder="e.g. District 2"
                   className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                 />
               </div>
@@ -357,21 +358,21 @@ export const QCTelcoPermitApplication: React.FC<QCTelcoPermitApplicationProps> =
           {/* ============================================================== */}
           {/* BUTTONS: SUBMIT (ROYAL BLUE) & CANCEL (RED) */}
           {/* ============================================================== */}
-          <div className="space-y-2.5 pt-2">
-            <button
-              type="submit"
-              className="w-full py-2.5 bg-[#0047ba] hover:bg-[#003ca0] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
-            >
-              Submit
-            </button>
-            <button
-              type="button"
-              onClick={onCancel}
-              className="w-full py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
-            >
-              Cancel
-            </button>
-          </div>
+          <div className="flex items-center justify-between pt-4">
+              <button
+                type="button"
+                onClick={onCancel}
+                className="px-8 py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="px-8 py-2.5 bg-[#0047ba] hover:bg-[#003ca0] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+              >
+                Submit
+              </button>
+            </div>
         </form>
       </div>
     </div>

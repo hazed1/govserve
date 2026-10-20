@@ -1641,15 +1641,14 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
           <div className="space-y-8 animate-in fade-in pb-12">
             
             {/* ========================================================================= */}
-            {/* 3 CORE SERVICES (2-COLUMN COMPACT GRID) */}
+            {/* CORE SERVICE: APPLY FOR BUILDING PERMIT */}
             {/* ========================================================================= */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 max-w-4xl mx-auto pt-2">
+            <div className="flex justify-center max-w-xl mx-auto pt-2">
               
-              {/* ======================================================================= */}
               {/* CARD 1: APPLY FOR BUILDING PERMIT (BLUE / SKY THEME) */}
               {/* ======================================================================= */}
               <div 
-                className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
+                className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[480px] w-full shadow-md"
               >
                 <div className="flex flex-col justify-between gap-3.5 relative z-10 flex-1">
                   {/* Info & Details */}
@@ -1772,126 +1771,6 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                         className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                       >
                         <span>Apply for Building Permit</span>
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* ======================================================================= */}
-              {/* CARD 2: PROFESSIONALS DASHBOARD (BLUE / SKY THEME) */}
-              {/* ======================================================================= */}
-              <div 
-                className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
-              >
-                <div className="flex flex-col justify-between gap-3.5 relative z-10 flex-1">
-                  {/* Info & Details */}
-                  <div className="space-y-2 min-w-0">
-                    <div>
-                      <h3 className="text-xs sm:text-[13px] font-black text-slate-900 dark:text-white tracking-tight leading-snug">
-                        BUILDING PROFESSIONALS DASHBOARD
-                      </h3>
-                    </div>
-
-                    {/* 5 Information Rows with Circular Icons */}
-                    <div className="space-y-1.5 pt-0.5">
-                      {/* Row 1: Target Users */}
-                      <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <Users size={11} />
-                        </div>
-                        <div className="min-w-0">
-                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TARGET USERS</span>
-                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Licensed Architects, Civil Engineers, Master Plumbers &amp; PRC</p>
-                        </div>
-                      </div>
-
-                      {/* Row 2: Service Method */}
-                      <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <Briefcase size={11} />
-                        </div>
-                        <div className="min-w-0">
-                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">SERVICE METHOD</span>
-                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Online accreditation &amp; registry through GovServe</p>
-                        </div>
-                      </div>
-
-                      {/* Row 3: Time Period */}
-                      <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <Clock size={11} />
-                        </div>
-                        <div className="min-w-0">
-                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">TIME PERIOD</span>
-                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Real-time validation against Accredited Directory</p>
-                        </div>
-                      </div>
-
-                      {/* Row 4: Charges & Payment */}
-                      <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <Banknote size={11} />
-                        </div>
-                        <div className="min-w-0">
-                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">CHARGES &amp; PAYMENT</span>
-                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Free enrollment and digital registry verification</p>
-                        </div>
-                      </div>
-
-                      {/* Row 5: Payment Method */}
-                      <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
-                          <CreditCard size={11} />
-                        </div>
-                        <div className="min-w-0">
-                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-400 block leading-tight">PAYMENT METHOD</span>
-                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">Via GovServe online portal (Free service)</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Document Upload & Action Section */}
-                  <div className="w-full flex flex-col space-y-2 pt-0.5">
-                    {/* Document Upload Box */}
-                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-sky-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
-                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-sky-700 dark:text-sky-400">
-                        <HardHat size={12} />
-                        <span>PRC License &amp; Digital Seal Active</span>
-                      </div>
-                      <p className="text-[9.5px] text-slate-600 dark:text-slate-400 leading-snug">
-                        Verify PRC License Card, current year PTR, and digital dry seal.
-                      </p>
-                      <div className="flex flex-wrap gap-1 pt-0.5">
-                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>PRC Card
-                        </span>
-                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Current PTR
-                        </span>
-                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Signature
-                        </span>
-                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Registry
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Action Button */}
-                    <div>
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setCurrentView('professionals');
-                          setProfModalView('landing');
-                          setProfessionalsModalOpen(true);
-                        }}
-                        className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-                      >
-                        <span>Professionals Dashboard</span>
                       </button>
                     </div>
                   </div>
@@ -3951,7 +3830,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                 {/* VIEW 3: DEDICATED FULL QC E-SERVICES PERMIT DETAIL & APPLICATION VIEW */}
                 {permitModalActiveView === 'detail' && selectedPermitForModal && (() => {
                   const qcData = QC_PERMITS_FULL_DATABASE[selectedPermitForModal.id] || QC_PERMITS_FULL_DATABASE.building;
-                  const currentForm = detailFormData[qcData.id] || qcData.defaultFormData;
+                  const currentForm = detailFormData[qcData.id] || {};
                   const files = uploadedPermitModalFiles[qcData.id] || [];
                   const totalTariff = 
                     qcData.fees.filingFee +
@@ -3963,7 +3842,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                     setDetailFormData(prev => ({
                       ...prev,
                       [qcData.id]: {
-                        ...(prev[qcData.id] || qcData.defaultFormData),
+                        ...(prev[qcData.id] || {}),
                         [field]: val
                       }
                     }));
@@ -4188,43 +4067,30 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                 /* EXACT REPLICA OF OFFICIAL QC DBO BUILDING PERMIT FORM (PICTURE 1) */
                                 <div className="space-y-6">
 
-                                  {/* PANEL 1: OWNERSHIP */}
-                                  <div className="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0c1629] shadow-xs">
-                                    {/* Header bar */}
-                                    <div className="bg-[#0c4366] text-white px-4 py-2 text-xs font-bold uppercase tracking-wider">
-                                      OWNERSHIP
+                                  {/* SECTION 1: OWNERSHIP */}
+                                  <div className="space-y-4 pt-1">
+                                    <div className="pb-2 border-b border-slate-200 dark:border-slate-800">
+                                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                                        <span className="w-1.5 h-3.5 bg-blue-600 rounded-full inline-block"></span>
+                                        OWNERSHIP
+                                      </h4>
                                     </div>
 
-                                    <div className="p-4 sm:p-5 space-y-4">
+                                    <div className="space-y-4">
                                       {/* Are you the registered owner of the land? */}
-                                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1">
-                                        <label className="text-xs font-semibold text-slate-800 dark:text-slate-200">
+                                      <div>
+                                        <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
                                           Are you the registered owner of the land? <span className="text-red-500 font-bold">*</span>
                                         </label>
-                                        <div className="flex items-center space-x-6">
-                                          <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
-                                            <input
-                                              type="radio"
-                                              name="isRegisteredOwner"
-                                              value="yes"
-                                              checked={currentForm.isRegisteredOwner === 'yes' || !currentForm.isRegisteredOwner}
-                                              onChange={() => handleLocalInputChange('isRegisteredOwner', 'yes')}
-                                              className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
-                                            />
-                                            <span>Yes</span>
-                                          </label>
-                                          <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
-                                            <input
-                                              type="radio"
-                                              name="isRegisteredOwner"
-                                              value="no"
-                                              checked={currentForm.isRegisteredOwner === 'no'}
-                                              onChange={() => handleLocalInputChange('isRegisteredOwner', 'no')}
-                                              className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
-                                            />
-                                            <span>No</span>
-                                          </label>
-                                        </div>
+                                        <select
+                                          value={currentForm.isRegisteredOwner || ''}
+                                          onChange={(e) => handleLocalInputChange('isRegisteredOwner', e.target.value)}
+                                          className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500 focus:border-sky-500"
+                                        >
+                                          <option value="">Select an option...</option>
+                                          <option value="yes">Yes</option>
+                                          <option value="no">No</option>
+                                        </select>
                                       </div>
 
                                       {/* Form of Ownership of Applicant */}
@@ -4233,7 +4099,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                           Form of Ownership of Applicant <span className="text-red-500 font-bold">*</span>
                                         </label>
                                         <select
-                                          value={currentForm.formOfOwnership || 'Corporation'}
+                                          value={currentForm.formOfOwnership || ''}
                                           onChange={(e) => handleLocalInputChange('formOfOwnership', e.target.value)}
                                           className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500 focus:border-sky-500"
                                         >
@@ -4257,7 +4123,8 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                           <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">Lot no.</label>
                                           <input
                                             type="text"
-                                            value={currentForm.lotNo !== undefined ? currentForm.lotNo : (currentForm.lotBlock ? currentForm.lotBlock.split(',')[0] || '' : '')}
+                                            placeholder="Lot 4-B"
+                                            value={currentForm.lotNo || ''}
                                             onChange={(e) => handleLocalInputChange('lotNo', e.target.value)}
                                             className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
                                           />
@@ -4266,7 +4133,8 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                           <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">Blk no.</label>
                                           <input
                                             type="text"
-                                            value={currentForm.blkNo !== undefined ? currentForm.blkNo : (currentForm.lotBlock && currentForm.lotBlock.includes('Block') ? 'Block 12' : '')}
+                                            placeholder="Block 12"
+                                            value={currentForm.blkNo || ''}
                                             onChange={(e) => handleLocalInputChange('blkNo', e.target.value)}
                                             className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
                                           />
@@ -4275,6 +4143,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                           <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">TCT No.</label>
                                           <input
                                             type="text"
+                                            placeholder="TCT-004-2023009841"
                                             value={currentForm.tctNo || ''}
                                             onChange={(e) => handleLocalInputChange('tctNo', e.target.value)}
                                             className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
@@ -4284,6 +4153,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                           <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">Tax dec. no.</label>
                                           <input
                                             type="text"
+                                            placeholder="TD-E-042-01992-QC"
                                             value={currentForm.taxDecNo || ''}
                                             onChange={(e) => handleLocalInputChange('taxDecNo', e.target.value)}
                                             className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
@@ -4297,6 +4167,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                           <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">No.</label>
                                           <input
                                             type="text"
+                                            placeholder="No."
                                             value={currentForm.streetNo || ''}
                                             onChange={(e) => handleLocalInputChange('streetNo', e.target.value)}
                                             className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
@@ -4308,6 +4179,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                           </label>
                                           <input
                                             type="text"
+                                            placeholder="Street / Avenue"
                                             value={currentForm.streetAddress || ''}
                                             onChange={(e) => handleLocalInputChange('streetAddress', e.target.value)}
                                             className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
@@ -4318,7 +4190,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                             Barangay <span className="text-red-500 font-bold">*</span>
                                           </label>
                                           <select
-                                            value={currentForm.barangay || 'Batasan Hills'}
+                                            value={currentForm.barangay || ''}
                                             onChange={(e) => handleLocalInputChange('barangay', e.target.value)}
                                             className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
                                           >
@@ -4347,7 +4219,8 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                           </label>
                                           <input
                                             type="text"
-                                            value={currentForm.district || 'District 2'}
+                                            placeholder="District 2"
+                                            value={currentForm.district || ''}
                                             onChange={(e) => handleLocalInputChange('district', e.target.value)}
                                             className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
                                           />
@@ -4358,7 +4231,8 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                           </label>
                                           <input
                                             type="text"
-                                            value={currentForm.city || 'Quezon City'}
+                                            placeholder="Quezon City"
+                                            value={currentForm.city || ''}
                                             onChange={(e) => handleLocalInputChange('city', e.target.value)}
                                             className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
                                           />
@@ -4367,14 +4241,16 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                     </div>
                                   </div>
 
-                                  {/* PANEL 2: APPLICANT */}
-                                  <div className="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0c1629] shadow-xs">
-                                    {/* Header bar */}
-                                    <div className="bg-[#0c4366] text-white px-4 py-2 text-xs font-bold uppercase tracking-wider">
-                                      APPLICANT
+                                  {/* SECTION 2: APPLICANT */}
+                                  <div className="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+                                    <div className="pb-2 border-b border-slate-200 dark:border-slate-800">
+                                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                                        <span className="w-1.5 h-3.5 bg-blue-600 rounded-full inline-block"></span>
+                                        APPLICANT
+                                      </h4>
                                     </div>
 
-                                    <div className="p-4 sm:p-5 space-y-4">
+                                    <div className="space-y-4">
                                       {/* Row 1: Last Name, First Name, MI */}
                                       <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
                                         <div className="sm:col-span-5">
@@ -4383,7 +4259,8 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                           </label>
                                           <input
                                             type="text"
-                                            value={currentForm.applicantLastName !== undefined ? currentForm.applicantLastName : (currentForm.applicantName ? currentForm.applicantName.split(' ')[0] || '' : '')}
+                                            placeholder="Last Name"
+                                            value={currentForm.applicantLastName || ''}
                                             onChange={(e) => handleLocalInputChange('applicantLastName', e.target.value)}
                                             className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
                                           />
@@ -4394,7 +4271,8 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                           </label>
                                           <input
                                             type="text"
-                                            value={currentForm.applicantFirstName !== undefined ? currentForm.applicantFirstName : (currentForm.applicantName ? currentForm.applicantName.split(' ')[1] || '' : '')}
+                                            placeholder="First Name"
+                                            value={currentForm.applicantFirstName || ''}
                                             onChange={(e) => handleLocalInputChange('applicantFirstName', e.target.value)}
                                             className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
                                           />
@@ -4403,6 +4281,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                           <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">MI</label>
                                           <input
                                             type="text"
+                                            placeholder="M.I."
                                             maxLength={2}
                                             value={currentForm.applicantMI || ''}
                                             onChange={(e) => handleLocalInputChange('applicantMI', e.target.value)}
@@ -4424,6 +4303,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                           </label>
                                           <input
                                             type="text"
+                                            placeholder="No."
                                             value={currentForm.applicantNo || ''}
                                             onChange={(e) => handleLocalInputChange('applicantNo', e.target.value)}
                                             className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
@@ -4435,6 +4315,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                           </label>
                                           <input
                                             type="text"
+                                            placeholder="Street"
                                             value={currentForm.applicantStreet || ''}
                                             onChange={(e) => handleLocalInputChange('applicantStreet', e.target.value)}
                                             className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
@@ -4446,6 +4327,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                           </label>
                                           <input
                                             type="text"
+                                            placeholder="Barangay"
                                             value={currentForm.applicantBarangay || ''}
                                             onChange={(e) => handleLocalInputChange('applicantBarangay', e.target.value)}
                                             className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
@@ -4457,7 +4339,8 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                           </label>
                                           <input
                                             type="text"
-                                            value={currentForm.applicantCity || 'Quezon City'}
+                                            placeholder="Quezon City"
+                                            value={currentForm.applicantCity || ''}
                                             onChange={(e) => handleLocalInputChange('applicantCity', e.target.value)}
                                             className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
                                           />
@@ -4466,6 +4349,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                           <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">Zip Code</label>
                                           <input
                                             type="text"
+                                            placeholder="Zip Code"
                                             value={currentForm.applicantZip || ''}
                                             onChange={(e) => handleLocalInputChange('applicantZip', e.target.value)}
                                             className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
@@ -4480,8 +4364,12 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                           <input
                                             type="text"
                                             placeholder="09XX XXX XXXX"
+                                            maxLength={11}
                                             value={currentForm.applicantContact || ''}
-                                            onChange={(e) => handleLocalInputChange('applicantContact', e.target.value)}
+                                            onChange={(e) => {
+                                              const val = e.target.value.replace(/\D/g, '').slice(0, 11);
+                                              handleLocalInputChange('applicantContact', val);
+                                            }}
                                             className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
                                           />
                                         </div>
@@ -4489,8 +4377,14 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                           <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">TIN</label>
                                           <input
                                             type="text"
+                                            placeholder="TIN (000-000-000-000)"
+                                            maxLength={15}
                                             value={currentForm.tinNo || ''}
-                                            onChange={(e) => handleLocalInputChange('tinNo', e.target.value)}
+                                            onChange={(e) => {
+                                              const digits = e.target.value.replace(/\D/g, '').slice(0, 12);
+                                              const formatted = digits.match(/.{1,3}/g)?.join('-') || digits;
+                                              handleLocalInputChange('tinNo', formatted);
+                                            }}
                                             className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
                                           />
                                         </div>
@@ -4498,69 +4392,57 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                     </div>
                                   </div>
 
-                                  {/* Form-level Blue Submit & Red Cancel buttons matching Picture 2 */}
-                                  <div className="space-y-2.5 pt-2">
-                                    <button
-                                      type="button"
-                                      onClick={handleLocalSubmit}
-                                      className="w-full py-2.5 bg-[#0047ba] hover:bg-[#003ca0] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
-                                    >
-                                      Submit
-                                    </button>
-                                    <button
-                                      type="button"
-                                      onClick={() => {
-                                        setSelectedPermitForModal(null);
-                                        setPermitModalActiveView('catalog');
-                                        document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
-                                      }}
-                                      className="w-full py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
-                                    >
-                                      Cancel
-                                    </button>
-                                  </div>
+                                  {/* Form-level Buttons: Cancel (Left) & Submit (Right) */}
+                                   <div className="flex items-center justify-between pt-4">
+                                     <button
+                                       type="button"
+                                       onClick={() => {
+                                         setSelectedPermitForModal(null);
+                                         setPermitModalActiveView('catalog');
+                                         document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+                                       }}
+                                       className="px-8 py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+                                     >
+                                       Cancel
+                                     </button>
+                                     <button
+                                       type="button"
+                                       onClick={handleLocalSubmit}
+                                       className="px-8 py-2.5 bg-[#0047ba] hover:bg-[#003ca0] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+                                     >
+                                       Submit
+                                     </button>
+                                   </div>
 
                                 </div>
                               ) : qcData.id === 'electrical' ? (
                                 /* EXACT REPLICA OF APPLY FOR ELECTRICITY (PICTURE 1) */
                                 <div className="space-y-6">
-                                  <div className="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0c1629] shadow-xs">
-                                    <div className="bg-[#0c4366] text-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider">
-                                      Apply for Electricity
+                                  <div className="space-y-5">
+                                    <div className="pb-2 border-b border-slate-200 dark:border-slate-800">
+                                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                                        <span className="w-1.5 h-3.5 bg-blue-600 rounded-full inline-block"></span>
+                                        Apply for Electricity
+                                      </h4>
                                     </div>
 
-                                    <div className="p-4 sm:p-5 space-y-5">
+                                    <div className="space-y-5">
                                       {/* 1. Application Specification */}
                                       <div>
                                         <h4 className="text-[11px] text-slate-500 dark:text-slate-400 mb-2">Application Specification</h4>
-                                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1">
-                                          <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                        <div>
+                                          <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
                                             Is this for renewal? <span className="text-red-500 font-bold">*</span>
                                           </label>
-                                          <div className="flex items-center space-x-6">
-                                            <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
-                                              <input
-                                                type="radio"
-                                                name="elec_isRenewal"
-                                                value="yes"
-                                                checked={currentForm.isRenewal === 'yes'}
-                                                onChange={() => handleLocalInputChange('isRenewal', 'yes')}
-                                                className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
-                                              />
-                                              <span>Yes</span>
-                                            </label>
-                                            <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
-                                              <input
-                                                type="radio"
-                                                name="elec_isRenewal"
-                                                value="no"
-                                                checked={currentForm.isRenewal === 'no' || !currentForm.isRenewal}
-                                                onChange={() => handleLocalInputChange('isRenewal', 'no')}
-                                                className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
-                                              />
-                                              <span>No</span>
-                                            </label>
-                                          </div>
+                                          <select
+                                            value={currentForm.isRenewal || ''}
+                                            onChange={(e) => handleLocalInputChange('isRenewal', e.target.value)}
+                                            className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                                          >
+                                            <option value="">Select an option...</option>
+                                            <option value="yes">Yes</option>
+                                            <option value="no">No</option>
+                                          </select>
                                         </div>
                                       </div>
 
@@ -4681,21 +4563,22 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                               <input
                                                 type="text"
                                                 placeholder="District"
-                                                value={currentForm.district || 'District 4'}
+                                                value={currentForm.district || ''}
                                                 onChange={(e) => handleLocalInputChange('district', e.target.value)}
                                                 className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
                                               />
                                             </div>
                                             <div>
                                               <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                                                City <span className="text-red-500 font-bold">*</span>
-                                              </label>
-                                              <input
-                                                type="text"
-                                                readOnly
-                                                value="Quezon City"
-                                                className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs font-medium cursor-not-allowed"
-                                              />
+                                                 City <span className="text-red-500 font-bold">*</span>
+                                               </label>
+                                               <input
+                                                 type="text"
+                                                 placeholder="City"
+                                                 value={currentForm.city || ''}
+                                                 onChange={(e) => handleLocalInputChange('city', e.target.value)}
+                                                 className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                                               />
                                             </div>
                                           </div>
                                         </div>
@@ -4706,82 +4589,54 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                         <h4 className="text-[11px] text-slate-500 dark:text-slate-400 mb-2">Owner Details</h4>
                                         <div className="space-y-3">
                                           <div>
-                                            <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                                              Form of Ownership <span className="text-red-500 font-bold">*</span>
-                                            </label>
-                                            <select
-                                              value={currentForm.formOfOwnership || ''}
-                                              onChange={(e) => handleLocalInputChange('formOfOwnership', e.target.value)}
-                                              className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
-                                            >
-                                              <option value="">Form of Ownership</option>
-                                              <option value="Sole Proprietorship / Individual">Sole Proprietorship / Individual</option>
-                                              <option value="Corporation">Corporation</option>
-                                              <option value="Partnership">Partnership</option>
-                                              <option value="Government Entity">Government Entity</option>
-                                            </select>
-                                          </div>
+                                             <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                               Form of Ownership <span className="text-red-500 font-bold">*</span>
+                                             </label>
+                                             <select
+                                               value={currentForm.formOfOwnership || ''}
+                                               onChange={(e) => handleLocalInputChange('formOfOwnership', e.target.value)}
+                                               className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                                             >
+                                               <option value="">Select Form of Ownership...</option>
+                                               <option value="Sole Proprietorship / Individual">Sole Proprietorship / Individual</option>
+                                               <option value="Corporation">Corporation</option>
+                                               <option value="Partnership">Partnership</option>
+                                               <option value="Co-Ownership / Joint Venture">Co-Ownership / Joint Venture</option>
+                                               <option value="Government Entity">Government Entity</option>
+                                               <option value="Others / Non-Standard Ownership">Others / Non-Standard Ownership</option>
+                                             </select>
+                                           </div>
 
-                                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1">
-                                            <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                              Are you the land owner? <span className="text-red-500 font-bold">*</span>
-                                            </label>
-                                            <div className="flex items-center space-x-6">
-                                              <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
-                                                <input
-                                                  type="radio"
-                                                  name="elec_isLandOwner"
-                                                  value="yes"
-                                                  checked={currentForm.isLandOwner === 'yes' || !currentForm.isLandOwner}
-                                                  onChange={() => handleLocalInputChange('isLandOwner', 'yes')}
-                                                  className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
-                                                />
-                                                <span>Yes</span>
-                                              </label>
-                                              <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
-                                                <input
-                                                  type="radio"
-                                                  name="elec_isLandOwner"
-                                                  value="no"
-                                                  checked={currentForm.isLandOwner === 'no'}
-                                                  onChange={() => handleLocalInputChange('isLandOwner', 'no')}
-                                                  className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
-                                                />
-                                                <span>No</span>
-                                              </label>
-                                            </div>
-                                          </div>
+                                           <div>
+                                             <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                               Are you the land owner? <span className="text-red-500 font-bold">*</span>
+                                             </label>
+                                             <select
+                                               value={currentForm.isLandOwner || ''}
+                                               onChange={(e) => handleLocalInputChange('isLandOwner', e.target.value)}
+                                               className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                                             >
+                                               <option value="">Select an option...</option>
+                                               <option value="yes">Yes</option>
+                                               <option value="no">No</option>
+                                             </select>
+                                           </div>
 
-                                          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1">
-                                            <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                              Do you have HCDRD Certificate? <span className="text-red-500 font-bold">*</span>
-                                            </label>
-                                            <div className="flex items-center space-x-6">
-                                              <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
-                                                <input
-                                                  type="radio"
-                                                  name="elec_hasHcdrd"
-                                                  value="yes"
-                                                  checked={currentForm.hasHcdrdCert === 'yes'}
-                                                  onChange={() => handleLocalInputChange('hasHcdrdCert', 'yes')}
-                                                  className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
-                                                />
-                                                <span>Yes</span>
-                                              </label>
-                                              <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
-                                                <input
-                                                  type="radio"
-                                                  name="elec_hasHcdrd"
-                                                  value="no"
-                                                  checked={currentForm.hasHcdrdCert === 'no' || !currentForm.hasHcdrdCert}
-                                                  onChange={() => handleLocalInputChange('hasHcdrdCert', 'no')}
-                                                  className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
-                                                />
-                                                <span>No</span>
-                                              </label>
-                                            </div>
-                                          </div>
-                                        </div>
+                                           <div>
+                                             <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
+                                               Do you have HCDRD Certificate? <span className="text-red-500 font-bold">*</span>
+                                             </label>
+                                             <select
+                                               value={currentForm.hasHcdrdCert || ''}
+                                               onChange={(e) => handleLocalInputChange('hasHcdrdCert', e.target.value)}
+                                               className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                                             >
+                                               <option value="">Select an option...</option>
+                                               <option value="yes">Yes</option>
+                                               <option value="no">No</option>
+                                             </select>
+                                           </div>
+                                         </div>
                                       </div>
 
                                       {/* 5. Applicant Details */}
@@ -4872,7 +4727,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                               <input
                                                 type="text"
                                                 placeholder="City"
-                                                value={currentForm.applicantCity || 'Quezon City'}
+                                                value={currentForm.applicantCity || ''}
                                                 onChange={(e) => handleLocalInputChange('applicantCity', e.target.value)}
                                                 className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
                                               />
@@ -4898,8 +4753,9 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                               <input
                                                 type="text"
                                                 placeholder="09XX XXX XXXX"
+                                                maxLength={11}
                                                 value={currentForm.applicantContact || ''}
-                                                onChange={(e) => handleLocalInputChange('applicantContact', e.target.value)}
+                                                onChange={(e) => { const val = e.target.value.replace(/\D/g, '').slice(0, 11); handleLocalInputChange('applicantContact', val); }}
                                                 className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
                                               />
                                             </div>
@@ -4907,27 +4763,27 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                         </div>
                                       </div>
 
-                                      {/* 6. Buttons: Submit (Blue) & Cancel (Red) */}
-                                      <div className="space-y-2.5 pt-2">
-                                        <button
-                                          type="button"
-                                          onClick={handleLocalSubmit}
-                                          className="w-full py-2.5 bg-[#0047ba] hover:bg-[#003ca0] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
-                                        >
-                                          Submit
-                                        </button>
-                                        <button
-                                          type="button"
-                                          onClick={() => {
-                                            setSelectedPermitForModal(null);
-                                            setPermitModalActiveView('catalog');
-                                            document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
-                                          }}
-                                          className="w-full py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
-                                        >
-                                          Cancel
-                                        </button>
-                                      </div>
+                                      {/* 6. Buttons: Cancel (Left) & Submit (Right) */}
+                                       <div className="flex items-center justify-between pt-4">
+                                         <button
+                                           type="button"
+                                           onClick={() => {
+                                             setSelectedPermitForModal(null);
+                                             setPermitModalActiveView('catalog');
+                                             document.getElementById('permit-modal-scroll-container')?.scrollTo({ top: 0, behavior: 'smooth' });
+                                           }}
+                                           className="px-8 py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+                                         >
+                                           Cancel
+                                         </button>
+                                         <button
+                                           type="button"
+                                           onClick={handleLocalSubmit}
+                                           className="px-8 py-2.5 bg-[#0047ba] hover:bg-[#003ca0] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+                                         >
+                                           Submit
+                                         </button>
+                                       </div>
                                     </div>
                                   </div>
                                 </div>
@@ -5368,7 +5224,7 @@ Digital Security Hash   : SHA256-BUILDING-PERMIT-${item.id}-AUTHENTICATED
                                         <input
                                           type="text"
                                           value={currentForm.applicantContact}
-                                          onChange={(e) => handleLocalInputChange('applicantContact', e.target.value)}
+                                          onChange={(e) => { const val = e.target.value.replace(/\D/g, '').slice(0, 11); handleLocalInputChange('applicantContact', val); }}
                                           className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-xs shadow-xs"
                                         />
                                       </div>

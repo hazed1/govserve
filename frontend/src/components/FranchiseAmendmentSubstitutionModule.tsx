@@ -466,10 +466,10 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
     }
   }, [applications]);
 
-  // Franchise Information (Editable & Required)
-  const [franchiseNo, setFranchiseNo] = useState<string>('MTOP-2025-0412');
-  const [ownerName, setOwnerName] = useState<string>(user?.name || 'Juan Dela Cruz');
-  const [contactNo, setContactNo] = useState<string>('+63 917 888 2941');
+  // Franchise Information (Editable & Required - user manually inputs)
+  const [franchiseNo, setFranchiseNo] = useState<string>('');
+  const [ownerName, setOwnerName] = useState<string>('');
+  const [contactNo, setContactNo] = useState<string>('');
   const email = user?.email || 'citizen@govserve.ph';
 
   // Selected Amendment Type
@@ -958,8 +958,8 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
       {/* Toast Notification */}
       {toastMsg && (
         <div className="fixed top-5 right-5 z-50 animate-in slide-in-from-top-3 fade-in duration-200">
-          <div className="bg-slate-900/95 dark:bg-purple-950/95 text-white text-xs sm:text-sm font-semibold px-4 py-3 rounded-2xl shadow-2xl border border-purple-500/40 backdrop-blur-md flex items-center gap-2.5">
-            <Sparkles size={16} className="text-purple-400 shrink-0" />
+          <div className="bg-slate-900/95 dark:bg-blue-950/95 text-white text-xs sm:text-sm font-semibold px-4 py-3 rounded-2xl shadow-2xl border border-blue-500/40 backdrop-blur-md flex items-center gap-2.5">
+            <Sparkles size={16} className="text-sky-400 shrink-0" />
             <span>{toastMsg}</span>
           </div>
         </div>
@@ -970,497 +970,382 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
       {/* ========================================================================= */}
       {viewMode === 'wizard' && (
         <div className="space-y-6">
-          {/* Wizard Header & Visual Progress Indicator */}
-          <div className="bg-gradient-to-r from-purple-50 via-white to-purple-50/50 dark:from-[#1b0a2b] dark:via-slate-900 dark:to-[#170824] p-6 sm:p-7 rounded-3xl border border-purple-200/90 dark:border-purple-500/30 shadow-sm space-y-5">
-            <div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-600 text-white shadow-sm shadow-purple-600/30">
-                <FileCheck size={12} />
-                <span>Upload-First Process</span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight mt-1.5">
-                AMENDMENT &amp; SUBSTITUTION APPLICATION
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
-                Upload your documents and photos to complete your application. No long forms or manual typing required.
-              </p>
-            </div>
-
-            {/* 4-Step Visual Progress Bar */}
-            <div className="pt-2">
-              <div className="grid grid-cols-4 gap-2 sm:gap-3">
-                {[
-                  { stepNum: 1, title: 'Application', desc: 'Franchise & Type' },
-                  { stepNum: 2, title: 'Upload Documents', desc: 'Photos & Clearance' },
-                  { stepNum: 3, title: 'Review', desc: 'Verify Details' },
-                  { stepNum: 4, title: 'Submit', desc: 'Track & Receipt' }
-                ].map(s => {
-                  const isActive = step === s.stepNum;
-                  const isDone = step > s.stepNum;
-
-                  return (
-                    <div
-                      key={s.stepNum}
-                      className={`relative p-3 rounded-2xl border transition-all text-left ${
-                        isActive
-                          ? 'bg-purple-600 text-white border-purple-600 shadow-md shadow-purple-600/30'
-                          : isDone
-                          ? 'bg-purple-50 dark:bg-purple-950/40 text-purple-900 dark:text-purple-200 border-purple-200 dark:border-purple-800'
-                          : 'bg-white/80 dark:bg-slate-800/60 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-700/60'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className={`text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-full ${
-                          isActive
-                            ? 'bg-white/20 text-white'
-                            : isDone
-                            ? 'bg-purple-200 dark:bg-purple-900/60 text-purple-800 dark:text-purple-200'
-                            : 'bg-slate-100 dark:bg-slate-700 text-slate-500'
-                        }`}>
-                          {isDone ? '✓ Done' : `0${s.stepNum}`}
-                        </span>
-                        {isDone && <CheckCircle2 size={14} className="text-purple-600 dark:text-purple-400" />}
-                      </div>
-                      <div className="font-bold text-xs sm:text-sm tracking-tight truncate">
-                        {s.title}
-                      </div>
-                      <div className={`text-[10px] hidden sm:block truncate ${isActive ? 'text-purple-100' : 'text-slate-500 dark:text-slate-400'}`}>
-                        {s.desc}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+          {/* Top-left outside borderless Back to Portal button */}
+          <div className="flex items-center justify-between">
+            <button
+              type="button"
+              onClick={onBackToPortal}
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-sky-400 hover:text-sky-300 dark:text-sky-400 dark:hover:text-sky-300 transition-colors group cursor-pointer"
+            >
+              <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+              <span className="group-hover:underline">Back to Portal</span>
+            </button>
           </div>
 
-          {/* STEP 1: APPLICATION (FRANCHISE INFORMATION + SELECT AMENDMENT TYPE) */}
-          {step === 1 && (
-            <div className="space-y-6 animate-in fade-in duration-200">
-              {/* Franchise Information */}
-              <div className="bg-white dark:bg-slate-900 p-6 sm:p-7 rounded-3xl border border-purple-200/80 dark:border-purple-500/30 shadow-sm space-y-4">
-                <div className="pb-3 border-b border-purple-100 dark:border-purple-950">
-                  <div className="flex items-center gap-2 text-purple-700 dark:text-purple-300">
-                    <ShieldCheck size={18} />
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white">
-                      Franchise Information
-                    </h3>
+          {/* MAIN UNIFIED CARD CONTAINER */}
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 sm:p-10 shadow-sm space-y-8">
+            {/* Wizard Header & Visual Progress Indicator */}
+            {step < 4 && (
+              <div className="space-y-5 pb-6 border-b border-slate-100 dark:border-slate-800">
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-blue-600 text-white shadow-sm shadow-blue-600/30">
+                    <FileCheck size={12} />
+                    <span>Upload-First Process</span>
                   </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {/* Franchise Number */}
-                  <div className="p-4 rounded-2xl bg-purple-50/60 dark:bg-purple-950/20 border border-purple-200/70 dark:border-purple-900/40 space-y-1.5">
-                    <label className="text-[11px] font-black uppercase text-purple-700 dark:text-purple-400 block">
-                      Franchise Number
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={franchiseNo}
-                      onChange={(e) => setFranchiseNo(e.target.value)}
-                      placeholder="e.g. MTOP-2025-0412"
-                      className="w-full px-3.5 py-2.5 bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-800 rounded-xl text-xs font-mono font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all shadow-xs"
-                    />
-                    <span className="text-[10px] text-slate-500 dark:text-slate-400 block">Active MTOP Registry</span>
-                  </div>
-
-                  {/* Owner Name */}
-                  <div className="p-4 rounded-2xl bg-purple-50/60 dark:bg-purple-950/20 border border-purple-200/70 dark:border-purple-900/40 space-y-1.5">
-                    <label className="text-[11px] font-black uppercase text-purple-700 dark:text-purple-400 block">
-                      Owner Name
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={ownerName}
-                      onChange={(e) => setOwnerName(e.target.value)}
-                      placeholder="e.g. Juan Dela Cruz"
-                      className="w-full px-3.5 py-2.5 bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-800 rounded-xl text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all shadow-xs"
-                    />
-                    <span className="text-[10px] text-slate-500 dark:text-slate-400 block">Registered Franchise Holder</span>
-                  </div>
-
-                  {/* Contact Number */}
-                  <div className="p-4 rounded-2xl bg-purple-50/60 dark:bg-purple-950/20 border border-purple-200/70 dark:border-purple-900/40 space-y-1.5">
-                    <label className="text-[11px] font-black uppercase text-purple-700 dark:text-purple-400 block">
-                      Contact Number
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      value={contactNo}
-                      onChange={(e) => setContactNo(e.target.value)}
-                      placeholder="e.g. +63 917 888 2941"
-                      className="w-full px-3.5 py-2.5 bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-800 rounded-xl text-xs font-mono font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-500 transition-all shadow-xs"
-                    />
-                    <span className="text-[10px] text-slate-500 dark:text-slate-400 block">SMS Verification Active</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* SELECT AMENDMENT TYPE: Large Clickable Cards */}
-              <div className="bg-white dark:bg-slate-900 p-6 sm:p-7 rounded-3xl border border-purple-200/80 dark:border-purple-500/30 shadow-sm space-y-4">
-                <div className="space-y-1">
-                  <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white">
-                    What would you like to amend or substitute?
-                  </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Select one service category below. Upload requirements will adjust automatically.
+                  <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight mt-1.5">
+                    AMENDMENT &amp; SUBSTITUTION APPLICATION
+                  </h2>
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
+                    Upload your documents and photos to complete your application. No long forms or manual typing required.
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
-                  {AMENDMENT_TYPES_CATALOG.map(card => {
-                    const isSelected = selectedType === card.key;
+                {/* 3-Step Visual Progress Bar */}
+                <div className="pt-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3">
+                    {[
+                      { stepNum: 1, title: 'Application', desc: 'Franchise & Type' },
+                      { stepNum: 2, title: 'Upload Documents', desc: 'Photos & Clearance' },
+                      { stepNum: 3, title: 'Review & Submit', desc: 'Verify Details' }
+                    ].map(s => {
+                      const isActive = step === s.stepNum;
+                      const isDone = step > s.stepNum;
 
-                    return (
-                      <button
-                        key={card.key}
-                        type="button"
-                        onClick={() => handleSelectType(card.key)}
-                        className={`group p-5 rounded-2xl border text-left transition-all duration-200 flex flex-col justify-between relative cursor-pointer ${
-                          isSelected
-                            ? 'bg-purple-50/90 dark:bg-purple-950/40 border-purple-600 dark:border-purple-500 ring-2 ring-purple-600/30 shadow-md shadow-purple-600/10 scale-[1.01]'
-                            : 'bg-white dark:bg-slate-800/60 border-slate-200 dark:border-slate-700/80 hover:border-purple-300 dark:hover:border-purple-600/60 hover:bg-purple-50/30'
-                        }`}
-                      >
-                        {isSelected && (
-                          <div className="absolute top-3.5 right-3.5 w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center shadow-xs">
-                            <Check size={14} />
-                          </div>
-                        )}
-
-                        <div className="space-y-3">
-                          <div className="flex items-center gap-3">
-                            <span className="text-2xl p-2 rounded-xl bg-purple-100/70 dark:bg-purple-900/40 border border-purple-200 dark:border-purple-800/60 shrink-0">
-                              {card.icon}
+                      return (
+                        <div
+                          key={s.stepNum}
+                          className={`relative p-3 rounded-2xl border transition-all text-left ${
+                            isActive
+                              ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-600/30'
+                              : isDone
+                              ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-900 dark:text-blue-200 border-blue-200 dark:border-blue-800'
+                              : 'bg-white/80 dark:bg-slate-800/60 text-slate-400 dark:text-slate-500 border-slate-200 dark:border-slate-700/60'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between mb-1">
+                            <span className={`text-[10px] sm:text-xs font-black px-2 py-0.5 rounded-full ${
+                              isActive
+                                ? 'bg-white/20 text-white'
+                                : isDone
+                                ? 'bg-blue-200 dark:bg-blue-900/60 text-blue-800 dark:text-blue-200'
+                                : 'bg-slate-100 dark:bg-slate-700 text-slate-500'
+                            }`}>
+                              {isDone ? '✓ Done' : `0${s.stepNum}`}
                             </span>
-                            <div>
-                              <span className="text-[10px] font-black uppercase tracking-wider text-purple-700 dark:text-purple-300 block">
-                                {card.tag}
-                              </span>
-                              <h4 className="text-sm font-black text-slate-900 dark:text-white leading-tight">
-                                {card.title}
-                              </h4>
-                            </div>
+                            {isDone && <CheckCircle2 size={14} className="text-blue-600 dark:text-blue-400" />}
                           </div>
-
-                          <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                            {card.description}
-                          </p>
+                          <div className="font-bold text-xs sm:text-sm tracking-tight truncate">
+                            {s.title}
+                          </div>
+                          <div className={`text-[10px] hidden sm:block truncate ${isActive ? 'text-blue-100' : 'text-slate-500 dark:text-slate-400'}`}>
+                            {s.desc}
+                          </div>
                         </div>
-
-                        <div className="pt-4 mt-2 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-[11px] font-bold">
-                          <span className={isSelected ? 'text-purple-700 dark:text-purple-300' : 'text-slate-500'}>
-                            {isSelected ? '✓ Selected' : 'Click to select'}
-                          </span>
-                          <span className="font-mono text-purple-600 dark:text-purple-400">₱900.00 Legal Tariff</span>
-                        </div>
-                      </button>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
+            )}
 
-              {/* Step 1 Actions */}
-              <div className="flex items-center justify-between pt-2">
-                <button
-                  type="button"
-                  onClick={onBackToPortal}
-                  className="px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 dark:hover:bg-slate-800 transition-all flex items-center gap-2 cursor-pointer"
-                >
-                  <ArrowLeft size={16} />
-                  <span>Back to Portal</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (!franchiseNo.trim() || !ownerName.trim() || !contactNo.trim()) {
-                      showToast('Please fill in all required franchise fields (Franchise Number, Owner Name, Contact Number).');
-                      return;
-                    }
-                    setStep(2);
-                  }}
-                  disabled={!franchiseNo.trim() || !ownerName.trim() || !contactNo.trim()}
-                  className={`px-6 py-3.5 rounded-xl font-black text-xs sm:text-sm shadow-lg transition-all flex items-center gap-2 ${
-                    franchiseNo.trim() && ownerName.trim() && contactNo.trim()
-                      ? 'bg-purple-600 hover:bg-purple-500 text-white shadow-purple-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
-                      : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed'
-                  }`}
-                >
-                  <span>Continue to Upload Documents</span>
-                  <ArrowRight size={16} />
-                </button>
+            {/* STEP 1: APPLICATION (FRANCHISE INFORMATION + SELECT AMENDMENT TYPE) */}
+            {step === 1 && (
+              <div className="space-y-8 animate-in fade-in duration-200">
+                {/* Franchise Information Section */}
+                <div className="space-y-4">
+                  <div className="pb-3 border-b border-slate-100 dark:border-slate-800">
+                    <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
+                      <ShieldCheck size={18} />
+                      <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white">
+                        Franchise Information
+                      </h3>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {/* Franchise Number */}
+                    <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-1.5">
+                      <label className="text-[11px] font-black uppercase text-blue-600 dark:text-blue-400 block">
+                        Franchise Number
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={franchiseNo}
+                        onChange={(e) => setFranchiseNo(e.target.value)}
+                        placeholder="e.g. MTOP-2025-0412"
+                        className="w-full px-3.5 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-mono font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
+                      />
+                      <span className="text-[10px] text-slate-500 dark:text-slate-400 block">Active MTOP Registry</span>
+                    </div>
+
+                    {/* Owner Name */}
+                    <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-1.5">
+                      <label className="text-[11px] font-black uppercase text-blue-600 dark:text-blue-400 block">
+                        Owner Name
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={ownerName}
+                        onChange={(e) => setOwnerName(e.target.value)}
+                        placeholder="e.g. Juan Dela Cruz"
+                        className="w-full px-3.5 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
+                      />
+                      <span className="text-[10px] text-slate-500 dark:text-slate-400 block">Registered Franchise Holder</span>
+                    </div>
+
+                    {/* Contact Number */}
+                    <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-1.5">
+                      <label className="text-[11px] font-black uppercase text-blue-600 dark:text-blue-400 block">
+                        Contact Number
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        value={contactNo}
+                        onChange={(e) => setContactNo(e.target.value)}
+                        placeholder="e.g. +63 917 888 2941"
+                        className="w-full px-3.5 py-2.5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-mono font-bold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all shadow-xs"
+                      />
+                      <span className="text-[10px] text-slate-500 dark:text-slate-400 block">SMS Verification Active</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* SELECT AMENDMENT TYPE: Inside same card */}
+                <div className="space-y-4 pt-2">
+                  <div className="space-y-1">
+                    <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white">
+                      What would you like to amend or substitute?
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                      Select one service category below. Upload requirements will adjust automatically.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
+                    {AMENDMENT_TYPES_CATALOG.map(card => {
+                      const isSelected = selectedType === card.key;
+
+                      return (
+                        <button
+                          key={card.key}
+                          type="button"
+                          onClick={() => handleSelectType(card.key)}
+                          className={`group p-5 rounded-2xl border text-left transition-all duration-200 flex flex-col justify-between relative cursor-pointer ${
+                            isSelected
+                              ? 'bg-blue-50/90 dark:bg-blue-950/40 border-blue-600 dark:border-blue-500 ring-2 ring-blue-600/30 shadow-md shadow-blue-600/10 scale-[1.01]'
+                              : 'bg-white dark:bg-slate-800/60 border-slate-200 dark:border-slate-700/80 hover:border-blue-300 dark:hover:border-blue-600/60 hover:bg-blue-50/30'
+                          }`}
+                        >
+                          {isSelected && (
+                            <div className="absolute top-3.5 right-3.5 w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-xs">
+                              <Check size={14} />
+                            </div>
+                          )}
+
+                          <div className="space-y-3">
+                            <div className="flex items-center gap-3">
+                              <span className="text-2xl p-2 rounded-xl bg-blue-100/70 dark:bg-blue-900/40 border border-blue-200 dark:border-blue-800/60 shrink-0">
+                                {card.icon}
+                              </span>
+                              <div>
+                                <span className="text-[10px] font-black uppercase tracking-wider text-blue-600 dark:text-blue-400 block">
+                                  {card.tag}
+                                </span>
+                                <h4 className="text-sm font-black text-slate-900 dark:text-white leading-tight">
+                                  {card.title}
+                                </h4>
+                              </div>
+                            </div>
+
+                            <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                              {card.description}
+                            </p>
+                          </div>
+
+                          <div className="pt-4 mt-2 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-[11px] font-bold">
+                            <span className={isSelected ? 'text-blue-600 dark:text-blue-400' : 'text-slate-500'}>
+                              {isSelected ? '✓ Selected' : 'Click to select'}
+                            </span>
+                            <span className="font-mono text-blue-600 dark:text-blue-400">₱900.00 Legal Tariff</span>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Step 1 Actions */}
+                <div className="flex items-center justify-end pt-4 border-t border-slate-100 dark:border-slate-800">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!franchiseNo.trim() || !ownerName.trim() || !contactNo.trim()) {
+                        showToast('Please fill in all required franchise fields (Franchise Number, Owner Name, Contact Number).');
+                        return;
+                      }
+                      setStep(2);
+                    }}
+                    disabled={!franchiseNo.trim() || !ownerName.trim() || !contactNo.trim()}
+                    className={`px-7 py-3 rounded-xl font-black text-xs sm:text-sm shadow-lg transition-all flex items-center gap-2 ${
+                      franchiseNo.trim() && ownerName.trim() && contactNo.trim()
+                        ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
+                        : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed'
+                    }`}
+                  >
+                    <span>Continue to Upload Documents</span>
+                    <ArrowRight size={16} />
+                  </button>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
           {/* STEP 2: UPLOAD DOCUMENTS (UPLOAD-FIRST CORE) */}
           {step === 2 && (
             <div className="space-y-6 animate-in fade-in duration-200">
-              {/* Checklist & Upload Progress Bar */}
-              <div className="bg-white dark:bg-slate-900 p-5 sm:p-6 rounded-3xl border border-purple-200/80 dark:border-purple-500/30 shadow-sm space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                  <div>
-                    <span className="text-[10px] font-black uppercase tracking-wider text-purple-700 dark:text-purple-400 block">
-                      DOCUMENT CHECKLIST
-                    </span>
-                    <h3 className="text-base font-black text-slate-900 dark:text-white">
-                      {uploadedRequiredCount} of {totalRequiredCount} documents uploaded
-                    </h3>
-                  </div>
-
-                  <div className="text-right">
-                    <span className="text-sm font-black font-mono text-purple-600 dark:text-purple-400">
-                      {progressPercent}% Complete
-                    </span>
-                  </div>
-                </div>
-
-                {/* Progress Bar */}
-                <div className="w-full h-3 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden border border-slate-200 dark:border-slate-700 p-0.5">
-                  <div
-                    className="h-full rounded-full bg-gradient-to-r from-purple-600 to-fuchsia-600 transition-all duration-300 shadow-sm"
-                    style={{ width: `${progressPercent}%` }}
-                  />
-                </div>
-
-                {/* Checklist Badges */}
-                <div className="flex flex-wrap gap-2 pt-1">
-                  {Object.values(uploadedDocs).map(doc => {
-                    const isUploaded = doc.previewUrl !== null;
-                    return (
-                      <span
-                        key={doc.key}
-                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-[11px] font-semibold border transition-all ${
-                          isUploaded
-                            ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800'
-                            : doc.required
-                            ? 'bg-purple-50 dark:bg-purple-950/30 text-purple-800 dark:text-purple-300 border-purple-200 dark:border-purple-800'
-                            : 'bg-slate-50 dark:bg-slate-800 text-slate-500 border-slate-200 dark:border-slate-700'
-                        }`}
-                      >
-                        {isUploaded ? (
-                          <CheckCircle2 size={13} className="text-emerald-600 dark:text-emerald-400" />
-                        ) : (
-                          <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
-                        )}
-                        <span>{doc.title}</span>
-                        {doc.required && !isUploaded && (
-                          <span className="text-[9px] uppercase font-bold text-purple-600 dark:text-purple-400">*Required</span>
-                        )}
-                      </span>
-                    );
-                  })}
-                </div>
-              </div>
-
               {/* Instruction banner */}
-              <div className="p-4 rounded-2xl bg-purple-50/70 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-900/40 flex items-start gap-3">
-                <HelpCircle size={18} className="text-purple-600 dark:text-purple-400 shrink-0 mt-0.5" />
-                <div className="text-xs text-slate-700 dark:text-slate-300 space-y-1">
-                  <p className="font-bold text-slate-900 dark:text-white">
-                    Make sure the entire document is visible and readable.
-                  </p>
-                  <p className="text-slate-600 dark:text-slate-400">
-                    Use either <strong className="text-purple-700 dark:text-purple-300">📷 Take Photo</strong> on mobile or webcam, or <strong className="text-purple-700 dark:text-purple-300">⬆ Upload from Device</strong>. Accepted formats: JPG, JPEG, PNG, PDF (max 20MB).
-                  </p>
-                </div>
+              <div className="p-4 rounded-2xl bg-blue-50/70 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900/40 flex items-center gap-3">
+                <HelpCircle size={18} className="text-blue-600 dark:text-blue-400 shrink-0" />
+                <p className="text-xs font-semibold text-slate-800 dark:text-slate-200 leading-relaxed">
+                  Please ensure that the entire document is clear, complete, and readable before uploading. (JPG, PNG, PDF up to 20MB).
+                </p>
               </div>
 
-              {/* DOCUMENT UPLOAD CARDS */}
-              <div className="space-y-4">
-                {Object.values(uploadedDocs).map(doc => {
+              {/* DOCUMENT UPLOAD CARDS (Pic 1 Unified 2-Column Grid Layout) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {Object.values(uploadedDocs).map((doc, index) => {
                   const isUploaded = doc.previewUrl !== null;
+                  const cleanTitle = doc.title.replace(/^\d+\.\s*/, '');
 
                   return (
                     <div
                       key={doc.key}
-                      className="p-5 sm:p-6 rounded-3xl bg-white dark:bg-slate-900 border border-purple-200/80 dark:border-purple-500/30 shadow-sm space-y-4 hover:border-purple-400 dark:hover:border-purple-500 transition-all"
+                      className="bg-white dark:bg-slate-900 p-5 sm:p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4 flex flex-col justify-between"
                     >
-                      {/* Top Header of Document Card */}
-                      <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-                        <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 rounded-2xl bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 flex items-center justify-center font-bold shrink-0 shadow-xs">
-                            <Camera size={18} />
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <h4 className="text-sm sm:text-base font-black text-slate-900 dark:text-white uppercase tracking-tight">
-                                📷 {doc.title}
-                              </h4>
-                              {doc.required && (
-                                <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800">
-                                  Required
-                                </span>
+                      <div className="space-y-4">
+                        {/* Header: Number + REQUIRED badge + Title + CheckCircle & Status Pill */}
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100 dark:border-slate-800">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <span className="text-slate-400 font-bold text-sm">{index + 1}.</span>
+                            <span className="bg-blue-600 text-white font-black text-[10px] px-2 py-0.5 rounded uppercase tracking-wider">
+                              REQUIRED
+                            </span>
+                            <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight flex items-center gap-1.5">
+                              <span>{cleanTitle}</span>
+                              {doc.required && <span className="text-rose-500 font-bold">*</span>}
+                              {isUploaded && (
+                                <CheckCircle2 size={16} className="text-emerald-500 fill-emerald-500/20 shrink-0" />
                               )}
-                            </div>
-                            <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
-                              {doc.subtitle}
-                            </p>
+                            </h3>
                           </div>
+
+                          {/* Status Pill Badge */}
+                          <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold self-start sm:self-auto border transition-colors ${
+                            isUploaded
+                              ? 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800'
+                              : 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-slate-800/80 dark:text-slate-400 dark:border-slate-700'
+                          }`}>
+                            Status: {isUploaded ? 'Uploaded' : 'Pending'}
+                          </span>
                         </div>
 
-                        {/* Status Indicator */}
-                        <div className="self-start sm:self-auto">
-                          {!isUploaded ? (
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
-                              <span className="w-2 h-2 rounded-full bg-slate-400"></span>
-                              ○ Not uploaded
-                            </span>
-                          ) : doc.qualityStatus === 'optimal' ? (
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                              <CheckCircle2 size={13} />
-                              ✓ Uploaded
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
-                              <AlertTriangle size={13} />
-                              ⚠ Needs clearer photo
-                            </span>
-                          )}
+                        {/* Description & Allowed File Types */}
+                        <div className="space-y-1">
+                          <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                            {doc.subtitle}
+                          </p>
+                          <p className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">
+                            Allowed file types: JPG, JPEG, PNG, WEBP, PDF
+                          </p>
                         </div>
                       </div>
 
-                      {/* Content Area: If Uploaded vs Not Uploaded */}
-                      {!isUploaded ? (
-                        <div className="p-6 rounded-2xl bg-purple-50/40 dark:bg-slate-800/40 border-2 border-dashed border-purple-200 dark:border-purple-900/60 flex flex-col items-center justify-center text-center gap-4">
-                          <div className="text-xs text-slate-500 dark:text-slate-400">
-                            Select an option to provide your document:
-                          </div>
-
-                          <div className="flex flex-wrap items-center justify-center gap-3">
-                            {/* Take Photo Button */}
-                            <button
-                              type="button"
-                              onClick={() => startCamera(doc.key)}
-                              className="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs shadow-md shadow-purple-600/30 flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]"
+                      {/* Action Area: Centered UPLOAD PHOTO button (when empty) OR Centered Thumbnail Preview (when uploaded) */}
+                      <div className="pt-2 flex flex-col items-center justify-center gap-3 w-full">
+                        {!isUploaded ? (
+                          <div className="flex items-center justify-center w-full py-4">
+                            <label
+                              htmlFor={`doc-upload-${doc.key}`}
+                              className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold text-xs uppercase tracking-wide rounded-xl shadow-md shadow-blue-600/25 transition-all cursor-pointer group shrink-0"
                             >
-                              <Camera size={15} />
-                              <span>📷 TAKE PHOTO</span>
-                            </button>
-
-                            {/* Upload Photo Button */}
-                            <label className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-purple-50 dark:hover:bg-purple-950/40 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-700 font-bold text-xs shadow-xs flex items-center gap-2 cursor-pointer transition-all">
-                              <Upload size={15} />
-                              <span>⬆ UPLOAD PHOTO</span>
+                              <Upload size={15} className="group-hover:-translate-y-0.5 transition-transform" />
+                              <span>UPLOAD PHOTO</span>
                               <input
+                                id={`doc-upload-${doc.key}`}
                                 type="file"
-                                accept="image/jpeg,image/png,image/webp,application/pdf"
+                                accept="image/jpeg,image/jpg,image/png,image/webp,application/pdf"
                                 onChange={(e) => handleFileUpload(e, doc.key)}
                                 className="hidden"
                               />
                             </label>
                           </div>
+                        ) : (
+                          <div className="pt-1 w-full flex justify-center">
+                            <div className="relative group/thumb p-2.5 rounded-2xl bg-[#091524] border border-slate-700/80 shadow-md w-full max-w-[240px] sm:max-w-[260px] flex flex-col items-center animate-in fade-in zoom-in-95 mx-auto">
+                              {/* Circular (X) remove button at top-right */}
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveDoc(doc.key)}
+                                title="Remove Photo"
+                                className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-slate-700 hover:bg-rose-600 text-white flex items-center justify-center shadow-md transition-colors cursor-pointer z-10"
+                              >
+                                <X size={13} />
+                              </button>
 
-                          <span className="text-[10px] text-slate-400">
-                            Accepted formats: JPG, JPEG, PNG, PDF (Max 20MB)
-                          </span>
-                        </div>
-                      ) : (
-                        /* AFTER UPLOAD: PREVIEW & ACTION CONTROLS */
-                        <div className="space-y-3">
-                          <div className="p-4 rounded-2xl bg-purple-50/30 dark:bg-slate-800/40 border border-purple-200/80 dark:border-purple-900/50 flex flex-col sm:flex-row items-center gap-4">
-                            {/* Thumbnail Preview with Click to Zoom */}
-                            <div
-                              onClick={() => handleOpenZoom(doc.previewUrl, doc.title)}
-                              className="relative group w-32 h-24 sm:w-36 sm:h-28 rounded-xl overflow-hidden border border-purple-300 dark:border-purple-700 bg-slate-900 shrink-0 cursor-pointer shadow-sm"
-                            >
-                              <img
-                                src={doc.previewUrl!}
-                                alt={doc.title}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                              />
-                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] font-bold gap-1">
-                                <ZoomIn size={14} />
-                                <span>Click to enlarge</span>
+                              {/* Photo Thumbnail */}
+                              <div 
+                                onClick={() => handleOpenZoom(doc.previewUrl, doc.title)}
+                                className="w-full h-32 sm:h-34 rounded-xl overflow-hidden bg-slate-900 border border-slate-700/60 cursor-pointer relative group-hover/thumb:border-blue-500 transition-colors flex items-center justify-center p-1"
+                                title="Click to view full photo"
+                              >
+                                <img
+                                  src={doc.previewUrl!}
+                                  alt={doc.title}
+                                  className="w-full h-full object-contain rounded-lg group-hover/thumb:scale-105 transition-transform duration-200"
+                                />
+                                <div className="absolute inset-0 bg-black/35 opacity-0 group-hover/thumb:opacity-100 flex items-center justify-center transition-opacity rounded-xl">
+                                  <Eye size={18} className="text-white drop-shadow" />
+                                </div>
                               </div>
-                            </div>
 
-                            {/* Metadata and Quality Messages */}
-                            <div className="flex-1 space-y-1.5 text-center sm:text-left">
-                              <div className="flex flex-col sm:flex-row sm:items-center gap-1.5">
-                                <span className="font-bold text-xs text-slate-900 dark:text-white truncate">
-                                  {doc.fileName || 'Uploaded_Document.jpg'}
+                              {/* File Info */}
+                              <div className="w-full text-center mt-2 px-1.5">
+                                <span className="font-mono text-[11px] font-semibold text-slate-200 block truncate" title={doc.fileName || ''}>
+                                  {doc.fileName || 'Uploaded_Photo'}
                                 </span>
-                                <span className="text-[10px] text-slate-400">
-                                  ({doc.fileSize ? `${Math.round(doc.fileSize / 1024)} KB` : 'Verified'}) • {doc.uploadedAt}
+                                <span className="text-[10px] text-slate-400 font-mono block mt-0.5">
+                                  {doc.fileSize ? `${(doc.fileSize / 1024).toFixed(1)} KB` : 'Uploaded'}
                                 </span>
-                              </div>
-
-                              {/* Quality heuristic friendly message */}
-                              <div className="text-xs">
-                                {doc.qualityStatus === 'optimal' ? (
-                                  <span className="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center justify-center sm:justify-start gap-1">
-                                    <CheckCircle2 size={13} />
-                                    <span>✓ Clear and readable document</span>
-                                  </span>
-                                ) : (
-                                  <span className="text-amber-600 dark:text-amber-400 font-semibold flex items-center justify-center sm:justify-start gap-1">
-                                    <AlertTriangle size={13} />
-                                    <span>{doc.qualityMessage || 'Please upload a clearer photo.'}</span>
-                                  </span>
-                                )}
-                              </div>
-
-                              {/* Action Buttons: Replace, Retake, Remove */}
-                              <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 pt-2">
-                                <button
-                                  type="button"
-                                  onClick={() => startCamera(doc.key)}
-                                  className="px-3 py-1.5 rounded-lg bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-800 text-[11px] font-bold hover:bg-purple-100 flex items-center gap-1 cursor-pointer"
-                                >
-                                  <Camera size={13} />
-                                  <span>Retake Photo</span>
-                                </button>
-
-                                <label className="px-3 py-1.5 rounded-lg bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 text-[11px] font-bold hover:bg-slate-100 flex items-center gap-1 cursor-pointer">
-                                  <Upload size={13} />
-                                  <span>Replace Photo</span>
-                                  <input
-                                    type="file"
-                                    accept="image/jpeg,image/png,image/webp,application/pdf"
-                                    onChange={(e) => handleFileUpload(e, doc.key)}
-                                    className="hidden"
-                                  />
-                                </label>
-
-                                <button
-                                  type="button"
-                                  onClick={() => handleRemoveDoc(doc.key)}
-                                  className="px-3 py-1.5 rounded-lg bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-900 text-[11px] font-bold hover:bg-rose-100 flex items-center gap-1 cursor-pointer"
-                                >
-                                  <Trash2 size={13} />
-                                  <span>Remove</span>
-                                </button>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
                   );
                 })}
               </div>
 
               {/* Step 2 Actions */}
-              <div className="flex items-center justify-between pt-4">
+              <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 dark:hover:bg-slate-800 transition-all flex items-center gap-2 cursor-pointer"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 transition-colors group cursor-pointer"
                 >
-                  <ArrowLeft size={16} />
-                  <span>Back to Application</span>
+                  <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+                  <span className="group-hover:underline">Back to Application</span>
                 </button>
 
                 <button
                   type="button"
                   disabled={!allRequiredUploaded}
                   onClick={() => setStep(3)}
-                  className={`px-6 py-3.5 rounded-xl font-black text-xs sm:text-sm shadow-lg transition-all flex items-center gap-2 ${
+                  className={`px-7 py-3 rounded-xl font-black text-xs sm:text-sm shadow-lg transition-all flex items-center gap-2 ${
                     allRequiredUploaded
-                      ? 'bg-purple-600 hover:bg-purple-500 text-white shadow-purple-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
+                      ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
                       : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed'
                   }`}
                 >
@@ -1474,10 +1359,10 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
           {/* STEP 3: REVIEW APPLICATION */}
           {step === 3 && (
             <div className="space-y-6 animate-in fade-in duration-200">
-              <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-purple-200/80 dark:border-purple-500/30 shadow-sm space-y-6">
+              <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
                 <div>
-                  <span className="text-[10px] font-black uppercase tracking-wider text-purple-700 dark:text-purple-400 block">
-                    STEP 3 OF 4
+                  <span className="text-[10px] font-black uppercase tracking-wider text-blue-600 dark:text-blue-400 block">
+                    STEP 3 OF 3
                   </span>
                   <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
                     AMENDMENT &amp; SUBSTITUTION APPLICATION REVIEW
@@ -1488,9 +1373,9 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                 </div>
 
                 {/* Section A: Franchise Information */}
-                <div className="p-5 rounded-2xl bg-purple-50/50 dark:bg-purple-950/20 border border-purple-200/70 dark:border-purple-900/40 space-y-3">
-                  <div className="flex items-center justify-between pb-2 border-b border-purple-200/60 dark:border-purple-900/40">
-                    <h4 className="text-xs font-black uppercase text-purple-800 dark:text-purple-300 tracking-wider">
+                <div className="p-5 rounded-2xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200/70 dark:border-blue-900/40 space-y-3">
+                  <div className="flex items-center justify-between pb-2 border-b border-blue-200/60 dark:border-blue-900/40">
+                    <h4 className="text-xs font-black uppercase text-blue-800 dark:text-blue-300 tracking-wider">
                       Franchise Information
                     </h4>
                     <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">✓ Verified Record</span>
@@ -1513,15 +1398,15 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                 </div>
 
                 {/* Section B: Amendment Type */}
-                <div className="p-5 rounded-2xl bg-white dark:bg-slate-800/60 border border-purple-200/70 dark:border-purple-900/40 space-y-2">
+                <div className="p-5 rounded-2xl bg-white dark:bg-slate-800/60 border border-blue-200/70 dark:border-blue-900/40 space-y-2">
                   <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
-                    <h4 className="text-xs font-black uppercase text-purple-800 dark:text-purple-300 tracking-wider">
+                    <h4 className="text-xs font-black uppercase text-blue-800 dark:text-blue-300 tracking-wider">
                       Amendment Type
                     </h4>
                     <button
                       type="button"
                       onClick={() => setStep(1)}
-                      className="text-xs font-bold text-purple-600 dark:text-purple-400 hover:underline cursor-pointer"
+                      className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline cursor-pointer"
                     >
                       Change
                     </button>
@@ -1545,7 +1430,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                 {/* Section C: Uploaded Documents Summary */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
-                    <h4 className="text-xs font-black uppercase text-purple-800 dark:text-purple-300 tracking-wider">
+                    <h4 className="text-xs font-black uppercase text-blue-800 dark:text-blue-300 tracking-wider">
                       Uploaded Documents ({uploadedRequiredCount} of {totalRequiredCount} Ready)
                     </h4>
                     <span className="text-xs text-slate-500">Click any document photo to enlarge</span>
@@ -1558,7 +1443,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                       return (
                         <div
                           key={doc.key}
-                          className="p-3.5 rounded-2xl border border-purple-200/70 dark:border-purple-900/40 bg-slate-50/50 dark:bg-slate-800/40 flex items-center justify-between gap-3"
+                          className="p-3.5 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/40 flex items-center justify-between gap-3"
                         >
                           <div className="flex items-center gap-3 overflow-hidden">
                             {doc.previewUrl ? (
@@ -1566,7 +1451,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                                 src={doc.previewUrl}
                                 alt={doc.title}
                                 onClick={() => handleOpenZoom(doc.previewUrl, doc.title)}
-                                className="w-12 h-12 rounded-xl object-cover border border-purple-300 dark:border-purple-700 cursor-pointer shrink-0"
+                                className="w-12 h-12 rounded-xl object-cover border border-blue-300 dark:border-blue-700 cursor-pointer shrink-0"
                               />
                             ) : (
                               <div className="w-12 h-12 rounded-xl bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-400 shrink-0">
@@ -1590,20 +1475,6 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                   </div>
                 </div>
 
-                {/* Tariff / Fee Notice */}
-                <div className="p-4 rounded-2xl bg-purple-50/80 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800 flex items-center justify-between text-xs">
-                  <div>
-                    <span className="font-black text-slate-900 dark:text-white block">
-                      Legal Tariff &amp; Vehicle Unit Substitution Fee:
-                    </span>
-                    <span className="text-slate-600 dark:text-slate-400 text-[11px]">
-                      Payment payable online via GovServe portal upon submission confirmation
-                    </span>
-                  </div>
-                  <span className="text-base font-black font-mono text-purple-600 dark:text-purple-400">
-                    ₱900.00
-                  </span>
-                </div>
               </div>
 
               {/* Step 3 Actions */}
@@ -1611,16 +1482,16 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                 <button
                   type="button"
                   onClick={() => setStep(2)}
-                  className="px-5 py-3 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 dark:hover:bg-slate-800 transition-all flex items-center gap-2 cursor-pointer"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 transition-colors group cursor-pointer"
                 >
-                  <ArrowLeft size={16} />
+                  <ArrowLeft size={14} className="group-hover:-translate-x-0.5 transition-transform" />
                   <span>Edit Uploaded Documents</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setConfirmModalOpen(true)}
-                  className="px-7 py-3.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-black text-xs sm:text-sm shadow-xl shadow-purple-600/30 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center gap-2 cursor-pointer"
+                  className="px-7 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs sm:text-sm shadow-xl shadow-blue-600/30 hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center gap-2 cursor-pointer"
                 >
                   <span>SUBMIT APPLICATION →</span>
                 </button>
@@ -1631,8 +1502,8 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
           {/* STEP 4: SUCCESS & APPLICATION STATUS */}
           {step === 4 && trackedApp && (
             <div className="space-y-6 animate-in zoom-in-95 duration-200">
-              <div className="bg-white dark:bg-slate-900 p-6 sm:p-10 rounded-3xl border border-purple-200/80 dark:border-purple-500/30 shadow-sm text-center space-y-6 max-w-2xl mx-auto">
-                <div className="w-18 h-18 mx-auto rounded-3xl bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center shadow-inner">
+              <div className="bg-white dark:bg-slate-900 p-6 sm:p-10 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm text-center space-y-6 max-w-2xl mx-auto">
+                <div className="w-18 h-18 mx-auto rounded-3xl bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center shadow-inner">
                   <CheckCircle2 size={44} />
                 </div>
 
@@ -1650,10 +1521,10 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                 </div>
 
                 {/* Summary Box */}
-                <div className="p-5 rounded-2xl bg-purple-50/50 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-900/40 text-left text-xs space-y-2.5">
+                <div className="p-5 rounded-2xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900/40 text-left text-xs space-y-2.5">
                   <div className="flex justify-between items-center text-slate-600 dark:text-slate-300">
                     <span>Application Number:</span>
-                    <span className="font-mono font-black text-purple-700 dark:text-purple-300 text-sm">
+                    <span className="font-mono font-black text-blue-700 dark:text-blue-300 text-sm">
                       {trackedApp.applicationNo}
                     </span>
                   </div>
@@ -1675,7 +1546,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                       {trackedApp.dateSubmitted}
                     </span>
                   </div>
-                  <div className="flex justify-between items-center pt-2 border-t border-purple-200/60 dark:border-purple-900/40">
+                  <div className="flex justify-between items-center pt-2 border-t border-blue-200/60 dark:border-blue-900/40">
                     <span className="font-bold text-slate-900 dark:text-white">Current Status:</span>
                     <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800">
                       🟡 Pending Review ({trackedApp.status})
@@ -1685,7 +1556,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
 
                 {/* Visual Status Tracker Preview */}
                 <div className="pt-2 text-left space-y-2">
-                  <span className="text-[10px] font-black uppercase tracking-wider text-purple-700 dark:text-purple-400 block">
+                  <span className="text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-blue-400 block">
                     APPLICATION PROGRESSION
                   </span>
                   <div className="space-y-2 text-xs">
@@ -1724,7 +1595,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                       setStep(1);
                       onBackToPortal();
                     }}
-                    className="px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-black shadow-md cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98]"
+                    className="px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-md shadow-blue-600/30 cursor-pointer transition-all hover:scale-[1.02] active:scale-[0.98]"
                   >
                     BACK TO PORTAL
                   </button>
@@ -1732,6 +1603,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
               </div>
             </div>
           )}
+          </div>
         </div>
       )}
 
@@ -1740,10 +1612,10 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
       {/* ========================================================================= */}
       {viewMode === 'tracker' && trackedApp && (
         <div className="space-y-6 animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-purple-200/80 dark:border-purple-500/30 shadow-sm space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-purple-100 dark:border-purple-950">
+          <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
               <div>
-                <span className="text-[10px] font-black uppercase tracking-wider text-purple-700 dark:text-purple-400 block">
+                <span className="text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-blue-400 block">
                   APPLICATION TRACKING SYSTEM
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
@@ -1813,12 +1685,12 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
             )}
 
             {/* 5-STAGE VISUAL TRACKING SYSTEM */}
-            <div className="p-6 rounded-2xl bg-purple-50/40 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-900/40 space-y-6">
-              <span className="text-[10px] font-black uppercase tracking-wider text-purple-700 dark:text-purple-400 block">
+            <div className="p-6 rounded-2xl bg-blue-50/40 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900/40 space-y-6">
+              <span className="text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-blue-400 block">
                 5-STAGE REGULATORY PROGRESSION
               </span>
 
-              <div className="relative pl-6 sm:pl-8 space-y-6 border-l-2 border-purple-300 dark:border-purple-700 ml-3">
+              <div className="relative pl-6 sm:pl-8 space-y-6 border-l-2 border-blue-300 dark:border-blue-700 ml-3">
                 {[
                   { stageIdx: 1, title: 'Application Submitted', desc: 'Docketed and registered into the municipal franchise database.' },
                   { stageIdx: 2, title: 'Document Verification', desc: 'OCR image analysis and compliance check with QC Transport Code.' },
@@ -1835,7 +1707,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                       {/* Stage Circle */}
                       <div className={`absolute -left-[35px] sm:-left-[43px] top-0.5 w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center text-[10px] font-bold shadow-xs ${
                         isPast
-                          ? 'bg-purple-600 text-white'
+                          ? 'bg-blue-600 text-white'
                           : isDefective
                           ? 'bg-rose-600 text-white animate-pulse'
                           : isCurrent
@@ -1849,7 +1721,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                         <div className="flex items-center gap-2">
                           <h4 className={`text-xs sm:text-sm font-black ${
                             isCurrent
-                              ? 'text-purple-700 dark:text-purple-300'
+                              ? 'text-blue-700 dark:text-blue-300'
                               : isPast
                               ? 'text-slate-900 dark:text-white'
                               : 'text-slate-400 dark:text-slate-500'
@@ -1857,7 +1729,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                             {st.title}
                           </h4>
                           {isCurrent && (
-                            <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300">
+                            <span className="px-2 py-0.5 rounded-full text-[9px] font-bold bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">
                               Active Stage
                             </span>
                           )}
@@ -1903,10 +1775,10 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
       {/* ========================================================================= */}
       {viewMode === 'admin' && isAdmin && (
         <div className="space-y-6 animate-in fade-in duration-200">
-          <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-purple-200/80 dark:border-purple-500/30 shadow-sm space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-purple-100 dark:border-purple-950">
+          <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
               <div>
-                <span className="text-[10px] font-black uppercase tracking-wider text-purple-700 dark:text-purple-400 block">
+                <span className="text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-blue-400 block">
                   ADMINISTRATIVE REGULATORY CONSOLE
                 </span>
                 <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
@@ -1918,7 +1790,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
               </div>
 
               <div className="flex items-center gap-2">
-                <span className="px-3 py-1 rounded-xl text-xs font-mono font-bold bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-800">
+                <span className="px-3 py-1 rounded-xl text-xs font-mono font-bold bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-300 dark:border-blue-800">
                   {filteredAdminApps.length} Records Found
                 </span>
               </div>
@@ -1933,7 +1805,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                   value={adminSearch}
                   onChange={(e) => setAdminSearch(e.target.value)}
                   placeholder="Search by Franchise No or Owner Name..."
-                  className="w-full pl-9 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-medium text-slate-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                  className="w-full pl-9 pr-4 py-2.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-medium text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 />
               </div>
 
@@ -1941,7 +1813,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                 <select
                   value={adminTypeFilter}
                   onChange={(e) => setAdminTypeFilter(e.target.value)}
-                  className="w-full py-2.5 px-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-purple-500 focus:outline-none cursor-pointer"
+                  className="w-full py-2.5 px-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none cursor-pointer"
                 >
                   <option value="All">All Amendment Types</option>
                   <option value="vehicle_substitution">Vehicle Unit Substitution</option>
@@ -1954,7 +1826,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                 <select
                   value={adminStatusFilter}
                   onChange={(e) => setAdminStatusFilter(e.target.value)}
-                  className="w-full py-2.5 px-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-purple-500 focus:outline-none cursor-pointer"
+                  className="w-full py-2.5 px-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-semibold text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none cursor-pointer"
                 >
                   <option value="All">All Statuses</option>
                   <option value="Submitted">Submitted</option>
@@ -1987,11 +1859,11 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                     <tr
                       key={app.id}
                       onClick={() => setSelectedAdminApp(app)}
-                      className={`hover:bg-purple-50/50 dark:hover:bg-purple-950/20 cursor-pointer transition-colors ${
-                        selectedAdminApp?.id === app.id ? 'bg-purple-50/80 dark:bg-purple-950/40' : ''
+                      className={`hover:bg-blue-50/50 dark:hover:bg-blue-950/20 cursor-pointer transition-colors ${
+                        selectedAdminApp?.id === app.id ? 'bg-blue-50/80 dark:bg-blue-950/40' : ''
                       }`}
                     >
-                      <td className="py-3 px-3 font-mono font-black text-purple-700 dark:text-purple-300">
+                      <td className="py-3 px-3 font-mono font-black text-blue-700 dark:text-blue-300">
                         {app.applicationNo}
                       </td>
                       <td className="py-3 px-3 font-mono font-bold text-slate-800 dark:text-slate-200">
@@ -2024,7 +1896,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                             e.stopPropagation();
                             setSelectedAdminApp(app);
                           }}
-                          className="px-2.5 py-1 rounded-lg bg-purple-600 text-white text-[11px] font-bold shadow-xs hover:bg-purple-500 cursor-pointer"
+                          className="px-2.5 py-1 rounded-lg bg-blue-600 text-white text-[11px] font-bold shadow-xs hover:bg-blue-500 cursor-pointer"
                         >
                           Inspect Docs
                         </button>
@@ -2037,10 +1909,10 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
 
             {/* Selected Application Review Drawer / Card */}
             {selectedAdminApp && (
-              <div className="p-6 rounded-3xl bg-purple-50/30 dark:bg-purple-950/20 border-2 border-purple-300 dark:border-purple-700 space-y-6 animate-in fade-in">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-purple-200 dark:border-purple-800">
+              <div className="p-6 rounded-3xl bg-blue-50/30 dark:bg-blue-950/20 border-2 border-blue-300 dark:border-blue-700 space-y-6 animate-in fade-in">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-blue-200 dark:border-blue-800">
                   <div>
-                    <span className="text-[10px] font-black uppercase tracking-wider text-purple-700 dark:text-purple-400 block">
+                    <span className="text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-blue-400 block">
                       DOCUMENT INSPECTION &amp; REGULATORY ACTION
                     </span>
                     <h3 className="text-lg font-black text-slate-900 dark:text-white">
@@ -2092,7 +1964,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                       return (
                         <div
                           key={doc.key}
-                          className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-800 shadow-xs space-y-2.5 flex flex-col justify-between"
+                          className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-blue-200 dark:border-blue-800 shadow-xs space-y-2.5 flex flex-col justify-between"
                         >
                           <div className="space-y-1.5">
                             <span className="font-bold text-xs text-slate-900 dark:text-white block truncate">
@@ -2102,7 +1974,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                             {doc.previewUrl ? (
                               <div
                                 onClick={() => handleOpenZoom(doc.previewUrl, doc.title)}
-                                className="relative group w-full h-32 rounded-xl overflow-hidden bg-slate-900 cursor-pointer border border-purple-200 dark:border-purple-700"
+                                className="relative group w-full h-32 rounded-xl overflow-hidden bg-slate-900 cursor-pointer border border-blue-200 dark:border-blue-700"
                               >
                                 <img
                                   src={doc.previewUrl}
@@ -2116,7 +1988,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                               </div>
                             ) : (
                               <div className="w-full h-32 rounded-xl bg-slate-100 dark:bg-slate-700 flex items-center justify-center text-slate-400 text-xs">
-                                No Photo Uploaded
+                                <FileText size={20} />
                               </div>
                             )}
 
@@ -2129,7 +2001,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                             <button
                               type="button"
                               onClick={() => handleOpenZoom(doc.previewUrl, doc.title)}
-                              className="text-[11px] font-bold text-purple-600 dark:text-purple-400 hover:underline flex items-center gap-1 cursor-pointer"
+                              className="text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1 cursor-pointer"
                             >
                               <ZoomIn size={12} />
                               <span>Enlarge</span>
@@ -2159,10 +2031,10 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
       {/* ========================================================================= */}
       {cameraModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in">
-          <div className="bg-slate-900 text-white rounded-3xl border border-purple-500/40 shadow-2xl max-w-lg w-full p-6 space-y-4 text-center">
+          <div className="bg-slate-900 text-white rounded-3xl border border-blue-500/40 shadow-2xl max-w-lg w-full p-6 space-y-4 text-center">
             <div className="flex items-center justify-between pb-2 border-b border-slate-800">
               <div className="flex items-center gap-2">
-                <Camera size={18} className="text-purple-400" />
+                <Camera size={18} className="text-sky-400" />
                 <h3 className="text-sm font-black uppercase tracking-wider">
                   Document Camera Viewfinder
                 </h3>
@@ -2177,9 +2049,9 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
             </div>
 
             {/* Video Viewfinder with Alignment Guidelines */}
-            <div className="relative w-full h-64 sm:h-72 bg-black rounded-2xl overflow-hidden border border-purple-500/50 flex items-center justify-center">
+            <div className="relative w-full h-64 sm:h-72 bg-black rounded-2xl overflow-hidden border border-blue-500/50 flex items-center justify-center">
               {cameraLoading ? (
-                <div className="text-xs text-purple-300 flex items-center gap-2">
+                <div className="text-xs text-blue-300 flex items-center gap-2">
                   <RefreshCw size={18} className="animate-spin" />
                   <span>Accessing device camera...</span>
                 </div>
@@ -2194,8 +2066,8 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
               ) : (
                 /* Simulated high-clarity viewfinder with guidelines */
                 <div className="relative w-full h-full flex flex-col items-center justify-center p-4 bg-gradient-to-b from-slate-900 to-black">
-                  <div className="w-48 h-36 border-2 border-purple-400 border-dashed rounded-xl flex flex-col items-center justify-center p-3 text-center">
-                    <Camera size={28} className="text-purple-400 mb-1" />
+                  <div className="w-48 h-36 border-2 border-blue-400 border-dashed rounded-xl flex flex-col items-center justify-center p-3 text-center">
+                    <Camera size={28} className="text-sky-400 mb-1" />
                     <span className="text-[11px] font-bold text-white">Align Document Inside Box</span>
                     <span className="text-[9px] text-slate-400">Ensure text is clear and readable</span>
                   </div>
@@ -2203,10 +2075,10 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
               )}
 
               {/* Viewfinder Corner Overlays */}
-              <div className="absolute top-3 left-3 w-4 h-4 border-t-2 border-l-2 border-purple-400 pointer-events-none" />
-              <div className="absolute top-3 right-3 w-4 h-4 border-t-2 border-r-2 border-purple-400 pointer-events-none" />
-              <div className="absolute bottom-3 left-3 w-4 h-4 border-b-2 border-l-2 border-purple-400 pointer-events-none" />
-              <div className="absolute bottom-3 right-3 w-4 h-4 border-b-2 border-r-2 border-purple-400 pointer-events-none" />
+              <div className="absolute top-3 left-3 w-4 h-4 border-t-2 border-l-2 border-blue-400 pointer-events-none" />
+              <div className="absolute top-3 right-3 w-4 h-4 border-t-2 border-r-2 border-blue-400 pointer-events-none" />
+              <div className="absolute bottom-3 left-3 w-4 h-4 border-b-2 border-l-2 border-blue-400 pointer-events-none" />
+              <div className="absolute bottom-3 right-3 w-4 h-4 border-b-2 border-r-2 border-blue-400 pointer-events-none" />
             </div>
 
             <p className="text-[11px] text-slate-400">
@@ -2225,7 +2097,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
               <button
                 type="button"
                 onClick={capturePhoto}
-                className="px-7 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs sm:text-sm font-black shadow-lg shadow-purple-600/40 flex items-center gap-2 cursor-pointer active:scale-95 transition-all"
+                className="px-7 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-black shadow-lg shadow-blue-600/40 flex items-center gap-2 cursor-pointer active:scale-95 transition-all"
               >
                 <Camera size={18} />
                 <span>CAPTURE PHOTO</span>
@@ -2240,11 +2112,11 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
       {/* ========================================================================= */}
       {zoomModalOpen && zoomImageUrl && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-in fade-in">
-          <div className="relative max-w-4xl w-full bg-slate-900 border border-purple-500/40 rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+          <div className="relative max-w-4xl w-full bg-slate-900 border border-blue-500/40 rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
             {/* Header */}
             <div className="p-4 bg-slate-950/80 border-b border-slate-800 flex items-center justify-between text-white">
               <div className="flex items-center gap-2">
-                <FileCheck size={18} className="text-purple-400" />
+                <FileCheck size={18} className="text-sky-400" />
                 <span className="font-bold text-sm tracking-wide">{zoomImageTitle}</span>
               </div>
 
@@ -2311,8 +2183,8 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
       {/* ========================================================================= */}
       {confirmModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-in fade-in">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-purple-200 dark:border-purple-800 shadow-2xl max-w-md w-full p-6 sm:p-7 space-y-4 text-center">
-            <div className="w-14 h-14 rounded-2xl bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-300 mx-auto flex items-center justify-center shadow-xs">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-blue-200 dark:border-blue-800 shadow-2xl max-w-md w-full p-6 sm:p-7 space-y-4 text-center">
+            <div className="w-14 h-14 rounded-2xl bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-300 mx-auto flex items-center justify-center shadow-xs">
               <FileCheck size={30} />
             </div>
 
@@ -2337,7 +2209,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
               <button
                 type="button"
                 onClick={handleConfirmSubmit}
-                className="px-6 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-black shadow-lg shadow-purple-600/30 cursor-pointer active:scale-95 transition-all"
+                className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-lg shadow-blue-600/30 cursor-pointer active:scale-95 transition-all"
               >
                 SUBMIT APPLICATION
               </button>
@@ -2378,8 +2250,8 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
             </p>
 
             {/* Direct Upload Options */}
-            <div className="p-6 rounded-2xl bg-purple-50/40 dark:bg-slate-800/40 border-2 border-dashed border-purple-300 dark:border-purple-800 flex flex-col items-center justify-center gap-3 text-center">
-              <label className="px-5 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-black text-xs shadow-md shadow-purple-600/30 flex items-center gap-2 cursor-pointer transition-all active:scale-95">
+            <div className="p-6 rounded-2xl bg-blue-50/40 dark:bg-slate-800/40 border-2 border-dashed border-blue-300 dark:border-blue-800 flex flex-col items-center justify-center gap-3 text-center">
+              <label className="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-black text-xs shadow-md shadow-blue-600/30 flex items-center gap-2 cursor-pointer transition-all active:scale-95">
                 <Upload size={16} />
                 <span>SELECT CLEARER PHOTO FROM DEVICE</span>
                 <input
@@ -2442,7 +2314,7 @@ export const FranchiseAmendmentSubstitutionModule: React.FC<FranchiseAmendmentSu
                   value={correctionReasonText}
                   onChange={(e) => setCorrectionReasonText(e.target.value)}
                   placeholder="e.g. Please upload a clearer photo of the Deed of Sale."
-                  className="w-full p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                  className="w-full p-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 focus:outline-none"
                 />
               </div>
 

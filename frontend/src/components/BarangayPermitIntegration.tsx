@@ -499,24 +499,26 @@ Digital Security Hash   : ${item.qrHash}
       {/* ========================================================================= */}
       {/* 2. FULL-WIDTH HERO SECTION (CENTERED HERO LAYOUT) */}
       {/* ========================================================================= */}
-      <section className="w-full bg-transparent text-slate-900 dark:text-white pt-8 pb-4 px-4 sm:px-8 relative transition-colors">
-        <div className="max-w-4xl mx-auto relative z-10 text-center space-y-2">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
-            {isAdmin && currentView === 'admin_grid'
-              ? '24-Barangay Interconnection Network Grid & Node Monitor'
-              : isAdmin && currentView === 'admin_registry'
-              ? 'Barangay Clearance Registry & Inter-LGU Validation Workspace'
-              : 'Barangay Clearance & Community Services Portal'}
-          </h1>
-          <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed">
-            {isAdmin && currentView === 'admin_grid'
-              ? 'Monitor real-time cluster telemetry, automated Lupon blotter sync, and inter-barangay cross-clearance routing across all 24 local government units.'
-              : isAdmin && currentView === 'admin_registry'
-              ? 'Validate commercial clearances, query Lupon Tagapamayapa dispute databases, verify Cedula calculations, and issue digital authenticated clearances.'
-              : 'Request official barangay clearances, residency certificates, and instant Cedula CTC online.'}
-          </p>
-        </div>
-      </section>
+      {(isAdmin || currentView === 'preview' || currentView === 'grid_network') && (
+        <section className="w-full bg-transparent text-slate-900 dark:text-white pt-8 pb-4 px-4 sm:px-8 relative transition-colors">
+          <div className="max-w-4xl mx-auto relative z-10 text-center space-y-2">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+              {isAdmin && currentView === 'admin_grid'
+                ? '24-Barangay Interconnection Network Grid & Node Monitor'
+                : isAdmin && currentView === 'admin_registry'
+                ? 'Barangay Clearance Registry & Inter-LGU Validation Workspace'
+                : 'Barangay Clearance & Community Services Portal'}
+            </h1>
+            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed">
+              {isAdmin && currentView === 'admin_grid'
+                ? 'Monitor real-time cluster telemetry, automated Lupon blotter sync, and inter-barangay cross-clearance routing across all 24 local government units.'
+                : isAdmin && currentView === 'admin_registry'
+                ? 'Validate commercial clearances, query Lupon Tagapamayapa dispute databases, verify Cedula calculations, and issue digital authenticated clearances.'
+                : 'Request official barangay clearances, residency certificates, and instant Cedula CTC online.'}
+            </p>
+          </div>
+        </section>
+      )}
 
       {/* ========================================================================= */}
       {/* 3. MAIN BODY CONTAINER */}
@@ -1262,7 +1264,7 @@ Digital Security Hash   : ${item.qrHash}
                     <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Users size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1273,7 +1275,7 @@ Digital Security Hash   : ${item.qrHash}
 
                       {/* Row 2: Service Method */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Building size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1284,7 +1286,7 @@ Digital Security Hash   : ${item.qrHash}
 
                       {/* Row 3: Time Period */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Clock size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1295,7 +1297,7 @@ Digital Security Hash   : ${item.qrHash}
 
                       {/* Row 4: Charges & Payment */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Banknote size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1306,7 +1308,7 @@ Digital Security Hash   : ${item.qrHash}
 
                       {/* Row 5: Payment Method */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <CreditCard size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1320,8 +1322,8 @@ Digital Security Hash   : ${item.qrHash}
                   {/* Document Upload & Action Section */}
                   <div className="w-full flex flex-col space-y-2 pt-0.5">
                     {/* Document Upload Box */}
-                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-amber-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
-                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-amber-700 dark:text-amber-400">
+                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-sky-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
+                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-sky-700 dark:text-sky-400">
                         <Camera size={12} />
                         <span>Site Plans &amp; Neighbor Concurrence Active</span>
                       </div>
@@ -1329,17 +1331,17 @@ Digital Security Hash   : ${item.qrHash}
                         Upload sketch plan, lot title / tax dec, neighbor consent, contractor ID.
                       </p>
                       <div className="flex flex-wrap gap-1 pt-0.5">
-                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>Site Sketch Plan
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Site Sketch Plan
                         </span>
-                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>Lot Title / TCT
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Lot Title / TCT
                         </span>
-                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>Neighbor Consent
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Neighbor Consent
                         </span>
-                        <span className="px-1.5 py-0.5 rounded bg-amber-50/80 dark:bg-white/5 border border-amber-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-amber-500 dark:bg-amber-400"></span>Contractor ID
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Contractor ID
                         </span>
                       </div>
                     </div>
@@ -1350,7 +1352,7 @@ Digital Security Hash   : ${item.qrHash}
                       onClick={() => {
                         setCurrentView('construction');
                       }}
-                      className="w-full py-2 px-3 bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-white rounded-xl text-xs font-bold shadow-md shadow-amber-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                      className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <span>Apply for Construction Endorsement →</span>
                     </button>
@@ -1359,7 +1361,7 @@ Digital Security Hash   : ${item.qrHash}
               </div>
 
               {/* ======================================================================= */}
-              {/* CARD 3: COMMUNITY TAX CERTIFICATE (CEDULA CTC) - EMERALD / TEAL THEME */}
+              {/* CARD 3: COMMUNITY TAX CERTIFICATE (CEDULA CTC) - BLUE THEME */}
               {/* ======================================================================= */}
               <div 
                 className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
@@ -1377,7 +1379,7 @@ Digital Security Hash   : ${item.qrHash}
                     <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Users size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1388,7 +1390,7 @@ Digital Security Hash   : ${item.qrHash}
 
                       {/* Row 2: Service Method */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <FileText size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1399,7 +1401,7 @@ Digital Security Hash   : ${item.qrHash}
 
                       {/* Row 3: Time Period */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Clock size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1410,7 +1412,7 @@ Digital Security Hash   : ${item.qrHash}
 
                       {/* Row 4: Charges & Payment */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Banknote size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1421,7 +1423,7 @@ Digital Security Hash   : ${item.qrHash}
 
                       {/* Row 5: Payment Method */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <CreditCard size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1435,8 +1437,8 @@ Digital Security Hash   : ${item.qrHash}
                   {/* Document Upload & Action Section */}
                   <div className="w-full flex flex-col space-y-2 pt-0.5">
                     {/* Document Upload Box */}
-                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-emerald-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
-                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-emerald-700 dark:text-emerald-400">
+                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-sky-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
+                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-sky-700 dark:text-sky-400">
                         <Camera size={12} />
                         <span>Income Declaration &amp; Tax Proof Upload Active</span>
                       </div>
@@ -1444,17 +1446,17 @@ Digital Security Hash   : ${item.qrHash}
                         Upload valid gov ID, proof of gross earnings / payslip, or prior Cedula receipt.
                       </p>
                       <div className="flex flex-wrap gap-1 pt-0.5">
-                        <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Valid Govt ID
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Valid Govt ID
                         </span>
-                        <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Proof of Income
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Proof of Income
                         </span>
-                        <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>Prior Cedula CTC
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Prior Cedula CTC
                         </span>
-                        <span className="px-1.5 py-0.5 rounded bg-emerald-50/80 dark:bg-white/5 border border-emerald-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>BIR Form 2316
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>BIR Form 2316
                         </span>
                       </div>
                     </div>
@@ -1465,7 +1467,7 @@ Digital Security Hash   : ${item.qrHash}
                       onClick={() => {
                         setCurrentView('cedula');
                       }}
-                      className="w-full py-2 px-3 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-md shadow-emerald-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                      className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <span>File Instant Cedula (CTC) →</span>
                     </button>
@@ -1474,7 +1476,7 @@ Digital Security Hash   : ${item.qrHash}
               </div>
 
               {/* ======================================================================= */}
-              {/* CARD 4: BARANGAY RESIDENCY & EVENT CLEARANCE - PURPLE / FUCHSIA THEME */}
+              {/* CARD 4: BARANGAY RESIDENCY & EVENT CLEARANCE - BLUE THEME */}
               {/* ======================================================================= */}
               <div 
                 className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
@@ -1492,7 +1494,7 @@ Digital Security Hash   : ${item.qrHash}
                     <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Users size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1503,7 +1505,7 @@ Digital Security Hash   : ${item.qrHash}
 
                       {/* Row 2: Service Method */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Award size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1514,7 +1516,7 @@ Digital Security Hash   : ${item.qrHash}
 
                       {/* Row 3: Time Period */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Clock size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1525,7 +1527,7 @@ Digital Security Hash   : ${item.qrHash}
 
                       {/* Row 4: Charges & Payment */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Banknote size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1536,7 +1538,7 @@ Digital Security Hash   : ${item.qrHash}
 
                       {/* Row 5: Payment Method */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <CreditCard size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1550,8 +1552,8 @@ Digital Security Hash   : ${item.qrHash}
                   {/* Document Upload & Action Section */}
                   <div className="w-full flex flex-col space-y-2 pt-0.5">
                     {/* Document Upload Box */}
-                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-purple-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
-                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-purple-700 dark:text-purple-400">
+                    <div className="p-2.5 rounded-xl bg-white/90 dark:bg-white/[0.04] border border-sky-200 dark:border-white/10 backdrop-blur-md space-y-1 shadow-xs dark:shadow-none">
+                      <div className="flex items-center gap-1.5 text-[10.5px] font-bold text-sky-700 dark:text-sky-400">
                         <Camera size={12} />
                         <span>Proof of Address &amp; Lupon Verification Active</span>
                       </div>
@@ -1559,14 +1561,14 @@ Digital Security Hash   : ${item.qrHash}
                         Upload proof of address (utility bill / lease), valid gov ID, residency affirmation.
                       </p>
                       <div className="flex flex-wrap gap-1 pt-0.5">
-                        <span className="px-1.5 py-0.5 rounded bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-purple-500 dark:bg-purple-400"></span>Utility Bill Proof
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Utility Bill Proof
                         </span>
-                        <span className="px-1.5 py-0.5 rounded bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-purple-500 dark:bg-purple-400"></span>Valid ID
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Valid ID
                         </span>
-                        <span className="px-1.5 py-0.5 rounded bg-purple-50/80 dark:bg-white/5 border border-purple-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
-                          <span className="w-1 h-1 rounded-full bg-purple-500 dark:bg-purple-400"></span>Residency Proof
+                        <span className="px-1.5 py-0.5 rounded bg-sky-50/80 dark:bg-white/5 border border-sky-200 dark:border-white/10 text-[8.5px] font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                          <span className="w-1 h-1 rounded-full bg-sky-500 dark:bg-sky-400"></span>Residency Proof
                         </span>
                       </div>
                     </div>
@@ -1577,7 +1579,7 @@ Digital Security Hash   : ${item.qrHash}
                       onClick={() => {
                         setCurrentView('residency_event');
                       }}
-                      className="w-full py-2 px-3 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white rounded-xl text-xs font-bold shadow-md shadow-purple-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                      className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <span>Request Residency Clearance →</span>
                     </button>

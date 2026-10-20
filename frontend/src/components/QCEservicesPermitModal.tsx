@@ -1643,14 +1643,16 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                     /* EXACT REPLICA OF OFFICIAL QC DBO BUILDING PERMIT FORM (PICTURE 1) */
                     <div className="space-y-6">
 
-                      {/* PANEL 1: OWNERSHIP */}
-                      <div className="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0c1629] shadow-xs">
-                        {/* Header bar */}
-                        <div className="bg-[#0c4366] text-white px-4 py-2 text-xs font-bold uppercase tracking-wider">
-                          OWNERSHIP
+                      {/* SECTION 1: OWNERSHIP */}
+                      <div className="space-y-4 pt-1">
+                        <div className="pb-2 border-b border-slate-200 dark:border-slate-800">
+                          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                            <span className="w-1.5 h-3.5 bg-blue-600 rounded-full inline-block"></span>
+                            OWNERSHIP
+                          </h4>
                         </div>
 
-                        <div className="p-4 sm:p-5 space-y-4">
+                        <div className="space-y-4">
                           {/* Are you the registered owner of the land? */}
                           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-1">
                             <label className="text-xs font-semibold text-slate-800 dark:text-slate-200">
@@ -1688,7 +1690,7 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                               Form of Ownership of Applicant <span className="text-red-500 font-bold">*</span>
                             </label>
                             <select
-                              value={formData.formOfOwnership || 'Corporation'}
+                              value={formData.formOfOwnership || ''}
                               onChange={(e) => handleInputChange('formOfOwnership', e.target.value)}
                               className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500 focus:border-sky-500"
                             >
@@ -1773,7 +1775,7 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                                 Barangay <span className="text-red-500 font-bold">*</span>
                               </label>
                               <select
-                                value={formData.barangay || 'Batasan Hills'}
+                                value={formData.barangay || ''}
                                 onChange={(e) => handleInputChange('barangay', e.target.value)}
                                 className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
                               >
@@ -1802,7 +1804,7 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                               </label>
                               <input
                                 type="text"
-                                value={formData.district || 'District 2'}
+                                value={formData.district || ''}
                                 onChange={(e) => handleInputChange('district', e.target.value)}
                                 className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
                               />
@@ -1813,7 +1815,7 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                               </label>
                               <input
                                 type="text"
-                                value={formData.city || 'Quezon City'}
+                                value={formData.city || ''}
                                 onChange={(e) => handleInputChange('city', e.target.value)}
                                 className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
                               />
@@ -1822,14 +1824,16 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                         </div>
                       </div>
 
-                      {/* PANEL 2: APPLICANT */}
-                      <div className="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0c1629] shadow-xs">
-                        {/* Header bar */}
-                        <div className="bg-[#0c4366] text-white px-4 py-2 text-xs font-bold uppercase tracking-wider">
-                          APPLICANT
+                      {/* SECTION 2: APPLICANT */}
+                      <div className="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+                        <div className="pb-2 border-b border-slate-200 dark:border-slate-800">
+                          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                            <span className="w-1.5 h-3.5 bg-blue-600 rounded-full inline-block"></span>
+                            APPLICANT
+                          </h4>
                         </div>
 
-                        <div className="p-4 sm:p-5 space-y-4">
+                        <div className="space-y-4">
                           {/* Row 1: Last Name, First Name, MI */}
                           <div className="grid grid-cols-1 sm:grid-cols-12 gap-3">
                             <div className="sm:col-span-5">
@@ -1912,7 +1916,7 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                               </label>
                               <input
                                 type="text"
-                                value={formData.applicantCity || 'Quezon City'}
+                                value={formData.applicantCity || ''}
                                 onChange={(e) => handleInputChange('applicantCity', e.target.value)}
                                 className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
                               />
@@ -1935,8 +1939,12 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                               <input
                                 type="text"
                                 placeholder="09XX XXX XXXX"
+                                maxLength={11}
                                 value={formData.applicantContact || ''}
-                                onChange={(e) => handleInputChange('applicantContact', e.target.value)}
+                                onChange={(e) => {
+                                  const val = e.target.value.replace(/\D/g, '').slice(0, 11);
+                                  handleInputChange('applicantContact', val);
+                                }}
                                 className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
                               />
                             </div>
@@ -1944,8 +1952,14 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                               <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">TIN</label>
                               <input
                                 type="text"
+                                placeholder="TIN (000-000-000-000)"
+                                maxLength={15}
                                 value={formData.tinNo || ''}
-                                onChange={(e) => handleInputChange('tinNo', e.target.value)}
+                                onChange={(e) => {
+                                  const digits = e.target.value.replace(/\D/g, '').slice(0, 12);
+                                  const formatted = digits.match(/.{1,3}/g)?.join('-') || digits;
+                                  handleInputChange('tinNo', formatted);
+                                }}
                                 className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
                               />
                             </div>
@@ -1953,21 +1967,21 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                         </div>
                       </div>
 
-                      {/* Form-level Blue Submit & Red Cancel buttons matching Picture 2 */}
-                      <div className="space-y-2.5 pt-2">
-                        <button
-                          type="button"
-                          onClick={handleSubmitApplication}
-                          className="w-full py-2.5 bg-[#0047ba] hover:bg-[#003ca0] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
-                        >
-                          Submit
-                        </button>
+                      {/* Form-level Buttons: Cancel (Left) & Submit (Right) */}
+                      <div className="flex items-center justify-between pt-4">
                         <button
                           type="button"
                           onClick={onClose}
-                          className="w-full py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+                          className="px-8 py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
                         >
                           Cancel
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleSubmitApplication}
+                          className="px-8 py-2.5 bg-[#0047ba] hover:bg-[#003ca0] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+                        >
+                          Submit
                         </button>
                       </div>
 
@@ -1975,12 +1989,15 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                   ) : permitData.id === 'electrical' ? (
                     /* EXACT REPLICA OF APPLY FOR ELECTRICITY (PICTURE 1) */
                     <div className="space-y-6">
-                      <div className="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0c1629] shadow-xs">
-                        <div className="bg-[#0c4366] text-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider">
-                          Apply for Electricity
+                      <div className="space-y-5">
+                        <div className="pb-2 border-b border-slate-200 dark:border-slate-800">
+                          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                            <span className="w-1.5 h-3.5 bg-blue-600 rounded-full inline-block"></span>
+                            Apply for Electricity
+                          </h4>
                         </div>
 
-                        <div className="p-4 sm:p-5 space-y-5">
+                        <div className="space-y-5">
                           {/* 1. Application Specification */}
                           <div>
                             <h4 className="text-[11px] text-slate-500 dark:text-slate-400 mb-2">Application Specification</h4>
@@ -2132,21 +2149,22 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                                   <input
                                     type="text"
                                     placeholder="District"
-                                    value={formData.district || 'District 4'}
+                                    value={formData.district || ''}
                                     onChange={(e) => handleInputChange('district', e.target.value)}
                                     className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
                                   />
                                 </div>
                                 <div>
                                   <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
-                                    City <span className="text-red-500 font-bold">*</span>
-                                  </label>
-                                  <input
-                                    type="text"
-                                    readOnly
-                                    value="Quezon City"
-                                    className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs font-medium cursor-not-allowed"
-                                  />
+                                     City <span className="text-red-500 font-bold">*</span>
+                                   </label>
+                                   <input
+                                     type="text"
+                                     placeholder="City"
+                                     value={formData.city || ''}
+                                     onChange={(e) => handleInputChange('city', e.target.value)}
+                                     className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
+                                   />
                                 </div>
                               </div>
                             </div>
@@ -2165,72 +2183,44 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                                   onChange={(e) => handleInputChange('formOfOwnership', e.target.value)}
                                   className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
                                 >
-                                  <option value="">Form of Ownership</option>
+                                  <option value="">Select Form of Ownership...</option>
                                   <option value="Sole Proprietorship / Individual">Sole Proprietorship / Individual</option>
                                   <option value="Corporation">Corporation</option>
                                   <option value="Partnership">Partnership</option>
+                                  <option value="Co-Ownership / Joint Venture">Co-Ownership / Joint Venture</option>
                                   <option value="Government Entity">Government Entity</option>
+                                  <option value="Others / Non-Standard Ownership">Others / Non-Standard Ownership</option>
                                 </select>
                               </div>
 
-                              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1">
-                                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                              <div>
+                                <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
                                   Are you the land owner? <span className="text-red-500 font-bold">*</span>
                                 </label>
-                                <div className="flex items-center space-x-6">
-                                  <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
-                                    <input
-                                      type="radio"
-                                      name="modal_elec_isLandOwner"
-                                      value="yes"
-                                      checked={formData.isLandOwner === 'yes' || !formData.isLandOwner}
-                                      onChange={() => handleInputChange('isLandOwner', 'yes')}
-                                      className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
-                                    />
-                                    <span>Yes</span>
-                                  </label>
-                                  <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
-                                    <input
-                                      type="radio"
-                                      name="modal_elec_isLandOwner"
-                                      value="no"
-                                      checked={formData.isLandOwner === 'no'}
-                                      onChange={() => handleInputChange('isLandOwner', 'no')}
-                                      className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
-                                    />
-                                    <span>No</span>
-                                  </label>
-                                </div>
+                                <select
+                                  value={formData.isLandOwner || ''}
+                                  onChange={(e) => handleInputChange('isLandOwner', e.target.value)}
+                                  className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                                >
+                                  <option value="">Select an option...</option>
+                                  <option value="yes">Yes</option>
+                                  <option value="no">No</option>
+                                </select>
                               </div>
 
-                              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-1">
-                                <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                              <div>
+                                <label className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 block mb-1">
                                   Do you have HCDRD Certificate? <span className="text-red-500 font-bold">*</span>
                                 </label>
-                                <div className="flex items-center space-x-6">
-                                  <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
-                                    <input
-                                      type="radio"
-                                      name="modal_elec_hasHcdrd"
-                                      value="yes"
-                                      checked={formData.hasHcdrdCert === 'yes'}
-                                      onChange={() => handleInputChange('hasHcdrdCert', 'yes')}
-                                      className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
-                                    />
-                                    <span>Yes</span>
-                                  </label>
-                                  <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
-                                    <input
-                                      type="radio"
-                                      name="modal_elec_hasHcdrd"
-                                      value="no"
-                                      checked={formData.hasHcdrdCert === 'no' || !formData.hasHcdrdCert}
-                                      onChange={() => handleInputChange('hasHcdrdCert', 'no')}
-                                      className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
-                                    />
-                                    <span>No</span>
-                                  </label>
-                                </div>
+                                <select
+                                  value={formData.hasHcdrdCert || ''}
+                                  onChange={(e) => handleInputChange('hasHcdrdCert', e.target.value)}
+                                  className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs focus:ring-1 focus:ring-sky-500"
+                                >
+                                  <option value="">Select an option...</option>
+                                  <option value="yes">Yes</option>
+                                  <option value="no">No</option>
+                                </select>
                               </div>
                             </div>
                           </div>
@@ -2323,7 +2313,7 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                                   <input
                                     type="text"
                                     placeholder="City"
-                                    value={formData.applicantCity || 'Quezon City'}
+                                    value={formData.applicantCity || ''}
                                     onChange={(e) => handleInputChange('applicantCity', e.target.value)}
                                     className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
                                   />
@@ -2349,8 +2339,9 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                                   <input
                                     type="text"
                                     placeholder="09XX XXX XXXX"
-                                    value={formData.applicantContact || ''}
-                                    onChange={(e) => handleInputChange('applicantContact', e.target.value)}
+                                    maxLength={11}
+                                                value={formData.applicantContact || ''}
+                                    onChange={(e) => { const val = e.target.value.replace(/\D/g, '').slice(0, 11); handleInputChange('applicantContact', val); }}
                                     className="w-full px-3 py-2 rounded-md bg-[#fafce8] dark:bg-[#0e1c33] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-slate-100 text-xs placeholder:text-slate-400 focus:ring-1 focus:ring-sky-500"
                                   />
                                 </div>
@@ -2358,21 +2349,21 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                             </div>
                           </div>
 
-                          {/* 6. Buttons: Submit (Blue) & Cancel (Red) */}
-                          <div className="space-y-2.5 pt-2">
-                            <button
-                              type="button"
-                              onClick={handleSubmitApplication}
-                              className="w-full py-2.5 bg-[#0047ba] hover:bg-[#003ca0] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
-                            >
-                              Submit
-                            </button>
+                          {/* 6. Buttons: Cancel (Left) & Submit (Right) */}
+                          <div className="flex items-center justify-between pt-4">
                             <button
                               type="button"
                               onClick={onClose}
-                              className="w-full py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+                              className="px-8 py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
                             >
                               Cancel
+                            </button>
+                            <button
+                              type="button"
+                              onClick={handleSubmitApplication}
+                              className="px-8 py-2.5 bg-[#0047ba] hover:bg-[#003ca0] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+                            >
+                              Submit
                             </button>
                           </div>
                         </div>
@@ -2769,7 +2760,7 @@ export const QCEservicesPermitModal: React.FC<QCEservicesPermitModalProps> = ({
                             <input
                               type="text"
                               value={formData.applicantContact}
-                              onChange={(e) => handleInputChange('applicantContact', e.target.value)}
+                              onChange={(e) => { const val = e.target.value.replace(/\D/g, '').slice(0, 11); handleInputChange('applicantContact', val); }}
                               className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#0e1726] border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 text-xs shadow-xs"
                             />
                           </div>

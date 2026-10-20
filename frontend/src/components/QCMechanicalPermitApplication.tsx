@@ -56,34 +56,30 @@ export const QCMechanicalPermitApplication: React.FC<QCMechanicalPermitApplicati
   showToast
 }) => {
   // Panel 1: Ownership / Applicant
-  const [typeOfOwnership, setTypeOfOwnership] = useState<string>('Corporation');
-  const [applicantLastName, setApplicantLastName] = useState<string>('Roxas');
-  const [applicantFirstName, setApplicantFirstName] = useState<string>('Fernando');
-  const [applicantMI, setApplicantMI] = useState<string>('T.');
-  const [mobileNo, setMobileNo] = useState<string>('0919 777 2200');
-  const [applicantAddress, setApplicantAddress] = useState<string>('Commonwealth Avenue, Diliman, Quezon City');
+  const [typeOfOwnership, setTypeOfOwnership] = useState('');
+  const [applicantLastName, setApplicantLastName] = useState('');
+  const [applicantFirstName, setApplicantFirstName] = useState('');
+  const [applicantMI, setApplicantMI] = useState('');
+  const [mobileNo, setMobileNo] = useState('');
+  const [applicantAddress, setApplicantAddress] = useState('');
 
   // Panel 2: Lot Location
-  const [lotNo, setLotNo] = useState<string>('4-B');
-  const [blkNo, setBlkNo] = useState<string>('12');
-  const [tctNo, setTctNo] = useState<string>('TCT-004-2023009841');
-  const [taxDecNo, setTaxDecNo] = useState<string>('TD-E-042-01992-QC');
-  const [street, setStreet] = useState<string>('Commonwealth Avenue');
-  const [barangay, setBarangay] = useState<string>('Batasan Hills');
-  const [district, setDistrict] = useState<string>('District 2');
-  const [cityMunicipality, setCityMunicipality] = useState<string>('QUEZON CITY');
+  const [lotNo, setLotNo] = useState('');
+  const [blkNo, setBlkNo] = useState('');
+  const [tctNo, setTctNo] = useState('');
+  const [taxDecNo, setTaxDecNo] = useState('');
+  const [street, setStreet] = useState('');
+  const [barangay, setBarangay] = useState('');
+  const [district, setDistrict] = useState('');
+  const [cityMunicipality, setCityMunicipality] = useState('');
 
   // Mechanical Checkbox Installations
-  const [installations, setInstallations] = useState<string[]>([
-    'Air Conditioning System',
-    'Passenger Elevator',
-    'Ventilating Equipment'
-  ]);
+  const [installations, setInstallations] = useState<string[]>([]);
 
   // Radio questions
-  const [hasTowerCranes, setHasTowerCranes] = useState<string>('NO');
-  const [hasHeavyMachinerySuspended, setHasHeavyMachinerySuspended] = useState<string>('NO');
-  const [hasMultiLevelCarLift, setHasMultiLevelCarLift] = useState<string>('NO');
+  const [hasTowerCranes, setHasTowerCranes] = useState('');
+  const [hasHeavyMachinerySuspended, setHasHeavyMachinerySuspended] = useState('');
+  const [hasMultiLevelCarLift, setHasMultiLevelCarLift] = useState('');
 
   const handleInstallationToggle = (item: string) => {
     if (item === 'None') {
@@ -130,13 +126,15 @@ export const QCMechanicalPermitApplication: React.FC<QCMechanicalPermitApplicati
 
   return (
     <div className="w-full max-w-5xl mx-auto space-y-4">
-      <div className="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0c1629] shadow-xs">
-        {/* Top Header bar matching Picture 2 */}
-        <div className="bg-[#0c4366] text-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider">
-          Mechanical Permit Application
+      <div className="space-y-4">
+        <div className="pb-2 border-b border-slate-200 dark:border-slate-800">
+          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-100 flex items-center gap-2">
+            <span className="w-1.5 h-3.5 bg-blue-600 rounded-full inline-block"></span>
+            Mechanical Permit Application
+          </h4>
         </div>
 
-        <div className="p-4 sm:p-5">
+        <div className="space-y-4">
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* ============================================================== */}
             {/* PANEL 1: TYPE OF OWNERSHIP & APPLICANT DETAILS */}
@@ -152,10 +150,13 @@ export const QCMechanicalPermitApplication: React.FC<QCMechanicalPermitApplicati
                   onChange={(e) => setTypeOfOwnership(e.target.value)}
                   className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0b1322] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68] cursor-pointer"
                 >
+                  <option value="">Select Type of Ownership...</option>
                   <option value="Corporation">Corporation</option>
                   <option value="Individual / Sole Proprietorship">Individual / Sole Proprietorship</option>
                   <option value="Partnership">Partnership</option>
                   <option value="Government">Government</option>
+                  <option value="Co-Ownership / Joint Venture">Co-Ownership / Joint Venture</option>
+                  <option value="Others / Non-Standard Ownership">Others / Non-Standard Ownership</option>
                 </select>
               </div>
 
@@ -169,7 +170,7 @@ export const QCMechanicalPermitApplication: React.FC<QCMechanicalPermitApplicati
                     type="text"
                     value={applicantLastName}
                     onChange={(e) => setApplicantLastName(e.target.value)}
-                    placeholder=""
+                    placeholder="Last Name (e.g. Dela Cruz)"
                     className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                   />
                 </div>
@@ -182,7 +183,7 @@ export const QCMechanicalPermitApplication: React.FC<QCMechanicalPermitApplicati
                     type="text"
                     value={applicantFirstName}
                     onChange={(e) => setApplicantFirstName(e.target.value)}
-                    placeholder=""
+                    placeholder="First Name (e.g. Juan)"
                     className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                   />
                 </div>
@@ -195,7 +196,7 @@ export const QCMechanicalPermitApplication: React.FC<QCMechanicalPermitApplicati
                     type="text"
                     value={applicantMI}
                     onChange={(e) => setApplicantMI(e.target.value)}
-                    placeholder=""
+                    placeholder="M.I."
                     maxLength={5}
                     className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                   />
@@ -211,8 +212,9 @@ export const QCMechanicalPermitApplication: React.FC<QCMechanicalPermitApplicati
                   <input
                     type="text"
                     value={mobileNo}
-                    onChange={(e) => setMobileNo(e.target.value)}
-                    placeholder=""
+                    onChange={(e) => setMobileNo(e.target.value.replace(/\D/g, '').slice(0, 11))}
+                    placeholder="09XX XXX XXXX"
+                    maxLength={11}
                     className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                   />
                 </div>
@@ -225,7 +227,7 @@ export const QCMechanicalPermitApplication: React.FC<QCMechanicalPermitApplicati
                     type="text"
                     value={applicantAddress}
                     onChange={(e) => setApplicantAddress(e.target.value)}
-                    placeholder=""
+                    placeholder="e.g. Unit 501, Katipunan Ave., Diliman, Quezon City"
                     className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                   />
                 </div>
@@ -250,7 +252,7 @@ export const QCMechanicalPermitApplication: React.FC<QCMechanicalPermitApplicati
                     type="text"
                     value={lotNo}
                     onChange={(e) => setLotNo(e.target.value)}
-                    placeholder=""
+                    placeholder="e.g. Lot 4-B"
                     className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                   />
                 </div>
@@ -263,7 +265,7 @@ export const QCMechanicalPermitApplication: React.FC<QCMechanicalPermitApplicati
                     type="text"
                     value={blkNo}
                     onChange={(e) => setBlkNo(e.target.value)}
-                    placeholder=""
+                    placeholder="e.g. Block 12"
                     className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                   />
                 </div>
@@ -276,7 +278,7 @@ export const QCMechanicalPermitApplication: React.FC<QCMechanicalPermitApplicati
                     type="text"
                     value={tctNo}
                     onChange={(e) => setTctNo(e.target.value)}
-                    placeholder=""
+                    placeholder="e.g. TCT-004-2023009841"
                     className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                   />
                 </div>
@@ -289,7 +291,7 @@ export const QCMechanicalPermitApplication: React.FC<QCMechanicalPermitApplicati
                     type="text"
                     value={taxDecNo}
                     onChange={(e) => setTaxDecNo(e.target.value)}
-                    placeholder=""
+                    placeholder="e.g. TD-E-042-01992-QC"
                     className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                   />
                 </div>
@@ -305,7 +307,7 @@ export const QCMechanicalPermitApplication: React.FC<QCMechanicalPermitApplicati
                     type="text"
                     value={street}
                     onChange={(e) => setStreet(e.target.value)}
-                    placeholder=""
+                    placeholder="Street / Avenue"
                     className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                   />
                 </div>
@@ -319,7 +321,7 @@ export const QCMechanicalPermitApplication: React.FC<QCMechanicalPermitApplicati
                     onChange={(e) => setBarangay(e.target.value)}
                     className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0b1322] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68] cursor-pointer"
                   >
-                    <option value=""></option>
+                    <option value="">Select Barangay...</option>
                     {QC_BARANGAYS_LIST.map((b) => (
                       <option key={b} value={b}>{b}</option>
                     ))}
@@ -334,7 +336,7 @@ export const QCMechanicalPermitApplication: React.FC<QCMechanicalPermitApplicati
                     type="text"
                     value={district}
                     onChange={(e) => setDistrict(e.target.value)}
-                    placeholder=""
+                    placeholder="e.g. District 2"
                     className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                   />
                 </div>
@@ -347,7 +349,7 @@ export const QCMechanicalPermitApplication: React.FC<QCMechanicalPermitApplicati
                     type="text"
                     value={cityMunicipality}
                     onChange={(e) => setCityMunicipality(e.target.value)}
-                    placeholder=""
+                    placeholder="Quezon City"
                     className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                   />
                 </div>
@@ -355,126 +357,91 @@ export const QCMechanicalPermitApplication: React.FC<QCMechanicalPermitApplicati
             </div>
 
             {/* ============================================================== */}
-            {/* MECHANICAL SPECIFIC CHECKBOXES & INSTALLATIONS (PICTURE 2) */}
+            {/* MECHANICAL SPECIFIC CHECKBOXES & INSTALLATIONS (OPTION 2) */}
             {/* ============================================================== */}
             <div className="p-4 sm:p-5 rounded-lg border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-[#0b1322] space-y-4 shadow-2xs">
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-                {/* Left prompt label */}
-                <div className="md:col-span-4">
-                  <label className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 leading-relaxed block font-normal">
+              <div className="space-y-3">
+                {/* Full-width Top Prompt Label */}
+                <div className="pb-2.5 border-b border-slate-100 dark:border-slate-800/80">
+                  <label className="text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-200 leading-relaxed block">
                     Please check if there are any of these installations or check 'None' if there aren't <span className="text-red-500 font-bold">*</span>
                   </label>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                    Select all applicable installations for the project.
+                  </p>
                 </div>
 
-                {/* Right checkbox list */}
-                <div className="md:col-span-8 space-y-2">
+                {/* Responsive 3-Column Checkbox Grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 pt-1">
                   {MECHANICAL_INSTALLATION_OPTIONS.map((opt) => (
-                    <label key={opt} className="flex items-center space-x-2.5 text-xs text-slate-700 dark:text-slate-300 cursor-pointer select-none">
+                    <label
+                      key={opt}
+                      className={`flex items-center space-x-2.5 p-2 rounded-sm border transition-colors cursor-pointer select-none text-xs ${
+                        installations.includes(opt)
+                          ? 'border-blue-500 bg-blue-50/50 dark:bg-blue-950/20 text-blue-900 dark:text-blue-200 font-medium'
+                          : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40 text-slate-700 dark:text-slate-300'
+                      }`}
+                    >
                       <input
                         type="checkbox"
                         checked={installations.includes(opt)}
                         onChange={() => handleInstallationToggle(opt)}
-                        className="w-4 h-4 rounded border-slate-300 dark:border-slate-700 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
+                        className="w-4 h-4 rounded border-slate-300 dark:border-slate-700 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer shrink-0"
                       />
-                      <span>{opt}</span>
+                      <span className="leading-snug">{opt}</span>
                     </label>
                   ))}
                 </div>
               </div>
 
-              {/* 3 Radio questions matching Picture 2 */}
+              {/* 3 Select dropdown questions replacing the radio buttons */}
               <div className="space-y-3 pt-3 border-t border-slate-100 dark:border-slate-800/80">
-                {/* Radio 1: Tower cranes */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <label className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 font-normal">
+                {/* Question 1: Tower cranes */}
+                <div className="space-y-1">
+                  <label className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 block font-normal">
                     Are there tower cranes? <span className="text-red-500 font-bold">*</span>
                   </label>
-                  <div className="flex items-center space-x-6">
-                    <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
-                      <input
-                        type="radio"
-                        name="hasTowerCranes"
-                        value="YES"
-                        checked={hasTowerCranes === 'YES'}
-                        onChange={() => setHasTowerCranes('YES')}
-                        className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
-                      />
-                      <span>YES</span>
-                    </label>
-                    <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
-                      <input
-                        type="radio"
-                        name="hasTowerCranes"
-                        value="NO"
-                        checked={hasTowerCranes === 'NO'}
-                        onChange={() => setHasTowerCranes('NO')}
-                        className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
-                      />
-                      <span>NO</span>
-                    </label>
-                  </div>
+                  <select
+                    value={hasTowerCranes}
+                    onChange={(e) => setHasTowerCranes(e.target.value)}
+                    className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0b1322] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68] cursor-pointer"
+                  >
+                    <option value="">Select an option...</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                  </select>
                 </div>
 
-                {/* Radio 2: Heavy machinery suspended */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <label className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 font-normal uppercase max-w-xl">
+                {/* Question 2: Heavy machinery suspended */}
+                <div className="space-y-1">
+                  <label className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 block font-normal">
                     ARE THERE HEAVY MACHINERY LIKE GENERATOR SETS, BOILERS, UNFIRED PRESSURE VESSELS, COOLING TOWERS, ETC. THAT IS SUSPENDED (NOT LOCATED ON NATURAL GROUND LINE)? <span className="text-red-500 font-bold">*</span>
                   </label>
-                  <div className="flex items-center space-x-6 shrink-0">
-                    <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
-                      <input
-                        type="radio"
-                        name="hasHeavyMachinerySuspended"
-                        value="YES"
-                        checked={hasHeavyMachinerySuspended === 'YES'}
-                        onChange={() => setHasHeavyMachinerySuspended('YES')}
-                        className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
-                      />
-                      <span>YES</span>
-                    </label>
-                    <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
-                      <input
-                        type="radio"
-                        name="hasHeavyMachinerySuspended"
-                        value="NO"
-                        checked={hasHeavyMachinerySuspended === 'NO'}
-                        onChange={() => setHasHeavyMachinerySuspended('NO')}
-                        className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
-                      />
-                      <span>NO</span>
-                    </label>
-                  </div>
+                  <select
+                    value={hasHeavyMachinerySuspended}
+                    onChange={(e) => setHasHeavyMachinerySuspended(e.target.value)}
+                    className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0b1322] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68] cursor-pointer"
+                  >
+                    <option value="">Select an option...</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                  </select>
                 </div>
 
-                {/* Radio 3: Multi-level car lift */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <label className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 font-normal">
+                {/* Question 3: Multi-level car lift */}
+                <div className="space-y-1">
+                  <label className="text-[11px] sm:text-xs text-slate-600 dark:text-slate-300 block font-normal">
                     Are there multi-level car lift to be installed? <span className="text-red-500 font-bold">*</span>
                   </label>
-                  <div className="flex items-center space-x-6">
-                    <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
-                      <input
-                        type="radio"
-                        name="hasMultiLevelCarLift"
-                        value="YES"
-                        checked={hasMultiLevelCarLift === 'YES'}
-                        onChange={() => setHasMultiLevelCarLift('YES')}
-                        className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
-                      />
-                      <span>YES</span>
-                    </label>
-                    <label className="inline-flex items-center space-x-2 cursor-pointer text-xs text-slate-700 dark:text-slate-300">
-                      <input
-                        type="radio"
-                        name="hasMultiLevelCarLift"
-                        value="NO"
-                        checked={hasMultiLevelCarLift === 'NO'}
-                        onChange={() => setHasMultiLevelCarLift('NO')}
-                        className="w-4 h-4 text-[#0052cc] focus:ring-[#0052cc] cursor-pointer"
-                      />
-                      <span>NO</span>
-                    </label>
-                  </div>
+                  <select
+                    value={hasMultiLevelCarLift}
+                    onChange={(e) => setHasMultiLevelCarLift(e.target.value)}
+                    className="w-full px-3 py-2 rounded-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0b1322] text-slate-800 dark:text-slate-100 text-xs sm:text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68] cursor-pointer"
+                  >
+                    <option value="">Select an option...</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -482,19 +449,19 @@ export const QCMechanicalPermitApplication: React.FC<QCMechanicalPermitApplicati
             {/* ============================================================== */}
             {/* BUTTONS: SUBMIT (BLUE) & CANCEL (RED) */}
             {/* ============================================================== */}
-            <div className="space-y-2.5 pt-2">
-              <button
-                type="submit"
-                className="w-full py-2.5 bg-[#0047ba] hover:bg-[#003ca0] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
-              >
-                Submit
-              </button>
+            <div className="flex items-center justify-between pt-4">
               <button
                 type="button"
                 onClick={onCancel}
-                className="w-full py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+                className="px-8 py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
               >
                 Cancel
+              </button>
+              <button
+                type="submit"
+                className="px-8 py-2.5 bg-[#0047ba] hover:bg-[#003ca0] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+              >
+                Submit
               </button>
             </div>
           </form>

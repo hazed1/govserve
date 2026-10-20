@@ -20,7 +20,7 @@ export const QCOccupancyPermitApplication: React.FC<QCOccupancyPermitApplication
 }) => {
   // Dropdown "Do you have a Building Permit?" -> '' | 'Yes' | 'No'
   // Default to 'Yes' so the user immediately sees the second picture fields in sequence
-  const [hasBuildingPermit, setHasBuildingPermit] = useState<string>('Yes');
+  const [hasBuildingPermit, setHasBuildingPermit] = useState<string>('');
 
   // Input states for the fields shown in Picture 2
   const [buildingPermitNo, setBuildingPermitNo] = useState<string>('');
@@ -40,13 +40,15 @@ export const QCOccupancyPermitApplication: React.FC<QCOccupancyPermitApplication
   return (
     <div className="w-full max-w-4xl mx-auto space-y-4">
       {/* EXACT CONTAINER MATCHING THE QUEZON CITY E-SERVICES OCCUPANCY PERMIT APPLICATION */}
-      <div className="rounded-xl overflow-hidden border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0c1629] shadow-xs">
-        {/* Top Header bar matching Picture 1 */}
-        <div className="bg-[#0c4366] text-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider">
-          Occupancy Permit Application
+      <div className="space-y-4">
+        <div className="pb-2 border-b border-slate-200 dark:border-slate-800">
+          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-100 flex items-center gap-2">
+            <span className="w-1.5 h-3.5 bg-blue-600 rounded-full inline-block"></span>
+            Occupancy Permit Application
+          </h4>
         </div>
 
-        <div className="p-4 sm:p-5 space-y-4">
+        <div className="space-y-4 space-y-4">
           {/* FIELD: DO YOU HAVE A BUILDING PERMIT? */}
           <div className="space-y-1.5">
             <label className="text-[13px] sm:text-sm text-slate-600 dark:text-slate-300 block font-normal">
@@ -57,7 +59,6 @@ export const QCOccupancyPermitApplication: React.FC<QCOccupancyPermitApplication
               onChange={(e) => setHasBuildingPermit(e.target.value)}
               className="w-full px-3.5 py-2.5 rounded-sm border border-slate-300 dark:border-slate-700 bg-white dark:bg-[#0b1322] text-slate-800 dark:text-slate-100 text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68] cursor-pointer"
             >
-              <option value=""></option>
               <option value="Yes">Yes</option>
               <option value="No">No</option>
             </select>
@@ -77,7 +78,7 @@ export const QCOccupancyPermitApplication: React.FC<QCOccupancyPermitApplication
                   type="text"
                   value={buildingPermitNo}
                   onChange={(e) => setBuildingPermitNo(e.target.value)}
-                  placeholder=""
+                  placeholder="e.g. BP-2026-004921"
                   className="w-full px-3.5 py-2.5 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                 />
               </div>
@@ -91,7 +92,7 @@ export const QCOccupancyPermitApplication: React.FC<QCOccupancyPermitApplication
                   type="text"
                   value={applicantName}
                   onChange={(e) => setApplicantName(e.target.value)}
-                  placeholder=""
+                  placeholder="e.g. Juan M. Dela Cruz / ABC Corporation"
                   className="w-full px-3.5 py-2.5 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                 />
               </div>
@@ -105,7 +106,7 @@ export const QCOccupancyPermitApplication: React.FC<QCOccupancyPermitApplication
                   type="text"
                   value={applicantAddress}
                   onChange={(e) => setApplicantAddress(e.target.value)}
-                  placeholder=""
+                  placeholder="e.g. Unit 501, Katipunan Ave., Diliman, Quezon City"
                   className="w-full px-3.5 py-2.5 rounded-sm border border-slate-300 dark:border-slate-700 bg-[#ffffeb] dark:bg-[#1a2923] text-slate-800 dark:text-slate-100 text-sm focus:outline-none focus:ring-1 focus:ring-[#0e4f68] focus:border-[#0e4f68]"
                 />
               </div>
@@ -124,20 +125,20 @@ export const QCOccupancyPermitApplication: React.FC<QCOccupancyPermitApplication
               </div>
 
               {/* Action Buttons: Proceed with this Building Permit and Cancel */}
-              <div className="space-y-2.5 pt-2">
-                <button
-                  type="button"
-                  onClick={handleProceedWithPermit}
-                  className="w-full py-2.5 px-4 rounded-md bg-[#0e4f68] hover:bg-[#0a3b4e] text-white text-xs sm:text-sm font-medium transition-colors cursor-pointer text-center shadow-xs"
-                >
-                  Proceed with this Building Permit
-                </button>
+              <div className="flex items-center justify-between pt-4">
                 <button
                   type="button"
                   onClick={onCancel}
-                  className="w-full py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+                  className="px-6 py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
                 >
                   Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={handleProceedWithPermit}
+                  className="px-6 py-2.5 rounded-lg bg-[#0047ba] hover:bg-[#003ca0] text-white text-xs sm:text-sm font-bold transition-colors cursor-pointer text-center shadow-sm"
+                >
+                  Proceed with this Building Permit
                 </button>
               </div>
             </div>
@@ -157,20 +158,20 @@ export const QCOccupancyPermitApplication: React.FC<QCOccupancyPermitApplication
                 </p>
               </div>
 
-              <div className="space-y-2.5 pt-1">
-                <button
-                  type="button"
-                  onClick={onProceedWithoutBuildingPermit}
-                  className="w-full py-2.5 px-4 rounded-md bg-[#0e4f68] hover:bg-[#0a3b4e] text-white text-xs sm:text-sm font-medium transition-colors cursor-pointer text-center shadow-xs"
-                >
-                  Proceed without Building Permit
-                </button>
+              <div className="flex items-center justify-between pt-4">
                 <button
                   type="button"
                   onClick={onCancel}
-                  className="w-full py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+                  className="px-6 py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
                 >
                   Cancel
+                </button>
+                <button
+                  type="button"
+                  onClick={onProceedWithoutBuildingPermit}
+                  className="px-6 py-2.5 rounded-lg bg-[#0047ba] hover:bg-[#003ca0] text-white text-xs sm:text-sm font-bold transition-colors cursor-pointer text-center shadow-sm"
+                >
+                  Proceed without Building Permit
                 </button>
               </div>
             </div>
@@ -180,11 +181,11 @@ export const QCOccupancyPermitApplication: React.FC<QCOccupancyPermitApplication
           {/* WHEN UNSELECTED / BLANK: ONLY CANCEL BUTTON IS SHOWN */}
           {/* ============================================================== */}
           {!hasBuildingPermit && (
-            <div className="space-y-2.5 pt-2 animate-in fade-in duration-150">
+            <div className="flex items-center justify-start pt-4 animate-in fade-in duration-150">
               <button
                 type="button"
                 onClick={onCancel}
-                className="w-full py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
+                className="px-6 py-2.5 bg-[#d92d3e] hover:bg-[#b82332] text-white font-bold rounded-lg text-xs sm:text-sm transition-colors cursor-pointer shadow-sm text-center"
               >
                 Cancel
               </button>

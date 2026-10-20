@@ -138,7 +138,7 @@ export const BarangayConstructionUploadWizard: React.FC<BarangayConstructionUplo
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h4 className="text-sm font-black text-slate-900 dark:text-white flex items-center gap-2">
-              <Camera size={16} className="text-amber-600 dark:text-amber-400" />
+              <Camera size={16} className="text-blue-600 dark:text-blue-400" />
               <span>{title}</span>
             </h4>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{desc}</p>
@@ -157,57 +157,24 @@ export const BarangayConstructionUploadWizard: React.FC<BarangayConstructionUplo
         </div>
 
         {!doc ? (
-          <label className="border-2 border-dashed border-amber-300 dark:border-amber-800/80 hover:border-amber-500 rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center bg-amber-50/40 dark:bg-amber-950/20 hover:bg-amber-50/70 transition-all cursor-pointer group">
-            <input
-              type="file"
-              accept=".jpg,.jpeg,.png,.pdf"
-              onChange={(e) => handleFileUpload(e, target)}
-              className="hidden"
-            />
-            <div className="w-14 h-14 rounded-2xl bg-amber-100 dark:bg-amber-900/60 text-amber-700 dark:text-amber-300 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform shadow-xs">
-              <Camera size={26} />
-            </div>
-            <p className="text-xs sm:text-sm font-black text-slate-800 dark:text-white">
-              Take a Photo or Click to Upload Picture
-            </p>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
-              Supports JPG, PNG, Smartphone Photos, or Scanned Documents
-            </p>
-            <span className="mt-3 px-3 py-1 rounded-full bg-amber-600 text-white text-[10px] font-bold shadow-xs">
-              + Choose Photo
-            </span>
-          </label>
+          <div className="flex justify-center w-full py-4">
+            <label
+              className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold text-xs uppercase tracking-wide rounded-xl shadow-md shadow-blue-600/25 transition-all cursor-pointer group shrink-0"
+            >
+              <Upload size={15} className="group-hover:-translate-y-0.5 transition-transform" />
+              <span>UPLOAD PHOTO</span>
+              <input
+                type="file"
+                accept=".jpg,.jpeg,.png,.pdf,.webp"
+                onChange={(e) => handleFileUpload(e, target)}
+                className="hidden"
+              />
+            </label>
+          </div>
         ) : (
-          <div className="p-4 rounded-2xl bg-white dark:bg-slate-800 border-2 border-emerald-500/50 shadow-md flex items-center justify-between gap-3 animate-in fade-in">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center shrink-0">
-                <CheckCircle2 size={24} />
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs font-black text-slate-900 dark:text-white truncate">{doc.name}</p>
-                <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1 mt-0.5">
-                  <Check size={11} /> Photo verified &amp; ready ({doc.size})
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setPreviewDoc({ title, doc })}
-                className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-300 text-xs font-bold transition-all cursor-pointer"
-                title="View Photo"
-              >
-                <Eye size={15} />
-              </button>
-              <label className="p-2 rounded-xl bg-amber-100 hover:bg-amber-200 dark:bg-amber-900/60 dark:hover:bg-amber-800 text-amber-800 dark:text-amber-300 text-xs font-bold transition-all cursor-pointer">
-                <RefreshCw size={15} />
-                <input
-                  type="file"
-                  accept=".jpg,.jpeg,.png,.pdf"
-                  onChange={(e) => handleFileUpload(e, target)}
-                  className="hidden"
-                />
-              </label>
+          <div className="pt-2 w-full flex justify-center">
+            <div className="relative group/thumb p-3 rounded-2xl bg-[#091524] border border-slate-700/80 shadow-lg w-full max-w-[320px] sm:max-w-[340px] flex flex-col items-center animate-in fade-in zoom-in-95 mx-auto">
+              {/* Circular (X) remove button at top-right */}
               <button
                 type="button"
                 onClick={() => {
@@ -216,11 +183,43 @@ export const BarangayConstructionUploadWizard: React.FC<BarangayConstructionUplo
                   if (target === 'consent') setConsentDoc(null);
                   if (target === 'contractor') setContractorDoc(null);
                 }}
-                className="p-2 rounded-xl bg-rose-100 hover:bg-rose-200 dark:bg-rose-950/60 dark:hover:bg-rose-900 text-rose-700 dark:text-rose-300 text-xs font-bold transition-all cursor-pointer"
                 title="Remove Photo"
+                className="absolute -top-2.5 -right-2.5 w-7 h-7 rounded-full bg-slate-700 hover:bg-rose-600 text-white flex items-center justify-center shadow-md transition-colors cursor-pointer z-10"
               >
-                <Trash2 size={15} />
+                <X size={15} />
               </button>
+
+              {/* Photo Thumbnail - Direct Click to Preview */}
+              <div
+                onClick={() => setPreviewDoc({ title, doc })}
+                className="w-full h-44 sm:h-48 rounded-xl overflow-hidden bg-slate-900 border border-slate-700/60 cursor-pointer relative group-hover/thumb:border-blue-500 transition-colors flex items-center justify-center p-1"
+                title="Click to view full photo"
+              >
+                {doc.previewUrl.endsWith('.pdf') ? (
+                  <div className="flex flex-col items-center justify-center text-slate-400 gap-2">
+                    <FileText size={40} className="text-blue-400" />
+                    <span className="text-[11px] font-bold text-slate-300">PDF Document</span>
+                  </div>
+                ) : (
+                  <img
+                    src={doc.previewUrl}
+                    alt={doc.name}
+                    className="w-full h-full object-contain group-hover/thumb:scale-[1.03] transition-transform duration-200"
+                  />
+                )}
+                <div className="absolute inset-0 bg-blue-950/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center gap-1.5 text-white font-bold text-xs pointer-events-none">
+                  <Eye size={16} />
+                  <span>Click to Preview</span>
+                </div>
+              </div>
+
+              {/* Document details below thumbnail */}
+              <div className="mt-2.5 w-full px-1 text-center">
+                <p className="text-xs font-bold text-slate-200 truncate">{doc.name}</p>
+                <p className="text-[10px] text-emerald-400 font-medium flex items-center justify-center gap-1 mt-0.5">
+                  <Check size={11} /> Ready &amp; Verified ({doc.size})
+                </p>
+              </div>
             </div>
           </div>
         )}
@@ -233,7 +232,7 @@ export const BarangayConstructionUploadWizard: React.FC<BarangayConstructionUplo
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl border border-slate-700 text-xs font-bold flex items-center space-x-2 animate-bounce">
-          <Sparkles size={16} className="text-amber-400" />
+          <Sparkles size={16} className="text-blue-400" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -244,12 +243,12 @@ export const BarangayConstructionUploadWizard: React.FC<BarangayConstructionUplo
         {/* Header with Title and Step Tracker */}
         <div className="border-b border-slate-100 dark:border-slate-800 pb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center space-x-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-400 flex items-center justify-center font-bold text-xl shadow-md shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-400 flex items-center justify-center font-bold text-xl shadow-md shrink-0">
               <Building size={24} />
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-200">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
                   Step {currentStep} of 5
                 </span>
                 <span className="text-xs text-slate-400 font-bold">100% Picture-Upload Filing</span>
@@ -272,13 +271,11 @@ export const BarangayConstructionUploadWizard: React.FC<BarangayConstructionUplo
               { step: 4, label: 'Contractor ID' },
               { step: 5, label: 'Review & Issue' },
             ].map((s) => (
-              <button
+              <div
                 key={s.step}
-                type="button"
-                onClick={() => setCurrentStep(s.step)}
-                className={`py-2 px-1 rounded-xl text-center text-xs font-bold transition-all ${
+                className={`py-2 px-1 rounded-xl text-center text-xs font-bold transition-all cursor-default select-none pointer-events-none ${
                   currentStep === s.step
-                    ? 'bg-amber-600 text-white shadow-md shadow-amber-600/30'
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
                     : currentStep > s.step
                     ? 'bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
@@ -286,7 +283,7 @@ export const BarangayConstructionUploadWizard: React.FC<BarangayConstructionUplo
               >
                 <span className="text-[10px] block uppercase">Step {s.step}</span>
                 <span className="text-[11px] font-extrabold truncate block">{s.label}</span>
-              </button>
+              </div>
             ))}
           </div>
         )}
@@ -341,9 +338,9 @@ export const BarangayConstructionUploadWizard: React.FC<BarangayConstructionUplo
                   'Neighbor_Consent_Signed.jpg'
                 )}
 
-                <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-xs space-y-1">
-                  <span className="font-black text-amber-900 dark:text-amber-300">Lupon / Barangay Verification Notice:</span>
-                  <p className="text-amber-800 dark:text-amber-400 font-medium">
+                <div className="p-4 rounded-2xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 text-xs space-y-1">
+                  <span className="font-black text-blue-900 dark:text-blue-300">Lupon / Barangay Verification Notice:</span>
+                  <p className="text-blue-800 dark:text-blue-400 font-medium">
                     Neighbor signatures will be cross-checked during the scheduled Kagawad ocular site visit.
                   </p>
                 </div>
@@ -369,62 +366,209 @@ export const BarangayConstructionUploadWizard: React.FC<BarangayConstructionUplo
             )}
 
             {/* STEP 5: REVIEW & ISSUE */}
-            {currentStep === 5 && (
-              <div className="space-y-5 animate-in fade-in">
-                <div className="p-5 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/40 dark:to-orange-950/20 border border-amber-200 dark:border-amber-800 space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-black uppercase text-amber-900 dark:text-amber-300 tracking-wider">
-                      Document Photo Checklist
-                    </span>
-                    <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                      <CheckCircle2 size={13} /> 4 Required Photos Uploaded
-                    </span>
-                  </div>
+            {currentStep === 5 && (() => {
+              const uploadedCount = [sketchDoc, titleDoc, consentDoc, contractorDoc].filter(Boolean).length;
+              const isAllUploaded = uploadedCount === 4;
 
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-                    <div className="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
-                      <span className="text-[10px] text-slate-400 block font-bold">1. Site Sketch</span>
-                      <span className="font-bold text-slate-800 dark:text-white truncate block">{sketchDoc ? '✓ Uploaded' : 'Missing'}</span>
+              return (
+                <div className="space-y-5 animate-in fade-in">
+                  <div className="p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/40 dark:to-indigo-950/20 border border-blue-200 dark:border-blue-800 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-black uppercase text-blue-900 dark:text-blue-300 tracking-wider">
+                        Document Photo Review (Steps 1 to 4)
+                      </span>
+                      <span className={`text-[11px] font-bold flex items-center gap-1 ${
+                        isAllUploaded ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'
+                      }`}>
+                        {isAllUploaded ? <CheckCircle2 size={13} /> : <span className="w-2 h-2 rounded-full bg-amber-500"></span>}
+                        {uploadedCount} of 4 Photos Uploaded
+                      </span>
                     </div>
-                    <div className="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
-                      <span className="text-[10px] text-slate-400 block font-bold">2. Lot Title</span>
-                      <span className="font-bold text-slate-800 dark:text-white truncate block">{titleDoc ? '✓ Uploaded' : 'Missing'}</span>
-                    </div>
-                    <div className="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
-                      <span className="text-[10px] text-slate-400 block font-bold">3. Neighbor Consent</span>
-                      <span className="font-bold text-slate-800 dark:text-white truncate block">{consentDoc ? '✓ Uploaded' : 'Missing'}</span>
-                    </div>
-                    <div className="p-3 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
-                      <span className="text-[10px] text-slate-400 block font-bold">4. Contractor ID</span>
-                      <span className="font-bold text-slate-800 dark:text-white truncate block">{contractorDoc ? '✓ Uploaded' : 'Missing'}</span>
-                    </div>
-                  </div>
 
-                  <div className="border-t border-amber-200 dark:border-amber-800 pt-3 flex items-center justify-between text-xs sm:text-sm font-black">
-                    <span className="text-slate-800 dark:text-white">Fixed Construction Regulatory Fee:</span>
-                    <span className="font-mono text-amber-600 dark:text-amber-400 text-base">₱800.00</span>
+                    {/* Step-by-Step Review Cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {/* Step 1: Site Sketch */}
+                      <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center gap-3">
+                        {sketchDoc ? (
+                          <div
+                            onClick={() => setPreviewDoc({ title: 'Step 1: Site Sketch Plan', doc: sketchDoc })}
+                            className="w-20 h-16 sm:w-22 sm:h-18 rounded-xl bg-[#091524] border border-slate-700/80 shadow-xs flex items-center justify-center shrink-0 cursor-pointer relative group/thumb overflow-hidden hover:border-blue-500 transition-all p-1"
+                            title="Click to preview photo"
+                          >
+                            <img src={sketchDoc.previewUrl} alt={sketchDoc.name} className="w-full h-full object-contain" />
+                            <div className="absolute inset-0 bg-blue-950/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center text-white">
+                              <Eye size={14} />
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="w-20 h-16 sm:w-22 sm:h-18 rounded-xl bg-slate-100 dark:bg-slate-900 border border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center justify-center shrink-0 text-slate-400">
+                            <Camera size={18} />
+                            <span className="text-[9px] font-bold mt-1">Missing</span>
+                          </div>
+                        )}
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-[10px] font-black uppercase text-blue-600 dark:text-blue-400">Step 1</span>
+                            <span className="text-xs font-black text-slate-800 dark:text-white truncate">Site Sketch Plan</span>
+                          </div>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate mt-0.5">
+                            {sketchDoc ? sketchDoc.name : 'No photo uploaded'}
+                          </p>
+                          <span className={`inline-flex items-center gap-1 text-[10px] font-bold mt-1 px-2 py-0.5 rounded-full ${
+                            sketchDoc ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400' : 'bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400'
+                          }`}>
+                            {sketchDoc ? `✓ Uploaded (${sketchDoc.size})` : '○ Missing'}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Step 2: Lot Title */}
+                      <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center gap-3">
+                        {titleDoc ? (
+                          <div
+                            onClick={() => setPreviewDoc({ title: 'Step 2: Lot Title / Land Ownership', doc: titleDoc })}
+                            className="w-20 h-16 sm:w-22 sm:h-18 rounded-xl bg-[#091524] border border-slate-700/80 shadow-xs flex items-center justify-center shrink-0 cursor-pointer relative group/thumb overflow-hidden hover:border-blue-500 transition-all p-1"
+                            title="Click to preview photo"
+                          >
+                            <img src={titleDoc.previewUrl} alt={titleDoc.name} className="w-full h-full object-contain" />
+                            <div className="absolute inset-0 bg-blue-950/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center text-white">
+                              <Eye size={14} />
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="w-20 h-16 sm:w-22 sm:h-18 rounded-xl bg-slate-100 dark:bg-slate-900 border border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center justify-center shrink-0 text-slate-400">
+                            <Camera size={18} />
+                            <span className="text-[9px] font-bold mt-1">Missing</span>
+                          </div>
+                        )}
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-[10px] font-black uppercase text-blue-600 dark:text-blue-400">Step 2</span>
+                            <span className="text-xs font-black text-slate-800 dark:text-white truncate">Lot Title / Ownership</span>
+                          </div>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate mt-0.5">
+                            {titleDoc ? titleDoc.name : 'No photo uploaded'}
+                          </p>
+                          <span className={`inline-flex items-center gap-1 text-[10px] font-bold mt-1 px-2 py-0.5 rounded-full ${
+                            titleDoc ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400' : 'bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400'
+                          }`}>
+                            {titleDoc ? `✓ Uploaded (${titleDoc.size})` : '○ Missing'}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Step 3: Neighbor Consent */}
+                      <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center gap-3">
+                        {consentDoc ? (
+                          <div
+                            onClick={() => setPreviewDoc({ title: 'Step 3: Neighbor Consent Affidavit', doc: consentDoc })}
+                            className="w-20 h-16 sm:w-22 sm:h-18 rounded-xl bg-[#091524] border border-slate-700/80 shadow-xs flex items-center justify-center shrink-0 cursor-pointer relative group/thumb overflow-hidden hover:border-blue-500 transition-all p-1"
+                            title="Click to preview photo"
+                          >
+                            <img src={consentDoc.previewUrl} alt={consentDoc.name} className="w-full h-full object-contain" />
+                            <div className="absolute inset-0 bg-blue-950/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center text-white">
+                              <Eye size={14} />
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="w-20 h-16 sm:w-22 sm:h-18 rounded-xl bg-slate-100 dark:bg-slate-900 border border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center justify-center shrink-0 text-slate-400">
+                            <Camera size={18} />
+                            <span className="text-[9px] font-bold mt-1">Missing</span>
+                          </div>
+                        )}
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-[10px] font-black uppercase text-blue-600 dark:text-blue-400">Step 3</span>
+                            <span className="text-xs font-black text-slate-800 dark:text-white truncate">Neighbor Consent</span>
+                          </div>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate mt-0.5">
+                            {consentDoc ? consentDoc.name : 'No photo uploaded'}
+                          </p>
+                          <span className={`inline-flex items-center gap-1 text-[10px] font-bold mt-1 px-2 py-0.5 rounded-full ${
+                            consentDoc ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400' : 'bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400'
+                          }`}>
+                            {consentDoc ? `✓ Uploaded (${consentDoc.size})` : '○ Missing'}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Step 4: Contractor ID */}
+                      <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center gap-3">
+                        {contractorDoc ? (
+                          <div
+                            onClick={() => setPreviewDoc({ title: 'Step 4: Supervising Engineer / Contractor License', doc: contractorDoc })}
+                            className="w-20 h-16 sm:w-22 sm:h-18 rounded-xl bg-[#091524] border border-slate-700/80 shadow-xs flex items-center justify-center shrink-0 cursor-pointer relative group/thumb overflow-hidden hover:border-blue-500 transition-all p-1"
+                            title="Click to preview photo"
+                          >
+                            <img src={contractorDoc.previewUrl} alt={contractorDoc.name} className="w-full h-full object-contain" />
+                            <div className="absolute inset-0 bg-blue-950/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center text-white">
+                              <Eye size={14} />
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="w-20 h-16 sm:w-22 sm:h-18 rounded-xl bg-slate-100 dark:bg-slate-900 border border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center justify-center shrink-0 text-slate-400">
+                            <Camera size={18} />
+                            <span className="text-[9px] font-bold mt-1">Missing</span>
+                          </div>
+                        )}
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-[10px] font-black uppercase text-blue-600 dark:text-blue-400">Step 4</span>
+                            <span className="text-xs font-black text-slate-800 dark:text-white truncate">Contractor PRC License</span>
+                          </div>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate mt-0.5">
+                            {contractorDoc ? contractorDoc.name : 'No photo uploaded'}
+                          </p>
+                          <span className={`inline-flex items-center gap-1 text-[10px] font-bold mt-1 px-2 py-0.5 rounded-full ${
+                            contractorDoc ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400' : 'bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400'
+                          }`}>
+                            {contractorDoc ? `✓ Uploaded (${contractorDoc.size})` : '○ Missing'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Project Info Summary */}
+                    <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                      <div>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Project Location:</span>
+                        <span className="font-semibold text-slate-800 dark:text-white">{projectSite}</span>
+                      </div>
+                      <div>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Project Type:</span>
+                        <span className="font-semibold text-slate-800 dark:text-white">{projectType}</span>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* Bottom Actions Bar */}
             <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
-                {currentStep === 1 && (
-                <button
-                  type="button"
-                  onClick={onBackToPortal}
-                  className="px-4 py-2.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 dark:hover:bg-slate-700 transition-all flex items-center space-x-1.5 cursor-pointer shadow-xs"
-                >
-                  <ArrowLeft size={14} />
-                  <span>Back</span>
-                </button>
+                {currentStep === 1 ? (
+                  <button
+                    type="button"
+                    onClick={onBackToPortal}
+                    className="px-4 py-2.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 dark:hover:bg-slate-700 transition-all flex items-center space-x-1.5 cursor-pointer shadow-xs"
+                  >
+                    <ArrowLeft size={14} />
+                    <span>Back</span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setCurrentStep(prev => prev - 1)}
+                    className="px-4 py-2.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 dark:hover:bg-slate-700 transition-all flex items-center space-x-1.5 cursor-pointer shadow-xs"
+                  >
+                    <ArrowLeft size={14} />
+                    <span>Back</span>
+                  </button>
                 )}
               </div>
 
               <div className="flex items-center gap-2">
-
                 {currentStep < 5 ? (
                   (() => {
                     const isStepUploaded = currentStep === 1 ? !!sketchDoc : currentStep === 2 ? !!titleDoc : currentStep === 3 ? !!consentDoc : currentStep === 4 ? !!contractorDoc : true;
@@ -438,7 +582,7 @@ export const BarangayConstructionUploadWizard: React.FC<BarangayConstructionUplo
                         }}
                         className={`px-6 py-3 rounded-xl text-xs font-black flex items-center gap-2 transition-all ${
                           isStepUploaded
-                            ? 'bg-amber-600 hover:bg-amber-500 text-white shadow-lg shadow-amber-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
+                            ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
                             : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed shadow-none'
                         }`}
                       >
@@ -454,11 +598,11 @@ export const BarangayConstructionUploadWizard: React.FC<BarangayConstructionUplo
                     className={`px-6 py-3.5 rounded-xl text-white text-xs sm:text-sm font-black shadow-lg transition-all flex items-center gap-2 ${
                       !sketchDoc || !titleDoc || !consentDoc || !contractorDoc
                         ? 'bg-slate-300 dark:bg-slate-700 cursor-not-allowed text-slate-500'
-                        : 'bg-amber-600 hover:bg-amber-500 shadow-amber-600/30 cursor-pointer active:scale-[0.98]'
+                        : 'bg-blue-600 hover:bg-blue-500 shadow-blue-600/30 cursor-pointer active:scale-[0.98]'
                     }`}
                   >
                     <ShieldCheck size={16} />
-                    <span>{isSubmitting ? 'Processing Endorsement...' : 'Issue Construction Endorsement (₱800.00)'}</span>
+                    <span>{isSubmitting ? 'Processing Endorsement...' : 'Issue Construction Endorsement'}</span>
                   </button>
                 )}
               </div>
@@ -484,17 +628,17 @@ export const BarangayConstructionUploadWizard: React.FC<BarangayConstructionUplo
             </div>
 
             {/* Official Certificate Card */}
-            <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/80 border-2 border-amber-300 dark:border-amber-700/60 max-w-lg mx-auto text-left text-xs font-mono space-y-3 shadow-md relative overflow-hidden">
+            <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/80 border-2 border-blue-300 dark:border-blue-700/60 max-w-lg mx-auto text-left text-xs font-mono space-y-3 shadow-md relative overflow-hidden">
               <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-2">
-                <span className="font-bold text-amber-700 dark:text-amber-400">QUEZON CITY LGU • BARANGAY COUNCIL</span>
-                <span className="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold">Form BCE-01</span>
+                <span className="font-bold text-blue-700 dark:text-blue-400">QUEZON CITY LGU • BARANGAY COUNCIL</span>
+                <span className="text-[10px] bg-blue-100 dark:bg-blue-900/60 text-blue-800 dark:text-blue-300 px-2 py-0.5 rounded-full font-bold">Form BCE-01</span>
               </div>
               
               <div className="space-y-1 pt-1">
-                <p><strong>ENDORSEMENT NO :</strong> <span className="text-amber-600 font-bold">{endorsementNo}</span></p>
+                <p><strong>ENDORSEMENT NO :</strong> <span className="text-blue-600 dark:text-blue-400 font-bold">{endorsementNo}</span></p>
                 <p><strong>APPLICANT      :</strong> {applicantName}</p>
                 <p><strong>PROJECT SITE   :</strong> {projectSite}</p>
-                <p><strong>FEE ASSESSMENT :</strong> ₱800.00 (PAID)</p>
+                <p><strong>FEE ASSESSMENT :</strong> REGULATORY APPROVED</p>
                 <p><strong>INSPECTION DATE:</strong> Within 48 hours by Kagawad on Public Works</p>
                 <p><strong>VALID UNTIL    :</strong> 180 Days from Issuance Date</p>
               </div>
@@ -521,7 +665,7 @@ export const BarangayConstructionUploadWizard: React.FC<BarangayConstructionUplo
               <button
                 type="button"
                 onClick={onReturnToOverview}
-                className="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md"
+                className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md"
               >
                 <Check size={15} />
                 <span>Return to Barangay Overview</span>

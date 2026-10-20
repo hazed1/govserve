@@ -681,20 +681,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                             </div>
                           </div>
 
-                          {/* 2. BUILDING PROFESSIONALS DASHBOARD */}
-                          <div 
-                            onClick={() => onNavigateToTab('Building Permit Filing')}
-                            className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
-                          >
-                            <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
-                              <HardHat size={14} />
-                            </div>
-                            <div className="select-text min-w-0">
-                              <h4 className="text-[11px] font-semibold text-slate-800 dark:text-slate-200 group-hover/item:text-sky-600 dark:group-hover/item:text-sky-400 transition-colors leading-snug">
-                                BUILDING PROFESSIONALS DASHBOARD
-                              </h4>
-                            </div>
-                          </div>
+                          
 
                           {/* 3. CHECKLIST OF REQUIREMENTS */}
                           <div 

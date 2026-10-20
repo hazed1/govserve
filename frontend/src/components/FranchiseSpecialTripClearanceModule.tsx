@@ -186,28 +186,19 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
 }) => {
   const { user } = useAuth();
 
-  // Operator Data (Editable)
-  const [operatorName, setOperatorName] = useState<string>(
-    operatorFranchise?.operatorName || user?.name || 'Juan Dela Cruz'
-  );
-  const [mtopNo, setMtopNo] = useState<string>(
-    operatorFranchise?.mtopNo || 'MTOP-2025-0412'
-  );
-  const [unitPlateToda, setUnitPlateToda] = useState<string>(() => {
-    if (operatorFranchise?.plateNumber) {
-      return `${operatorFranchise.plateNumber} (${operatorFranchise.todaOrganization || 'Batasan Hills TODA (BHTODA)'})`;
-    }
-    return 'PH-48192 (Batasan Hills TODA (BHTODA))';
-  });
+  // Operator Data (Editable - starts blank for manual user entry)
+  const [operatorName, setOperatorName] = useState<string>('');
+  const [mtopNo, setMtopNo] = useState<string>('');
+  const [unitPlateToda, setUnitPlateToda] = useState<string>('');
 
-  // Selected Trip Configurations
-  const [selectedPurposeId, setSelectedPurposeId] = useState<string>('fiesta');
+  // Selected Trip Configurations (None checked by default)
+  const [selectedPurposeId, setSelectedPurposeId] = useState<string>('');
   const [customPurpose, setCustomPurpose] = useState<string>('');
-  const [pointOfOrigin, setPointOfOrigin] = useState<string>('Batasan Hills, Quezon City');
-  const [selectedRoute, setSelectedRoute] = useState<string>('Quezon Memorial Circle / QC City Hall');
-  const [howManyDays, setHowManyDays] = useState<number>(3);
-  const [durationTier, setDurationTier] = useState<string>('3days');
-  const [customDaysInput, setCustomDaysInput] = useState<string>('3');
+  const [pointOfOrigin, setPointOfOrigin] = useState<string>('');
+  const [selectedRoute, setSelectedRoute] = useState<string>('');
+  const [howManyDays, setHowManyDays] = useState<number>(0);
+  const [durationTier, setDurationTier] = useState<string>('');
+  const [customDaysInput, setCustomDaysInput] = useState<string>('');
   const [startDate, setStartDate] = useState<string>(() => {
     const today = new Date();
     return today.toISOString().split('T')[0];
@@ -251,7 +242,8 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
 
   // Fee Calculation
   const calculateFee = (days: number): number => {
-    if (!days || days <= 1) return 150;
+    if (!days || days <= 0) return 0;
+    if (days === 1) return 150;
     if (days === 2) return 250;
     if (days === 3) return 350;
     if (days === 7) return 500;
@@ -262,7 +254,7 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
   };
 
   const currentFee = calculateFee(howManyDays);
-  const feeFormatted = `₱${currentFee.toLocaleString()}.00`;
+  const feeFormatted = currentFee > 0 ? `₱${currentFee.toLocaleString()}.00` : '₱0.00';
 
   // Calculations
   const totalRequiredDocs = Object.values(documents).filter(d => d.required).length;
@@ -289,6 +281,11 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
   };
 
   const handleTierSelect = (tierId: string) => {
+    if (durationTier === tierId) {
+      setDurationTier('');
+      setHowManyDays(0);
+      return;
+    }
     if (tierId === '1day') {
       handleDaysChange(1, '1day');
     } else if (tierId === '3days') {
@@ -449,6 +446,26 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
 
   // Submit Handler
   const handleSubmit = () => {
+    if (!selectedPurposeId) {
+      showToast('Please select a purpose for the special trip.');
+      return;
+    }
+    if (selectedPurposeId === 'others' && !customPurpose.trim()) {
+      showToast('Please specify the custom purpose before submitting.');
+      return;
+    }
+    if (!pointOfOrigin.trim()) {
+      showToast('Please enter the point of origin.');
+      return;
+    }
+    if (!selectedRoute.trim()) {
+      showToast('Please enter the destination.');
+      return;
+    }
+    if (!durationTier || howManyDays <= 0) {
+      showToast('Please select the travel duration.');
+      return;
+    }
     if (!allRequiredUploaded) {
       showToast('Please upload all 4 required document photos before submitting.');
       return;
@@ -487,15 +504,15 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
       )}
 
       {/* Main Container Card */}
-      <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-amber-200/80 dark:border-amber-500/30 shadow-sm space-y-6">
+      <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-blue-200/80 dark:border-blue-500/30 shadow-sm space-y-6">
         {/* Header Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-amber-100 dark:border-amber-950/80">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-blue-100 dark:border-blue-950/80">
           <div className="flex items-center space-x-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950/80 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold shadow-xs border border-amber-200/60 dark:border-amber-800/40">
+            <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold shadow-xs border border-blue-200/60 dark:border-blue-800/40">
               <MapPin size={24} />
             </div>
             <div>
-              <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800 mb-1">
+              <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800 mb-1">
                 <span>Upload-Based Fast Route Permit</span>
               </div>
               <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tight">
@@ -511,7 +528,7 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
         {!isSubmitted ? (
           <div className="space-y-6">
             {/* Operator & Franchise Information (Editable) */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/60">
+            <div className="p-4 sm:p-5 rounded-2xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/60">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
@@ -521,8 +538,8 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
                     type="text"
                     value={operatorName}
                     onChange={(e) => setOperatorName(e.target.value)}
-                    placeholder="Juan Dela Cruz"
-                    className="w-full px-3.5 py-2.5 bg-white dark:bg-slate-900 border border-amber-200 dark:border-amber-800 rounded-xl text-xs font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500 focus:outline-none shadow-xs"
+                    placeholder="e.g. Juan Dela Cruz"
+                    className="w-full px-3.5 py-2.5 bg-white dark:bg-slate-900 border border-blue-200 dark:border-blue-800 rounded-xl text-xs font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-xs"
                   />
                 </div>
 
@@ -534,8 +551,8 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
                     type="text"
                     value={mtopNo}
                     onChange={(e) => setMtopNo(e.target.value)}
-                    placeholder="MTOP-2025-0412"
-                    className="w-full px-3.5 py-2.5 bg-white dark:bg-slate-900 border border-amber-200 dark:border-amber-800 rounded-xl text-xs font-bold font-mono text-amber-700 dark:text-amber-400 focus:ring-2 focus:ring-amber-500 focus:outline-none shadow-xs"
+                    placeholder="e.g. MTOP-2025-0412"
+                    className="w-full px-3.5 py-2.5 bg-white dark:bg-slate-900 border border-blue-200 dark:border-blue-800 rounded-xl text-xs font-bold font-mono text-blue-700 dark:text-blue-400 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-xs"
                   />
                 </div>
 
@@ -547,8 +564,8 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
                     type="text"
                     value={unitPlateToda}
                     onChange={(e) => setUnitPlateToda(e.target.value)}
-                    placeholder="PH-48192 (Batasan Hills TODA (BHTODA))"
-                    className="w-full px-3.5 py-2.5 bg-white dark:bg-slate-900 border border-amber-200 dark:border-amber-800 rounded-xl text-xs font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-amber-500 focus:outline-none shadow-xs"
+                    placeholder="e.g. PH-48192 (Batasan Hills TODA (BHTODA))"
+                    className="w-full px-3.5 py-2.5 bg-white dark:bg-slate-900 border border-blue-200 dark:border-blue-800 rounded-xl text-xs font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-xs"
                   />
                 </div>
               </div>
@@ -557,31 +574,32 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
             {/* Step A: Select Purpose (Friendly Large Cards) */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <label className="text-xs font-black uppercase text-amber-800 dark:text-amber-300 tracking-wider">
+                <label className="text-xs font-black uppercase text-blue-800 dark:text-blue-300 tracking-wider">
                   1. Select Purpose of Special Trip
                 </label>
                 <span className="text-[11px] text-slate-500">Tap to select category</span>
               </div>
 
+              {/* Standard 6 Categories: Balanced 3x2 Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {TRIP_PURPOSES.map(purpose => {
+                {TRIP_PURPOSES.filter(p => p.id !== 'others').map(purpose => {
                   const isSelected = selectedPurposeId === purpose.id;
                   return (
                     <button
                       key={purpose.id}
                       type="button"
-                      onClick={() => setSelectedPurposeId(purpose.id)}
+                      onClick={() => setSelectedPurposeId(prev => prev === purpose.id ? '' : purpose.id)}
                       className={`p-3.5 rounded-2xl border text-left transition-all duration-200 flex items-start gap-3 relative cursor-pointer ${
                         isSelected
-                          ? 'bg-amber-50/90 dark:bg-amber-950/40 border-amber-500 dark:border-amber-400 ring-2 ring-amber-500/20 shadow-md scale-[1.01]'
-                          : 'bg-white dark:bg-slate-800/60 border-slate-200 dark:border-slate-700/80 hover:border-amber-300 dark:hover:border-amber-700 hover:bg-amber-50/30'
+                          ? 'bg-blue-50/90 dark:bg-blue-950/40 border-blue-500 dark:border-blue-400 ring-2 ring-blue-500/20 shadow-md scale-[1.01]'
+                          : 'bg-white dark:bg-slate-800/60 border-slate-200 dark:border-slate-700/80 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-blue-50/30'
                       }`}
                     >
-                      <span className="text-2xl p-2 rounded-xl bg-amber-100/70 dark:bg-amber-900/40 border border-amber-200 dark:border-amber-800/60 shrink-0">
+                      <span className="text-2xl p-2 rounded-xl bg-blue-100/70 dark:bg-blue-900/40 border border-blue-200 dark:border-blue-800/60 shrink-0">
                         {purpose.icon}
                       </span>
                       <div className="space-y-0.5 overflow-hidden">
-                        <span className="text-[10px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-400 block truncate">
+                        <span className="text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-blue-400 block truncate">
                           {purpose.tag}
                         </span>
                         <h4 className="text-xs font-black text-slate-900 dark:text-white leading-tight">
@@ -593,7 +611,7 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
                       </div>
 
                       {isSelected && (
-                        <div className="absolute top-2.5 right-2.5 w-5 h-5 rounded-full bg-amber-600 text-white flex items-center justify-center shadow-xs">
+                        <div className="absolute top-2.5 right-2.5 w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-xs">
                           <Check size={12} />
                         </div>
                       )}
@@ -602,21 +620,75 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
                 })}
               </div>
 
-              {/* Custom Purpose Input when Others is selected */}
-              {selectedPurposeId === 'others' && (
-                <div className="p-4 rounded-2xl bg-amber-50/80 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700/80 space-y-1.5 animate-in fade-in duration-150">
-                  <label className="text-[11px] font-black uppercase text-amber-800 dark:text-amber-300 block">
-                    Specify Other Purpose *
-                  </label>
-                  <input
-                    type="text"
-                    value={customPurpose}
-                    onChange={(e) => setCustomPurpose(e.target.value)}
-                    placeholder="Please specify purpose (e.g. Corporate team activity, private shuttle, etc.)"
-                    className="w-full px-3.5 py-2.5 bg-white dark:bg-slate-900 border border-amber-300 dark:border-amber-700 rounded-xl text-xs font-bold text-slate-800 dark:text-white focus:ring-2 focus:ring-amber-500 focus:outline-none shadow-xs"
-                  />
-                </div>
-              )}
+              {/* 7th Category: Full-Width Dedicated "Others" Card with Integrated Custom Input */}
+              {(() => {
+                const othersPurpose = TRIP_PURPOSES.find(p => p.id === 'others')!;
+                const isSelected = selectedPurposeId === 'others';
+                return (
+                  <div
+                    onClick={() => setSelectedPurposeId(prev => prev === 'others' ? '' : 'others')}
+                    className={`p-4 rounded-2xl border transition-all duration-200 cursor-pointer space-y-3 ${
+                      isSelected
+                        ? 'bg-blue-50/90 dark:bg-blue-950/40 border-blue-500 dark:border-blue-400 ring-2 ring-blue-500/20 shadow-md'
+                        : 'bg-white dark:bg-slate-800/60 border-slate-200 dark:border-slate-700/80 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-blue-50/30'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3 overflow-hidden">
+                        <span className="text-2xl p-2 rounded-xl bg-blue-100/70 dark:bg-blue-900/40 border border-blue-200 dark:border-blue-800/60 shrink-0">
+                          {othersPurpose.icon}
+                        </span>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-[10px] font-black uppercase tracking-wider text-blue-700 dark:text-blue-400">
+                              {othersPurpose.tag}
+                            </span>
+                            <span className="text-slate-400 text-[10px]">•</span>
+                            <h4 className="text-xs font-black text-slate-900 dark:text-white">
+                              {othersPurpose.title}
+                            </h4>
+                          </div>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                            {othersPurpose.desc}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="shrink-0">
+                        {isSelected ? (
+                          <div className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-xs">
+                            <Check size={12} />
+                          </div>
+                        ) : (
+                          <span className="text-[11px] font-bold text-slate-400">
+                            Tap to select
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Integrated Custom Input Field when selected */}
+                    {isSelected && (
+                      <div
+                        onClick={(e) => e.stopPropagation()}
+                        className="pt-2 border-t border-blue-200/80 dark:border-blue-800/60 space-y-1.5 animate-in fade-in duration-150"
+                      >
+                        <label className="text-[11px] font-black uppercase text-blue-800 dark:text-blue-300 block">
+                          Specify Other Purpose *
+                        </label>
+                        <input
+                          type="text"
+                          value={customPurpose}
+                          onChange={(e) => setCustomPurpose(e.target.value)}
+                          placeholder="Please specify purpose (e.g. Corporate team activity, private shuttle service, etc.)"
+                          className="w-full px-3.5 py-2.5 bg-white dark:bg-slate-900 border border-blue-300 dark:border-blue-700 rounded-xl text-xs font-bold text-slate-800 dark:text-white focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-xs"
+                          autoFocus
+                        />
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
             </div>
 
             {/* Step B: Route & Duration */}
@@ -625,7 +697,7 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
               <div className="space-y-3">
                 {/* Point of Origin */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-black uppercase text-amber-800 dark:text-amber-300 tracking-wider">
+                  <label className="text-xs font-black uppercase text-blue-800 dark:text-blue-300 tracking-wider">
                     2. Point of Origin
                   </label>
                   <div className="relative">
@@ -633,16 +705,16 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
                       type="text"
                       value={pointOfOrigin}
                       onChange={(e) => setPointOfOrigin(e.target.value)}
-                      placeholder="Enter point of origin (e.g. Batasan Hills, Quezon City)"
-                      className="w-full p-3 pl-10 bg-slate-50 dark:bg-slate-800 border border-amber-200 dark:border-amber-900/50 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-amber-500 focus:outline-none shadow-xs"
+                      placeholder="e.g. Batasan Hills, Quezon City"
+                      className="w-full p-3 pl-10 bg-slate-50 dark:bg-slate-800 border border-blue-200 dark:border-blue-900/50 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-xs"
                     />
-                    <MapPin size={16} className="absolute left-3.5 top-3.5 text-amber-600 pointer-events-none" />
+                    <MapPin size={16} className="absolute left-3.5 top-3.5 text-blue-600 pointer-events-none" />
                   </div>
                 </div>
 
                 {/* Destination */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-black uppercase text-amber-800 dark:text-amber-300 tracking-wider">
+                  <label className="text-xs font-black uppercase text-blue-800 dark:text-blue-300 tracking-wider">
                     3. Destination
                   </label>
                   <div className="relative">
@@ -650,10 +722,10 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
                       type="text"
                       value={selectedRoute}
                       onChange={(e) => setSelectedRoute(e.target.value)}
-                      placeholder="Enter destination (e.g. Quezon Memorial Circle / QC City Hall)"
-                      className="w-full p-3 pl-10 bg-slate-50 dark:bg-slate-800 border border-amber-200 dark:border-amber-900/50 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-amber-500 focus:outline-none shadow-xs"
+                      placeholder="e.g. Quezon Memorial Circle / QC City Hall"
+                      className="w-full p-3 pl-10 bg-slate-50 dark:bg-slate-800 border border-blue-200 dark:border-blue-900/50 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-xs"
                     />
-                    <MapPin size={16} className="absolute left-3.5 top-3.5 text-amber-600 pointer-events-none" />
+                    <MapPin size={16} className="absolute left-3.5 top-3.5 text-blue-600 pointer-events-none" />
                   </div>
                 </div>
               </div>
@@ -661,7 +733,7 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
               {/* Duration & Fee */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-black uppercase text-amber-800 dark:text-amber-300 tracking-wider">
+                  <label className="text-xs font-black uppercase text-blue-800 dark:text-blue-300 tracking-wider">
                     4. Travel Duration
                   </label>
                   <span className="text-[10px] text-slate-500">Preset or custom days</span>
@@ -677,12 +749,12 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
                         onClick={() => handleTierSelect(tier.id)}
                         className={`p-2.5 rounded-xl border text-center transition-all cursor-pointer ${
                           isSelected
-                            ? 'bg-amber-600 text-white border-amber-600 shadow-md font-bold'
-                            : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-amber-50 dark:hover:bg-amber-950/30'
+                            ? 'bg-blue-600 text-white border-blue-600 shadow-md font-bold'
+                            : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-blue-950/30'
                         }`}
                       >
                         <span className="block text-xs font-black">{tier.label}</span>
-                        <span className={`text-[10px] block ${isSelected ? 'text-amber-100 font-semibold' : 'text-slate-500 font-medium'}`}>
+                        <span className={`text-[10px] block ${isSelected ? 'text-blue-100 font-semibold' : 'text-slate-500 font-medium'}`}>
                           {tier.feeFormatted}
                         </span>
                       </button>
@@ -692,8 +764,8 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
 
                 {/* Custom Days Input when Custom is selected (Mirroring Picture 1) */}
                 {durationTier === 'custom' && (
-                  <div className="p-4 rounded-2xl bg-amber-50/80 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700/80 space-y-1.5 animate-in fade-in duration-150">
-                    <label className="text-[11px] font-black uppercase text-amber-800 dark:text-amber-300 block">
+                  <div className="p-4 rounded-2xl bg-blue-50/80 dark:bg-blue-950/40 border border-blue-300 dark:border-blue-700/80 space-y-1.5 animate-in fade-in duration-150">
+                    <label className="text-[11px] font-black uppercase text-blue-800 dark:text-blue-300 block">
                       How many days: *
                     </label>
                     <div className="relative">
@@ -711,10 +783,10 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
                           }
                         }}
                         placeholder="Enter number of days (e.g. 2, 4, 5, 10)"
-                        className="w-full px-3.5 py-2.5 pl-9 bg-white dark:bg-slate-900 border border-amber-300 dark:border-amber-700 rounded-xl text-xs font-bold text-slate-800 dark:text-white focus:ring-2 focus:ring-amber-500 focus:outline-none shadow-xs font-mono [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        className="w-full px-3.5 py-2.5 pl-9 bg-white dark:bg-slate-900 border border-blue-300 dark:border-blue-700 rounded-xl text-xs font-bold text-slate-800 dark:text-white focus:ring-2 focus:ring-blue-500 focus:outline-none shadow-xs font-mono [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         autoFocus
                       />
-                      <Clock size={15} className="absolute left-3 top-3 text-amber-600 pointer-events-none" />
+                      <Clock size={15} className="absolute left-3 top-3 text-blue-600 pointer-events-none" />
                     </div>
                   </div>
                 )}
@@ -746,10 +818,10 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
             {/* STEP C: CORE UPLOAD SECTION ("PURO UPLOAD LANG NG PICTURE") */}
             {/* ===================================================================== */}
             <div className="space-y-4 pt-2">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-amber-200/80 dark:border-amber-900/50">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-blue-200/80 dark:border-blue-900/50">
                 <div>
                   <h3 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
-                    <Camera size={16} className="text-amber-600" />
+                    <Camera size={16} className="text-blue-600" />
                     <span>Upload Document Photos ({uploadedDocsCount} of {totalRequiredDocs} Ready)</span>
                   </h3>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -758,128 +830,120 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
                 </div>
 
                 {/* Progress pill */}
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black bg-amber-100 dark:bg-amber-950 text-amber-900 dark:text-amber-200 border border-amber-300 dark:border-amber-800 shrink-0">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-black bg-blue-100 dark:bg-blue-950 text-blue-900 dark:text-blue-200 border border-blue-300 dark:border-blue-800 shrink-0">
                   <span>{Math.round((uploadedDocsCount / totalRequiredDocs) * 100)}% Complete</span>
                 </div>
               </div>
 
               {/* Upload Cards Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {Object.values(documents).map(doc => {
-                  const isUploaded = doc.previewUrl !== null;
+                {Object.values(documents).map((doc, index) => {
+                  const hasFile = Boolean(doc.previewUrl);
 
                   return (
                     <div
                       key={doc.key}
-                      className={`p-4 rounded-2xl border transition-all duration-200 flex flex-col justify-between space-y-3 ${
-                        isUploaded
-                          ? 'bg-amber-50/40 dark:bg-amber-950/20 border-amber-400 dark:border-amber-600/60 shadow-xs'
-                          : 'bg-slate-50/60 dark:bg-slate-800/40 border-slate-200 dark:border-slate-700/80 hover:border-amber-300'
-                      }`}
+                      className="bg-white dark:bg-slate-900 p-5 sm:p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4 flex flex-col justify-between"
                     >
-                      {/* Document Header & Label */}
-                      <div className="space-y-1">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="text-[10px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-400">
-                            {doc.required ? '★ Required Photo' : 'Optional Document'}
+                      <div className="space-y-4">
+                        {/* Header: Number + REQUIRED badge + Title + CheckCircle2 & Status Pill */}
+                        <div className="flex items-start justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800">
+                          <div className="flex items-baseline gap-2 flex-wrap min-w-0">
+                            <span className="text-slate-400 font-bold text-xs sm:text-sm shrink-0">{index + 1}.</span>
+                            <span className="bg-blue-600 text-white font-black text-[10px] px-2 py-0.5 rounded uppercase tracking-wider shrink-0 self-center">
+                              REQUIRED
+                            </span>
+                            <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight inline-flex items-center gap-1.5 flex-wrap">
+                              <span>{doc.title}</span>
+                              <span className="text-rose-500 font-bold shrink-0">*</span>
+                              {hasFile && (
+                                <CheckCircle2 size={16} className="text-emerald-500 fill-emerald-500/20 shrink-0" />
+                              )}
+                            </h3>
+                          </div>
+
+                          {/* Status Pill Badge: Never wraps, always clean single pill */}
+                          <span className={`shrink-0 whitespace-nowrap px-3 py-1 rounded-full text-[10px] font-bold border transition-colors ${
+                            hasFile
+                              ? 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-800'
+                              : 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-slate-800/80 dark:text-slate-400 dark:border-slate-700'
+                          }`}>
+                            Status: {hasFile ? 'Uploaded' : 'Pending'}
                           </span>
-                          {!isUploaded ? (
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
-                              <span className="w-2 h-2 rounded-full bg-slate-400"></span>
-                              ○ Not uploaded
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                              <CheckCircle2 size={13} />
-                              ✓ Uploaded
-                            </span>
-                          )}
                         </div>
-                        <h4 className="text-xs font-black text-slate-900 dark:text-white leading-tight">
-                          {doc.title}
-                        </h4>
-                        <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-normal">
-                          {doc.subtitle}
-                        </p>
+
+                        {/* Description & Allowed File Types */}
+                        <div className="space-y-1">
+                          <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                            {doc.subtitle}
+                          </p>
+                          <p className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">
+                            Allowed file types: JPG, JPEG, PNG, WEBP, PDF
+                          </p>
+                        </div>
                       </div>
 
-                      {/* Preview Area or Upload Dropzone */}
-                      {isUploaded ? (
-                        <div className="p-3 rounded-xl bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-800 flex items-center justify-between gap-3">
-                          <div className="flex items-center gap-3 overflow-hidden">
-                            <img
-                              src={doc.previewUrl!}
-                              alt={doc.title}
-                              onClick={() => handleOpenZoom(doc.previewUrl, doc.title)}
-                              className="w-14 h-14 rounded-lg object-cover border border-amber-300 dark:border-amber-700 cursor-pointer hover:scale-105 transition-transform shrink-0"
-                              title="Click to zoom photo"
-                            />
-                            <div className="overflow-hidden">
-                              <span className="font-bold text-xs text-slate-900 dark:text-white block truncate">
-                                {doc.fileName || 'Document Photo'}
-                              </span>
-                              <span className="text-[10px] text-slate-500 block">
-                                Uploaded at {doc.uploadedAt || 'Just now'}
-                              </span>
-                              <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 mt-0.5">
-                                <Check size={11} /> Clear Document Verified
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center gap-1 shrink-0">
-                            <button
-                              type="button"
-                              onClick={() => handleOpenZoom(doc.previewUrl, doc.title)}
-                              className="p-1.5 rounded-lg bg-amber-50 hover:bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 cursor-pointer"
-                              title="Enlarge Photo"
+                      {/* Action Area: Centered UPLOAD PHOTO button (when empty) OR Centered Enlarged Thumbnail Preview (when uploaded) */}
+                      <div className="pt-2 flex flex-col items-center justify-center gap-3 w-full">
+                        {!hasFile ? (
+                          <div className="flex justify-center w-full py-4">
+                            <label
+                              htmlFor={`doc-upload-${doc.key}`}
+                              className="inline-flex items-center justify-center gap-2 px-8 py-2.5 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold text-xs uppercase tracking-wide rounded-xl shadow-md shadow-blue-600/25 transition-all cursor-pointer group shrink-0"
                             >
-                              <Eye size={14} />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => handleRemoveDoc(doc.key)}
-                              className="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400 cursor-pointer"
-                              title="Delete Photo"
-                            >
-                              <Trash2 size={14} />
-                            </button>
-                          </div>
-                        </div>
-                      ) : (
-                        <div className="border-2 border-dashed border-amber-300 dark:border-amber-700/80 rounded-xl p-4 bg-white/70 dark:bg-slate-900/60 text-center space-y-3">
-                          <div className="w-10 h-10 rounded-full bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 mx-auto flex items-center justify-center">
-                            <Camera size={18} />
-                          </div>
-
-                          <div className="text-[11px] text-slate-500">
-                            Snap live photo or upload from your device
-                          </div>
-
-                          {/* Action Buttons: Take Photo & Upload Photo */}
-                          <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
-                            <button
-                              type="button"
-                              onClick={() => startCamera(doc.key)}
-                              className="px-4 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow-md shadow-amber-600/30 flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98]"
-                            >
-                              <Camera size={15} />
-                              <span>📷 TAKE PHOTO</span>
-                            </button>
-
-                            <label className="px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-amber-50 dark:hover:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-300 dark:border-amber-700 font-bold text-xs shadow-xs flex items-center gap-2 cursor-pointer transition-all">
-                              <Upload size={15} />
-                              <span>⬆ UPLOAD PHOTO</span>
+                              <Upload size={15} className="group-hover:-translate-y-0.5 transition-transform" />
+                              <span>UPLOAD PHOTO</span>
                               <input
+                                id={`doc-upload-${doc.key}`}
                                 type="file"
-                                accept="image/jpeg,image/png,image/webp,application/pdf"
+                                accept="image/jpeg,image/jpg,image/png,image/webp,application/pdf"
                                 onChange={(e) => handleFileUpload(e, doc.key)}
                                 className="hidden"
                               />
                             </label>
                           </div>
-                        </div>
-                      )}
+                        ) : (
+                          <div className="pt-1 w-full flex justify-center">
+                            <div className="relative group/thumb p-2.5 rounded-2xl bg-[#091524] border border-slate-700/80 shadow-md w-full max-w-[240px] sm:max-w-[260px] flex flex-col items-center animate-in fade-in zoom-in-95 mx-auto">
+                              {/* Circular (X) remove button at top-right */}
+                              <button
+                                type="button"
+                                onClick={() => handleRemoveDoc(doc.key)}
+                                title="Remove Photo"
+                                className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-slate-700 hover:bg-rose-600 text-white flex items-center justify-center shadow-md transition-colors cursor-pointer z-10"
+                              >
+                                <X size={13} />
+                              </button>
+
+                              {/* Photo Thumbnail */}
+                              <div
+                                onClick={() => handleOpenZoom(doc.previewUrl, doc.title)}
+                                className="w-full h-32 sm:h-34 rounded-xl overflow-hidden bg-slate-900 border border-slate-700/60 cursor-pointer relative group-hover/thumb:border-blue-500 transition-colors flex items-center justify-center p-1"
+                                title="Click to view full photo"
+                              >
+                                <img
+                                  src={doc.previewUrl!}
+                                  alt={doc.title}
+                                  className="w-full h-full object-contain rounded-lg group-hover/thumb:scale-105 transition-transform duration-200"
+                                />
+                                <div className="absolute inset-0 bg-black/35 opacity-0 group-hover/thumb:opacity-100 flex items-center justify-center transition-opacity rounded-xl">
+                                  <Eye size={18} className="text-white drop-shadow" />
+                                </div>
+                              </div>
+
+                              {/* File Info */}
+                              <div className="w-full text-center mt-2 px-1.5">
+                                <span className="font-mono text-[11px] font-semibold text-slate-200 block truncate" title={doc.fileName || ''}>
+                                  {doc.fileName || 'document_photo.png'}
+                                </span>
+                                <span className="text-[10px] text-slate-400 font-mono block mt-0.5">
+                                  {doc.fileSize ? `${(doc.fileSize / 1024).toFixed(1)} KB` : 'Uploaded'}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   );
                 })}
@@ -887,22 +951,22 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
             </div>
 
             {/* Terms & Agreement Card */}
-            <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/50 space-y-3">
+            <div className="p-4 sm:p-5 rounded-2xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900/50 space-y-3">
               <div>
                 <span className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider block">
                   Special Trip Clearance Compliance &amp; Regulatory Terms
                 </span>
                 <span className="text-[11px] text-slate-500 dark:text-slate-400">
-                  QC DPOS Out-of-Line Transit &amp; Route Traffic Monitoring ({howManyDays} Calendar {howManyDays === 1 ? 'Day' : 'Days'})
+                  QC DPOS Out-of-Line Transit &amp; Route Traffic Monitoring ({howManyDays > 0 ? `${howManyDays} Calendar ${howManyDays === 1 ? 'Day' : 'Days'}` : 'Pending Duration'})
                 </span>
               </div>
 
-              <label className="flex items-start space-x-2.5 pt-3 border-t border-amber-200/80 dark:border-amber-900/50 cursor-pointer">
+              <label className="flex items-start space-x-2.5 pt-3 border-t border-blue-200/80 dark:border-blue-900/50 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={safetyConfirmed}
                   onChange={(e) => setSafetyConfirmed(e.target.checked)}
-                  className="mt-0.5 rounded text-amber-600 focus:ring-amber-500 cursor-pointer"
+                  className="mt-0.5 rounded text-blue-600 focus:ring-blue-500 cursor-pointer"
                 />
                 <span className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
                   I certify that all uploaded document photos are authentic and current. I agree to operate strictly within the designated corridor on secondary roads and observe municipal passenger safety rules.
@@ -928,7 +992,7 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
                   onClick={handleSubmit}
                   className={`px-6 py-3.5 rounded-xl font-black text-xs sm:text-sm shadow-lg transition-all flex items-center gap-2 ${
                     allRequiredUploaded && safetyConfirmed && !isSubmitting
-                      ? 'bg-amber-600 hover:bg-amber-500 text-white shadow-amber-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
+                      ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
                       : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed'
                   }`}
                 >
@@ -954,11 +1018,11 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
           <div className="space-y-6 animate-in zoom-in-95 duration-200 py-2">
             {/* Success Banner */}
             <div className="text-center space-y-2 max-w-lg mx-auto">
-              <div className="w-16 h-16 bg-amber-100 dark:bg-amber-950 text-amber-600 dark:text-amber-400 mx-auto rounded-3xl flex items-center justify-center shadow-inner">
+              <div className="w-16 h-16 bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 mx-auto rounded-3xl flex items-center justify-center shadow-inner">
                 <CheckCircle2 size={40} />
               </div>
 
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 rounded-full text-xs font-black border border-amber-200 dark:border-amber-800">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 rounded-full text-xs font-black border border-blue-200 dark:border-blue-800">
                 <span>OFFICIAL CLEARANCE DOCKET: {issuedDocketNo}</span>
               </div>
 
@@ -971,11 +1035,11 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
             </div>
 
             {/* Official Digital Permit Card (Printable) */}
-            <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-amber-50/80 via-white to-amber-50/40 dark:from-slate-800 dark:via-slate-900 dark:to-slate-800 border-2 border-amber-300 dark:border-amber-700 shadow-xl space-y-5 max-w-2xl mx-auto relative overflow-hidden">
+            <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-b from-blue-50/80 via-white to-blue-50/40 dark:from-slate-800 dark:via-slate-900 dark:to-slate-800 border-2 border-blue-300 dark:border-blue-700 shadow-xl space-y-5 max-w-2xl mx-auto relative overflow-hidden">
               {/* Official Seal Watermark / Top Header */}
-              <div className="flex items-center justify-between pb-4 border-b-2 border-amber-200 dark:border-amber-800">
+              <div className="flex items-center justify-between pb-4 border-b-2 border-blue-200 dark:border-blue-800">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-amber-600 text-white font-black text-xs flex items-center justify-center shadow-xs">
+                  <div className="w-10 h-10 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center shadow-xs">
                     QC
                   </div>
                   <div>
@@ -996,9 +1060,9 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
               {/* Middle Section: Route & Details with QR Code */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 items-center">
                 {/* QR Code Container */}
-                <div className="p-4 rounded-2xl bg-white dark:bg-slate-950 border border-amber-200 dark:border-amber-900/60 text-center space-y-2 flex flex-col items-center justify-center">
+                <div className="p-4 rounded-2xl bg-white dark:bg-slate-950 border border-blue-200 dark:border-blue-900/60 text-center space-y-2 flex flex-col items-center justify-center">
                   <QrCode size={100} className="text-slate-900 dark:text-white" />
-                  <span className="text-[9px] font-mono font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider">
+                  <span className="text-[9px] font-mono font-bold text-blue-700 dark:text-blue-400 uppercase tracking-wider">
                     {issuedDocketNo}
                   </span>
                   <span className="text-[8px] text-slate-400 block">Scan to verify road permit</span>
@@ -1013,7 +1077,7 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
 
                   <div className="flex justify-between items-center text-slate-600 dark:text-slate-300">
                     <span className="font-semibold">Franchise MTOP:</span>
-                    <span className="font-mono font-bold text-amber-700 dark:text-amber-400">{mtopNo}</span>
+                    <span className="font-mono font-bold text-blue-700 dark:text-blue-400">{mtopNo}</span>
                   </div>
 
                   <div className="flex justify-between items-center text-slate-600 dark:text-slate-300">
@@ -1044,7 +1108,7 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
                     </span>
                   </div>
 
-                  <div className="flex justify-between items-center text-slate-600 dark:text-slate-300 pt-1 border-t border-amber-200/70 dark:border-amber-900/40">
+                  <div className="flex justify-between items-center text-slate-600 dark:text-slate-300 pt-1 border-t border-blue-200/70 dark:border-blue-900/40">
                     <span className="font-semibold">Validity Dates:</span>
                     <span className="font-bold text-emerald-600 dark:text-emerald-400">
                       {startDate} to {endDate} ({howManyDays} Calendar {howManyDays === 1 ? 'Day' : 'Days'})
@@ -1054,8 +1118,8 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
               </div>
 
               {/* Bottom Notice */}
-              <div className="p-3 rounded-xl bg-amber-100/60 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-[10px] text-slate-600 dark:text-slate-300 flex items-center gap-2">
-                <Info size={14} className="text-amber-600 shrink-0" />
+              <div className="p-3 rounded-xl bg-blue-100/60 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 text-[10px] text-slate-600 dark:text-slate-300 flex items-center gap-2">
+                <Info size={14} className="text-blue-600 shrink-0" />
                 <span>Present this digital permit or printed copy to QC Traffic Enforcers / DPOS upon road inspection.</span>
               </div>
             </div>
@@ -1075,7 +1139,7 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
                 <button
                   type="button"
                   onClick={() => onPayFee(mtopNo)}
-                  className="px-5 py-3 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-black shadow-md flex items-center gap-2 cursor-pointer transition-all"
+                  className="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-md flex items-center gap-2 cursor-pointer transition-all"
                 >
                   <span>Pay Clearance Fee Online ({feeFormatted})</span>
                 </button>
@@ -1098,10 +1162,10 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
       {/* ========================================================================= */}
       {cameraModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-150">
-          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-amber-300 dark:border-amber-700 space-y-4 p-5">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-blue-300 dark:border-blue-700 space-y-4 p-5">
             <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
               <div className="flex items-center gap-2">
-                <Camera size={18} className="text-amber-600" />
+                <Camera size={18} className="text-blue-600" />
                 <h4 className="text-sm font-black text-slate-900 dark:text-white">
                   Take Document Photo
                 </h4>
@@ -1118,7 +1182,7 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
             <div className="relative rounded-2xl overflow-hidden bg-black aspect-4/3 flex items-center justify-center">
               {cameraLoading ? (
                 <div className="text-center text-white space-y-2">
-                  <RotateCw size={24} className="animate-spin text-amber-400 mx-auto" />
+                  <RotateCw size={24} className="animate-spin text-blue-400 mx-auto" />
                   <p className="text-xs">Accessing camera...</p>
                 </div>
               ) : cameraHasStream ? (
@@ -1131,15 +1195,15 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
                 />
               ) : (
                 <div className="text-center text-slate-300 p-6 space-y-2">
-                  <Camera size={36} className="text-amber-400 mx-auto" />
+                  <Camera size={36} className="text-blue-400 mx-auto" />
                   <p className="text-xs font-bold text-white">Camera ready for document capture</p>
                   <p className="text-[11px] text-slate-400">Position your document inside the frame and snap photo.</p>
                 </div>
               )}
 
               {/* Target Outline Box */}
-              <div className="absolute inset-8 border-2 border-dashed border-amber-400/80 rounded-xl pointer-events-none flex items-end justify-center pb-2">
-                <span className="text-[10px] font-bold text-amber-200 bg-black/60 px-2 py-0.5 rounded">
+              <div className="absolute inset-8 border-2 border-dashed border-blue-400/80 rounded-xl pointer-events-none flex items-end justify-center pb-2">
+                <span className="text-[10px] font-bold text-blue-200 bg-black/60 px-2 py-0.5 rounded">
                   Align document within border
                 </span>
               </div>
@@ -1157,7 +1221,7 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
               <button
                 type="button"
                 onClick={capturePhoto}
-                className="px-6 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-black shadow-lg shadow-amber-600/30 flex items-center gap-2 cursor-pointer active:scale-95 transition-all"
+                className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-black shadow-lg shadow-blue-600/30 flex items-center gap-2 cursor-pointer active:scale-95 transition-all"
               >
                 <Camera size={15} />
                 <span>Snap Photo</span>
@@ -1176,7 +1240,7 @@ export const FranchiseSpecialTripClearanceModule: React.FC<FranchiseSpecialTripC
             {/* Header */}
             <div className="p-4 bg-slate-950/80 border-b border-slate-800 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <FileCheck size={16} className="text-amber-400" />
+                <FileCheck size={16} className="text-blue-400" />
                 <h4 className="text-xs font-black text-white truncate max-w-[280px] sm:max-w-md">
                   {zoomImageTitle}
                 </h4>

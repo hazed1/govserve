@@ -45,8 +45,8 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const [clearanceNo, setClearanceNo] = useState<string>('');
 
-  // Clearance Type Toggle
-  const [clearanceType, setClearanceType] = useState<'Residency' | 'Event'>('Residency');
+  // Clearance Type Selection (Starts empty so user must select one: Certificate of Residency or Special Event Pass)
+  const [clearanceType, setClearanceType] = useState<'Residency' | 'Event' | ''>('');
 
   // 3 Mandatory Photo Uploads
   const [idDoc, setIdDoc] = useState<UploadedDoc | null>(null);
@@ -56,7 +56,6 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
   // Auto-populated fields (Friendly, no tedious manual typing)
   const [applicantName, setApplicantName] = useState<string>(user?.name || 'Jason Taccad');
   const [residentialAddress, setResidentialAddress] = useState<string>('Block 5 Lot 12, Katipunan Ave., Brgy. San Isidro, Quezon City');
-  const [eventPurpose, setEventPurpose] = useState<string>('Barangay Certificate of Residency / Community Activity Pass');
   const [isIndigent, setIsIndigent] = useState<boolean>(false);
 
   // Preview modal & toast
@@ -102,6 +101,7 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
       size: '1.4 MB',
       previewUrl: '/government-logo.png'
     });
+    setClearanceType('Residency');
     showToast('✓ Sample photos loaded for testing!');
   };
 
@@ -113,7 +113,10 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
       setIsSubmitting(false);
       setIsSubmitted(true);
       if (onAddNewApplication) {
-        onAddNewApplication(applicantName, clearanceType === 'Residency' ? 'Barangay Certificate of Residency' : 'Special Barangay Event Pass');
+        onAddNewApplication(
+          applicantName,
+          clearanceType === 'Residency' ? 'Certificate of Residency' : 'Special Event Pass'
+        );
       }
       showToast('✓ Official Barangay Clearance Pass Generated!');
     }, 1100);
@@ -131,7 +134,7 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h4 className="text-sm font-black text-slate-900 dark:text-white flex items-center gap-2">
-              <Camera size={16} className="text-purple-600 dark:text-purple-400" />
+              <Camera size={16} className="text-blue-600 dark:text-blue-400" />
               <span>{title}</span>
             </h4>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{desc}</p>
@@ -150,57 +153,24 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
         </div>
 
         {!doc ? (
-          <label className="border-2 border-dashed border-purple-300 dark:border-purple-800/80 hover:border-purple-500 rounded-2xl p-6 sm:p-8 flex flex-col items-center justify-center text-center bg-purple-50/40 dark:bg-purple-950/20 hover:bg-purple-50/70 transition-all cursor-pointer group">
-            <input
-              type="file"
-              accept=".jpg,.jpeg,.png,.pdf"
-              onChange={(e) => handleFileUpload(e, target)}
-              className="hidden"
-            />
-            <div className="w-14 h-14 rounded-2xl bg-purple-100 dark:bg-purple-900/60 text-purple-700 dark:text-purple-300 flex items-center justify-center mb-3 group-hover:scale-105 transition-transform shadow-xs">
-              <Camera size={26} />
-            </div>
-            <p className="text-xs sm:text-sm font-black text-slate-800 dark:text-white">
-              Take a Photo or Click to Upload Picture
-            </p>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
-              Supports Smartphone Photos, Clear Pictures, or Scanned Documents (JPG/PNG)
-            </p>
-            <span className="mt-3 px-3 py-1 rounded-full bg-purple-600 text-white text-[10px] font-bold shadow-xs">
-              + Choose Photo
-            </span>
-          </label>
+          <div className="flex justify-center w-full py-4">
+            <label
+              className="inline-flex items-center justify-center gap-2 px-8 py-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-bold text-xs uppercase tracking-wide rounded-xl shadow-md shadow-blue-600/25 transition-all cursor-pointer group shrink-0"
+            >
+              <Upload size={15} className="group-hover:-translate-y-0.5 transition-transform" />
+              <span>UPLOAD PHOTO</span>
+              <input
+                type="file"
+                accept=".jpg,.jpeg,.png,.pdf,.webp"
+                onChange={(e) => handleFileUpload(e, target)}
+                className="hidden"
+              />
+            </label>
+          </div>
         ) : (
-          <div className="p-4 rounded-2xl bg-white dark:bg-slate-800 border-2 border-emerald-500/50 shadow-md flex items-center justify-between gap-3 animate-in fade-in">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-600 flex items-center justify-center shrink-0">
-                <CheckCircle2 size={24} />
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs font-black text-slate-900 dark:text-white truncate">{doc.name}</p>
-                <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1 mt-0.5">
-                  <Check size={11} /> Photo verified &amp; ready ({doc.size})
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setPreviewDoc({ title, doc })}
-                className="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold transition-all cursor-pointer"
-                title="View Photo"
-              >
-                <Eye size={15} />
-              </button>
-              <label className="p-2 rounded-xl bg-purple-100 hover:bg-purple-200 dark:bg-purple-900/60 text-purple-800 dark:text-purple-300 text-xs font-bold transition-all cursor-pointer">
-                <RefreshCw size={15} />
-                <input
-                  type="file"
-                  accept=".jpg,.jpeg,.png,.pdf"
-                  onChange={(e) => handleFileUpload(e, target)}
-                  className="hidden"
-                />
-              </label>
+          <div className="pt-2 w-full flex justify-center">
+            <div className="relative group/thumb p-3 rounded-2xl bg-[#091524] border border-slate-700/80 shadow-lg w-full max-w-[320px] sm:max-w-[340px] flex flex-col items-center animate-in fade-in zoom-in-95 mx-auto">
+              {/* Circular (X) remove button at top-right */}
               <button
                 type="button"
                 onClick={() => {
@@ -208,24 +178,55 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
                   if (target === 'address') setAddressDoc(null);
                   if (target === 'purpose') setPurposeDoc(null);
                 }}
-                className="p-2 rounded-xl bg-rose-100 hover:bg-rose-200 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 text-xs font-bold transition-all cursor-pointer"
                 title="Remove Photo"
+                className="absolute -top-2.5 -right-2.5 w-7 h-7 rounded-full bg-slate-700 hover:bg-rose-600 text-white flex items-center justify-center shadow-md transition-colors cursor-pointer z-10"
               >
-                <Trash2 size={15} />
+                <X size={15} />
               </button>
+
+              {/* Photo Thumbnail - Direct Click to Preview */}
+              <div
+                onClick={() => setPreviewDoc({ title, doc })}
+                className="w-full h-44 sm:h-48 rounded-xl overflow-hidden bg-slate-900 border border-slate-700/60 cursor-pointer relative group-hover/thumb:border-blue-500 transition-colors flex items-center justify-center p-1"
+                title="Click to view full photo"
+              >
+                {doc.previewUrl.endsWith('.pdf') ? (
+                  <div className="flex flex-col items-center justify-center text-slate-400 gap-2">
+                    <FileCheck size={40} className="text-blue-400" />
+                    <span className="text-[11px] font-bold text-slate-300">PDF Document</span>
+                  </div>
+                ) : (
+                  <img
+                    src={doc.previewUrl}
+                    alt={doc.name}
+                    className="w-full h-full object-contain group-hover/thumb:scale-[1.03] transition-transform duration-200"
+                  />
+                )}
+                <div className="absolute inset-0 bg-blue-950/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center gap-1.5 text-white font-bold text-xs pointer-events-none">
+                  <Eye size={16} />
+                  <span>Click to Preview</span>
+                </div>
+              </div>
+
+              {/* Document details below thumbnail */}
+              <div className="mt-2.5 w-full px-1 text-center">
+                <p className="text-xs font-bold text-slate-200 truncate">{doc.name}</p>
+                <p className="text-[10px] text-emerald-400 font-medium flex items-center justify-center gap-1 mt-0.5">
+                  <Check size={11} /> Photo verified &amp; ready ({doc.size})
+                </p>
+              </div>
             </div>
           </div>
         )}
       </div>
     );
   };
-
   return (
     <div className="max-w-3xl mx-auto space-y-6 pb-12 animate-in fade-in duration-200">
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl border border-slate-700 text-xs font-bold flex items-center space-x-2 animate-bounce">
-          <Sparkles size={16} className="text-purple-400" />
+          <Sparkles size={16} className="text-blue-400" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -236,12 +237,12 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
         {/* Header with Title and Step Tracker */}
         <div className="border-b border-slate-100 dark:border-slate-800 pb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center space-x-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-400 flex items-center justify-center font-bold text-xl shadow-md shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-400 flex items-center justify-center font-bold text-xl shadow-md shrink-0">
               <Award size={24} />
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300 border border-purple-200">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 border border-blue-200">
                   Step {currentStep} of 4
                 </span>
                 <span className="text-xs text-slate-400 font-bold">100% Picture-Upload Filing</span>
@@ -254,7 +255,7 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
 
         </div>
 
-        {/* Step Progress Bar */}
+        {/* Step Progress Bar (Non-clickable visual indicator) */}
         {!isSubmitted && (
           <div className="grid grid-cols-4 gap-2">
             {[
@@ -263,21 +264,19 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
               { step: 3, label: 'Event / Purpose' },
               { step: 4, label: 'Review & Issue' },
             ].map((s) => (
-              <button
+              <div
                 key={s.step}
-                type="button"
-                onClick={() => setCurrentStep(s.step)}
-                className={`py-2 px-1 rounded-xl text-center text-xs font-bold transition-all ${
+                className={`py-2 px-1 rounded-xl text-center text-xs font-bold transition-all cursor-default select-none pointer-events-none ${
                   currentStep === s.step
-                    ? 'bg-purple-600 text-white shadow-md shadow-purple-600/30'
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
                     : currentStep > s.step
-                    ? 'bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
+                    ? 'bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800'
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
                 }`}
               >
                 <span className="text-[10px] block uppercase">Step {s.step}</span>
                 <span className="text-[11px] font-extrabold truncate block">{s.label}</span>
-              </button>
+              </div>
             ))}
           </div>
         )}
@@ -314,9 +313,9 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
                   'Photo Required'
                 )}
 
-                <div className="p-4 rounded-2xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 text-xs space-y-1">
-                  <span className="font-black text-purple-900 dark:text-purple-300">Registered Residential Address:</span>
-                  <p className="text-purple-800 dark:text-purple-400 font-medium">{residentialAddress}</p>
+                <div className="p-4 rounded-2xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 text-xs space-y-1">
+                  <span className="font-black text-blue-900 dark:text-blue-300">Registered Residential Address:</span>
+                  <p className="text-blue-800 dark:text-blue-400 font-medium">{residentialAddress}</p>
                 </div>
               </div>
             )}
@@ -324,38 +323,33 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
             {/* STEP 3: EVENT ITINERARY OR PURPOSE PHOTO */}
             {currentStep === 3 && (
               <div className="space-y-5 animate-in fade-in">
-                {/* Mode selector */}
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setClearanceType('Residency')}
-                    className={`p-3.5 rounded-2xl border text-left transition-all ${
-                      clearanceType === 'Residency'
-                        ? 'border-purple-600 bg-purple-50 dark:bg-purple-950/60 ring-2 ring-purple-600/20'
-                        : 'border-slate-200 dark:border-slate-700'
-                    }`}
+                {/* Clearance Selection Dropdown (Only 2 Choices + English Placeholder without dashes) */}
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
+                    Select Clearance Type / Purpose:
+                  </label>
+                  <select
+                    value={clearanceType}
+                    onChange={(e) => setClearanceType(e.target.value as 'Residency' | 'Event' | '')}
+                    className="w-full p-3.5 rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white text-xs font-bold focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none transition-all cursor-pointer shadow-xs"
                   >
-                    <span className="font-black text-xs text-slate-800 dark:text-white block">Certificate of Residency</span>
-                    <span className="text-[11px] text-slate-500">For scholarship, job application, or proof of address</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => setClearanceType('Event')}
-                    className={`p-3.5 rounded-2xl border text-left transition-all ${
-                      clearanceType === 'Event'
-                        ? 'border-purple-600 bg-purple-50 dark:bg-purple-950/60 ring-2 ring-purple-600/20'
-                        : 'border-slate-200 dark:border-slate-700'
-                    }`}
-                  >
-                    <span className="font-black text-xs text-slate-800 dark:text-white block">Special Event Pass</span>
-                    <span className="text-[11px] text-slate-500">For street activity, motorcade, bazaar, or liga</span>
-                  </button>
+                    <option value="">Select Clearance Type</option>
+                    <option value="Residency">
+                      Certificate of Residency (For scholarship, job application, or proof of address)
+                    </option>
+                    <option value="Event">
+                      Special Event Pass (For street activity, motorcade, bazaar, or liga)
+                    </option>
+                  </select>
                 </div>
 
                 {renderPhotoDropzone(
-                  clearanceType === 'Residency' ? 'Request Purpose / Endorsement Letter Photo' : 'Event Program / Itinerary & Safety Route Photo',
-                  'Take a photo of your request purpose, school endorsement, event layout, or activity program.',
+                  clearanceType === 'Event'
+                    ? 'Event Program / Itinerary & Safety Route Photo'
+                    : 'Request Purpose / Endorsement Letter Photo',
+                  clearanceType === 'Event'
+                    ? 'Take a photo of your activity program, route map, or venue authorization.'
+                    : 'Take a photo of your request purpose, school endorsement, or employer requirement.',
                   purposeDoc,
                   'purpose',
                   'Photo Required'
@@ -367,69 +361,195 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
                     type="checkbox"
                     checked={isIndigent}
                     onChange={(e) => setIsIndigent(e.target.checked)}
-                    className="w-4 h-4 text-purple-600 rounded cursor-pointer"
+                    className="w-4 h-4 text-blue-600 rounded cursor-pointer accent-blue-600"
                   />
                 </div>
               </div>
             )}
 
             {/* STEP 4: REVIEW & ISSUE */}
-            {currentStep === 4 && (
-              <div className="space-y-5 animate-in fade-in">
-                <div className="p-5 rounded-2xl bg-gradient-to-br from-purple-50 to-fuchsia-50 dark:from-purple-950/40 dark:to-fuchsia-950/20 border border-purple-200 dark:border-purple-800 space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-black uppercase text-purple-900 dark:text-purple-300 tracking-wider">
-                      Residency &amp; Lupon Validation Summary
-                    </span>
-                    <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
-                      <CheckCircle2 size={13} /> Lupon Record Clean
-                    </span>
-                  </div>
+            {currentStep === 4 && (() => {
+              const uploadedCount = [idDoc, addressDoc, purposeDoc].filter(Boolean).length;
+              const isAllUploaded = uploadedCount === 3;
 
-                  <div className="space-y-2 text-xs">
-                    <div className="flex justify-between py-1 border-b border-purple-100 dark:border-purple-900/60">
-                      <span className="text-slate-600 dark:text-slate-400">Clearance Document:</span>
-                      <span className="font-bold text-slate-800 dark:text-white">
-                        {clearanceType === 'Residency' ? 'Official Barangay Certificate of Residency' : 'Special Barangay Event Permit'}
+              return (
+                <div className="space-y-5 animate-in fade-in">
+                  <div className="p-5 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/40 dark:to-indigo-950/20 border border-blue-200 dark:border-blue-800 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-black uppercase text-blue-900 dark:text-blue-300 tracking-wider">
+                        Document Photo Review (Steps 1 to 3)
+                      </span>
+                      <span className={`text-[11px] font-bold flex items-center gap-1 ${
+                        isAllUploaded ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'
+                      }`}>
+                        {isAllUploaded ? <CheckCircle2 size={13} /> : <span className="w-2 h-2 rounded-full bg-amber-500"></span>}
+                        {uploadedCount} of 3 Photos Uploaded
                       </span>
                     </div>
-                    <div className="flex justify-between py-1 border-b border-purple-100 dark:border-purple-900/60">
-                      <span className="text-slate-600 dark:text-slate-400">Standard Regulatory Fee:</span>
-                      <span className="font-mono font-bold text-slate-800 dark:text-white">
-                        {isIndigent ? '₱0.00 (Exempted under RA 11261)' : '₱150.00'}
-                      </span>
+
+                    {/* Step-by-Step Review Cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      {/* Step 1: Valid ID */}
+                      <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex flex-col justify-between gap-3">
+                        {idDoc ? (
+                          <div
+                            onClick={() => setPreviewDoc({ title: 'Step 1: Valid Government ID', doc: idDoc })}
+                            className="w-full h-24 rounded-xl bg-[#091524] border border-slate-700/80 shadow-xs flex items-center justify-center cursor-pointer relative group/thumb overflow-hidden hover:border-blue-500 transition-all p-1"
+                            title="Click to preview photo"
+                          >
+                            <img src={idDoc.previewUrl} alt={idDoc.name} className="w-full h-full object-contain" />
+                            <div className="absolute inset-0 bg-blue-950/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center text-white">
+                              <Eye size={14} />
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="w-full h-24 rounded-xl bg-slate-100 dark:bg-slate-900 border border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center justify-center text-slate-400">
+                            <Camera size={18} />
+                            <span className="text-[9px] font-bold mt-1">Missing</span>
+                          </div>
+                        )}
+                        <div className="min-w-0">
+                          <span className="text-[10px] font-black uppercase text-blue-600 dark:text-blue-400 block">Step 1</span>
+                          <span className="text-xs font-black text-slate-800 dark:text-white truncate block">Valid ID Photo</span>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate mt-0.5">
+                            {idDoc ? idDoc.name : 'No photo'}
+                          </p>
+                          <span className={`inline-flex items-center gap-1 text-[10px] font-bold mt-1 px-2 py-0.5 rounded-full ${
+                            idDoc ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400' : 'bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400'
+                          }`}>
+                            {idDoc ? `✓ Uploaded (${idDoc.size})` : '○ Missing'}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Step 2: Proof of Address */}
+                      <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex flex-col justify-between gap-3">
+                        {addressDoc ? (
+                          <div
+                            onClick={() => setPreviewDoc({ title: 'Step 2: Proof of Address', doc: addressDoc })}
+                            className="w-full h-24 rounded-xl bg-[#091524] border border-slate-700/80 shadow-xs flex items-center justify-center cursor-pointer relative group/thumb overflow-hidden hover:border-blue-500 transition-all p-1"
+                            title="Click to preview photo"
+                          >
+                            <img src={addressDoc.previewUrl} alt={addressDoc.name} className="w-full h-full object-contain" />
+                            <div className="absolute inset-0 bg-blue-950/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center text-white">
+                              <Eye size={14} />
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="w-full h-24 rounded-xl bg-slate-100 dark:bg-slate-900 border border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center justify-center text-slate-400">
+                            <Camera size={18} />
+                            <span className="text-[9px] font-bold mt-1">Missing</span>
+                          </div>
+                        )}
+                        <div className="min-w-0">
+                          <span className="text-[10px] font-black uppercase text-blue-600 dark:text-blue-400 block">Step 2</span>
+                          <span className="text-xs font-black text-slate-800 dark:text-white truncate block">Proof of Address</span>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate mt-0.5">
+                            {addressDoc ? addressDoc.name : 'No photo'}
+                          </p>
+                          <span className={`inline-flex items-center gap-1 text-[10px] font-bold mt-1 px-2 py-0.5 rounded-full ${
+                            addressDoc ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400' : 'bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400'
+                          }`}>
+                            {addressDoc ? `✓ Uploaded (${addressDoc.size})` : '○ Missing'}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Step 3: Purpose / Supporting Doc */}
+                      <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex flex-col justify-between gap-3">
+                        {purposeDoc ? (
+                          <div
+                            onClick={() => setPreviewDoc({ title: 'Step 3: Purpose / Endorsement', doc: purposeDoc })}
+                            className="w-full h-24 rounded-xl bg-[#091524] border border-slate-700/80 shadow-xs flex items-center justify-center cursor-pointer relative group/thumb overflow-hidden hover:border-blue-500 transition-all p-1"
+                            title="Click to preview photo"
+                          >
+                            <img src={purposeDoc.previewUrl} alt={purposeDoc.name} className="w-full h-full object-contain" />
+                            <div className="absolute inset-0 bg-blue-950/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center text-white">
+                              <Eye size={14} />
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="w-full h-24 rounded-xl bg-slate-100 dark:bg-slate-900 border border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center justify-center text-slate-400">
+                            <Camera size={18} />
+                            <span className="text-[9px] font-bold mt-1">Missing</span>
+                          </div>
+                        )}
+                        <div className="min-w-0">
+                          <span className="text-[10px] font-black uppercase text-blue-600 dark:text-blue-400 block">Step 3</span>
+                          <span className="text-xs font-black text-slate-800 dark:text-white truncate block">Purpose Document</span>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate mt-0.5">
+                            {purposeDoc ? purposeDoc.name : 'No photo'}
+                          </p>
+                          <span className={`inline-flex items-center gap-1 text-[10px] font-bold mt-1 px-2 py-0.5 rounded-full ${
+                            purposeDoc ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400' : 'bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400'
+                          }`}>
+                            {purposeDoc ? `✓ Uploaded (${purposeDoc.size})` : '○ Missing'}
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex justify-between pt-2 text-sm font-black">
-                      <span className="text-purple-950 dark:text-purple-200">Amount to Pay:</span>
-                      <span className="font-mono text-purple-600 dark:text-purple-400 text-lg">
-                        {isIndigent ? '₱ 0.00' : '₱ 150.00'}
-                      </span>
+
+                    {/* Resident & Purpose Info Summary */}
+                    <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                      <div>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Resident / Applicant:</span>
+                        <span className="font-semibold text-slate-800 dark:text-white">{applicantName}</span>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">{residentialAddress}</p>
+                      </div>
+                      <div>
+                        <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Selected Clearance Type:</span>
+                        <span className="font-semibold text-blue-700 dark:text-blue-400 block">
+                          {clearanceType === 'Residency'
+                            ? 'Certificate of Residency (For scholarship, job application, or proof of address)'
+                            : clearanceType === 'Event'
+                            ? 'Special Event Pass (For street activity, motorcade, bazaar, or liga)'
+                            : 'None Selected'}
+                        </span>
+                        <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold mt-0.5">
+                          {isIndigent ? '✓ Fee Exempted (Indigent / First-Time Jobseeker)' : '✓ Standard Verified Application'}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* Bottom Actions Bar */}
             <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3">
               <div className="flex items-center gap-2">
-                {currentStep === 1 && (
-                <button
-                  type="button"
-                  onClick={onBackToPortal}
-                  className="px-4 py-2.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 dark:hover:bg-slate-700 transition-all flex items-center space-x-1.5 cursor-pointer shadow-xs"
-                >
-                  <ArrowLeft size={14} />
-                  <span>Back</span>
-                </button>
+                {currentStep === 1 ? (
+                  <button
+                    type="button"
+                    onClick={onBackToPortal}
+                    className="px-4 py-2.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 dark:hover:bg-slate-700 transition-all flex items-center space-x-1.5 cursor-pointer shadow-xs"
+                  >
+                    <ArrowLeft size={14} />
+                    <span>Back</span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setCurrentStep(prev => prev - 1)}
+                    className="px-4 py-2.5 rounded-full border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs hover:bg-slate-100 dark:hover:bg-slate-700 transition-all flex items-center space-x-1.5 cursor-pointer shadow-xs"
+                  >
+                    <ArrowLeft size={14} />
+                    <span>Back</span>
+                  </button>
                 )}
               </div>
 
               <div className="flex items-center gap-2">
-
                 {currentStep < 4 ? (
                   (() => {
-                    const isStepUploaded = currentStep === 1 ? !!idDoc : currentStep === 2 ? !!addressDoc : currentStep === 3 ? !!purposeDoc : true;
+                    const isStepUploaded =
+                      currentStep === 1
+                        ? !!idDoc
+                        : currentStep === 2
+                        ? !!addressDoc
+                        : currentStep === 3
+                        ? !!purposeDoc && !!clearanceType
+                        : true;
                     return (
                       <button
                         type="button"
@@ -440,7 +560,7 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
                         }}
                         className={`px-6 py-3 rounded-xl text-xs font-black flex items-center gap-2 transition-all ${
                           isStepUploaded
-                            ? 'bg-purple-600 hover:bg-purple-500 text-white shadow-lg shadow-purple-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
+                            ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/30 hover:scale-[1.01] active:scale-[0.99] cursor-pointer'
                             : 'bg-slate-300 dark:bg-slate-800 text-slate-500 cursor-not-allowed shadow-none'
                         }`}
                       >
@@ -451,16 +571,16 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
                 ) : (
                   <button
                     type="button"
-                    disabled={isSubmitting || !idDoc || !addressDoc || !purposeDoc}
+                    disabled={isSubmitting || !idDoc || !addressDoc || !purposeDoc || !clearanceType}
                     onClick={handleSubmit}
                     className={`px-6 py-3.5 rounded-xl text-white text-xs sm:text-sm font-black shadow-lg transition-all flex items-center gap-2 ${
-                      !idDoc || !addressDoc || !purposeDoc
+                      !idDoc || !addressDoc || !purposeDoc || !clearanceType
                         ? 'bg-slate-300 dark:bg-slate-700 cursor-not-allowed text-slate-500'
-                        : 'bg-purple-600 hover:bg-purple-500 shadow-purple-600/30 cursor-pointer active:scale-[0.98]'
+                        : 'bg-blue-600 hover:bg-blue-500 shadow-blue-600/30 cursor-pointer active:scale-[0.98]'
                     }`}
                   >
                     <ShieldCheck size={16} />
-                    <span>{isSubmitting ? 'Issuing Certificate...' : isIndigent ? 'Issue Free Certificate' : 'Issue Clearance (₱150.00)'}</span>
+                    <span>{isSubmitting ? 'Issuing Certificate...' : 'Issue Barangay Clearance'}</span>
                   </button>
                 )}
               </div>
@@ -469,12 +589,12 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
         ) : (
           /* ISSUED OFFICIAL BARANGAY RESIDENCY / EVENT CERTIFICATE */
           <div className="text-center py-6 space-y-6 animate-in zoom-in-95 duration-200">
-            <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-950 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-md">
+            <div className="w-16 h-16 bg-blue-100 dark:bg-blue-950 text-blue-600 rounded-full flex items-center justify-center mx-auto shadow-md">
               <CheckCircle2 size={36} />
             </div>
 
             <div>
-              <span className="text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300 border border-purple-200">
+              <span className="text-[11px] font-black uppercase tracking-wider px-3 py-1 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 border border-blue-200">
                 Official Certification Issued
               </span>
               <h3 className="text-2xl font-black text-slate-900 dark:text-white mt-2">
@@ -486,14 +606,14 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
             </div>
 
             {/* Official Certificate Box */}
-            <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/80 border-2 border-purple-300 dark:border-purple-700/60 max-w-lg mx-auto text-left text-xs font-mono space-y-3 shadow-md relative overflow-hidden">
+            <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/80 border-2 border-blue-300 dark:border-blue-700/60 max-w-lg mx-auto text-left text-xs font-mono space-y-3 shadow-md relative overflow-hidden">
               <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-2">
-                <span className="font-bold text-purple-700 dark:text-purple-400">BARANGAY COUNCIL • QUEZON CITY</span>
-                <span className="text-[10px] bg-purple-100 text-purple-800 px-2 py-0.5 rounded-full font-bold">FORM BR-02</span>
+                <span className="font-bold text-blue-700 dark:text-blue-400">BARANGAY COUNCIL • QUEZON CITY</span>
+                <span className="text-[10px] bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full font-bold">FORM BR-02</span>
               </div>
               
               <div className="space-y-1 pt-1">
-                <p><strong>CLEARANCE NO  :</strong> <span className="text-purple-600 font-bold">{clearanceNo}</span></p>
+                <p><strong>CLEARANCE NO  :</strong> <span className="text-blue-600 font-bold">{clearanceNo}</span></p>
                 <p><strong>RESIDENT NAME :</strong> {applicantName}</p>
                 <p><strong>RESIDENCE     :</strong> {residentialAddress}</p>
                 <p><strong>PURPOSE       :</strong> {clearanceType === 'Residency' ? 'Certificate of Good Standing & Residency' : 'Special Event Activity Authorization'}</p>
@@ -523,7 +643,7 @@ export const BarangayResidencyEventUploadWizard: React.FC<BarangayResidencyEvent
               <button
                 type="button"
                 onClick={onReturnToOverview}
-                className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md"
+                className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md"
               >
                 <Check size={15} />
                 <span>Return to Barangay Overview</span>
