@@ -43,7 +43,8 @@ import {
   Banknote,
   CreditCard,
   Layers,
-  FolderOpen
+  FolderOpen,
+  CircleDot
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -382,6 +383,15 @@ export const EPermitTrackerModule: React.FC<EPermitTrackerModuleProps> = ({
   const [myAppsCategoryFilter, setMyAppsCategoryFilter] = useState<'all' | PermitCategoryType>('all');
   const [myAppsSearchQuery, setMyAppsSearchQuery] = useState<string>('');
 
+  // BPLO Detail Page View State ('mayor' | 'occupational' | 'bis' | 'verify' | null)
+  const [bploDetailView, setBploDetailView] = useState<'mayor' | 'occupational' | 'bis' | 'verify' | null>(null);
+
+  // Building & Construction Detail Page View State
+  const [buildingDetailView, setBuildingDetailView] = useState<boolean>(false);
+
+  // Franchise & Transport Detail Page View State
+  const [transportDetailView, setTransportDetailView] = useState<'new_permit' | 'renewal' | 'amendment' | 'special_trip' | null>(null);
+
   // Notification preferences
   const [notifPrefs, setNotifPrefs] = useState({
     email: true,
@@ -550,6 +560,9 @@ export const EPermitTrackerModule: React.FC<EPermitTrackerModuleProps> = ({
   const handleSelectModuleCard = (category: PermitCategoryType) => {
     setSelectedCategory(category);
     setActiveView('track_application');
+    setBuildingDetailView(false);
+    setBploDetailView(null);
+    setTransportDetailView(null);
     
     // Pick the most relevant default record for quick exploration
     const match = Object.values(unifiedRecords).find(r => r.permitCategory === category);
@@ -860,9 +873,6 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
                   GOVSERVE
                 </span>
               </div>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-medium hidden sm:block">
-                Centralized Tracking for Business, Building, Transport &amp; Barangay Permits
-              </p>
             </div>
           </div>
 
@@ -945,13 +955,25 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
       {/* ========================================================================= */}
       {/* 2. FULL-WIDTH HERO SECTION (CENTERED HERO LAYOUT) */}
       {/* ========================================================================= */}
-      <section className="w-full bg-transparent text-slate-900 dark:text-white pt-8 pb-4 px-4 sm:px-8 relative transition-colors">
-        <div className="max-w-4xl mx-auto relative z-10 text-center space-y-2">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
-            Track Your Permit
+      <section className="w-full bg-transparent text-slate-900 dark:text-white pt-3 pb-1 px-4 sm:px-6 relative transition-colors">
+        <div className="max-w-2xl mx-auto relative z-10 text-center space-y-0.5">
+          <h1 className="text-lg sm:text-xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+            {activeView === 'track_application' && selectedCategory === 'business'
+              ? '🏛️ Business Permit Tracking Portal'
+              : activeView === 'track_application' && selectedCategory === 'building'
+              ? '🏗️ Building & Construction Permit Tracker'
+              : activeView === 'track_application' && selectedCategory === 'transport'
+              ? '🚐 Franchise & Transportation Tracking Portal'
+              : 'Track Your Permit'}
           </h1>
-          <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed">
-            Track the real-time review, inspection, and release status of your permit applications.
+          <p className="text-slate-600 dark:text-slate-300 text-[11px] max-w-lg mx-auto leading-normal">
+            {activeView === 'track_application' && selectedCategory === 'business'
+              ? 'Monitor real-time evaluation, inspection schedules, and official permit issuance.'
+              : activeView === 'track_application' && selectedCategory === 'building'
+              ? 'Track real-time architectural, structural, and fire safety clearance across all 17 building permit services.'
+              : activeView === 'track_application' && selectedCategory === 'transport'
+              ? 'Monitor real-time route verification, LTO roadworthiness audit, and franchise issuance.'
+              : 'Track the real-time review, inspection, and release status of your permit applications.'}
           </p>
         </div>
       </section>
@@ -959,7 +981,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
       {/* ========================================================================= */}
       {/* 3. MAIN WORKSPACE CONTAINER */}
       {/* ========================================================================= */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <main className="flex-1 max-w-4xl w-full mx-auto px-3 sm:px-4 py-2.5 space-y-3">
         
         {/* ======================================================================= */}
         {/* VIEW 1: SELECT PERMIT TYPE (THE 4 LARGE SELECTABLE CARDS)               */}
@@ -1060,7 +1082,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
               </div>
 
               {/* ======================================================================= */}
-              {/* CARD 2: BUILDING & CONSTRUCTION PERMIT TRACKER - AMBER / ORANGE THEME   */}
+              {/* CARD 2: BUILDING & CONSTRUCTION PERMIT TRACKER - BLUE THEME             */}
               {/* ======================================================================= */}
               <div 
                 className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
@@ -1078,7 +1100,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
                     <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Users size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1089,7 +1111,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
 
                       {/* Row 2: Service Method */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <HardHat size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1100,7 +1122,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
 
                       {/* Row 3: Time Period */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Clock size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1111,7 +1133,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
 
                       {/* Row 4: Charges & Payment */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Banknote size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1122,7 +1144,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
 
                       {/* Row 5: Payment Method */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-amber-100 dark:bg-amber-500/20 border border-amber-300 dark:border-amber-400/40 flex items-center justify-center text-amber-700 dark:text-amber-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <CreditCard size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1138,7 +1160,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
                     <button
                       type="button"
                       onClick={() => handleSelectModuleCard('building')}
-                      className="w-full py-2 px-3 bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-white rounded-xl text-xs font-bold shadow-md shadow-amber-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                      className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <span>Track Building Permit →</span>
                     </button>
@@ -1147,7 +1169,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
               </div>
 
               {/* ======================================================================= */}
-              {/* CARD 3: FRANCHISE & TRANSPORT PERMIT TRACKER - EMERALD / GREEN THEME    */}
+              {/* CARD 3: FRANCHISE & TRANSPORT PERMIT TRACKER - BLUE THEME               */}
               {/* ======================================================================= */}
               <div 
                 className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
@@ -1165,7 +1187,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
                     <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Users size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1176,7 +1198,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
 
                       {/* Row 2: Service Method */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Bus size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1187,7 +1209,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
 
                       {/* Row 3: Time Period */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Clock size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1198,7 +1220,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
 
                       {/* Row 4: Charges & Payment */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Banknote size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1209,7 +1231,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
 
                       {/* Row 5: Payment Method */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/40 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <CreditCard size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1225,7 +1247,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
                     <button
                       type="button"
                       onClick={() => handleSelectModuleCard('transport')}
-                      className="w-full py-2 px-3 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-md shadow-emerald-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                      className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <span>Track Transport Permit →</span>
                     </button>
@@ -1234,7 +1256,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
               </div>
 
               {/* ======================================================================= */}
-              {/* CARD 4: BARANGAY PERMIT TRACKER - PURPLE / FUCHSIA THEME                */}
+              {/* CARD 4: BARANGAY PERMIT TRACKER - BLUE THEME                            */}
               {/* ======================================================================= */}
               <div 
                 className="relative overflow-hidden rounded-2xl glass-card p-4 group select-text flex flex-col justify-between w-full max-w-[430px] mx-auto"
@@ -1252,7 +1274,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
                     <div className="space-y-1.5 pt-0.5">
                       {/* Row 1: Target Users */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Users size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1263,7 +1285,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
 
                       {/* Row 2: Service Method */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Shield size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1274,7 +1296,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
 
                       {/* Row 3: Time Period */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Clock size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1285,7 +1307,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
 
                       {/* Row 4: Charges & Payment */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <Banknote size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1296,7 +1318,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
 
                       {/* Row 5: Payment Method */}
                       <div className="flex items-start gap-2.5">
-                        <div className="w-5.5 h-5.5 rounded-full bg-purple-100 dark:bg-purple-500/20 border border-purple-300 dark:border-purple-400/40 flex items-center justify-center text-purple-700 dark:text-purple-300 shrink-0">
+                        <div className="w-5.5 h-5.5 rounded-full bg-sky-100 dark:bg-sky-500/20 border border-sky-300 dark:border-sky-400/40 flex items-center justify-center text-sky-700 dark:text-sky-300 shrink-0">
                           <CreditCard size={11} />
                         </div>
                         <div className="min-w-0">
@@ -1312,7 +1334,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
                     <button
                       type="button"
                       onClick={() => handleSelectModuleCard('barangay')}
-                      className="w-full py-2 px-3 bg-purple-600 hover:bg-purple-500 active:bg-purple-700 text-white rounded-xl text-xs font-bold shadow-md shadow-purple-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                      className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <span>Track Barangay Permit →</span>
                     </button>
@@ -1328,30 +1350,1608 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
         {/* VIEW 2: TRACK APPLICATION & RESULTS INTERFACE                           */}
         {/* ======================================================================= */}
         {activeView === 'track_application' && (
-          <div className="space-y-8 animate-in fade-in duration-200">
+          <div className="space-y-3 animate-in fade-in duration-200">
             
             {/* Top Bar with Return to Categories */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
               <button
-                onClick={() => setActiveView('select_category')}
-                className="self-start px-3.5 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer shadow-xs text-slate-700 dark:text-slate-200"
+                onClick={() => {
+                  setActiveView('select_category');
+                  setBuildingDetailView(false);
+                  setBploDetailView(null);
+                  setTransportDetailView(null);
+                }}
+                className="self-start px-2.5 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-lg text-[11px] font-bold transition-all flex items-center space-x-1.5 cursor-pointer shadow-xs text-slate-700 dark:text-slate-200"
               >
-                <ArrowLeft size={14} />
+                <ArrowLeft size={12} />
                 <span>Choose Another Permit Category</span>
               </button>
 
               {/* Active Category Indicator */}
-              <div className="flex items-center space-x-2 text-xs">
+              <div className="flex items-center space-x-1.5 text-[11px]">
                 <span className="text-slate-400 font-medium">Tracking Mode:</span>
-                <span className="px-2.5 py-0.5 rounded-full font-bold uppercase text-[11px] bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
-                  {selectedCategory === 'all' ? 'All Permitting Modules' : `${selectedCategory} Permit`}
+                <span className="px-2 py-0.5 rounded-full font-bold uppercase text-[9.5px] bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                  {selectedCategory === 'business' ? 'BPLO HUB' : selectedCategory === 'building' ? 'BUILDING & CONSTRUCTION PERMIT' : selectedCategory === 'transport' ? 'TRANSPORT & FRANCHISE HUB' : (selectedCategory === 'all' ? 'All Permitting Modules' : `${selectedCategory} Permit`)}
                 </span>
               </div>
             </div>
 
-            {/* =================================================================== */}
-            {/* CONNECTED BUSINESS PERMIT APPLICANTS BAR                            */}
-            {/* =================================================================== */}
+            {selectedCategory === 'business' ? (
+              /* =================================================================== */
+              /* BPLO BUSINESS PERMIT TRACKING PORTAL (IN-PAGE DIRECT VIEW)          */
+              /* =================================================================== */
+              <div className="space-y-2.5">
+                {bploDetailView !== null ? (
+                  /* --------------------------------------------------------------- */
+                  /* FULL PAGE DETAIL CONTENT (COMPACT IN-PAGE VIEW)                 */
+                  /* --------------------------------------------------------------- */
+                  <div className="space-y-3 animate-in fade-in duration-150">
+                    {/* Top Bar for Detail View */}
+                    <div className="flex items-center justify-between pb-0.5">
+                      <button
+                        type="button"
+                        onClick={() => setBploDetailView(null)}
+                        className="inline-flex items-center space-x-1 text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 hover:underline cursor-pointer"
+                      >
+                        <ArrowLeft size={13} />
+                        <span>Back to All Applications</span>
+                      </button>
+                    </div>
+
+                    {/* Main Detail Card */}
+                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-3.5 sm:p-4 shadow-xs space-y-3">
+                      {/* Header */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-2.5">
+                        <div>
+                          <span className="text-[9px] font-black uppercase tracking-wider text-blue-600 dark:text-blue-400 block">
+                            {bploDetailView === 'mayor' && "🏛️ MAYOR'S PERMIT APPLICATION STATUS"}
+                            {bploDetailView === 'occupational' && "👷 WORK PERMIT & HEALTH CLEARANCE STATUS"}
+                            {bploDetailView === 'bis' && "🏢 BUSINESS INFORMATION SYSTEM & CTC STATUS"}
+                            {bploDetailView === 'verify' && "🔍 MAYOR'S PERMIT VERIFICATION & AUDIT RECORD"}
+                          </span>
+                          <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white mt-0.5">
+                            {bploDetailView === 'mayor' && 'Apex Innovations Retail Hub'}
+                            {bploDetailView === 'occupational' && 'Juan Dela Cruz'}
+                            {bploDetailView === 'bis' && 'Online Business CTC (Cedula)'}
+                            {bploDetailView === 'verify' && 'Apex Innovations Retail Hub'}
+                          </h3>
+                          <p className="text-[10.5px] text-slate-500 mt-0.5">
+                            {bploDetailView === 'mayor' && (
+                              <>Application No: <span className="font-mono font-bold text-blue-600">BP-2026-000123</span> • Owner: <span className="font-semibold text-slate-700 dark:text-slate-200">Jason Taccad</span> • Type: <span className="font-semibold text-slate-700 dark:text-slate-200">New Business Permit</span></>
+                            )}
+                            {bploDetailView === 'occupational' && (
+                              <>Permit No: <span className="font-mono font-bold text-sky-600">WP-2026-000452</span> • Employer: <span className="font-semibold text-slate-700 dark:text-slate-200">Apex Innovations Retail Hub</span> • Position: <span className="font-semibold text-slate-700 dark:text-slate-200">Commercial Staff / Cashier</span></>
+                            )}
+                            {bploDetailView === 'bis' && (
+                              <>Reference No: <span className="font-mono font-bold text-emerald-600">BIS-2026-000881</span> • Registered Owner: <span className="font-semibold text-slate-700 dark:text-slate-200">Jason Taccad</span> • Assessed Fee: <span className="font-semibold text-slate-700 dark:text-slate-200">₱220.00 (Paid via GCash)</span></>
+                            )}
+                            {bploDetailView === 'verify' && (
+                              <>Verification ID: <span className="font-mono font-bold text-teal-600">VFY-2026-00319</span> • Permit No: <span className="font-semibold text-slate-700 dark:text-slate-200">QC-2026-004419</span> • Location: <span className="font-semibold text-slate-700 dark:text-slate-200">Aurora Blvd, Quezon City</span></>
+                            )}
+                          </p>
+                        </div>
+
+                        <div className="text-left sm:text-right">
+                          <span className={`px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase border ${
+                            bploDetailView === 'mayor' ? 'bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800' :
+                            bploDetailView === 'occupational' ? 'bg-sky-100 dark:bg-sky-950 text-sky-700 dark:text-sky-300 border-sky-200 dark:border-sky-800' :
+                            bploDetailView === 'bis' ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800' :
+                            'bg-teal-100 dark:bg-teal-950 text-teal-700 dark:text-teal-300 border-teal-200 dark:border-teal-800'
+                          }`}>
+                            {bploDetailView === 'mayor' && 'IN PROGRESS'}
+                            {bploDetailView === 'occupational' && 'IN PROGRESS'}
+                            {bploDetailView === 'bis' && 'COMPLETED'}
+                            {bploDetailView === 'verify' && 'VERIFIED ACTIVE'}
+                          </span>
+                          <span className="text-[10px] text-slate-400 block mt-0.5">
+                            {bploDetailView === 'mayor' && 'Date Filed: January 10, 2026'}
+                            {bploDetailView === 'occupational' && 'Date Filed: January 12, 2026'}
+                            {bploDetailView === 'bis' && 'Date Filed: January 14, 2026'}
+                            {bploDetailView === 'verify' && 'Date Verified: January 15, 2026'}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Current Status Highlight Banner */}
+                      <div className={`p-2.5 rounded-lg border ${
+                        bploDetailView === 'mayor'
+                          ? 'bg-amber-50/80 dark:bg-amber-950/40 border-amber-300 dark:border-amber-700 text-amber-900 dark:text-amber-100'
+                          : bploDetailView === 'occupational'
+                          ? 'bg-sky-50/80 dark:bg-sky-950/40 border-sky-300 dark:border-sky-700 text-sky-900 dark:text-sky-100'
+                          : bploDetailView === 'bis'
+                          ? 'bg-emerald-50/80 dark:bg-emerald-950/40 border-emerald-300 dark:border-emerald-700 text-emerald-900 dark:text-emerald-100'
+                          : 'bg-teal-50/80 dark:bg-teal-950/40 border-teal-300 dark:border-teal-700 text-teal-900 dark:text-teal-100'
+                      }`}>
+                        <div className="flex items-center space-x-1.5">
+                          <span className="text-[9px] font-black uppercase tracking-wider opacity-75">CURRENT STATUS:</span>
+                          {bploDetailView === 'mayor' || bploDetailView === 'occupational' ? (
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                          ) : (
+                            <CheckCircle2 size={13} className="text-emerald-600 dark:text-emerald-400" />
+                          )}
+                        </div>
+                        <p className="text-xs sm:text-sm font-extrabold mt-0.5">
+                          {bploDetailView === 'mayor' && 'STEP 2: UNDER EVALUATION (BPLO Frontline & Screening)'}
+                          {bploDetailView === 'occupational' && 'STEP 2: FOR MEDICAL EXAM & CLEARANCE (City Health Office)'}
+                          {bploDetailView === 'bis' && 'STEP 4: READY FOR DOWNLOAD (Electronic CTC Released)'}
+                          {bploDetailView === 'verify' && 'STEP 4: VERIFIED ACTIVE & LEGITIMATE (Official BPLO LGU Registry)'}
+                        </p>
+                      </div>
+
+                      {/* Section Title */}
+                      <div className="space-y-2">
+                        <span className="text-[9.5px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 block">
+                          PROCESSING STAGES (PROCESS &amp; STATUS):
+                        </span>
+
+                        {/* CASE 1: MAYOR'S PERMIT */}
+                        {bploDetailView === 'mayor' && (
+                          <div className="space-y-2">
+                            {/* Step 1 */}
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 1: APPLICATION SUBMITTED (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> January 10, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> BPLO has officially received your application form and uploaded documentary proof (DTI, Barangay Clearance, Storefront photo).
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 2 */}
+                            <div className="p-2.5 rounded-lg bg-amber-50/80 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700 flex items-start gap-2 ring-1 ring-amber-500/20">
+                              <Clock size={16} className="text-amber-600 shrink-0 mt-0.5 animate-pulse" />
+                              <div className="space-y-0.5">
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <p className="text-[11.5px] font-black text-amber-900 dark:text-amber-100">
+                                    [⏳] STEP 2: UNDER EVALUATION (BPLO Frontline &amp; Screening)
+                                  </p>
+                                  <span className="px-1.5 py-0.5 rounded-full text-[8px] bg-amber-200 text-amber-900 font-extrabold uppercase">
+                                    CURRENT STAGE
+                                  </span>
+                                </div>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> In progress (Evaluation Division)
+                                </p>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Licensing officers are reviewing uploaded DTI, Barangay Clearance, and business premises.
+                                </p>
+                                <p className="text-[10.5px] text-amber-800 dark:text-amber-200 font-medium pt-0.5">
+                                  • <span className="font-semibold">Official Remarks:</span> "On-process for regulatory assessment."
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 3 */}
+                            <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex items-start gap-2 opacity-75">
+                              <CircleDot size={16} className="text-slate-400 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-slate-700 dark:text-slate-300">
+                                  [ ] STEP 3: PAYMENT OF ASSESSMENT FEES (Pending)
+                                </p>
+                                <p className="text-[10.5px] text-slate-500">
+                                  • <span className="font-semibold">Details:</span> Waiting for the official Tax Order of Payment (Assessment Fee computation). Online payment gateway will unlock once Step 2 is approved.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 4 */}
+                            <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex items-start gap-2 opacity-60">
+                              <CircleDot size={16} className="text-slate-400 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-slate-700 dark:text-slate-300">
+                                  [ ] STEP 4: PERMIT ISSUANCE &amp; DIGITAL RELEASE (Pending)
+                                </p>
+                                <p className="text-[10.5px] text-slate-500">
+                                  • <span className="font-semibold">Details:</span> Official Electronic Mayor's Permit with authenticated QR code will be ready for instant download and printing.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* CASE 2: OCCUPATIONAL / WORK PERMIT */}
+                        {bploDetailView === 'occupational' && (
+                          <div className="space-y-2">
+                            {/* Step 1 */}
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 1: REQUIREMENTS FILED (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> January 12, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Uploaded Barangay Clearance, Police/NBI Clearance, and 1x1 Photo.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 2 */}
+                            <div className="p-2.5 rounded-lg bg-sky-50/80 dark:bg-sky-950/40 border border-sky-300 dark:border-sky-700 flex items-start gap-2 ring-1 ring-sky-500/20">
+                              <Clock size={16} className="text-sky-600 shrink-0 mt-0.5 animate-pulse" />
+                              <div className="space-y-0.5">
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <p className="text-[11.5px] font-black text-sky-900 dark:text-sky-100">
+                                    [⏳] STEP 2: MEDICAL EXAM &amp; CLEARANCE (City Health Office)
+                                  </p>
+                                  <span className="px-1.5 py-0.5 rounded-full text-[8px] bg-sky-200 text-sky-900 font-extrabold uppercase">
+                                    CURRENT STAGE
+                                  </span>
+                                </div>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> In progress (City Health Department)
+                                </p>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Proceed to City Health Department for chest X-ray and laboratory urinalysis.
+                                </p>
+                                <p className="text-[10.5px] text-sky-800 dark:text-sky-200 font-medium pt-0.5">
+                                  • <span className="font-semibold">Official Remarks:</span> "Proceed to City Health Department for diagnostic tests."
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 3 */}
+                            <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex items-start gap-2 opacity-75">
+                              <CircleDot size={16} className="text-slate-400 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-slate-700 dark:text-slate-300">
+                                  [ ] STEP 3: PAYMENT &amp; HEALTH ORIENTATION (Pending)
+                                </p>
+                                <p className="text-[10.5px] text-slate-500">
+                                  • <span className="font-semibold">Details:</span> Settle standard fee of ₱170.00 and attend the 15-minute sanitary orientation briefing.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 4 */}
+                            <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex items-start gap-2 opacity-60">
+                              <CircleDot size={16} className="text-slate-400 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-slate-700 dark:text-slate-300">
+                                  [ ] STEP 4: WORK CLEARANCE ID ISSUED (Pending)
+                                </p>
+                                <p className="text-[10.5px] text-slate-500">
+                                  • <span className="font-semibold">Details:</span> Official Occupational Health Card ready for release upon passing laboratory tests.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* CASE 3: BUSINESS INFORMATION SYSTEM (ONLINE CTC / CEDULA) */}
+                        {bploDetailView === 'bis' && (
+                          <div className="space-y-2">
+                            {/* Step 1 */}
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 1: CTC APPLICATION FILED (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> January 14, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Taxpayer filed declared gross sales receipts and business profile via online portal.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 2 */}
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 2: TAX ASSESSMENT &amp; COMPUTATION (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> January 14, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> City Treasurer's Office computed basic CTC fee (₱5.00) plus gross receipts surtax (₱215.00). Total: ₱220.00.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 3 */}
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 3: ELECTRONIC PAYMENT CONFIRMED (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> January 14, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Electronic payment confirmed via GCash (Reference #GC-99482103). Official Receipt generated.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 4 */}
+                            <div className="p-2.5 rounded-lg bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700 flex items-start gap-2 ring-1 ring-emerald-500/20">
+                              <CheckCircle2 size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <p className="text-[11.5px] font-black text-emerald-900 dark:text-emerald-100">
+                                    [✓] STEP 4: DIGITAL CTC GENERATED &amp; RELEASED (Completed)
+                                  </p>
+                                  <span className="px-1.5 py-0.5 rounded-full text-[8px] bg-emerald-200 text-emerald-900 font-extrabold uppercase">
+                                    READY FOR USE
+                                  </span>
+                                </div>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> January 14, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Official Electronic Community Tax Certificate generated with authenticated LGU QR seal.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* CASE 4: MAYOR'S PERMIT VERIFICATION & AUTHENTICITY */}
+                        {bploDetailView === 'verify' && (
+                          <div className="space-y-2">
+                            {/* Step 1 */}
+                            <div className="p-2.5 rounded-lg bg-teal-50/70 dark:bg-teal-950/30 border border-teal-200 dark:border-teal-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-teal-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-teal-800 dark:text-teal-200">
+                                  [✓] STEP 1: CENTRAL REGISTRY QUERY (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> January 15, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Verified against Quezon City BPLO Master Business Database with active registered status.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 2 */}
+                            <div className="p-2.5 rounded-lg bg-teal-50/70 dark:bg-teal-950/30 border border-teal-200 dark:border-teal-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-teal-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-teal-800 dark:text-teal-200">
+                                  [✓] STEP 2: REGULATORY CLEARANCES VALIDATED (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> January 15, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> All regulatory clearances passed: Fire Safety (FSIC), Sanitary Permit, and Environmental Clearance.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 3 */}
+                            <div className="p-2.5 rounded-lg bg-teal-50/70 dark:bg-teal-950/30 border border-teal-200 dark:border-teal-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-teal-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-teal-800 dark:text-teal-200">
+                                  [✓] STEP 3: TAX &amp; COMPLIANCE STATUS (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> January 15, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Zero delinquency flag. Current annual local business taxes and regulatory fees are fully settled.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 4 */}
+                            <div className="p-2.5 rounded-lg bg-teal-50/80 dark:bg-teal-950/40 border border-teal-300 dark:border-teal-700 flex items-start gap-2 ring-1 ring-teal-500/20">
+                              <CheckCircle2 size={16} className="text-teal-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <p className="text-[11.5px] font-black text-teal-900 dark:text-teal-100">
+                                    [✓] STEP 4: OFFICIAL AUTHENTICITY VALIDATION (Completed)
+                                  </p>
+                                  <span className="px-1.5 py-0.5 rounded-full text-[8px] bg-teal-200 text-teal-900 font-extrabold uppercase">
+                                    VERIFIED ACTIVE
+                                  </span>
+                                </div>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> January 15, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Authenticity QR security seal validated. Legitimate and authorized to operate until December 31, 2026.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* 📌 WHAT YOU NEED TO DO NEXT Box */}
+                      <div className="p-2.5 rounded-lg bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800/60 space-y-1">
+                        <span className="text-[9px] font-black uppercase tracking-wider text-blue-700 dark:text-blue-300 block">
+                          📌 WHAT YOU NEED TO DO NEXT:
+                        </span>
+                        <p className="text-[11px] text-slate-700 dark:text-slate-200 leading-normal font-medium">
+                          {bploDetailView === 'mayor' && '"No action required at this moment. Please wait for Step 2 evaluation to complete. Once approved, the payment gateway and assessment bill will unlock for Step 3."'}
+                          {bploDetailView === 'occupational' && '"Please proceed to the City Health Department laboratory section with your referral slip to complete your medical tests."'}
+                          {bploDetailView === 'bis' && '"Your electronic Community Tax Certificate (CTC) has been officially released and recorded in the LGU master database for official transactions."'}
+                          {bploDetailView === 'verify' && '"This business holds an active, verified, and legitimate Mayor\'s Permit authorized by the Quezon City Government. Valid for commercial operations and banking/regulatory compliance."'}
+                        </p>
+                      </div>
+
+                      {/* Bottom Back Button */}
+                      <div className="pt-0.5">
+                        <button
+                          type="button"
+                          onClick={() => setBploDetailView(null)}
+                          className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[11px] font-bold transition-all inline-flex items-center space-x-1 cursor-pointer shadow-xs"
+                        >
+                          <ArrowLeft size={13} />
+                          <span>Back to All Applications</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  /* --------------------------------------------------------------- */
+                  /* ALL 4 SERVICES CARDS (COMPACT STACKED VIEW)                     */
+                  /* --------------------------------------------------------------- */
+                  <div className="space-y-2.5">
+                    {/* 1. MAYOR'S PERMIT (BUSINESS) */}
+                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-3 sm:p-3.5 shadow-xs space-y-2 hover:border-blue-300 dark:hover:border-blue-700/60 transition-all">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
+                        <div>
+                          <span className="text-[9px] font-black uppercase tracking-wider text-blue-600 dark:text-blue-400 block">
+                            🏛️ MAYOR'S PERMIT (BUSINESS) APPLICATION RECORD
+                          </span>
+                          <h3 className="text-sm sm:text-[15px] font-black text-slate-900 dark:text-white mt-0.5">
+                            Apex Innovations Retail Hub
+                          </h3>
+                          <p className="text-[10px] sm:text-[10.5px] text-slate-500 dark:text-slate-400 mt-0.5">
+                            Owner: <span className="font-semibold text-slate-700 dark:text-slate-200">Jason Taccad</span> • Line of Business: <span className="font-semibold text-slate-700 dark:text-slate-200">IT &amp; Electronics Retail</span> • Type: <span className="font-semibold text-slate-700 dark:text-slate-200">New Business Permit</span>
+                          </p>
+                        </div>
+
+                        <div className="text-left sm:text-right">
+                          <span className="font-mono text-[11px] font-extrabold text-blue-600 dark:text-blue-400 block">
+                            BP-2026-000123
+                          </span>
+                          <span className="text-[9.5px] text-slate-400">
+                            Date Filed: January 10, 2026
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Status & Remarks */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div className="p-2 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 block">
+                            CURRENT STATUS
+                          </span>
+                          <p className="text-[11px] font-extrabold text-amber-800 dark:text-amber-200 flex items-center gap-1.5">
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                            STEP 2: UNDER EVALUATION (BPLO Frontline &amp; Screening)
+                          </p>
+                        </div>
+
+                        <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-400 block">
+                            OFFICIAL REMARKS
+                          </span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight truncate sm:whitespace-normal">
+                            "Verifying uploaded DTI, Barangay Clearance, and Storefront proof."
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                        <button
+                          type="button"
+                          onClick={() => setBploDetailView('mayor')}
+                          className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[11px] font-bold transition-all flex items-center space-x-1 cursor-pointer shadow-xs"
+                        >
+                          <Eye size={12} />
+                          <span>View Status &amp; Timeline</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* 2. OCCUPATIONAL / WORK PERMIT */}
+                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-3 sm:p-3.5 shadow-xs space-y-2 hover:border-sky-300 dark:hover:border-sky-700/60 transition-all">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
+                        <div>
+                          <span className="text-[9px] font-black uppercase tracking-wider text-sky-600 dark:text-sky-400 block">
+                            👷 OCCUPATIONAL / WORK PERMIT APPLICATION RECORD
+                          </span>
+                          <h3 className="text-sm sm:text-[15px] font-black text-slate-900 dark:text-white mt-0.5">
+                            Juan Dela Cruz
+                          </h3>
+                          <p className="text-[10px] sm:text-[10.5px] text-slate-500 dark:text-slate-400 mt-0.5">
+                            Applicant: <span className="font-semibold text-slate-700 dark:text-slate-200">Juan Dela Cruz</span> • Position: <span className="font-semibold text-slate-700 dark:text-slate-200">Commercial Staff / Cashier</span> • Employer: <span className="font-semibold text-slate-700 dark:text-slate-200">Apex Innovations Retail Hub</span> • Type: <span className="font-semibold text-slate-700 dark:text-slate-200">Health Card &amp; Work Clearance</span>
+                          </p>
+                        </div>
+
+                        <div className="text-left sm:text-right">
+                          <span className="font-mono text-[11px] font-extrabold text-sky-600 dark:text-sky-400 block">
+                            WP-2026-000452
+                          </span>
+                          <span className="text-[9.5px] text-slate-400">
+                            Date Filed: January 12, 2026
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Status & Remarks */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div className="p-2 rounded-lg bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800/60 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-sky-700 dark:text-sky-300 block">
+                            CURRENT STATUS
+                          </span>
+                          <p className="text-[11px] font-extrabold text-sky-800 dark:text-sky-200 flex items-center gap-1.5">
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse" />
+                            STEP 2: FOR MEDICAL EXAM &amp; CLEARANCE (City Health Office)
+                          </p>
+                        </div>
+
+                        <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-400 block">
+                            OFFICIAL REMARKS
+                          </span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight truncate sm:whitespace-normal">
+                            "Proceed to City Health Department for X-ray and Urinalysis laboratory submission."
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                        <button
+                          type="button"
+                          onClick={() => setBploDetailView('occupational')}
+                          className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[11px] font-bold transition-all flex items-center space-x-1 cursor-pointer shadow-xs"
+                        >
+                          <Eye size={12} />
+                          <span>View Status &amp; Timeline</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* 3. BUSINESS INFORMATION SYSTEM (BIS / CTC) */}
+                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-3 sm:p-3.5 shadow-xs space-y-2 hover:border-emerald-300 dark:hover:border-emerald-700/60 transition-all">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
+                        <div>
+                          <span className="text-[9px] font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block">
+                            🏢 BUSINESS INFORMATION SYSTEM (REGISTRY &amp; CTC REQUEST)
+                          </span>
+                          <h3 className="text-sm sm:text-[15px] font-black text-slate-900 dark:text-white mt-0.5">
+                            Online Business CTC (Cedula)
+                          </h3>
+                          <p className="text-[10px] sm:text-[10.5px] text-slate-500 dark:text-slate-400 mt-0.5">
+                            Business: <span className="font-semibold text-slate-700 dark:text-slate-200">Apex Innovations Retail Hub</span> • Owner: <span className="font-semibold text-slate-700 dark:text-slate-200">Jason Taccad</span> • Requested Document: <span className="font-semibold text-slate-700 dark:text-slate-200">Online Business CTC (Cedula)</span> • Assessed Fee: <span className="font-semibold text-slate-700 dark:text-slate-200">₱220.00 (Paid via GCash)</span>
+                          </p>
+                        </div>
+
+                        <div className="text-left sm:text-right">
+                          <span className="font-mono text-[11px] font-extrabold text-emerald-600 dark:text-emerald-400 block">
+                            BIS-2026-000881
+                          </span>
+                          <span className="text-[9.5px] text-slate-400">
+                            Date Filed: January 14, 2026
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Status & Remarks */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div className="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-emerald-700 dark:text-amber-300 block">
+                            CURRENT STATUS
+                          </span>
+                          <p className="text-[11px] font-extrabold text-emerald-800 dark:text-emerald-200 flex items-center gap-1.5">
+                            <CheckCircle2 size={13} className="text-emerald-600 shrink-0" />
+                            STEP 4: READY FOR DOWNLOAD (Electronic CTC Released)
+                          </p>
+                        </div>
+
+                        <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-400 block">
+                            OFFICIAL REMARKS
+                          </span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight truncate sm:whitespace-normal">
+                            "Electronic Community Tax Certificate generated with verified QR seal."
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                        <button
+                          type="button"
+                          onClick={() => setBploDetailView('bis')}
+                          className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[11px] font-bold transition-all flex items-center space-x-1 cursor-pointer shadow-xs"
+                        >
+                          <Eye size={12} />
+                          <span>View Status &amp; Timeline</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* 4. MAYOR'S PERMIT VERIFICATION */}
+                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-3 sm:p-3.5 shadow-xs space-y-2 hover:border-teal-300 dark:hover:border-teal-700/60 transition-all">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
+                        <div>
+                          <span className="text-[9px] font-black uppercase tracking-wider text-teal-600 dark:text-teal-400 block">
+                            🔍 MAYOR'S PERMIT VERIFICATION &amp; AUTHENTICITY RECORD
+                          </span>
+                          <h3 className="text-sm sm:text-[15px] font-black text-slate-900 dark:text-white mt-0.5">
+                            Apex Innovations Retail Hub
+                          </h3>
+                          <p className="text-[10px] sm:text-[10.5px] text-slate-500 dark:text-slate-400 mt-0.5">
+                            Permit No: <span className="font-semibold text-slate-700 dark:text-slate-200">QC-2026-004419</span> • Registered Owner: <span className="font-semibold text-slate-700 dark:text-slate-200">Jason Taccad</span> • Location: <span className="font-semibold text-slate-700 dark:text-slate-200">Aurora Blvd, Quezon City</span>
+                          </p>
+                        </div>
+
+                        <div className="text-left sm:text-right">
+                          <span className="font-mono text-[11px] font-extrabold text-teal-600 dark:text-teal-400 block">
+                            VFY-2026-00319
+                          </span>
+                          <span className="text-[9.5px] text-slate-400">
+                            Date Verified: January 15, 2026
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Status & Remarks */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div className="p-2 rounded-lg bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800/60 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-teal-700 dark:text-teal-300 block">
+                            CURRENT STATUS
+                          </span>
+                          <p className="text-[11px] font-extrabold text-teal-800 dark:text-teal-200 flex items-center gap-1.5">
+                            <CheckCircle2 size={13} className="text-teal-600 shrink-0" />
+                            VERIFIED ACTIVE &amp; LEGITIMATE (Official BPLO LGU Registry)
+                          </p>
+                        </div>
+
+                        <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-400 block">
+                            OFFICIAL REMARKS
+                          </span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight truncate sm:whitespace-normal">
+                            "Fully compliant with local regulatory standards. Valid until December 31, 2026."
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                        <button
+                          type="button"
+                          onClick={() => setBploDetailView('verify')}
+                          className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[11px] font-bold transition-all flex items-center space-x-1 cursor-pointer shadow-xs"
+                        >
+                          <Eye size={12} />
+                          <span>View Status &amp; Timeline</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : selectedCategory === 'building' ? (
+              /* =================================================================== */
+              /* BUILDING & CONSTRUCTION PERMIT TRACKER PORTAL (OFFICE OF BUILDING OFFICIAL) */
+              /* =================================================================== */
+              <div className="space-y-2.5">
+                {buildingDetailView ? (
+                  /* --------------------------------------------------------------- */
+                  /* STATE 2: 4-STAGE DETAILED ENGINEERING TIMELINE VIEW             */
+                  /* --------------------------------------------------------------- */
+                  <div className="space-y-3 animate-in fade-in duration-150">
+                    {/* Top Back Button */}
+                    <div className="flex items-center justify-between pb-0.5">
+                      <button
+                        type="button"
+                        onClick={() => setBuildingDetailView(false)}
+                        className="inline-flex items-center space-x-1 text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 hover:underline cursor-pointer"
+                      >
+                        <ArrowLeft size={13} />
+                        <span>Back to All Applications</span>
+                      </button>
+                    </div>
+
+                    {/* Main Timeline Card */}
+                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-3.5 sm:p-4 shadow-xs space-y-3">
+                      {/* Header */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-2.5">
+                        <div>
+                          <span className="text-[9px] font-black uppercase tracking-wider text-blue-600 dark:text-blue-400 block">
+                            🏗️ APPLICATION PROGRESS TIMELINE
+                          </span>
+                          <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white mt-0.5">
+                            Metro East Corporate Center &amp; Plaza
+                          </h3>
+                          <p className="text-[10.5px] text-slate-500 mt-0.5">
+                            Application Code: <span className="font-mono font-bold text-blue-600">QC-DBO-2026-89104</span> • Permit Type: <span className="font-semibold text-slate-700 dark:text-slate-200">#1 Building Permit (Core Construction P.D. 1096)</span> • Supervising Architect: <span className="font-semibold text-slate-700 dark:text-slate-200">Arch. Roberto S. Alcantara (PRC-ARCH-0044912)</span>
+                          </p>
+                        </div>
+
+                        <div className="text-left sm:text-right">
+                          <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase border bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800">
+                            STAGE 2 OF 4 • PRE-EVALUATED
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* 4-Step Engineering Timeline */}
+                      <div className="space-y-2">
+                        {/* Step 1 */}
+                        <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                          <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                          <div className="space-y-0.5">
+                            <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                              [✓] STEP 1: ARCHITECTURAL &amp; STRUCTURAL PLANS SUBMITTED (Completed)
+                            </p>
+                            <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                              • <span className="font-semibold">Date:</span> September 24, 2026
+                            </p>
+                            <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                              • <span className="font-semibold">Details:</span> Ingestion of 5 sets of signed &amp; sealed blueprints, TCT title, and DOLE CSHP clearance.
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Step 2 */}
+                        <div className="p-2.5 rounded-lg bg-amber-50/80 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700 flex items-start gap-2 ring-1 ring-amber-500/20">
+                          <Clock size={16} className="text-amber-600 shrink-0 mt-0.5" />
+                          <div className="space-y-0.5">
+                            <div className="flex flex-wrap items-center gap-1.5">
+                              <p className="text-[11.5px] font-black text-amber-900 dark:text-amber-100">
+                                [●] STEP 2: ZONING &amp; LOCATIONAL CLEARANCE VERIFICATION (Current In Progress)
+                              </p>
+                              <span className="px-1.5 py-0.5 rounded-full text-[8px] bg-amber-200 text-amber-900 font-extrabold uppercase">
+                                IN PROGRESS
+                              </span>
+                            </div>
+                            <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                              • <span className="font-semibold">Date:</span> September 25, 2026
+                            </p>
+                            <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                              • <span className="font-semibold">Details:</span> Land use compliance and road right-of-way setback audit by City Planning &amp; Development.
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Step 3 */}
+                        <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex items-start gap-2 opacity-75">
+                          <div className="w-4 h-4 rounded-full border border-slate-400 text-slate-400 flex items-center justify-center text-[10px] shrink-0 mt-0.5 font-bold">
+                            3
+                          </div>
+                          <div className="space-y-0.5">
+                            <p className="text-[11.5px] font-bold text-slate-700 dark:text-slate-300">
+                              [○] STEP 3: JOINT STRUCTURAL &amp; FIRE SAFETY EVALUATION (Pending)
+                            </p>
+                            <p className="text-[10.5px] text-slate-500 dark:text-slate-400">
+                              • Engineering structural load computation and BFP Fire Safety Inspection review.
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Step 4 */}
+                        <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex items-start gap-2 opacity-75">
+                          <div className="w-4 h-4 rounded-full border border-slate-400 text-slate-400 flex items-center justify-center text-[10px] shrink-0 mt-0.5 font-bold">
+                            4
+                          </div>
+                          <div className="space-y-0.5">
+                            <p className="text-[11.5px] font-bold text-slate-700 dark:text-slate-300">
+                              [○] STEP 4: BUILDING OFFICIAL APPROVAL &amp; PERMIT RELEASE (Pending)
+                            </p>
+                            <p className="text-[10.5px] text-slate-500 dark:text-slate-400">
+                              • Final digital signature of City Building Official and release of official construction decal.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* 📌 WHAT YOU NEED TO DO NEXT Box */}
+                      <div className="p-2.5 rounded-lg bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800/60 space-y-1">
+                        <span className="text-[9px] font-black uppercase tracking-wider text-blue-700 dark:text-blue-300 block">
+                          📌 WHAT YOU NEED TO DO NEXT:
+                        </span>
+                        <p className="text-[11px] text-slate-700 dark:text-slate-200 leading-normal font-medium">
+                          "Your application is currently undergoing Step 2 zoning review. Please monitor your registered email for the schedule of fees once pre-evaluation is approved by the City Building Official."
+                        </p>
+                      </div>
+
+                      {/* Bottom Back Button */}
+                      <div className="pt-0.5">
+                        <button
+                          type="button"
+                          onClick={() => setBuildingDetailView(false)}
+                          className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[11px] font-bold transition-all inline-flex items-center space-x-1 cursor-pointer shadow-xs"
+                        >
+                          <ArrowLeft size={13} />
+                          <span>Back to All Applications</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  /* --------------------------------------------------------------- */
+                  /* STATE 1: SINGLE CARD OVERVIEW (ONLY 1 CARD, NO LIVE ACTIVE BANNER)*/
+                  /* --------------------------------------------------------------- */
+                  <div className="space-y-2.5">
+                    {/* Main Container */}
+                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-3 sm:p-3.5 shadow-xs space-y-2.5">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
+                        <div className="flex items-center space-x-2.5">
+                          <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center border border-blue-200 dark:border-blue-800 shrink-0">
+                            <Building2 size={16} />
+                          </div>
+                          <div>
+                            <h3 className="text-xs sm:text-[13px] font-extrabold text-slate-900 dark:text-white uppercase tracking-tight">
+                              Connected Building &amp; Construction Permit Applications
+                            </h3>
+                            <p className="text-[10px] text-slate-500 dark:text-slate-400">
+                              Live sync with Office of the Building Official (OBO) &amp; Engineering Dept.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Single Application Card */}
+                      <div className="bg-slate-50/70 dark:bg-slate-800/40 rounded-xl border border-slate-200 dark:border-slate-700/80 p-3 space-y-2 hover:border-blue-300 dark:hover:border-blue-700/60 transition-all">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-slate-200/60 dark:border-slate-700/60 pb-2">
+                          <div>
+                            <span className="font-mono text-[11px] font-extrabold text-blue-600 dark:text-blue-400 block">
+                              QC-DBO-2026-89104
+                            </span>
+                            <h4 className="text-sm font-black text-slate-900 dark:text-white mt-0.5">
+                              Metro East Corporate Center &amp; Plaza
+                            </h4>
+                            <p className="text-[10.5px] text-slate-500 dark:text-slate-400 mt-0.5">
+                              Permit Type: <span className="font-semibold text-slate-700 dark:text-slate-200">#1 Building Permit (Core Construction P.D. 1096)</span> • Applicant: <span className="font-semibold text-slate-700 dark:text-slate-200">{user?.name || 'Jason Taccad'}</span> • Supervising Architect: <span className="font-semibold text-slate-700 dark:text-slate-200">Arch. Roberto S. Alcantara</span>
+                            </p>
+                          </div>
+
+                          <div className="text-left sm:text-right">
+                            <span className="px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase border bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border-amber-200 dark:border-amber-800">
+                              IN PROGRESS • PRE-EVALUATED
+                            </span>
+                            <span className="text-[9.5px] text-slate-400 block mt-0.5">
+                              Submitted: September 24, 2026
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Status & Remarks */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                          <div className="p-2 rounded-lg bg-blue-50/60 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800/50 space-y-0.5">
+                            <span className="text-[8.5px] font-black uppercase tracking-wider text-blue-700 dark:text-blue-300 block">
+                              ENGINEERING STATUS
+                            </span>
+                            <p className="text-[10.5px] font-extrabold text-blue-900 dark:text-blue-200 flex items-center gap-1.5">
+                              <Clock size={12} className="text-blue-600 shrink-0" />
+                              STAGE 2 OF 4 • ZONING &amp; LOCATIONAL REVIEW
+                            </p>
+                          </div>
+
+                          <div className="p-2 rounded-lg bg-slate-100/60 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-0.5">
+                            <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-400 block">
+                              OFFICIAL REMARKS
+                            </span>
+                            <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight">
+                              "Architectural blueprints cleared. Locational setback review underway."
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex items-center justify-between pt-1">
+                          <button
+                            type="button"
+                            onClick={() => setBuildingDetailView(true)}
+                            className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[11px] font-bold transition-all flex items-center space-x-1 cursor-pointer shadow-xs"
+                          >
+                            <Eye size={12} />
+                            <span>View Status &amp; Timeline</span>
+                          </button>
+
+                          <span className="inline-flex items-center space-x-1 font-bold text-[10px] text-blue-600 dark:text-blue-400">
+                            <Check size={11} />
+                            <span>Active Track</span>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : selectedCategory === 'transport' ? (
+              /* =================================================================== */
+              /* FRANCHISE & TRANSPORT PERMIT TRACKING PORTAL (IN-PAGE DIRECT VIEW)  */
+              /* =================================================================== */
+              <div className="space-y-2.5">
+                {transportDetailView !== null ? (
+                  /* --------------------------------------------------------------- */
+                  /* FULL PAGE DETAIL CONTENT (TRANSPORT IN-PAGE VIEW)               */
+                  /* --------------------------------------------------------------- */
+                  <div className="space-y-3 animate-in fade-in duration-150">
+                    {/* Top Bar for Detail View */}
+                    <div className="flex items-center justify-between pb-0.5">
+                      <button
+                        type="button"
+                        onClick={() => setTransportDetailView(null)}
+                        className="inline-flex items-center space-x-1 text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 hover:underline cursor-pointer"
+                      >
+                        <ArrowLeft size={13} />
+                        <span>Back to All Applications</span>
+                      </button>
+                    </div>
+
+                    {/* Main Detail Card */}
+                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-3.5 sm:p-4 shadow-xs space-y-3">
+                      {/* Header */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-2.5">
+                        <div>
+                          <span className="text-[9px] font-black uppercase tracking-wider text-blue-600 dark:text-blue-400 block">
+                            {transportDetailView === 'new_permit' && "🚐 NEW TRANSPORT & VEHICLE PERMIT STATUS"}
+                            {transportDetailView === 'renewal' && "🔄 FRANCHISE ANNUAL RENEWAL STATUS"}
+                            {transportDetailView === 'amendment' && "🔁 AMENDMENT & UNIT SUBSTITUTION STATUS"}
+                            {transportDetailView === 'special_trip' && "📋 SPECIAL TRIP CLEARANCE STATUS"}
+                          </span>
+                          <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white mt-0.5">
+                            {transportDetailView === 'new_permit' && 'Danilo Macaraeg (Unit #108)'}
+                            {transportDetailView === 'renewal' && 'Rolando Santos (Unit #142)'}
+                            {transportDetailView === 'amendment' && 'Eduardo Ramirez (Unit #019)'}
+                            {transportDetailView === 'special_trip' && 'Rogelio Vargas (Tourist Van #08)'}
+                          </h3>
+                          <p className="text-[10.5px] text-slate-500 mt-0.5">
+                            {transportDetailView === 'new_permit' && (
+                              <>Ref No: <span className="font-mono font-bold text-blue-600">TR-2026-004821</span> • Operator: <span className="font-semibold text-slate-700 dark:text-slate-200">Danilo Macaraeg</span> • Route: <span className="font-semibold text-slate-700 dark:text-slate-200">Commonwealth-Fairview Corridor</span> • Plate/Body: <span className="font-semibold text-slate-700 dark:text-slate-200">4821-QC</span></>
+                            )}
+                            {transportDetailView === 'renewal' && (
+                              <>Ref No: <span className="font-mono font-bold text-sky-600">FR-2026-009142</span> • Operator: <span className="font-semibold text-slate-700 dark:text-slate-200">Rolando Santos</span> • Route: <span className="font-semibold text-slate-700 dark:text-slate-200">Novaliches-Bayan TODA</span> • Unit: <span className="font-semibold text-slate-700 dark:text-slate-200">PUV Unit #142</span></>
+                            )}
+                            {transportDetailView === 'amendment' && (
+                              <>Ref No: <span className="font-mono font-bold text-amber-600">AS-2026-002377</span> • Operator: <span className="font-semibold text-slate-700 dark:text-slate-200">Eduardo Ramirez</span> • Line: <span className="font-semibold text-slate-700 dark:text-slate-200">Cubao-Anonas Route Line</span> • Type: <span className="font-semibold text-slate-700 dark:text-slate-200">Motor &amp; Chassis Replacement</span></>
+                            )}
+                            {transportDetailView === 'special_trip' && (
+                              <>Ref No: <span className="font-mono font-bold text-emerald-600">ST-2026-006510</span> • Operator: <span className="font-semibold text-slate-700 dark:text-slate-200">Rogelio Vargas</span> • Destination: <span className="font-semibold text-slate-700 dark:text-slate-200">QC Hall to Intramuros Tour</span> • Service: <span className="font-semibold text-slate-700 dark:text-slate-200">Special Out-of-Line Authority</span></>
+                            )}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center space-x-2">
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase ${
+                            transportDetailView === 'special_trip'
+                              ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
+                              : transportDetailView === 'renewal'
+                              ? 'bg-sky-100 text-sky-800 dark:bg-sky-950/70 dark:text-sky-300'
+                              : 'bg-amber-100 text-amber-800 dark:bg-amber-950/70 dark:text-amber-300'
+                          }`}>
+                            {transportDetailView === 'new_permit' && 'UNDER REVIEW'}
+                            {transportDetailView === 'renewal' && 'AUDIT IN PROGRESS'}
+                            {transportDetailView === 'amendment' && 'PENDING INSPECTION'}
+                            {transportDetailView === 'special_trip' && 'READY FOR RELEASE'}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Official Regulatory Agency Bar */}
+                      <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 text-[10.5px] space-y-1">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <div>
+                            <span className="font-bold text-slate-500 uppercase text-[9px] block">OFFICIAL REGULATORY AGENCY:</span>
+                            <span className="font-semibold text-slate-800 dark:text-slate-200">
+                              Transport &amp; Franchise Regulatory Board (TFRB) • LTO Public Licensing Unit
+                            </span>
+                          </div>
+                          <div>
+                            <span className="font-bold text-slate-500 uppercase text-[9px] block">FEE &amp; TARIFF STATUS:</span>
+                            <span className="font-semibold text-blue-600 dark:text-blue-400">
+                              {transportDetailView === 'new_permit' && '₱1,350.00 Base Regulatory Franchise Tariff (Paid • OR #TFRB-88392)'}
+                              {transportDetailView === 'renewal' && '₱1,250.00 Annual Vehicle Franchise Renewal Tariff (Paid • OR #FR-44109)'}
+                              {transportDetailView === 'amendment' && '₱850.00 Unit Substitution Filing Fee (Paid • OR #AS-31084)'}
+                              {transportDetailView === 'special_trip' && '₱600.00 Special Out-of-Line Permit Tariff (Paid • OR #ST-11928)'}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Timeline Section */}
+                      <div className="space-y-2 pt-1">
+                        <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-1">
+                          <h4 className="text-xs font-black uppercase text-slate-700 dark:text-slate-300">
+                            Application Progress Timeline
+                          </h4>
+                          <span className="text-[10px] text-slate-400 font-medium">
+                            {transportDetailView === 'special_trip' ? 'Stage 4 of 4 • COMPLETED' : 'Stage 2 of 4 • IN PROGRESS'}
+                          </span>
+                        </div>
+
+                        {/* CASE 1: NEW TRANSPORT & VEHICLE PERMIT */}
+                        {transportDetailView === 'new_permit' && (
+                          <div className="space-y-2">
+                            {/* Step 1 */}
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 1: LTO OR/CR &amp; APPLICANT DOSSIER INTAKE (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> October 20, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> LTO Certificate of Registration, Official Receipt, Professional Driver's License, and TODA route endorsement verified.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 2 */}
+                            <div className="p-2.5 rounded-lg bg-amber-50/80 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700 flex items-start gap-2 ring-1 ring-amber-500/20">
+                              <Clock size={16} className="text-amber-600 shrink-0 mt-0.5 animate-pulse" />
+                              <div className="space-y-0.5">
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <p className="text-[11.5px] font-black text-amber-900 dark:text-amber-100">
+                                    [⏳] STEP 2: ROUTE ALLOCATION &amp; CONFLICT AUDIT (TFRB Planning Unit)
+                                  </p>
+                                  <span className="px-1.5 py-0.5 rounded-full text-[8px] bg-amber-200 text-amber-900 font-extrabold uppercase">
+                                    CURRENT STAGE
+                                  </span>
+                                </div>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> In progress (TFRB Planning &amp; Regulatory Unit)
+                                </p>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Urban Transport Division verifying route capacity, authorized drop zones, and ensuring zero route collision along Commonwealth Avenue corridor.
+                                </p>
+                                <p className="text-[10.5px] text-amber-800 dark:text-amber-200 font-medium pt-0.5">
+                                  • <span className="font-semibold">Official Remarks:</span> "Verifying uploaded LTO OR/CR, Professional Driver's License, and TODA line quota."
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 3 */}
+                            <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex items-start gap-2 opacity-75">
+                              <CircleDot size={16} className="text-slate-400 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-slate-700 dark:text-slate-300">
+                                  [ ] STEP 3: PHYSICAL ROADWORTHINESS &amp; SMOKE EMISSION AUDIT (Pending Step 2)
+                                </p>
+                                <p className="text-[10.5px] text-slate-500">
+                                  • <span className="font-semibold">Details:</span> Vehicle inspection at City Mechanics Bay: Headlights, brakes, side mirrors, and passing smoke emission carbon reading test.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 4 */}
+                            <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex items-start gap-2 opacity-60">
+                              <CircleDot size={16} className="text-slate-400 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-slate-700 dark:text-slate-300">
+                                  [ ] STEP 4: OFFICIAL FRANCHISE SEAL &amp; VEHICLE DECAL RELEASE (Pending)
+                                </p>
+                                <p className="text-[10.5px] text-slate-500">
+                                  • <span className="font-semibold">Details:</span> City Council Transportation Committee approval, tamper-proof windshield QR decal release, and MTOP laminated certificate issuance.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* CASE 2: FRANCHISE RENEWAL */}
+                        {transportDetailView === 'renewal' && (
+                          <div className="space-y-2">
+                            {/* Step 1 */}
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 1: RENEWAL APPLICATION &amp; RECORD AUDIT (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> October 18, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Previous franchise validity verified. Tax clearance and updated barangay public transport clearance submitted.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 2 */}
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 2: COOP &amp; TODA ENDORSEMENT VALIDATION (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> October 19, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Novaliches-Bayan TODA confirmed active member in good standing with zero pending passenger complaints.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 3 */}
+                            <div className="p-2.5 rounded-lg bg-sky-50/80 dark:bg-sky-950/40 border border-sky-300 dark:border-sky-700 flex items-start gap-2 ring-1 ring-sky-500/20">
+                              <Clock size={16} className="text-sky-600 shrink-0 mt-0.5 animate-pulse" />
+                              <div className="space-y-0.5">
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <p className="text-[11.5px] font-black text-sky-900 dark:text-sky-100">
+                                    [⏳] STEP 3: PHYSICAL ROADWORTHINESS &amp; EMISSION RE-TEST (Inspection Bay)
+                                  </p>
+                                  <span className="px-1.5 py-0.5 rounded-full text-[8px] bg-sky-200 text-sky-900 font-extrabold uppercase">
+                                    CURRENT STAGE
+                                  </span>
+                                </div>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> In progress (Depot Inspection Bay &amp; Emission Unit)
+                                </p>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Annual unit presentation for safety audit: brake efficiency, signal lights, and DENR-compliant smoke test.
+                                </p>
+                                <p className="text-[10.5px] text-sky-800 dark:text-sky-200 font-medium pt-0.5">
+                                  • <span className="font-semibold">Official Remarks:</span> "Annual fleet validation ongoing. Bring unit to testing bay for brakes and smoke test."
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 4 */}
+                            <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex items-start gap-2 opacity-60">
+                              <CircleDot size={16} className="text-slate-400 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-slate-700 dark:text-slate-300">
+                                  [ ] STEP 4: ANNUAL VALIDATION QR STICKER &amp; MTOP RELEASE (Pending)
+                                </p>
+                                <p className="text-[10.5px] text-slate-500">
+                                  • <span className="font-semibold">Details:</span> Laminated MTOP certificate renewed and hologram security sticker affixed to PUV windshield.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* CASE 3: AMENDMENT & UNIT SUBSTITUTION */}
+                        {transportDetailView === 'amendment' && (
+                          <div className="space-y-2">
+                            {/* Step 1 */}
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 1: SUBSTITUTION FILING &amp; NOTARIZED DEED INTAKE (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> October 19, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Applicant filed formal request for motor substitution. Deed of Sale and vehicle transfer documents accepted.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 2 */}
+                            <div className="p-2.5 rounded-lg bg-amber-50/80 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700 flex items-start gap-2 ring-1 ring-amber-500/20">
+                              <Clock size={16} className="text-amber-600 shrink-0 mt-0.5 animate-pulse" />
+                              <div className="space-y-0.5">
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <p className="text-[11.5px] font-black text-amber-900 dark:text-amber-100">
+                                    [⏳] STEP 2: PNP HPG &amp; STENCIL VERIFICATION (Traffic Division)
+                                  </p>
+                                  <span className="px-1.5 py-0.5 rounded-full text-[8px] bg-amber-200 text-amber-900 font-extrabold uppercase">
+                                    CURRENT STAGE
+                                  </span>
+                                </div>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> In progress (Traffic &amp; Vehicle Registry Division)
+                                </p>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> PNP Highway Patrol Group verifying engine and chassis numbers against national vehicle registry.
+                                </p>
+                                <p className="text-[10.5px] text-amber-800 dark:text-amber-200 font-medium pt-0.5">
+                                  • <span className="font-semibold">Official Remarks:</span> "Deed of sale and engine stencil submitted. Verifying previous motor registration."
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 3 */}
+                            <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex items-start gap-2 opacity-75">
+                              <CircleDot size={16} className="text-slate-400 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-slate-700 dark:text-slate-300">
+                                  [ ] STEP 3: REPLACEMENT UNIT PHYSICAL INSPECTION (Pending)
+                                </p>
+                                <p className="text-[10.5px] text-slate-500">
+                                  • <span className="font-semibold">Details:</span> Engine displacement and safety compliance inspection of the newly mounted replacement engine.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 4 */}
+                            <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex items-start gap-2 opacity-60">
+                              <CircleDot size={16} className="text-slate-400 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-slate-700 dark:text-slate-300">
+                                  [ ] STEP 4: AMENDED FRANCHISE RESOLUTION ISSUANCE (Pending)
+                                </p>
+                                <p className="text-[10.5px] text-slate-500">
+                                  • <span className="font-semibold">Details:</span> TFRB board resolution approving unit transfer and updated franchise certificate release.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* CASE 4: SPECIAL TRIP CLEARANCE */}
+                        {transportDetailView === 'special_trip' && (
+                          <div className="space-y-2">
+                            {/* Step 1 */}
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 1: ITINERARY &amp; PASSENGER MANIFEST FILED (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> October 21, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Passenger headcount manifest, driver credentials, and point-to-point route itinerary successfully received.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 2 */}
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 2: OUT-OF-LINE ROUTE &amp; INSURANCE CLEARANCE (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> October 21, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Passenger insurance coverage verified for inter-city travel. Traffic management coordination cleared.
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 3 */}
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 3: SPECIAL TARIFF ASSESSMENT &amp; GCASH PAYMENT (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> October 21, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Special trip regulatory tariff settled (₱600.00 via online portal • Official Receipt #ST-11928).
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Step 4 */}
+                            <div className="p-2.5 rounded-lg bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700 flex items-start gap-2 ring-1 ring-emerald-500/20">
+                              <CheckCircle2 size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <p className="text-[11.5px] font-black text-emerald-900 dark:text-emerald-100">
+                                    [✓] STEP 4: SPECIAL TRIP PASS READY FOR RELEASE (Active Authority)
+                                  </p>
+                                  <span className="px-1.5 py-0.5 rounded-full text-[8px] bg-emerald-200 text-emerald-900 font-extrabold uppercase">
+                                    AUTHORIZED
+                                  </span>
+                                </div>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> October 21, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Official Out-of-Line Travel Pass with cryptographic QR security seal released for specified itinerary dates.
+                                </p>
+                                <p className="text-[10.5px] text-emerald-800 dark:text-emerald-200 font-medium pt-0.5">
+                                  • <span className="font-semibold">Official Remarks:</span> "Passenger manifest and route itinerary approved. Ready to print special pass."
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* What You Need to Do Next */}
+                      <div className="p-2.5 rounded-lg bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800/60 space-y-1">
+                        <span className="text-[9px] font-black uppercase tracking-wider text-blue-700 dark:text-blue-300 block">
+                          📌 WHAT YOU NEED TO DO NEXT:
+                        </span>
+                        <p className="text-[11px] text-slate-700 dark:text-slate-200 leading-normal font-medium">
+                          {transportDetailView === 'new_permit' && '"Your route allocation review is underway at the TFRB Division (2-3 business days). Please stand by for an SMS notification with your scheduled inspection bay date at the City Transport Depot for Step 3."'}
+                          {transportDetailView === 'renewal' && '"Please bring your PUV unit to the City Transport Inspection Depot (Bay 3) between 8:00 AM - 4:00 PM for the physical roadworthiness audit and smoke emission re-test."'}
+                          {transportDetailView === 'amendment' && '"Stand by for PNP Highway Patrol Group stencil clearance validation. Once cleared, you will be invited to present the replacement motor unit for bay inspection."'}
+                          {transportDetailView === 'special_trip' && '"Your Special Out-of-Line Permit is officially authorized and ready! You can present this digital pass or printed copy with QR code during route inspections."'}
+                        </p>
+                      </div>
+
+                      {/* Bottom Back Button */}
+                      <div className="pt-0.5">
+                        <button
+                          type="button"
+                          onClick={() => setTransportDetailView(null)}
+                          className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[11px] font-bold transition-all inline-flex items-center space-x-1 cursor-pointer shadow-xs"
+                        >
+                          <ArrowLeft size={13} />
+                          <span>Back to All Applications</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  /* --------------------------------------------------------------- */
+                  /* ALL 4 TRANSPORT SERVICES CARDS (MATCHING USER SCREENSHOT)       */
+                  /* --------------------------------------------------------------- */
+                  <div className="space-y-2.5">
+                    {/* 1. APPLY FOR TRANSPORT & VEHICLE PERMIT */}
+                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-3 sm:p-3.5 shadow-xs space-y-2 hover:border-blue-300 dark:hover:border-blue-700/60 transition-all">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
+                        <div>
+                          <span className="text-[9px] font-black uppercase tracking-wider text-blue-600 dark:text-blue-400 block">
+                            🚐 NEW TRANSPORT &amp; VEHICLE PERMIT RECORD
+                          </span>
+                          <h3 className="text-sm sm:text-[15px] font-black text-slate-900 dark:text-white mt-0.5">
+                            Danilo Macaraeg (Unit #108)
+                          </h3>
+                          <p className="text-[10px] sm:text-[10.5px] text-slate-500 dark:text-slate-400 mt-0.5">
+                            Operator: <span className="font-semibold text-slate-700 dark:text-slate-200">Danilo Macaraeg</span> • Route: <span className="font-semibold text-slate-700 dark:text-slate-200">Commonwealth-Fairview Corridor</span> • TODA: <span className="font-semibold text-slate-700 dark:text-slate-200">Commonwealth TODA</span> • Fee: <span className="font-semibold text-slate-700 dark:text-slate-200">₱1,350.00 Base Regulatory Tariff</span>
+                          </p>
+                        </div>
+
+                        <div className="text-left sm:text-right">
+                          <span className="font-mono text-[11px] font-extrabold text-blue-600 dark:text-blue-400 block">
+                            TR-2026-004821
+                          </span>
+                          <span className="text-[9.5px] text-slate-400">
+                            Date Filed: October 20, 2026
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Status & Remarks */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div className="p-2 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 block">
+                            CURRENT STATUS
+                          </span>
+                          <p className="text-[11px] font-extrabold text-amber-800 dark:text-amber-200 flex items-center gap-1.5">
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                            ■ STEP 2: ROUTE ALLOCATION &amp; CONFLICT AUDIT (TFRB Planning &amp; Regulatory Unit)
+                          </p>
+                        </div>
+
+                        <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-400 block">
+                            OFFICIAL REMARKS
+                          </span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight truncate sm:whitespace-normal">
+                            "Verifying uploaded LTO OR/CR, Professional Driver's License, and TODA line quota."
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                        <button
+                          type="button"
+                          onClick={() => setTransportDetailView('new_permit')}
+                          className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[11px] font-bold transition-all flex items-center space-x-1 cursor-pointer shadow-xs"
+                        >
+                          <Eye size={12} />
+                          <span>View Status &amp; Timeline</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* 2. FRANCHISE RENEWAL */}
+                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-3 sm:p-3.5 shadow-xs space-y-2 hover:border-blue-300 dark:hover:border-blue-700/60 transition-all">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
+                        <div>
+                          <span className="text-[9px] font-black uppercase tracking-wider text-blue-600 dark:text-blue-400 block">
+                            🔄 FRANCHISE ANNUAL RENEWAL RECORD
+                          </span>
+                          <h3 className="text-sm sm:text-[15px] font-black text-slate-900 dark:text-white mt-0.5">
+                            Rolando Santos (Unit #142)
+                          </h3>
+                          <p className="text-[10px] sm:text-[10.5px] text-slate-500 dark:text-slate-400 mt-0.5">
+                            Operator: <span className="font-semibold text-slate-700 dark:text-slate-200">Rolando Santos</span> • Route: <span className="font-semibold text-slate-700 dark:text-slate-200">Novaliches-Bayan TODA</span> • Fee: <span className="font-semibold text-slate-700 dark:text-slate-200">₱1,250.00 Annual Tariff</span> • Decal: <span className="font-semibold text-slate-700 dark:text-slate-200">Validated</span>
+                          </p>
+                        </div>
+
+                        <div className="text-left sm:text-right">
+                          <span className="font-mono text-[11px] font-extrabold text-blue-600 dark:text-blue-400 block">
+                            FR-2026-009142
+                          </span>
+                          <span className="text-[9.5px] text-slate-400">
+                            Date Filed: October 18, 2026
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Status & Remarks */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div className="p-2 rounded-lg bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800/60 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-sky-700 dark:text-sky-300 block">
+                            CURRENT STATUS
+                          </span>
+                          <p className="text-[11px] font-extrabold text-sky-800 dark:text-sky-200 flex items-center gap-1.5">
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse" />
+                            ● STEP 3: PHYSICAL ROADWORTHINESS AUDIT (Depot Inspection Bay &amp; Emission Unit)
+                          </p>
+                        </div>
+
+                        <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-400 block">
+                            OFFICIAL REMARKS
+                          </span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight truncate sm:whitespace-normal">
+                            "Annual fleet validation ongoing. Bring unit to testing bay for brakes and smoke test."
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                        <button
+                          type="button"
+                          onClick={() => setTransportDetailView('renewal')}
+                          className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[11px] font-bold transition-all flex items-center space-x-1 cursor-pointer shadow-xs"
+                        >
+                          <Eye size={12} />
+                          <span>View Status &amp; Timeline</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* 3. AMENDMENT & SUBSTITUTION */}
+                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-3 sm:p-3.5 shadow-xs space-y-2 hover:border-blue-300 dark:hover:border-blue-700/60 transition-all">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
+                        <div>
+                          <span className="text-[9px] font-black uppercase tracking-wider text-blue-600 dark:text-blue-400 block">
+                            🔁 AMENDMENT &amp; UNIT SUBSTITUTION RECORD
+                          </span>
+                          <h3 className="text-sm sm:text-[15px] font-black text-slate-900 dark:text-white mt-0.5">
+                            Eduardo Ramirez (Unit #019)
+                          </h3>
+                          <p className="text-[10px] sm:text-[10.5px] text-slate-500 dark:text-slate-400 mt-0.5">
+                            Operator: <span className="font-semibold text-slate-700 dark:text-slate-200">Eduardo Ramirez</span> • Line: <span className="font-semibold text-slate-700 dark:text-slate-200">Cubao-Anonas Route</span> • Type: <span className="font-semibold text-slate-700 dark:text-slate-200">Motor &amp; Chassis Change</span> • Fee: <span className="font-semibold text-slate-700 dark:text-slate-200">₱850.00 Filing Fee</span>
+                          </p>
+                        </div>
+
+                        <div className="text-left sm:text-right">
+                          <span className="font-mono text-[11px] font-extrabold text-blue-600 dark:text-blue-400 block">
+                            AS-2026-002377
+                          </span>
+                          <span className="text-[9.5px] text-slate-400">
+                            Date Filed: October 19, 2026
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Status & Remarks */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div className="p-2 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 block">
+                            CURRENT STATUS
+                          </span>
+                          <p className="text-[11px] font-extrabold text-amber-800 dark:text-amber-200 flex items-center gap-1.5">
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                            ■ STEP 2: PNP HPG &amp; STENCIL VERIFICATION (Traffic &amp; Vehicle Registry Division)
+                          </p>
+                        </div>
+
+                        <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-400 block">
+                            OFFICIAL REMARKS
+                          </span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight truncate sm:whitespace-normal">
+                            "Deed of sale and engine stencil submitted. Verifying previous motor registration."
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                        <button
+                          type="button"
+                          onClick={() => setTransportDetailView('amendment')}
+                          className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[11px] font-bold transition-all flex items-center space-x-1 cursor-pointer shadow-xs"
+                        >
+                          <Eye size={12} />
+                          <span>View Status &amp; Timeline</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* 4. SPECIAL TRIP CLEARANCE */}
+                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-3 sm:p-3.5 shadow-xs space-y-2 hover:border-blue-300 dark:hover:border-blue-700/60 transition-all">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
+                        <div>
+                          <span className="text-[9px] font-black uppercase tracking-wider text-blue-600 dark:text-blue-400 block">
+                            📋 SPECIAL TRIP CLEARANCE APPLICATION RECORD
+                          </span>
+                          <h3 className="text-sm sm:text-[15px] font-black text-slate-900 dark:text-white mt-0.5">
+                            Rogelio Vargas (Tourist Van #08)
+                          </h3>
+                          <p className="text-[10px] sm:text-[10.5px] text-slate-500 dark:text-slate-400 mt-0.5">
+                            Operator: <span className="font-semibold text-slate-700 dark:text-slate-200">Rogelio Vargas</span> • Designated Route: <span className="font-semibold text-slate-700 dark:text-slate-200">QC Hall to Intramuros Tour</span> • Fee: <span className="font-semibold text-slate-700 dark:text-slate-200">₱600.00 Special Tariff</span>
+                          </p>
+                        </div>
+
+                        <div className="text-left sm:text-right">
+                          <span className="font-mono text-[11px] font-extrabold text-blue-600 dark:text-blue-400 block">
+                            ST-2026-006510
+                          </span>
+                          <span className="text-[9.5px] text-slate-400">
+                            Date Filed: October 21, 2026
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Status & Remarks */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div className="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-300 block">
+                            CURRENT STATUS
+                          </span>
+                          <p className="text-[11px] font-extrabold text-emerald-800 dark:text-emerald-200 flex items-center gap-1.5">
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                            ● STEP 4: READY FOR RELEASE (Digital Out-of-Line Authority Issued)
+                          </p>
+                        </div>
+
+                        <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-400 block">
+                            OFFICIAL REMARKS
+                          </span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight truncate sm:whitespace-normal">
+                            "Passenger manifest and route itinerary approved. Ready to print special pass."
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                        <button
+                          type="button"
+                          onClick={() => setTransportDetailView('special_trip')}
+                          className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[11px] font-bold transition-all flex items-center space-x-1 cursor-pointer shadow-xs"
+                        >
+                          <Eye size={12} />
+                          <span>View Status &amp; Timeline</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              /* =================================================================== */
+              /* OTHER PERMIT MODULES (BARANGAY)                                     */
+              /* =================================================================== */
+              <>
             <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-5 sm:p-6 shadow-sm space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center space-x-3">
@@ -1380,7 +2980,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
 
               {/* Applicant Selector Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-1">
-                {(selectedCategory === 'business' || selectedCategory === 'all' ? businessApplicants : categoryApplicants).map((app) => {
+                {categoryApplicants.map((app) => {
                   const isSelected = activeRecord?.id === app.id;
                   const isApproved = app.currentStatus.toLowerCase().includes('approved');
                   const isAction = app.requiresAction;
@@ -2158,6 +3758,8 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
                   </p>
                 </div>
               </div>
+            )}
+            </>
             )}
 
           </div>
