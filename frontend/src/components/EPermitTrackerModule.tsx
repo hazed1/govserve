@@ -392,6 +392,9 @@ export const EPermitTrackerModule: React.FC<EPermitTrackerModuleProps> = ({
   // Franchise & Transport Detail Page View State
   const [transportDetailView, setTransportDetailView] = useState<'new_permit' | 'renewal' | 'amendment' | 'special_trip' | null>(null);
 
+  // Barangay Detail Page View State
+  const [barangayDetailView, setBarangayDetailView] = useState<'clearance' | 'construction' | 'cedula' | 'residency' | null>(null);
+
   // Notification preferences
   const [notifPrefs, setNotifPrefs] = useState({
     email: true,
@@ -563,6 +566,7 @@ export const EPermitTrackerModule: React.FC<EPermitTrackerModuleProps> = ({
     setBuildingDetailView(false);
     setBploDetailView(null);
     setTransportDetailView(null);
+    setBarangayDetailView(null);
     
     // Pick the most relevant default record for quick exploration
     const match = Object.values(unifiedRecords).find(r => r.permitCategory === category);
@@ -964,6 +968,8 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
               ? '🏗️ Building & Construction Permit Tracker'
               : activeView === 'track_application' && selectedCategory === 'transport'
               ? '🚐 Franchise & Transportation Tracking Portal'
+              : activeView === 'track_application' && selectedCategory === 'barangay'
+              ? '🏛️ Barangay Clearance & Permitting Tracking Portal'
               : 'Track Your Permit'}
           </h1>
           <p className="text-slate-600 dark:text-slate-300 text-[11px] max-w-lg mx-auto leading-normal">
@@ -973,6 +979,8 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
               ? 'Track real-time architectural, structural, and fire safety clearance across all 17 building permit services.'
               : activeView === 'track_application' && selectedCategory === 'transport'
               ? 'Monitor real-time route verification, LTO roadworthiness audit, and franchise issuance.'
+              : activeView === 'track_application' && selectedCategory === 'barangay'
+              ? 'Monitor real-time Lupon verification, Punong Barangay clearance, and digital seal issuance.'
               : 'Track the real-time review, inspection, and release status of your permit applications.'}
           </p>
         </div>
@@ -1360,6 +1368,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
                   setBuildingDetailView(false);
                   setBploDetailView(null);
                   setTransportDetailView(null);
+                  setBarangayDetailView(null);
                 }}
                 className="self-start px-2.5 py-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 rounded-lg text-[11px] font-bold transition-all flex items-center space-x-1.5 cursor-pointer shadow-xs text-slate-700 dark:text-slate-200"
               >
@@ -1371,7 +1380,7 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
               <div className="flex items-center space-x-1.5 text-[11px]">
                 <span className="text-slate-400 font-medium">Tracking Mode:</span>
                 <span className="px-2 py-0.5 rounded-full font-bold uppercase text-[9.5px] bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
-                  {selectedCategory === 'business' ? 'BPLO HUB' : selectedCategory === 'building' ? 'BUILDING & CONSTRUCTION PERMIT' : selectedCategory === 'transport' ? 'TRANSPORT & FRANCHISE HUB' : (selectedCategory === 'all' ? 'All Permitting Modules' : `${selectedCategory} Permit`)}
+                  {selectedCategory === 'business' ? 'BPLO HUB' : selectedCategory === 'building' ? 'BUILDING & CONSTRUCTION PERMIT' : selectedCategory === 'transport' ? 'TRANSPORT & FRANCHISE HUB' : selectedCategory === 'barangay' ? 'BARANGAY PERMIT HUB' : (selectedCategory === 'all' ? 'All Permitting Modules' : `${selectedCategory} Permit`)}
                 </span>
               </div>
             </div>
@@ -2947,10 +2956,714 @@ Official Verification: Verified by GovServe Centralized E-Permit Tracker
                   </div>
                 )}
               </div>
+            ) : selectedCategory === 'barangay' ? (
+              /* =================================================================== */
+              /* BARANGAY CLEARANCE & PERMITTING TRACKING PORTAL (IN-PAGE VIEW)      */
+              /* =================================================================== */
+              <div className="space-y-2.5">
+                {barangayDetailView !== null ? (
+                  /* --------------------------------------------------------------- */
+                  /* FULL PAGE DETAIL CONTENT (BARANGAY IN-PAGE VIEW)                */
+                  /* --------------------------------------------------------------- */
+                  <div className="space-y-3 animate-in fade-in duration-150">
+                    {/* Top Bar for Detail View */}
+                    <div className="flex items-center justify-between pb-0.5">
+                      <button
+                        type="button"
+                        onClick={() => setBarangayDetailView(null)}
+                        className="inline-flex items-center space-x-1 text-[11px] font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 hover:underline cursor-pointer"
+                      >
+                        <ArrowLeft size={13} />
+                        <span>Back to All Barangay Applications</span>
+                      </button>
+                    </div>
+
+                    {/* Main Detail Card */}
+                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-3.5 sm:p-4 shadow-xs space-y-3">
+                      {/* Header */}
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-2.5">
+                        <div>
+                          <span className="text-[9px] font-black uppercase tracking-wider text-blue-600 dark:text-blue-400 block">
+                            {barangayDetailView === 'clearance' && "🏛️ BARANGAY CLEARANCE APPLICATION STATUS"}
+                            {barangayDetailView === 'construction' && "🏗️ BARANGAY CONSTRUCTION ENDORSEMENT STATUS"}
+                            {barangayDetailView === 'cedula' && "📑 COMMUNITY TAX CERTIFICATE (CEDULA CTC) STATUS"}
+                            {barangayDetailView === 'residency' && "🏠 BARANGAY RESIDENCY CLEARANCE STATUS"}
+                          </span>
+                          <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white mt-0.5">
+                            {barangayDetailView === 'clearance' && 'Juan Miguel Dela Cruz'}
+                            {barangayDetailView === 'construction' && 'Engr. Jason Taccad (2-Storey House)'}
+                            {barangayDetailView === 'cedula' && 'Maria Theresa Santos'}
+                            {barangayDetailView === 'residency' && 'Elena Ramos Valenzuela'}
+                          </h3>
+                          <p className="text-[10.5px] text-slate-500 mt-0.5">
+                            {barangayDetailView === 'clearance' && (
+                              <>Ref No: <span className="font-mono font-bold text-blue-600">BC-QC-2026-08129</span> • Resident: <span className="font-semibold text-slate-700 dark:text-slate-200">Juan Miguel Dela Cruz</span> • Barangay: <span className="font-semibold text-slate-700 dark:text-slate-200">Brgy. Fairview, District 5</span> • Purpose: <span className="font-semibold text-slate-700 dark:text-slate-200">Employment Requirement</span> • Fee: <span className="font-semibold text-slate-700 dark:text-slate-200">₱150.00 Standard Tariff</span></>
+                            )}
+                            {barangayDetailView === 'construction' && (
+                              <>Ref No: <span className="font-mono font-bold text-amber-600">BCE-2025-481920</span> • Owner: <span className="font-semibold text-slate-700 dark:text-slate-200">Engr. Jason Taccad</span> • Site: <span className="font-semibold text-slate-700 dark:text-slate-200">Lot 14 Blk 8, Acacia St., Brgy. San Isidro</span> • Fee: <span className="font-semibold text-slate-700 dark:text-slate-200">₱800.00 Regulatory Tariff</span></>
+                            )}
+                            {barangayDetailView === 'cedula' && (
+                              <>Ref No: <span className="font-mono font-bold text-emerald-600">CTC-2025-0091844</span> • Taxpayer: <span className="font-semibold text-slate-700 dark:text-slate-200">Maria Theresa Santos</span> • Brgy: <span className="font-semibold text-slate-700 dark:text-slate-200">Brgy. Central</span> • Income Declared: <span className="font-semibold text-slate-700 dark:text-slate-200">₱350,000.00</span> • Fee: <span className="font-semibold text-slate-700 dark:text-slate-200">₱405.00 Computed Tariff</span></>
+                            )}
+                            {barangayDetailView === 'residency' && (
+                              <>Ref No: <span className="font-mono font-bold text-sky-600">BRE-2025-771402</span> • Resident: <span className="font-semibold text-slate-700 dark:text-slate-200">Elena Ramos Valenzuela</span> • Brgy: <span className="font-semibold text-slate-700 dark:text-slate-200">Brgy. Batasan Hills</span> • Purpose: <span className="font-semibold text-slate-700 dark:text-slate-200">RA 11261 First-Time Jobseeker</span> • Fee: <span className="font-semibold text-slate-700 dark:text-slate-200">₱0.00 (Exempted)</span></>
+                            )}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center space-x-2">
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-black uppercase ${
+                            barangayDetailView === 'clearance'
+                              ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
+                              : barangayDetailView === 'construction'
+                              ? 'bg-amber-100 text-amber-800 dark:bg-amber-950/70 dark:text-amber-300'
+                              : barangayDetailView === 'cedula'
+                              ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/70 dark:text-emerald-300'
+                              : 'bg-sky-100 text-sky-800 dark:bg-sky-950/70 dark:text-sky-300'
+                          }`}>
+                            {barangayDetailView === 'clearance' && 'READY FOR RELEASE'}
+                            {barangayDetailView === 'construction' && 'UNDER SITE INSPECTION'}
+                            {barangayDetailView === 'cedula' && 'OFFICIAL CEDULA ISSUED'}
+                            {barangayDetailView === 'residency' && 'FOR PUNONG BRGY SIGNATURE'}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Timeline & Progress */}
+                      <div className="space-y-2">
+                        <span className="text-[10px] font-black uppercase tracking-wider text-slate-500 block">
+                          📌 APPLICATION PROGRESS &amp; AUDIT TIMELINE:
+                        </span>
+
+                        {/* CASE 1: BARANGAY CLEARANCE */}
+                        {barangayDetailView === 'clearance' && (
+                          <div className="space-y-2">
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 1: ONLINE APPLICATION &amp; PHOTO UPLOAD FILED (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> October 24, 2026 - 10:15 AM
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Applicant personal information, address verification, and photos of Valid ID and Proof of Residency accepted.
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 2: LUPON DISPUTE &amp; RESIDENCY VERIFICATION (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> October 24, 2026 - 11:30 AM
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Lupon Tagapamayapa dispute records checked. Status: Clean (No pending community disputes in Barangay Fairview).
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="p-2.5 rounded-lg bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700 flex items-start gap-2 ring-1 ring-emerald-500/20">
+                              <Clock size={16} className="text-emerald-600 shrink-0 mt-0.5 animate-pulse" />
+                              <div className="space-y-0.5">
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <p className="text-[11.5px] font-black text-emerald-900 dark:text-emerald-100">
+                                    [✓] STEP 3: PUNONG BARANGAY OFFICIAL DIGITAL SEAL &amp; SIGNATURE (Authorized)
+                                  </p>
+                                  <span className="px-1.5 py-0.5 rounded-full text-[8px] bg-emerald-200 text-emerald-900 font-extrabold uppercase">
+                                    CURRENT STAGE
+                                  </span>
+                                </div>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> In progress (Office of Hon. Punong Barangay)
+                                </p>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Digital cryptographic QR authentication seal generated for verified clearance issuance.
+                                </p>
+                                <p className="text-[10.5px] text-emerald-800 dark:text-emerald-200 font-medium pt-0.5">
+                                  • <span className="font-semibold">Official Remarks:</span> "Valid ID and Proof of Residency verified. Lupon records clean. Ready for digital release."
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle2 size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 4: OFFICIAL BARANGAY CLEARANCE RELEASE (Ready)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Official certificate ready for digital PDF download or instant claim stub presentation at Barangay Hall.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* CASE 2: CONSTRUCTION ENDORSEMENT */}
+                        {barangayDetailView === 'construction' && (
+                          <div className="space-y-2">
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 1: SITE SKETCH &amp; LOT TITLE INTAKE (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> October 25, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Site sketch plan, Transfer Certificate of Title (TCT), and contractor PRC credentials validated.
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="p-2.5 rounded-lg bg-amber-50/80 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700 flex items-start gap-2 ring-1 ring-amber-500/20">
+                              <Clock size={16} className="text-amber-600 shrink-0 mt-0.5 animate-pulse" />
+                              <div className="space-y-0.5">
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <p className="text-[11.5px] font-black text-amber-900 dark:text-amber-100">
+                                    [⏳] STEP 2: LUPON &amp; KAGAWAD SITE INSPECTION (Field Audit)
+                                  </p>
+                                  <span className="px-1.5 py-0.5 rounded-full text-[8px] bg-amber-200 text-amber-900 font-extrabold uppercase">
+                                    CURRENT STAGE
+                                  </span>
+                                </div>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> Scheduled within 24-48 hours (Field Site: Lot 14 Blk 8, Acacia St.)
+                                </p>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Ocular inspection of setback distance, boundary line compliance, and structural hazard assessment.
+                                </p>
+                                <p className="text-[10.5px] text-amber-800 dark:text-amber-200 font-medium pt-0.5">
+                                  • <span className="font-semibold">Official Remarks:</span> "Site sketch plan and Lot Title uploaded. Kagawad Roberto scheduled for boundary verification."
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex items-start gap-2 opacity-60">
+                              <CircleDot size={16} className="text-slate-400 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-slate-700 dark:text-slate-300">
+                                  [ ] STEP 3: NEIGHBOR CONCURRENCE &amp; COMMUNITY CLEARANCE (Pending)
+                                </p>
+                                <p className="text-[10.5px] text-slate-500">
+                                  • <span className="font-semibold">Details:</span> Validation of adjacent neighbor concurrence letter and noise/haulage regulation guidelines.
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex items-start gap-2 opacity-60">
+                              <CircleDot size={16} className="text-slate-400 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-slate-700 dark:text-slate-300">
+                                  [ ] STEP 4: BARANGAY CONSTRUCTION ENDORSEMENT CERTIFICATE (Pending)
+                                </p>
+                                <p className="text-[10.5px] text-slate-500">
+                                  • <span className="font-semibold">Details:</span> Official stamped endorsement for forwarding to the City Building Official (OBO).
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* CASE 3: CEDULA CTC */}
+                        {barangayDetailView === 'cedula' && (
+                          <div className="space-y-2">
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 1: INCOME ASSESSMENT &amp; TAX IDENTIFICATION INTAKE (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> October 24, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Declared gross earnings ₱350,000.00 and BIR Form 2316 validated. Basic fee ₱55.00 + additional tax ₱350.00.
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 2: ONLINE TARIFF PAYMENT &amp; ELECTRONIC OR (Settled)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> October 24, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Tariff settled (₱405.00 via online portal • Official Receipt #CTC-88190).
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="p-2.5 rounded-lg bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-700 flex items-start gap-2 ring-1 ring-emerald-500/20">
+                              <CheckCircle2 size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <p className="text-[11.5px] font-black text-emerald-900 dark:text-emerald-100">
+                                    [✓] STEP 3: OFFICIAL ELECTRONIC CEDULA (CTC) RELEASED (Ready)
+                                  </p>
+                                  <span className="px-1.5 py-0.5 rounded-full text-[8px] bg-emerald-200 text-emerald-900 font-extrabold uppercase">
+                                    ISSUED
+                                  </span>
+                                </div>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> October 24, 2026 (Instant Release)
+                                </p>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Electronic Community Tax Certificate with municipal treasury cryptographic seal issued.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* CASE 4: RESIDENCY CLEARANCE */}
+                        {barangayDetailView === 'residency' && (
+                          <div className="space-y-2">
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 1: RESIDENCY PROOF &amp; UTILITY BILL INTAKE (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> October 25, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Water utility bill, National ID, and length of residency (8 years) verified.
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 flex items-start gap-2">
+                              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-emerald-800 dark:text-emerald-200">
+                                  [✓] STEP 2: RA 11261 FEE WAIVER &amp; VOTER RECORD AUDIT (Completed)
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> October 25, 2026
+                                </p>
+                                <p className="text-[10.5px] text-slate-600 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> First-Time Jobseekers Assistance Act waiver applied (100% free fee: ₱0.00).
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="p-2.5 rounded-lg bg-sky-50/80 dark:bg-sky-950/40 border border-sky-300 dark:border-sky-700 flex items-start gap-2 ring-1 ring-sky-500/20">
+                              <Clock size={16} className="text-sky-600 shrink-0 mt-0.5 animate-pulse" />
+                              <div className="space-y-0.5">
+                                <div className="flex flex-wrap items-center gap-1.5">
+                                  <p className="text-[11.5px] font-black text-sky-900 dark:text-sky-100">
+                                    [⏳] STEP 3: PUNONG BARANGAY SIGNATURE &amp; QR PASS RELEASE (In Progress)
+                                  </p>
+                                  <span className="px-1.5 py-0.5 rounded-full text-[8px] bg-sky-200 text-sky-900 font-extrabold uppercase">
+                                    CURRENT STAGE
+                                  </span>
+                                </div>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Date:</span> Same-day release upon official sign-off
+                                </p>
+                                <p className="text-[10.5px] text-slate-700 dark:text-slate-300">
+                                  • <span className="font-semibold">Details:</span> Barangay Captain e-signature and authentication QR code generation.
+                                </p>
+                                <p className="text-[10.5px] text-sky-800 dark:text-sky-200 font-medium pt-0.5">
+                                  • <span className="font-semibold">Official Remarks:</span> "Residency verified via voter &amp; Lupon masterlist. RA 11261 fee waiver applied."
+                                </p>
+                              </div>
+                            </div>
+
+                            <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex items-start gap-2 opacity-60">
+                              <CircleDot size={16} className="text-slate-400 shrink-0 mt-0.5" />
+                              <div className="space-y-0.5">
+                                <p className="text-[11.5px] font-black text-slate-700 dark:text-slate-300">
+                                  [ ] STEP 4: OFFICIAL CERTIFICATE OF RESIDENCY RELEASED (Pending)
+                                </p>
+                                <p className="text-[10.5px] text-slate-500">
+                                  • <span className="font-semibold">Details:</span> Ready for pickup at Barangay Hall or digital download.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Uploaded Documents Gallery (From Pic 1) */}
+                      <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-1.5">
+                        <span className="text-[9.5px] font-black uppercase tracking-wider text-slate-600 dark:text-slate-300 block">
+                          📷 UPLOADED DOCUMENTS FROM PIC 1:
+                        </span>
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                          {barangayDetailView === 'clearance' && (
+                            <>
+                              <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-[10.5px] space-y-0.5">
+                                <span className="font-bold text-slate-800 dark:text-slate-200 block truncate">Valid National ID</span>
+                                <span className="text-emerald-600 dark:text-emerald-400 text-[9.5px] font-semibold">✓ Verified (1.8 MB)</span>
+                              </div>
+                              <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-[10.5px] space-y-0.5">
+                                <span className="font-bold text-slate-800 dark:text-slate-200 block truncate">Meralco Utility Bill</span>
+                                <span className="text-emerald-600 dark:text-emerald-400 text-[9.5px] font-semibold">✓ Verified (2.4 MB)</span>
+                              </div>
+                              <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-[10.5px] space-y-0.5">
+                                <span className="font-bold text-slate-800 dark:text-slate-200 block truncate">Cedula CTC Copy</span>
+                                <span className="text-emerald-600 dark:text-emerald-400 text-[9.5px] font-semibold">✓ Verified (1.2 MB)</span>
+                              </div>
+                            </>
+                          )}
+                          {barangayDetailView === 'construction' && (
+                            <>
+                              <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-[10.5px] space-y-0.5">
+                                <span className="font-bold text-slate-800 dark:text-slate-200 block truncate">Site Sketch Plan</span>
+                                <span className="text-emerald-600 dark:text-emerald-400 text-[9.5px] font-semibold">✓ Uploaded (2.4 MB)</span>
+                              </div>
+                              <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-[10.5px] space-y-0.5">
+                                <span className="font-bold text-slate-800 dark:text-slate-200 block truncate">Lot Title / TCT</span>
+                                <span className="text-emerald-600 dark:text-emerald-400 text-[9.5px] font-semibold">✓ Uploaded (1.8 MB)</span>
+                              </div>
+                              <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-[10.5px] space-y-0.5">
+                                <span className="font-bold text-slate-800 dark:text-slate-200 block truncate">Contractor PRC ID</span>
+                                <span className="text-emerald-600 dark:text-emerald-400 text-[9.5px] font-semibold">✓ Uploaded (1.5 MB)</span>
+                              </div>
+                            </>
+                          )}
+                          {barangayDetailView === 'cedula' && (
+                            <>
+                              <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-[10.5px] space-y-0.5">
+                                <span className="font-bold text-slate-800 dark:text-slate-200 block truncate">Valid Govt ID</span>
+                                <span className="text-emerald-600 dark:text-emerald-400 text-[9.5px] font-semibold">✓ Verified (1.4 MB)</span>
+                              </div>
+                              <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-[10.5px] space-y-0.5">
+                                <span className="font-bold text-slate-800 dark:text-slate-200 block truncate">BIR Form 2316</span>
+                                <span className="text-emerald-600 dark:text-emerald-400 text-[9.5px] font-semibold">✓ Validated (2.1 MB)</span>
+                              </div>
+                              <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-[10.5px] space-y-0.5">
+                                <span className="font-bold text-slate-800 dark:text-slate-200 block truncate">Official Receipt</span>
+                                <span className="text-emerald-600 dark:text-emerald-400 text-[9.5px] font-semibold">✓ OR #CTC-88190</span>
+                              </div>
+                            </>
+                          )}
+                          {barangayDetailView === 'residency' && (
+                            <>
+                              <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-[10.5px] space-y-0.5">
+                                <span className="font-bold text-slate-800 dark:text-slate-200 block truncate">National ID</span>
+                                <span className="text-emerald-600 dark:text-emerald-400 text-[9.5px] font-semibold">✓ Verified (1.6 MB)</span>
+                              </div>
+                              <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-[10.5px] space-y-0.5">
+                                <span className="font-bold text-slate-800 dark:text-slate-200 block truncate">Water Utility Bill</span>
+                                <span className="text-emerald-600 dark:text-emerald-400 text-[9.5px] font-semibold">✓ Verified (2.0 MB)</span>
+                              </div>
+                              <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-[10.5px] space-y-0.5">
+                                <span className="font-bold text-slate-800 dark:text-slate-200 block truncate">RA 11261 Jobseeker Oath</span>
+                                <span className="text-emerald-600 dark:text-emerald-400 text-[9.5px] font-semibold">✓ Approved (Fee: ₱0)</span>
+                              </div>
+                            </>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* What You Need to Do Next */}
+                      <div className="p-2.5 rounded-lg bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800/60 space-y-1">
+                        <span className="text-[9px] font-black uppercase tracking-wider text-blue-700 dark:text-blue-300 block">
+                          📌 WHAT YOU NEED TO DO NEXT:
+                        </span>
+                        <p className="text-[11px] text-slate-700 dark:text-slate-200 leading-normal font-medium">
+                          {barangayDetailView === 'clearance' && '"Ang iyong Barangay Clearance ay kasalukuyang pinipirmahan ng Punong Barangay. Makakatanggap ka ng SMS notification kapag handa na itong i-download o kunin sa Barangay Hall."'}
+                          {barangayDetailView === 'construction' && '"Kasalukuyang naka-iskedyul ang ocular site inspection kasama ang Barangay Kagawad at Lupon. Mangyaring maging handa sa lokasyon ng proyekto para sa boundary verification."'}
+                          {barangayDetailView === 'cedula' && '"Ang iyong Electronic Community Tax Certificate (Cedula) ay matagumpay nang naibigay. I-download o i-print ang opisyal na kopya na may QR verification seal."'}
+                          {barangayDetailView === 'residency' && '"Kasalukuyang pinipirmahan ng Punong Barangay ang iyong Certificate of Residency. Makakatanggap ka ng text notification oras na lumabas ang digital copy."'}
+                        </p>
+                      </div>
+
+                      {/* Actions */}
+                      <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-slate-100 dark:border-slate-800">
+                        <button
+                          type="button"
+                          onClick={() => setBarangayDetailView(null)}
+                          className="px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[11px] font-bold transition-all inline-flex items-center space-x-1 cursor-pointer shadow-xs"
+                        >
+                          <ArrowLeft size={13} />
+                          <span>Back to All Barangay Applications</span>
+                        </button>
+
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => showToast('✓ Downloading Official PDF with QR seal...')}
+                            className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-[11px] font-bold transition-all inline-flex items-center space-x-1.5 cursor-pointer shadow-xs"
+                          >
+                            <Download size={13} />
+                            <span>Download Official PDF</span>
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => window.print()}
+                            className="px-3 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg text-[11px] font-bold transition-all inline-flex items-center space-x-1.5 cursor-pointer border border-slate-200 dark:border-slate-700"
+                          >
+                            <Printer size={13} />
+                            <span>Print Claim Stub</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  /* --------------------------------------------------------------- */
+                  /* ALL 4 BARANGAY SERVICES CARDS (MATCHING TRANSPORT STYLE)        */
+                  /* --------------------------------------------------------------- */
+                  <div className="space-y-2.5">
+                    {/* 1. BARANGAY CLEARANCE APPLICATION RECORD */}
+                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-3 sm:p-3.5 shadow-xs space-y-2 hover:border-blue-300 dark:hover:border-blue-700/60 transition-all">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
+                        <div>
+                          <span className="text-[9px] font-black uppercase tracking-wider text-blue-600 dark:text-blue-400 block">
+                            📄 BARANGAY CLEARANCE APPLICATION RECORD
+                          </span>
+                          <h3 className="text-sm sm:text-[15px] font-black text-slate-900 dark:text-white mt-0.5">
+                            Juan Miguel Dela Cruz
+                          </h3>
+                          <p className="text-[10px] sm:text-[10.5px] text-slate-500 dark:text-slate-400 mt-0.5">
+                            Resident: <span className="font-semibold text-slate-700 dark:text-slate-200">Juan Miguel Dela Cruz</span> • Barangay: <span className="font-semibold text-slate-700 dark:text-slate-200">Brgy. Fairview</span> • Purpose: <span className="font-semibold text-slate-700 dark:text-slate-200">Employment</span> • Fee: <span className="font-semibold text-slate-700 dark:text-slate-200">₱150.00</span>
+                          </p>
+                        </div>
+
+                        <div className="text-left sm:text-right">
+                          <span className="font-mono text-[11px] font-extrabold text-blue-600 dark:text-blue-400 block">
+                            BC-QC-2026-08129
+                          </span>
+                          <span className="text-[9.5px] text-slate-400">
+                            Date Filed: October 24, 2026
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Status & Remarks */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div className="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-300 block">
+                            CURRENT STATUS
+                          </span>
+                          <p className="text-[11px] font-extrabold text-emerald-800 dark:text-emerald-200 flex items-center gap-1.5">
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                            🟢 STEP 3: FOR PUNONG BARANGAY SEAL &amp; RELEASE
+                          </p>
+                        </div>
+
+                        <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-400 block">
+                            OFFICIAL REMARKS
+                          </span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight truncate sm:whitespace-normal">
+                            "Valid ID and Proof of Residency verified. Lupon records clean. Awaiting Captain's e-signature."
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                        <button
+                          type="button"
+                          onClick={() => setBarangayDetailView('clearance')}
+                          className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[11px] font-bold transition-all flex items-center space-x-1 cursor-pointer shadow-xs"
+                        >
+                          <Eye size={12} />
+                          <span>View Status &amp; Timeline</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* 2. BARANGAY CONSTRUCTION ENDORSEMENT RECORD */}
+                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-3 sm:p-3.5 shadow-xs space-y-2 hover:border-blue-300 dark:hover:border-blue-700/60 transition-all">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
+                        <div>
+                          <span className="text-[9px] font-black uppercase tracking-wider text-blue-600 dark:text-blue-400 block">
+                            🏗️ BARANGAY CONSTRUCTION ENDORSEMENT RECORD
+                          </span>
+                          <h3 className="text-sm sm:text-[15px] font-black text-slate-900 dark:text-white mt-0.5">
+                            Engr. Jason Taccad (2-Storey House)
+                          </h3>
+                          <p className="text-[10px] sm:text-[10.5px] text-slate-500 dark:text-slate-400 mt-0.5">
+                            Owner: <span className="font-semibold text-slate-700 dark:text-slate-200">Engr. Jason Taccad</span> • Site: <span className="font-semibold text-slate-700 dark:text-slate-200">Lot 14 Blk 8, Acacia St., Brgy. San Isidro</span> • Fee: <span className="font-semibold text-slate-700 dark:text-slate-200">₱800.00 Regulatory</span>
+                          </p>
+                        </div>
+
+                        <div className="text-left sm:text-right">
+                          <span className="font-mono text-[11px] font-extrabold text-amber-600 dark:text-amber-400 block">
+                            BCE-2025-481920
+                          </span>
+                          <span className="text-[9.5px] text-slate-400">
+                            Date Filed: October 25, 2026
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Status & Remarks */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div className="p-2 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-300 block">
+                            CURRENT STATUS
+                          </span>
+                          <p className="text-[11px] font-extrabold text-amber-800 dark:text-amber-200 flex items-center gap-1.5">
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+                            🟡 STEP 2: LUPON &amp; KAGAWAD SITE INSPECTION
+                          </p>
+                        </div>
+
+                        <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-400 block">
+                            OFFICIAL REMARKS
+                          </span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight truncate sm:whitespace-normal">
+                            "Site sketch plan and Lot Title uploaded. Kagawad Roberto scheduled for boundary verification."
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                        <button
+                          type="button"
+                          onClick={() => setBarangayDetailView('construction')}
+                          className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[11px] font-bold transition-all flex items-center space-x-1 cursor-pointer shadow-xs"
+                        >
+                          <Eye size={12} />
+                          <span>View Status &amp; Timeline</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* 3. COMMUNITY TAX CERTIFICATE (CEDULA CTC) RECORD */}
+                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-3 sm:p-3.5 shadow-xs space-y-2 hover:border-blue-300 dark:hover:border-blue-700/60 transition-all">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
+                        <div>
+                          <span className="text-[9px] font-black uppercase tracking-wider text-blue-600 dark:text-blue-400 block">
+                            📑 COMMUNITY TAX CERTIFICATE (CEDULA CTC) RECORD
+                          </span>
+                          <h3 className="text-sm sm:text-[15px] font-black text-slate-900 dark:text-white mt-0.5">
+                            Maria Theresa Santos
+                          </h3>
+                          <p className="text-[10px] sm:text-[10.5px] text-slate-500 dark:text-slate-400 mt-0.5">
+                            Taxpayer: <span className="font-semibold text-slate-700 dark:text-slate-200">Maria Theresa Santos</span> • Brgy: <span className="font-semibold text-slate-700 dark:text-slate-200">Brgy. Central</span> • Income: <span className="font-semibold text-slate-700 dark:text-slate-200">₱350,000.00</span> • Fee: <span className="font-semibold text-slate-700 dark:text-slate-200">₱405.00 Computed Tariff</span>
+                          </p>
+                        </div>
+
+                        <div className="text-left sm:text-right">
+                          <span className="font-mono text-[11px] font-extrabold text-emerald-600 dark:text-emerald-400 block">
+                            CTC-2025-0091844
+                          </span>
+                          <span className="text-[9.5px] text-slate-400">
+                            Date Filed: October 24, 2026
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Status & Remarks */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div className="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-300 block">
+                            CURRENT STATUS
+                          </span>
+                          <p className="text-[11px] font-extrabold text-emerald-800 dark:text-emerald-200 flex items-center gap-1.5">
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                            🟢 STEP 3: OFFICIAL ELECTRONIC CEDULA (CTC) RELEASED
+                          </p>
+                        </div>
+
+                        <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-400 block">
+                            OFFICIAL REMARKS
+                          </span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight truncate sm:whitespace-normal">
+                            "Income declared and BIR 2316 validated. Official e-Cedula generated with QR seal."
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                        <button
+                          type="button"
+                          onClick={() => setBarangayDetailView('cedula')}
+                          className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[11px] font-bold transition-all flex items-center space-x-1 cursor-pointer shadow-xs"
+                        >
+                          <Eye size={12} />
+                          <span>View Status &amp; Timeline</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* 4. BARANGAY RESIDENCY CLEARANCE RECORD */}
+                    <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-3 sm:p-3.5 shadow-xs space-y-2 hover:border-blue-300 dark:hover:border-blue-700/60 transition-all">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 border-b border-slate-100 dark:border-slate-800 pb-2">
+                        <div>
+                          <span className="text-[9px] font-black uppercase tracking-wider text-blue-600 dark:text-blue-400 block">
+                            🏠 BARANGAY RESIDENCY CLEARANCE RECORD
+                          </span>
+                          <h3 className="text-sm sm:text-[15px] font-black text-slate-900 dark:text-white mt-0.5">
+                            Elena Ramos Valenzuela
+                          </h3>
+                          <p className="text-[10px] sm:text-[10.5px] text-slate-500 dark:text-slate-400 mt-0.5">
+                            Resident: <span className="font-semibold text-slate-700 dark:text-slate-200">Elena Ramos Valenzuela</span> • Brgy: <span className="font-semibold text-slate-700 dark:text-slate-200">Brgy. Batasan Hills</span> • Purpose: <span className="font-semibold text-slate-700 dark:text-slate-200">RA 11261 Jobseeker</span> • Fee: <span className="font-semibold text-slate-700 dark:text-slate-200">₱0.00</span>
+                          </p>
+                        </div>
+
+                        <div className="text-left sm:text-right">
+                          <span className="font-mono text-[11px] font-extrabold text-sky-600 dark:text-sky-400 block">
+                            BRE-2025-771402
+                          </span>
+                          <span className="text-[9.5px] text-slate-400">
+                            Date Filed: October 25, 2026
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Status & Remarks */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <div className="p-2 rounded-lg bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800/60 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-sky-700 dark:text-sky-300 block">
+                            CURRENT STATUS
+                          </span>
+                          <p className="text-[11px] font-extrabold text-sky-800 dark:text-sky-200 flex items-center gap-1.5">
+                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse" />
+                            🔵 STEP 3: FOR PUNONG BARANGAY SIGNATURE &amp; QR PASS RELEASE
+                          </p>
+                        </div>
+
+                        <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 space-y-0.5">
+                          <span className="text-[8.5px] font-black uppercase tracking-wider text-slate-400 block">
+                            OFFICIAL REMARKS
+                          </span>
+                          <p className="text-[10.5px] text-slate-700 dark:text-slate-300 font-medium leading-tight truncate sm:whitespace-normal">
+                            "Residency verified via voter &amp; Lupon masterlist. RA 11261 fee waiver applied."
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+                        <button
+                          type="button"
+                          onClick={() => setBarangayDetailView('residency')}
+                          className="px-2.5 py-1 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-[11px] font-bold transition-all flex items-center space-x-1 cursor-pointer shadow-xs"
+                        >
+                          <Eye size={12} />
+                          <span>View Status &amp; Timeline</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             ) : (
-              /* =================================================================== */
-              /* OTHER PERMIT MODULES (BARANGAY)                                     */
-              /* =================================================================== */
               <>
             <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-5 sm:p-6 shadow-sm space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
