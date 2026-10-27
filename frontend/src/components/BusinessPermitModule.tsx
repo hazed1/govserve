@@ -53,6 +53,7 @@ import {
   Image as ImageIcon,
   ArrowLeft
 } from 'lucide-react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { TabType } from '../types';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -91,11 +92,45 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
   onNavigateToDashboard,
   initialView
 }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const { t, language } = useLanguage();
   const isAdmin = user?.role === 'admin';
-  const [currentView, setCurrentView] = useState<MainViewMode>(initialView || 'preview');
+
+  const getInitialView = (): MainViewMode => {
+    const p = window.location.pathname;
+    if (p === '/portal/business/occupational') return 'occupational_permit';
+    if (p === '/portal/business/apply') return 'select_type';
+    if (p === '/portal/business/info') return 'ctc_pulling';
+    if (p === '/portal/business/verify') return 'verification';
+    if (p === '/portal/business/renew') return 'renewal_overview';
+    return initialView || 'preview';
+  };
+
+  const [currentView, setCurrentView] = useState<MainViewMode>(getInitialView);
+
+  // Synchronize currentView bidirectionally with URL
+  useEffect(() => {
+    const p = location.pathname;
+    if (p === '/portal/business/occupational') {
+      setCurrentView('occupational_permit');
+    } else if (p === '/portal/business/apply') {
+      setCurrentView('select_type');
+    } else if (p === '/portal/business/info') {
+      setCurrentView('ctc_pulling');
+    } else if (p === '/portal/business/verify') {
+      setCurrentView('verification');
+      setIsVerificationModalOpen(true);
+    } else if (p === '/portal/business/renew') {
+      setCurrentView('renewal_overview');
+    } else if (p === '/portal/business' || p === '/portal/business/') {
+      setCurrentView('preview');
+      setIsVerificationModalOpen(false);
+    }
+  }, [location.pathname]);
+
   const [profileDropdownOpen, setProfileDropdownOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -1557,6 +1592,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                         onClick={(e) => {
                           e.stopPropagation();
                           setCurrentView('select_type');
+                          navigate('/portal/business/apply');
                         }}
                         className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                       >
@@ -1677,6 +1713,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                         onClick={() => {
                           resetOccForm();
                           setCurrentView('occupational_permit');
+                          navigate('/portal/business/occupational');
                         }}
                         className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                       >
@@ -1798,6 +1835,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                           resetBisForm();
                           setIsBisModalOpen(false);
                           setCurrentView('ctc_pulling');
+                          navigate('/portal/business/info');
                         }}
                         className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                       >
@@ -1930,8 +1968,9 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                         type="button"
                         onClick={() => {
                           resetVerification();
-                          setCurrentView('verification');
                           setIsVerificationModalOpen(true);
+                          setCurrentView('verification');
+                          navigate('/portal/business/verify');
                         }}
                         className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md shadow-blue-600/30 hover:scale-[1.005] active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                       >
@@ -1967,7 +2006,10 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-slate-800">
               <button 
                 type="button"
-                onClick={() => setCurrentView('preview')}
+                onClick={() => {
+                  setCurrentView('preview');
+                  navigate('/portal/business');
+                }}
                 className="text-xs font-semibold text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-sky-400 transition-colors cursor-pointer text-left"
               >
                 &larr; Back to Business Permit Hub
@@ -1975,7 +2017,10 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
               <div className="flex items-center gap-2">
                 <button
                   type="button"
-                  onClick={() => setCurrentView('select_type')}
+                  onClick={() => {
+                    setCurrentView('select_type');
+                    navigate('/portal/business/apply');
+                  }}
                   className="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors cursor-pointer"
                 >
                   Change Application Type
@@ -2138,6 +2183,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
               onClick={() => {
                 resetRenewalForm();
                 setCurrentView('preview');
+                navigate('/portal/business');
               }}
               className="text-xs font-semibold text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-sky-400 transition-colors cursor-pointer text-left inline-flex items-center gap-1.5"
             >
@@ -2149,6 +2195,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                 onClick={() => {
                   resetRenewalForm();
                   setCurrentView('select_type');
+                  navigate('/portal/business/apply');
                 }}
                 className="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors cursor-pointer"
               >
@@ -2344,6 +2391,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
               onClick={() => {
                 resetAmendForm();
                 setCurrentView('preview');
+                navigate('/portal/business');
               }}
               className="text-xs font-semibold text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-sky-400 transition-colors cursor-pointer text-left inline-flex items-center gap-1.5"
             >
@@ -2355,6 +2403,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                 onClick={() => {
                   resetAmendForm();
                   setCurrentView('select_type');
+                  navigate('/portal/business/apply');
                 }}
                 className="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors cursor-pointer"
               >
@@ -2528,6 +2577,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
               onClick={() => {
                 resetSpecialPermitForm();
                 setCurrentView('preview');
+                navigate('/portal/business');
               }}
               className="text-xs font-semibold text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-sky-400 transition-colors cursor-pointer text-left inline-flex items-center gap-1.5"
             >
@@ -2539,6 +2589,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                 onClick={() => {
                   resetSpecialPermitForm();
                   setCurrentView('select_type');
+                  navigate('/portal/business/apply');
                 }}
                 className="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors cursor-pointer"
               >
@@ -2673,7 +2724,10 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
               </div>
               <button 
                 type="button"
-                onClick={() => setCurrentView('preview')} 
+                onClick={() => {
+                  setCurrentView('preview');
+                  navigate('/portal/business');
+                }} 
                 className="text-slate-400 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white p-1.5 rounded-lg hover:bg-slate-200/60 dark:hover:bg-slate-800 transition-colors cursor-pointer shrink-0 -mr-1 -mt-0.5"
                 title="Close"
               >
@@ -2699,6 +2753,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                 <div
                   onClick={() => {
                     setCurrentView('new_app_overview');
+                    navigate('/portal/business/apply');
                   }}
                   className="w-full px-4 py-3 rounded-xl bg-slate-50 hover:bg-sky-50/70 dark:bg-slate-850 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 hover:border-sky-400 dark:hover:border-sky-500 shadow-2xs hover:shadow-xs transition-all cursor-pointer group flex items-center justify-between"
                 >
@@ -2716,6 +2771,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                     setRenewalPermitNo('');
                     setRenewalOrNo('');
                     setShowRenewalModal(false);
+                    navigate('/portal/business/renew');
                   }}
                   className="w-full px-4 py-3 rounded-xl bg-slate-50 hover:bg-sky-50/70 dark:bg-slate-850 dark:hover:bg-slate-800 border border-slate-200/90 dark:border-slate-800 hover:border-sky-400 dark:hover:border-sky-500 shadow-2xs hover:shadow-xs transition-all cursor-pointer group flex items-center justify-between"
                 >
@@ -6724,6 +6780,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
               onClick={() => {
                 resetOccForm();
                 setCurrentView('preview');
+                navigate('/portal/business');
               }}
               className="text-xs font-semibold text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-sky-400 transition-colors cursor-pointer text-left inline-flex items-center gap-1.5"
             >
@@ -6873,6 +6930,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                       onClick={() => {
                         resetOccForm();
                         setCurrentView('preview');
+                        navigate('/portal/business');
                       }}
                       className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold cursor-pointer transition-colors"
                     >
@@ -7224,6 +7282,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                 resetBisForm();
                 setIsBisModalOpen(false);
                 setCurrentView('preview');
+                navigate('/portal/business');
               }}
               className="text-xs font-semibold text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-sky-400 transition-colors cursor-pointer text-left inline-flex items-center gap-1.5"
             >
@@ -7385,6 +7444,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                       onClick={() => {
                         resetBisForm();
                         setCurrentView('preview');
+                        navigate('/portal/business');
                       }}
                       className="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold flex items-center justify-center cursor-pointer transition-colors"
                     >
@@ -7734,6 +7794,7 @@ export const BusinessPermitModule: React.FC<BusinessPermitModuleProps> = ({
                 resetVerification();
                 setCurrentView('preview');
                 setIsVerificationModalOpen(false);
+                navigate('/portal/business');
               }}
               className="hover:text-blue-600 dark:hover:text-blue-400 font-bold flex items-center gap-1.5 cursor-pointer transition-colors"
             >

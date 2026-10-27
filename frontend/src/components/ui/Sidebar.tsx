@@ -11,6 +11,7 @@ import {
   ChevronDown, 
   ChevronRight, 
   X,
+  Menu,
   Bot,
   User,
   Shield,
@@ -68,19 +69,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
         />
       )}
       <aside
-        className={`fixed lg:static inset-y-0 left-0 z-50 bg-white dark:bg-[#0B192C] text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800/80 flex flex-col transition-all duration-300 ease-in-out shadow-xs overflow-hidden flex-shrink-0 ${
+        className={`fixed lg:static inset-y-0 left-0 z-50 bg-white dark:bg-[#0B192C] text-slate-700 dark:text-slate-300 border-r border-slate-200 dark:border-slate-800/80 flex flex-col h-full max-h-screen transition-all duration-300 ease-in-out shadow-xs overflow-hidden flex-shrink-0 ${
           sidebarOpen 
             ? 'w-72 translate-x-0 opacity-100' 
             : 'w-0 -translate-x-full lg:translate-x-0 lg:w-0 opacity-0 pointer-events-none border-none'
         }`}
       >
-        {/* Brand Header */}
+        {/* Brand Header with Integrated Burger / Collapse Button */}
         <div 
-          onClick={() => handleSubItemClick('Home')}
-          className="p-4 border-b border-slate-100 dark:border-slate-800/80 flex items-center justify-between min-w-[288px] cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors group"
-          title="Return to Home Dashboard"
+          className="p-4 border-b border-slate-100 dark:border-slate-800/80 flex items-center justify-between min-w-[288px] transition-colors"
         >
-          <div className="flex items-center space-x-3">
+          <div 
+            onClick={() => handleSubItemClick('Home')}
+            className="flex items-center space-x-3 cursor-pointer group"
+            title="Return to Home Dashboard"
+          >
             <div className="w-9 h-9 rounded-xl bg-white p-0.5 shadow-xs flex items-center justify-center overflow-hidden flex-shrink-0 border border-slate-200 dark:border-white/20 group-hover:scale-105 transition-transform">
               <img src="/government-logo.png" alt="Government Logo" className="w-full h-full object-contain rounded-lg" />
             </div>
@@ -98,16 +101,24 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </p>
             </div>
           </div>
+
+          {/* Admin Integrated Burger / Collapse Toggle */}
           <button
-            className="lg:hidden text-slate-400 hover:text-slate-700 dark:hover:text-white p-1"
-            onClick={() => setSidebarOpen(false)}
+            type="button"
+            className="p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors cursor-pointer shrink-0"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSidebarOpen(false);
+            }}
+            title="Collapse Sidebar"
+            aria-label="Collapse Sidebar"
           >
-            <X size={20} />
+            <Menu size={18} />
           </button>
         </div>
 
         {/* Navigation Modules */}
-        <div className="flex-1 overflow-y-auto px-3 py-4 space-y-1.5 text-xs font-medium scrollbar-thin min-w-[288px]">
+        <div className="flex-1 min-h-0 overflow-y-auto px-3 py-4 space-y-1.5 text-xs font-medium scrollbar-thin min-w-[288px]">
           
           {/* Section 1: Main Citizen / Admin Hub Navigation */}
           {!isAdmin ? (
@@ -435,7 +446,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         {/* Sidebar Footer with Language Switcher */}
-        <div className="p-3 border-t border-slate-200 dark:border-slate-800/80 bg-slate-50/70 dark:bg-slate-900/60 flex items-center justify-between min-w-[288px]">
+        <div className="p-3 border-t border-slate-200 dark:border-slate-800/80 bg-slate-50/70 dark:bg-slate-900/60 flex items-center justify-between min-w-[288px] flex-shrink-0">
           <span className="text-[11px] font-bold text-slate-600 dark:text-slate-400">
             {language === 'tl' ? 'Piliin ang Wika:' : 'Language:'}
           </span>

@@ -40,6 +40,7 @@ import {
   UploadCloud,
   HardHat
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { TabType, ApplicationItem } from '../../types';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -55,6 +56,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
   onNavigateToTab,
   applications = [],
 }) => {
+  const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const { t, language } = useLanguage();
@@ -605,7 +607,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
                         <div className="space-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
                           {/* 1. APPLY FOR MAYOR'S PERMIT (BUSINESS) */}
                           <div 
-                            onClick={() => onNavigateToTab('Business Permit Application')}
+                            onClick={() => navigate('/portal/business/apply')}
                             className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
                             <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
@@ -620,7 +622,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
 
                           {/* 2. APPLY FOR OCCUPATIONAL / WORK PERMIT */}
                           <div 
-                            onClick={() => onNavigateToTab('Business Permit Application')}
+                            onClick={() => navigate('/portal/business/occupational')}
                             className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
                             <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
@@ -635,7 +637,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
 
                           {/* 3. BUSINESS INFORMATION SYSTEM */}
                           <div 
-                            onClick={() => onNavigateToTab('Business Permit Application')}
+                            onClick={() => navigate('/portal/business/info')}
                             className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
                             <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">
@@ -650,7 +652,7 @@ export const CitizenPermitPortal: React.FC<CitizenPermitPortalProps> = ({
 
                           {/* 4. MAYOR'S PERMIT VERIFICATION */}
                           <div 
-                            onClick={() => onNavigateToTab('Business Permit Application')}
+                            onClick={() => navigate('/portal/business/verify')}
                             className="flex items-center space-x-2.5 px-2 py-1.5 -mx-1 rounded-xl hover:bg-slate-100/70 dark:hover:bg-slate-800/60 cursor-pointer group/item transition-colors"
                           >
                             <div className="w-7 h-7 rounded-lg bg-sky-100 dark:bg-sky-950/80 text-[#0288d1] dark:text-sky-400 flex items-center justify-center flex-shrink-0 shadow-xs border border-sky-200/50 dark:border-sky-800/50 group-hover/item:scale-105 transition-transform">

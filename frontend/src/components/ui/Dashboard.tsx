@@ -719,7 +719,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-12">
+    <div className="space-y-4 w-full pb-8">
       
       {/* Toast Notification Banner */}
       {toastMsg && (
@@ -757,47 +757,32 @@ export const Dashboard: React.FC<DashboardProps> = ({
 
       </div>
 
-
-
-      {/* 5 Interactive Stat Cards Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+      {/* 5 Executive Metric Cards (Static Display-Only) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
         {statCards.map((m) => {
           const Icon = m.icon;
-          const isSelected = selectedStatFilter === m.filterValue;
 
           return (
             <div 
               key={m.id} 
-              onClick={() => setSelectedStatFilter(isSelected && m.filterValue !== 'All' ? 'All' : m.filterValue)}
-              className={`bg-white dark:bg-slate-900 p-4 rounded-2xl border transition-all cursor-pointer shadow-xs hover:shadow-md relative overflow-hidden group ${
-                isSelected 
-                  ? 'border-blue-600 ring-2 ring-blue-500/30 scale-[1.02] shadow-md' 
-                  : 'border-slate-200/80 dark:border-slate-800 hover:border-blue-300 dark:hover:border-slate-700'
-              }`}
+              className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs relative overflow-hidden select-text flex flex-col justify-between h-full"
             >
               <div className="flex justify-between items-start">
-                <div>
-                  <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">{m.label}</p>
+                <div className="min-w-0 pr-1">
+                  <p className="text-xs font-semibold text-slate-500 dark:text-slate-400 truncate">{m.label}</p>
                   <h3 className="text-2xl font-black text-slate-900 dark:text-white mt-1 tracking-tight">
                     {m.val.toLocaleString()}
                   </h3>
                   <p className={`text-[11px] flex items-center mt-2 font-semibold ${m.up ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-500 dark:text-rose-400'}`}>
-                    {m.up ? <TrendingUp size={12} className="mr-1" /> : <TrendingDown size={12} className="mr-1" />}
-                    {m.change}
-                    <span className="text-slate-400 dark:text-slate-500 font-normal ml-1">from last month</span>
+                    {m.up ? <TrendingUp size={12} className="mr-1 shrink-0" /> : <TrendingDown size={12} className="mr-1 shrink-0" />}
+                    <span>{m.change}</span>
+                    <span className="text-slate-400 dark:text-slate-500 font-normal ml-1 truncate">from last month</span>
                   </p>
                 </div>
-                <div className={`p-2.5 rounded-xl ${m.color} shadow-xs group-hover:scale-110 transition-transform`}>
+                <div className={`p-2.5 rounded-xl ${m.color} shadow-xs shrink-0`}>
                   <Icon size={20} />
                 </div>
               </div>
-
-              {isSelected && m.filterValue !== 'All' && (
-                <div className="mt-2.5 pt-2 border-t border-blue-100 dark:border-blue-900 flex items-center justify-between text-[10px] text-blue-700 dark:text-blue-300 font-bold">
-                  <span className="flex items-center"><Check size={12} className="mr-1" /> Filter Active</span>
-                  <span className="hover:underline">Reset ✕</span>
-                </div>
-              )}
             </div>
           );
         })}
@@ -807,7 +792,7 @@ export const Dashboard: React.FC<DashboardProps> = ({
       {/* ========================================================================= */}
       {/* MAIN 3-CARD CONNECTED TRIAD */}
       {/* ========================================================================= */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
         
         {/* ======================================================================= */}
         {/* CARD 1: APPLICATIONS OVERVIEW (CONNECTED SPLINE CHART) */}

@@ -226,15 +226,17 @@ export const Header: React.FC<HeaderProps> = ({
     <>
       <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 h-16 flex items-center justify-between px-4 lg:px-6 sticky top-0 z-30 shadow-xs transition-colors duration-200">
         <div className="flex items-center space-x-2 sm:space-x-3">
-          {/* Toggle Sidebar Button */}
-          <button
-            className="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
-            onClick={() => setSidebarOpen(prev => !prev)}
-            aria-label="Toggle Sidebar Navigation"
-            title={sidebarOpen ? "Close Sidebar" : "Open Sidebar"}
-          >
-            <Menu size={22} />
-          </button>
+          {/* Toggle Sidebar Button (Only visible when sidebar is collapsed) */}
+          {!sidebarOpen && (
+            <button
+              className="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-blue-600 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500/20 cursor-pointer"
+              onClick={() => setSidebarOpen(true)}
+              aria-label="Open Sidebar Navigation"
+              title="Open Sidebar"
+            >
+              <Menu size={22} />
+            </button>
+          )}
 
           {/* Clickable Home Button */}
           <button

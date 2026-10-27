@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const { Pool } = require('pg');
+require('dotenv').config({ path: path.resolve(__dirname, '.env') });
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 require('dotenv').config(); // also check current dir .env
 

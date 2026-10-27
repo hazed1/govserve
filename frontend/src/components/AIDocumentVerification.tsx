@@ -78,6 +78,17 @@ export const AIDocumentVerification: React.FC = () => {
   const [expandedRowId, setExpandedRowId] = useState<string | null>(null);
   const [openContextMenuId, setOpenContextMenuId] = useState<string | null>(null);
 
+  // Close 3-dots context menu on outside click
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (openContextMenuId) {
+        setOpenContextMenuId(null);
+      }
+    };
+    document.addEventListener('click', handleOutsideClick);
+    return () => document.removeEventListener('click', handleOutsideClick);
+  }, [openContextMenuId]);
+
   // Search & Filter state
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<'All' | 'Passed' | 'Needs Attention' | 'Missing' | 'Rejected'>('All');
@@ -437,6 +448,8 @@ export const AIDocumentVerification: React.FC = () => {
   // Open OCR Inspection Modal
   const handleOpenEyeInspection = (item: VerificationItem, e: React.MouseEvent) => {
     e.stopPropagation();
+    setOpenContextMenuId(null);
+    setExpandedRowId(null);
     setInspectDoc(item);
     setActiveModal('ocr_inspection');
   };
@@ -444,7 +457,8 @@ export const AIDocumentVerification: React.FC = () => {
   // Toggle Accordion Drawer
   const handleToggleRowDropdown = (itemId: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    setExpandedRowId(expandedRowId === itemId ? null : itemId);
+    setOpenContextMenuId(null);
+    setExpandedRowId(prev => (prev === itemId ? null : itemId));
     setSelectedDocId(itemId);
   };
 
@@ -986,6 +1000,7 @@ export const AIDocumentVerification: React.FC = () => {
                                     <button
                                       onClick={(e) => {
                                         e.stopPropagation();
+                                        setExpandedRowId(null);
                                         setOpenContextMenuId(openContextMenuId === item.id ? null : item.id);
                                       }}
                                       className="p-1.5 text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg transition-colors cursor-pointer"
@@ -1096,7 +1111,17 @@ export const AIDocumentVerification: React.FC = () => {
                                       <Bot size={16} className="text-blue-600" />
                                       <span className="font-bold text-slate-900 dark:text-white">AI Deep Diagnostic Report — {item.name}</span>
                                     </div>
-                                    <span className="font-mono text-[10px] text-slate-400">{item.filename}</span>
+                                    <div className="flex items-center space-x-2.5">
+                                      <span className="font-mono text-[10px] text-slate-400">{item.filename}</span>
+                                      <button
+                                        type="button"
+                                        onClick={() => setExpandedRowId(null)}
+                                        className="p-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                                        title="Close details"
+                                      >
+                                        <X size={15} />
+                                      </button>
+                                    </div>
                                   </div>
 
                                   {/* 4 AI Checks Breakdown */}

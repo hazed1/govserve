@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { Sidebar } from './components/ui/Sidebar';
 import { Header } from './components/ui/Header';
 import { Dashboard } from './components/ui/Dashboard';
@@ -43,30 +44,166 @@ import {
   CreateApplicationPayload 
 } from './lib/api';
 
+const TAB_TO_PATH: Partial<Record<TabType, string>> = {
+  'Home': '/portal',
+  'Dashboard': '/portal',
+  'Citizen Portal': '/portal',
+  'E-Permit Portal': '/portal',
+  'Business Registration (New / Renewal)': '/portal/business',
+  'Business Permit Application': '/portal/business',
+  'New Registration': '/portal/business/apply',
+  'Renewal': '/portal/business/renew',
+  'Building & Construction Permits': '/portal/building',
+  'Building Permit Filing': '/portal/building',
+  'Plan & Blueprint Upload': '/portal/building/upload',
+  'Building Permit Reviews': '/portal/building',
+  'Franchise & Transport Permits': '/portal/transport',
+  'Franchise Permit Filing': '/portal/transport',
+  'Franchise Annual Renewal': '/portal/transport/renew',
+  'Franchise Amendment': '/portal/transport/amendment',
+  'Special Trip Clearance': '/portal/transport/special-trip',
+  'Barangay Permit Integration': '/portal/barangay',
+  'Barangay Clearance Registry': '/portal/barangay',
+  '24-Barangay Network Grid': '/portal/barangay',
+  '24-Barangay Clearance Network': '/portal/barangay',
+  'Barangay Clearance Filing': '/portal/barangay',
+  'Community Clearance Validation': '/portal/barangay',
+  'Community Clearance Verification': '/portal/barangay',
+  'Barangay Permit Release': '/portal/barangay',
+  'Integration Status Tracking': '/portal/barangay',
+  'Inspection Scheduling': '/portal/inspections',
+  'Inspection & Local Validation': '/portal/inspections',
+  'E-Permit Tracker': '/portal/tracker',
+  'Public Reference Code Tracker': '/portal/tracker',
+  'QR Code Authenticity Verification': '/portal/tracker',
+  'QR Cryptographic Verification': '/portal/tracker',
+  'Live Application Milestone Status': '/portal/tracker',
+  'Digital Permit Download': '/portal/tracker',
+  'Track & Verify Permits': '/portal/tracker',
+  'Track Permit Application': '/portal/tracker',
+  'Live Milestone Tracker': '/portal/tracker',
+  'Cryptographic Verification': '/portal/tracker',
+  'Report Fraudulent Permit': '/portal/tracker',
+  'My Applications': '/portal/my-applications',
+  'Application Status Tracking': '/portal/tracker',
+  'Intelligent Approval Recommendation': '/admin/approvals',
+  'AI Document Verification': '/admin/verifications',
+  'AI Compliance Checking': '/admin/compliance',
+  'Fee Assessment & Computation': '/admin/fees',
+  'Requirements Submission': '/admin/requirements',
+  'Permit Generation': '/admin/permits',
+  'Route & Unit Inspection Audit': '/admin/inspections',
+  'Permit Approval & Release': '/admin/approvals',
+};
+
 function GovServePortal() {
   const { isAuthenticated, user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<TabType>('Home');
   const [selectedPermitId, setSelectedPermitId] = useState<string | null>(null);
   const [notificationMsg, setNotificationMsg] = useState<string | null>(null);
-  const [authView, setAuthView] = useState<'login' | 'landing'>('landing');
-  const [loginInitialRole, setLoginInitialRole] = useState<UserRole>('user');
+  const [loginInitialRole, setLoginInitialRole] = useState<UserRole>(
+    (searchParams.get('role') as UserRole) || 'user'
+  );
 
-  // Reset to landing page when user logs out
-  useEffect(() => {
-    if (!isAuthenticated) {
-      setAuthView('landing');
-    }
-  }, [isAuthenticated]);
-
-  // Default active tab based on user role when logging in / signing up
-  useEffect(() => {
+  // Navigate to tab and keep URL in sync
+  const handleNavigateToTab = (tab: TabType) => {
+    setActiveTab(tab);
     if (user?.role === 'admin') {
-      setActiveTab('Home');
+      const route = tab === 'Home' || tab === 'Dashboard' ? '/admin' : (TAB_TO_PATH[tab] || '/admin');
+      if (location.pathname !== route) {
+        navigate(route);
+      }
     } else {
-      setActiveTab('E-Permit Portal');
+      const route = TAB_TO_PATH[tab] || '/portal';
+      if (location.pathname !== route) {
+        navigate(route);
+      }
     }
-  }, [user?.role]);
+  };
+
+  const handleNavigateToDashboard = () => {
+    if (user?.role === 'user') {
+      handleNavigateToTab('E-Permit Portal');
+    } else {
+      handleNavigateToTab('Home');
+    }
+  };
+
+  // Synchronize activeTab based on current URL location
+  useEffect(() => {
+    const path = location.pathname;
+    if (!isAuthenticated) {
+      if (path.startsWith('/portal') || path.startsWith('/admin')) {
+        navigate('/login', { replace: true });
+      }
+      return;
+    }
+
+    if (path === '/login') {
+      navigate(user?.role === 'admin' ? '/admin' : '/portal', { replace: true });
+      return;
+    }
+
+    if (path === '/portal' || path === '/dashboard') {
+      setActiveTab(user?.role === 'admin' ? 'Home' : 'E-Permit Portal');
+    } else if (path.startsWith('/portal/business')) {
+      if (path.includes('renew')) setActiveTab('Renewal');
+      else if (path.includes('apply')) setActiveTab('New Registration');
+      else setActiveTab('Business Registration (New / Renewal)');
+    } else if (path.startsWith('/portal/building')) {
+      if (path.includes('upload')) setActiveTab('Plan & Blueprint Upload');
+      else setActiveTab('Building Permit Filing');
+    } else if (path.startsWith('/portal/transport')) {
+      if (path.includes('renew')) setActiveTab('Franchise Annual Renewal');
+      else if (path.includes('amendment')) setActiveTab('Franchise Amendment');
+      else if (path.includes('special-trip')) setActiveTab('Special Trip Clearance');
+      else setActiveTab('Franchise & Transport Permits');
+    } else if (path.startsWith('/portal/barangay')) {
+      setActiveTab('Barangay Permit Integration');
+    } else if (path.startsWith('/portal/tracker')) {
+      setActiveTab('E-Permit Tracker');
+    } else if (path.startsWith('/portal/my-applications')) {
+      setActiveTab('My Applications');
+    } else if (path === '/admin') {
+      setActiveTab('Home');
+    } else if (path.startsWith('/admin/approvals')) {
+      setActiveTab('Intelligent Approval Recommendation');
+    } else if (path.startsWith('/admin/verifications')) {
+      setActiveTab('AI Document Verification');
+    } else if (path.startsWith('/admin/compliance')) {
+      setActiveTab('AI Compliance Checking');
+    } else if (path.startsWith('/admin/inspections')) {
+      setActiveTab('Inspection Scheduling');
+    } else if (path.startsWith('/admin/fees')) {
+      setActiveTab('Fee Assessment & Computation');
+    }
+  }, [location.pathname, isAuthenticated, user?.role, navigate]);
+
+  // Reset / Redirect on logout
+  useEffect(() => {
+    if (!isAuthenticated && location.pathname !== '/' && location.pathname !== '/login' && location.pathname !== '/track') {
+      navigate('/login', { replace: true });
+    }
+  }, [isAuthenticated, location.pathname, navigate]);
+
+  // Default active tab based on user role when logging in
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (user?.role === 'admin') {
+        if (location.pathname === '/' || location.pathname === '/login') {
+          navigate('/admin', { replace: true });
+        }
+      } else {
+        if (location.pathname === '/' || location.pathname === '/login') {
+          navigate('/portal', { replace: true });
+        }
+      }
+    }
+  }, [isAuthenticated, user?.role]);
 
   // Role Protection: Guard against regular users accessing strictly admin-only internal tools
   const adminOnlyTabRedirectMap: Partial<Record<TabType, TabType>> = {
@@ -88,7 +225,7 @@ function GovServePortal() {
 
   useEffect(() => {
     if (user?.role === 'user' && adminOnlyTabRedirectMap[activeTab]) {
-      setActiveTab(adminOnlyTabRedirectMap[activeTab] || 'Home');
+      handleNavigateToTab(adminOnlyTabRedirectMap[activeTab] || 'E-Permit Portal');
     }
   }, [user?.role, activeTab]);
 
@@ -617,11 +754,7 @@ function GovServePortal() {
 
   const handleViewDetails = (id: string) => {
     setSelectedPermitId(id);
-    setActiveTab('Business Registration (New / Renewal)');
-  };
-
-  const handleNavigateToDashboard = () => {
-    setActiveTab('Home');
+    handleNavigateToTab('Business Registration (New / Renewal)');
   };
 
   const renderContent = () => {
@@ -670,7 +803,16 @@ function GovServePortal() {
             onNavigateToTab={(tab) => setActiveTab(tab)}
             onAddNewApplication={handleAddNewApplication}
             onNavigateToDashboard={handleNavigateToDashboard}
-            initialView={activeTab === 'Renewal' ? 'renewal' : (activeTab === 'New Registration' || activeTab === 'Business Permit Application') ? 'new_app' : 'preview'}
+            initialView={
+              location.pathname === '/portal/business/occupational' ? 'occupational_permit' :
+              location.pathname === '/portal/business/info' ? 'ctc_pulling' :
+              location.pathname === '/portal/business/verify' ? 'verification' :
+              location.pathname === '/portal/business/renew' ? 'renewal_overview' :
+              location.pathname === '/portal/business/apply' ? 'select_type' :
+              activeTab === 'Renewal' ? 'renewal_overview' : 
+              (activeTab === 'New Registration' || activeTab === 'Business Permit Application') ? 'select_type' : 
+              'preview'
+            }
           />
         );
 
@@ -855,22 +997,32 @@ function GovServePortal() {
     }
   };
 
-  // If user is not authenticated, display the Login Page or Public Landing Page
+  // If user is not authenticated, display the Login Page or Public Landing Page based on URL route
   if (!isAuthenticated) {
-    if (authView === 'landing') {
+    if (location.pathname === '/login') {
       return (
-        <PublicLandingPage 
-          onNavigateToLogin={(role) => {
-            if (role) setLoginInitialRole(role);
-            setAuthView('login');
-          }} 
+        <LoginPage 
+          initialRole={loginInitialRole}
+          onNavigateToLanding={() => navigate('/')} 
         />
       );
     }
+    if (location.pathname === '/track') {
+      return (
+        <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
+          <TrackVerifyPermitModule 
+            onNavigateToTab={(tab) => handleNavigateToTab(tab as TabType)}
+            onNavigateToDashboard={() => navigate('/')}
+          />
+        </div>
+      );
+    }
     return (
-      <LoginPage 
-        initialRole={loginInitialRole}
-        onNavigateToLanding={() => setAuthView('landing')} 
+      <PublicLandingPage 
+        onNavigateToLogin={(role) => {
+          if (role) setLoginInitialRole(role);
+          navigate(role ? `/login?role=${role}` : '/login');
+        }} 
       />
     );
   }
@@ -887,11 +1039,11 @@ function GovServePortal() {
     return (
       <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
         <CitizenPermitPortal 
-          onNavigateToTab={(tab) => setActiveTab(tab)}
+          onNavigateToTab={handleNavigateToTab}
           applications={applications}
         />
         {/* Global Floating AI Permit Assistant Widget */}
-        <AIChatWidget onNavigateToTab={(tab) => setActiveTab(tab)} />
+        <AIChatWidget onNavigateToTab={handleNavigateToTab} />
       </div>
     );
   }
@@ -906,13 +1058,22 @@ function GovServePortal() {
     return (
       <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
         <BusinessPermitModule 
-          onNavigateToTab={(tab) => setActiveTab(tab)}
+          onNavigateToTab={handleNavigateToTab}
           onAddNewApplication={handleAddNewApplication}
           onNavigateToDashboard={handleNavigateToDashboard}
-          initialView={activeTab === 'Renewal' ? 'renewal' : (activeTab === 'New Registration' || activeTab === 'Business Permit Application') ? 'new_app_overview' : 'preview'}
+          initialView={
+            location.pathname === '/portal/business/occupational' ? 'occupational_permit' :
+            location.pathname === '/portal/business/info' ? 'ctc_pulling' :
+            location.pathname === '/portal/business/verify' ? 'verification' :
+            location.pathname === '/portal/business/renew' ? 'renewal_overview' :
+            location.pathname === '/portal/business/apply' ? 'select_type' :
+            activeTab === 'Renewal' ? 'renewal_overview' : 
+            (activeTab === 'New Registration' || activeTab === 'Business Permit Application') ? 'select_type' : 
+            'preview'
+          }
         />
         {/* Global Floating AI Permit Assistant Widget */}
-        <AIChatWidget onNavigateToTab={(tab) => setActiveTab(tab)} />
+        <AIChatWidget onNavigateToTab={handleNavigateToTab} />
       </div>
     );
   }
@@ -927,12 +1088,12 @@ function GovServePortal() {
     return (
       <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
         <BuildingPermitFiling 
-          onNavigateToTab={(tab) => setActiveTab(tab as TabType)}
+          onNavigateToTab={handleNavigateToTab}
           onAddNewApplication={handleAddNewApplication}
           onNavigateToDashboard={handleNavigateToDashboard}
         />
         {/* Global Floating AI Permit Assistant Widget */}
-        <AIChatWidget onNavigateToTab={(tab) => setActiveTab(tab as TabType)} />
+        <AIChatWidget onNavigateToTab={handleNavigateToTab} />
       </div>
     );
   }
@@ -948,12 +1109,12 @@ function GovServePortal() {
       <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
         <FranchiseTransportPermitModule 
           currentTab={activeTab}
-          onNavigateToTab={(tab) => setActiveTab(tab as TabType)}
+          onNavigateToTab={handleNavigateToTab}
           onAddNewApplication={handleAddNewApplication}
           onNavigateToDashboard={handleNavigateToDashboard}
         />
         {/* Global Floating AI Permit Assistant Widget */}
-        <AIChatWidget onNavigateToTab={(tab) => setActiveTab(tab as TabType)} />
+        <AIChatWidget onNavigateToTab={handleNavigateToTab} />
       </div>
     );
   }
@@ -974,12 +1135,12 @@ function GovServePortal() {
       <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
         <BarangayPermitIntegration 
           currentTab={activeTab}
-          onNavigateToTab={(tab) => setActiveTab(tab as TabType)}
+          onNavigateToTab={handleNavigateToTab}
           onAddNewApplication={handleAddNewApplication}
           onNavigateToDashboard={handleNavigateToDashboard}
         />
         {/* Global Floating AI Permit Assistant Widget */}
-        <AIChatWidget onNavigateToTab={(tab) => setActiveTab(tab as TabType)} />
+        <AIChatWidget onNavigateToTab={handleNavigateToTab} />
       </div>
     );
   }
@@ -992,12 +1153,12 @@ function GovServePortal() {
     return (
       <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
         <InspectionScheduling 
-          onNavigateToTab={(tab) => setActiveTab(tab as TabType)}
+          onNavigateToTab={handleNavigateToTab}
           onAddNewApplication={handleAddNewApplication}
           onNavigateToDashboard={handleNavigateToDashboard}
         />
         {/* Global Floating AI Permit Assistant Widget */}
-        <AIChatWidget onNavigateToTab={(tab) => setActiveTab(tab as TabType)} />
+        <AIChatWidget onNavigateToTab={handleNavigateToTab} />
       </div>
     );
   }
@@ -1016,7 +1177,7 @@ function GovServePortal() {
         <EPermitTrackerModule 
           currentTab={activeTab}
           applications={applications}
-          onNavigateToTab={(tab) => setActiveTab(tab as TabType)}
+          onNavigateToTab={handleNavigateToTab}
           onAddNewApplication={handleAddNewApplication}
           onNavigateToDashboard={handleNavigateToDashboard}
           onUpdateApplicationStatus={(appId, newStatus) => {
@@ -1024,7 +1185,7 @@ function GovServePortal() {
           }}
         />
         {/* Global Floating AI Permit Assistant Widget */}
-        <AIChatWidget onNavigateToTab={(tab) => setActiveTab(tab as TabType)} />
+        <AIChatWidget onNavigateToTab={handleNavigateToTab} />
       </div>
     );
   }
@@ -1041,11 +1202,11 @@ function GovServePortal() {
       <div className="min-h-screen bg-white dark:bg-[#0B1220] text-slate-800 dark:text-slate-100 font-sans antialiased flex flex-col transition-colors duration-200">
         <TrackVerifyPermitModule 
           currentTab={activeTab}
-          onNavigateToTab={(tab) => setActiveTab(tab as TabType)}
+          onNavigateToTab={handleNavigateToTab}
           onNavigateToDashboard={handleNavigateToDashboard}
         />
         {/* Global Floating AI Permit Assistant Widget */}
-        <AIChatWidget onNavigateToTab={(tab) => setActiveTab(tab as TabType)} />
+        <AIChatWidget onNavigateToTab={handleNavigateToTab} />
       </div>
     );
   }
@@ -1054,7 +1215,7 @@ function GovServePortal() {
     <div className="flex h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased overflow-hidden transition-colors duration-200">
       <Sidebar
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={handleNavigateToTab}
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
       />
@@ -1063,7 +1224,7 @@ function GovServePortal() {
           activeTab={activeTab} 
           sidebarOpen={sidebarOpen} 
           setSidebarOpen={setSidebarOpen} 
-          onNavigateToTab={(tab) => setActiveTab(tab)}
+          onNavigateToTab={handleNavigateToTab}
           notifications={notifications}
           applications={applications}
           onMarkNotificationAsRead={handleMarkNotificationAsRead}
@@ -1078,7 +1239,7 @@ function GovServePortal() {
         </main>
 
         {/* Global Floating AI Permit Assistant Widget */}
-        <AIChatWidget onNavigateToTab={(tab) => setActiveTab(tab)} />
+        <AIChatWidget onNavigateToTab={handleNavigateToTab} />
       </div>
     </div>
   );
